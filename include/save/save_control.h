@@ -259,6 +259,9 @@ PokeDexSave *getPokedexSaveAddress(SaveControl *save);
 PlayTime *func_02008de8(SaveControl *save);
 u16 func_02008cec(PlayTime *time);
 u8 func_02008cf0(PlayTime *time);
+// Copy the word at 4 of func_02017a40's data out and back. That function's prototype gives the data as a u32
+void func_02008d90(u32 data, u32 *copy);
+void func_02008d98(u32 data, u32 *copy);
 // A byte of this block, at 7, tells the start menu whether to ask about the C-Gear
 void *func_02009918(SaveControl *save);
 // The same block, from the game data

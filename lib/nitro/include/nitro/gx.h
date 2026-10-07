@@ -93,6 +93,15 @@ typedef u16 GXRgb;
 #define GX_WND_PLANEMASK_BG3 0x08
 #define GX_WND_PLANEMASK_OBJ 0x10
 
+#define REG_G2S_DB_WININ_WIN0IN_SHIFT 0
+#define REG_G2S_DB_WININ_WIN0IN_MASK 0x003f
+#define REG_G2S_DB_WININ_WIN1IN_SHIFT 8
+#define REG_G2S_DB_WININ_WIN1IN_MASK 0x3f00
+#define REG_G2S_DB_WINOUT_WINOUT_SHIFT 0
+#define REG_G2S_DB_WINOUT_WINOUT_MASK 0x003f
+// A window's effect enable, above its planes
+#define GX_WND_EFFECT_SHIFT 5
+
 #define GX_OAM_MODE_NORMAL 0
 #define GX_OAM_MODE_XLU 1
 #define GX_OAM_MODE_BITMAPOBJ 3
@@ -157,6 +166,7 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority, int
 #define GX_PLANEMASK_BG2 0x04
 #define GX_PLANEMASK_BG3 0x08
 #define GX_PLANEMASK_OBJ 0x10
+#define GX_PLANEMASK_ALL 0x1f
 
 // The planes that blending takes, which include the backdrop
 #define GX_BLEND_PLANEMASK_NONE 0x00
@@ -203,6 +213,7 @@ typedef enum {
 #define GX_VRAM_BG_NONE GX_VRAM_NONE
 #define GX_VRAM_BG_16_F GX_VRAM_F
 #define GX_VRAM_BG_32_FG (GX_VRAM_F | GX_VRAM_G)
+#define GX_VRAM_BG_64_E GX_VRAM_E
 #define GX_VRAM_BG_128_A GX_VRAM_A
 #define GX_VRAM_BG_128_D GX_VRAM_D
 #define GX_VRAM_BGEXTPLTT_NONE GX_VRAM_NONE
@@ -210,6 +221,7 @@ typedef enum {
 #define GX_VRAM_SUB_BG_32_H GX_VRAM_H
 #define GX_VRAM_SUB_BG_128_C GX_VRAM_C
 #define GX_VRAM_SUB_BGEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_SUB_BGEXTPLTT_0123_H GX_VRAM_H
 #define GX_VRAM_OBJ_NONE GX_VRAM_NONE
 #define GX_VRAM_OBJ_16_G GX_VRAM_G
 #define GX_VRAM_OBJ_64_E GX_VRAM_E
@@ -1182,6 +1194,8 @@ void gfxEngineEnableA(void);
 // VRAM as the CPU sees it with every bank given to it, and OAM
 #define HW_LCDC_VRAM 0x06800000
 #define HW_LCDC_VRAM_SIZE 0xa4000
+// The sub engine's OBJ characters
+#define HW_DB_OBJ_VRAM 0x06600000
 #define HW_OAM 0x07000000
 #define HW_DB_OAM 0x07000400
 #define HW_OAM_SIZE 0x400
@@ -1234,9 +1248,11 @@ static inline void GXS_DispOn(void) {
 // NitroSDK's G3X_Reset, G3X_ResetMtxStack and G3X_GetBoxTestResult, under swan's names. The box test result is 0 when
 // the box is outside the view, and the function returns nonzero while the test is still running
 void gfxReset3D(void);
-// NitroSDK's G3i_LookAt_, which loads the camera matrix into the geometry engine when isLoad is set, G3_RotZ and
-// G3_MultTransMtx33, under swan's names
+// NitroSDK's G3i_LookAt_, which loads the camera matrix into the geometry engine when isLoad is set, G3_RotX, G3_RotY,
+// G3_RotZ and G3_MultTransMtx33, under swan's names
 void gfxLookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL isLoad, MtxFx43 *mtx);
+void gfxRotateX(fx32 sin, fx32 cos);
+void gfxRotateY(fx32 sin, fx32 cos);
 void gfxRotateZ(fx32 sin, fx32 cos);
 void gfxMultTransRot4x3(const MtxFx33 *mtx, const VecFx32 *trans);
 void gfxResetMatrixStack(void);

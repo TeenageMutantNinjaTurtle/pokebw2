@@ -36,7 +36,8 @@ void gfxRegAdjustBrightnessBlend(u32 reg, s32 brightness);
 void gfxSetFog(u8 enabled, u16 alphaMode, u16 depthShift, u16 offset);
 void gfxSetLCDCBanks(u32 banks);
 void gfxUploadQueueReset(void);
-void gfxUploadAsync(u32 type, u32 dest, const void *src, u32 size);
+// Queues a transfer to VRAM for the next V-blank, or returns FALSE if the queue is full
+BOOL gfxUploadAsync(u32 type, u32 dest, const void *src, u32 size);
 void gfxSetEdgeColorTable(const GXRgb *table);
 void gfxSetFogTable(const u32 *table);
 

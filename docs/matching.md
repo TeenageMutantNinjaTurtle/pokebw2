@@ -100,6 +100,13 @@ Same code, other `sp` offsets or frame size.
   among the declared slots and the other five at the bottom of the frame; a block-scoped `add` in each block does not.
 - In a chained assignment, `a = b = f();`, MWCC treats `a` as its own copy of `b`, and a spilled `a` takes the lowest
   slot instead of its declared one. `StatusRcv_UseItem` needs `status = f(); newStatus = status;`.
+- Named locals take stack slots apart from the compiler's temporaries. When the original's spilled values all sit in
+  the order they are first assigned, they may be common subexpressions: the trade's `func_ov194_021c1530` reads
+  `colors[side * 2]` at each use, and `int color = colors[side * 2];` moved it above the temporaries.
+- One counter for two loops in a row keeps one slot. `func_ov194_021c12ec` has a loop over `i`, then two nested loops.
+  MWCC keeps the `0` that the first loop passes as arguments in the stack slot of the variable it starts the outer
+  nested loop with, and in the original that slot is the lowest: both loops count with `i`, the inner one with `j`.
+  A separate `side` for the outer loop took the highest slot instead.
 - A NULL check written on a field, `if (bgs[bg].screen != NULL) { void *screen = bgs[bg].screen; ... }`, gives
   different stack slots from the same check on a local loaded before it, as `GFL_BGSysLoadScrCore` shows.
 - MWCC reuses a field it has loaded, across the 64-bit multiply helpers, so a value that the original keeps on the
@@ -366,6 +373,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   branches with the same body.
 - A clamp that ends in one store, with each limit copied into the value's register, is a conditional expression.
   `if`/`else if` stores each limit separately.
+- An `if`/`else` that assigns one field a constant in each branch can still end in one store after the branches, with
+  `b` over the else branch, as the trade's key cursor wraps its row to 2 or 4 in `pokemontrade_proc.c`. The
+  conditional expression gives `mov`, a conditional branch over a second `mov`, and no `b`.
 - A call whose argument is picked by branches comes from one of two sources, told apart by the layout. `f(x ? FALSE :
   TRUE)` tests `x` with `bne` to the second value, and puts the value for `x == 0` first. Two calls in an `if`/`else`,
   `if (x) f(FALSE); else f(TRUE);`, are merged into one call after the branches, with `beq` to the else branch and the
@@ -445,6 +455,12 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `u8` or `u16` promotes to a signed `int`, so `(u8)id % 5u` is the unsigned one, and so is a `u16` divided by a
   `u32`. Compare the built overlay in `build/<version>/build`
   with the original to find it.
+- A 64-bit division calls `_ll_udiv` (swan's `__aeabi_uldivmod`) when either operand is unsigned. A call to it with
+  operands sign-extended by `asr #0x1f` is an `int` cast to `u64`: the trade's box cubes turn by
+  `((u64)((x + 48) % width) << 16) / width` in `func_ov194_021c2844`. A file that calls it needs `_ll_udiv` added as a
+  label on `__aeabi_uldivmod` with `config_fixes.py add-label` before it can go complete.
+- A float one ULP off a round decimal is written with the shortest digits that round to it, and a comment:
+  Kadabra's sprite offset in `pokemontrade_3d.c` is 0x40533334, next to `3.3f`'s 0x40533333, so it is `3.3000002f`.
 
 ## Data and sections
 
@@ -466,6 +482,17 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   and moving one object can reorder others. `tools/scripts/rodata_order.py` predicts the layout for a declaration order
   and tries the orders of the objects given with `--permute`; `intro_graphic.c` matches only with its light setups
   declared after the function whose BG setups are local initializers.
+- A `static const` table declared inside the one function that reads it is listed where that function is, among
+  the local initializers, rather than where file-scope data would be. `pokemontrade_nego.c` lays out its menus' item
+  lists in the game's order only with its table of blocking fields declared inside `func_ov194_021bbe60`.
+- A struct that is copied from `.rodata` and then has a few fields overwritten with computed values is one local
+  initializer with the computed values in its braces. Its template gets a section of its own, while a `static const`
+  template assigned to the local compiles to the same code but joins the shared section, so only the module check
+  tells them apart. When the copy comes after some calls, the local is declared in a block after them, as the
+  projection in `pokemontrade_3d.c`'s `func_ov194_021c1918` is.
+- When `rodata_order.py`'s prediction disagrees with the built object, move one declaration at a time, compile, and
+  compare the sections with the ROM. `pokemontrade_3d.c` lays out its scene tables in order only with its lights
+  declared after the scenes' resource lists, and its cube data only with the vertices declared before the texture coordinates.
 - String literals are laid out in `.data` in the order they first appear in the source, each aligned to 4, and an
   identical literal is shared from its first use. An assert's text is the expression as written, spacing included, so
   `GFL_ASSERT(a < (B*C))` needs the game's spacing (`delivery_beacon.c` turns clang-format off for it). In

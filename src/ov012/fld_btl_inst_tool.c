@@ -1,24 +1,26 @@
 // The battle facilities' tools: their trainers, Pokémon and battles, for the Battle Subway and the Trial House.
 // Function names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
-//
-// Not written yet: SetupTrialHouseBattle, func_ov012_02162068, BtlSetup_SetTrainerRental,
-// BtlSetup_SetTrainerTrialHouse and func_ov012_02162394 need battle setup functions and a BtlSetupTrainer layout that
-// battle/btl_setup.h does not have yet
 #include "types.h"
 #include "battle/btl_setup.h"
 #include "constants/pokemon.h"
 #include "field/battle_facility.h"
 #include "field/bsubway_scr.h"
+#include "field/field.h"
+#include "field/field_event.h"
 #include "gfl/arc.h"
 #include "gfl/arc_util.h"
 #include "gfl/heap.h"
 #include "gfl/msg.h"
+#include "gfl/net_handle.h"
+#include "gfl/net_system.h"
 #include "gfl/random.h"
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "nitro/math.h"
 #include "pml/personal.h"
 #include "pml/poke_party.h"
+#include "system/game_data.h"
+#include "system/game_system.h"
 
 #define MOVE_FRUSTRATION 218
 
@@ -26,6 +28,8 @@ static void BtlSetup_SetTrialHouseParty(BtlSetup *setup, BSubwayTrainer *trainer
                                         HeapID heapId);
 static void func_ov012_02162394(u32 mode, u32 trainerId, BSubwayTrainer *trainer, BtlSetupTrainer *dest, u32 aiFlags,
                                 BOOL clearWords, BOOL copyWords);
+static BtlSetup *BtlSetup_SetTrainerTrialHouse(GameSystem *gsys, u16 mode, BtlFieldStatus *status, BOOL a3,
+                                               HeapID heapId);
 static void RestrictPlayerParty(PokeParty *src, PokeParty *dest, int count, u16 level, HeapID heapId);
 static void LoadTrialHouseParty(BSubwayTrainer *trainer, PokeParty *party, u16 level, int count, HeapID heapId);
 static void genSubwayBtlInstitutePoke(const BSubwayPokemon *src, PartyPkm *pkm, u16 level);
@@ -74,6 +78,92 @@ static void BtlSetup_SetTrialHouseParty(BtlSetup *setup, BSubwayTrainer *trainer
     LoadTrialHouseParty(trainer, setup->party[client], 50, count, heapId);
 }
 
+BtlSetup *SetupTrialHouseBattle(GameSystem *gsys, PokeParty *party, u32 mode, BSubwayTrainer *trainers,
+                                BSubwayTrainer *partner, u32 count) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    BtlFieldStatus status;
+    BtlSetup *setup = BtlSetup_SetTrainerTrialHouse(gsys, mode, &status, TRUE, 4);
+    int client = 0;
+
+    setup->unk34[client] = GetGameDataPlayerInfo(gameData);
+    RestrictPlayerParty(party, setup->party[client], count, 50, 4);
+    BtlSetup_SetTrialHouseParty(setup, trainers, 1, (u16)mode, count, 4);
+    if (setup->fieldSituation.unk1a != 0) {
+        BtlSetup_SetTrialHouseParty(setup, &trainers[1], 3, (u16)mode, count, 4);
+    }
+    if (setup->fieldSituation.unk1a == 3) {
+        BtlSetup_SetTrialHouseParty(setup, partner, 2, (u16)mode, count, 4);
+    }
+    BtlSetup_PostProcessTrialHouse(setup);
+    return setup;
+}
+
+// A Trial House battle against one trainer, of levels between minLevel and maxLevel
+BtlSetup *func_ov012_02162068(GameSystem *gsys, PokeParty *party, int partyCount, int mode, int count,
+                              BSubwayTrainer *trainer, u32 a6, u32 trainerIdBase, u16 maxLevel, u16 minLevel, u32 a10,
+                              u8 a11, u32 a12, Field *field, MATHRandContext32 *rand) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    BtlFieldStatus status;
+    BtlSetup *setup;
+    int client;
+    u16 level;
+
+    // Only mode 0 makes the setup, so the others use it unset
+    if (mode <= 0) {
+        setup = BtlSetup_SetTrainerTrialHouse(gsys, 0, &status, FALSE, 4);
+    }
+    client = 0;
+    setup->unk34[client] = GetGameDataPlayerInfo(gameData);
+    RestrictPlayerParty(party, setup->party[client], partyCount, 0, 4);
+    client = 1;
+    setup->trainers[client]->trainerId = trainer->unk00 - 1;
+    func_ov012_02162394(0, trainerIdBase + setup->trainers[client]->trainerId, trainer, setup->trainers[client], 0x87,
+                        TRUE, FALSE);
+    level = minLevel + func_ov012_021627d4(rand) % (maxLevel - minLevel + 1);
+    LoadTrialHouseParty(trainer, setup->party[client], level, count, 4);
+    if (a11 == 0x17) {
+        setup->fieldSituation.unk00 = a12;
+        setup->fieldSituation.terrain = 0x12;
+    } else {
+        setup->fieldSituation.unk00 = a12;
+        setup->fieldSituation.terrain = 0x13;
+    }
+    adjustPkmLvForChallengeKeys(setup, gameData, Field_GetPlayerStateZoneID(field));
+    return setup;
+}
+
+// A battle with the player's rental Pokémon
+BtlSetup *BtlSetup_SetTrainerRental(GameSystem *gsys, PokeParty *party, int mode) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    BtlFieldStatus status;
+    BtlSetup *setup;
+    int client;
+
+    SaveBtlFieldStatus(&status, gameData, GSYS_GetField(gsys));
+    setup = BtlSetup_Create(4);
+    switch (mode) {
+    case 0:
+        BtlSetup_SetTrainer1v1Single(setup, gameData, &status, 0, 4);
+        break;
+    case 1:
+        BtlSetup_SetTrainer1v1Double(setup, gameData, &status, 0, 4);
+        break;
+    case 2:
+        BtlSetup_SetTrainer3v3(setup, gameData, &status, 0, 4);
+        break;
+    case 3:
+        BtlSetup_SetTrainerRotation(setup, gameData, &status, 0, 4);
+        break;
+    }
+    client = 0;
+    setup->unk34[client] = GetGameDataPlayerInfo(gameData);
+    PokeParty_Copy(party, setup->party[client]);
+    if (setup->battleType == 1) {
+        setup->battleType = 2;
+    }
+    return setup;
+}
+
 void func_ov012_021621d4(PokeParty *party, const BSubwayPokemon *pkms, u16 level, int count, HeapID heapId) {
     int i;
     PartyPkm *pkm;
@@ -85,6 +175,45 @@ void func_ov012_021621d4(PokeParty *party, const BSubwayPokemon *pkms, u16 level
         PokeParty_AddPkm(party, pkm);
     }
     GFL_HeapFree(pkm);
+}
+
+static BtlSetup *BtlSetup_SetTrainerTrialHouse(GameSystem *gsys, u16 mode, BtlFieldStatus *status, BOOL a3,
+                                               HeapID heapId) {
+    GameData *gameData = GSYS_GetGameData(gsys);
+    BtlSetup *setup;
+    NetHandle *handle;
+    int netId;
+
+    SaveBtlFieldStatus(status, gameData, GSYS_GetField(gsys));
+    setup = BtlSetup_Create(heapId);
+    switch (mode) {
+    case 0:
+    case 4:
+    case 5:
+        BtlSetup_SetTrainer1v1Single(setup, gameData, status, 0, heapId);
+        break;
+    case 1:
+    case 6:
+        BtlSetup_SetTrainer1v1Double(setup, gameData, status, 0, heapId);
+        break;
+    case 2:
+    case 7:
+        BtlSetup_SetTrainer2v2(setup, gameData, status, 0, 0, 0, heapId);
+        break;
+    case 3:
+    case 8:
+        handle = func_02040440();
+        netId = 0;
+        if (func_0203ffc4()) {
+            netId = 2;
+        }
+        BtlSetup_SetNetMultiVsAI(setup, gameData, handle, 1, netId, 0, 0, heapId);
+        break;
+    }
+    if (a3 == TRUE) {
+        func_020186b0(setup, heapId);
+    }
+    return setup;
 }
 
 static void RestrictPlayerParty(PokeParty *src, PokeParty *dest, int count, u16 level, HeapID heapId) {
@@ -104,6 +233,30 @@ static void RestrictPlayerParty(PokeParty *src, PokeParty *dest, int count, u16 
         PokeParty_AddPkm(dest, pkm);
     }
     GFL_HeapFree(pkm);
+}
+
+static void func_ov012_02162394(u32 mode, u32 trainerId, BSubwayTrainer *trainer, BtlSetupTrainer *dest, u32 aiFlags,
+                                BOOL clearWords, BOOL copyWords) {
+    u32 trainerClass = trainer->trainerId;
+
+    dest->trainerId = trainerId;
+    dest->trainerClass = trainerClass;
+    dest->aiFlags = aiFlags;
+    GFL_StrBufLoadString(dest->name, trainer->name);
+    // The setup's phrases are bytes in battle/btl_setup.h, which the battle code uses as such
+    if (clearWords == TRUE) {
+        PMSData_Clear(&dest->unk18);
+        PMSData_Clear(&dest->unk20);
+    }
+    if (copyWords == TRUE) {
+        if (mode == 4) {
+            dest->unk18 = *(PMSData *)trainer->winWords;
+            dest->unk20 = *(PMSData *)trainer->loseWords;
+        } else if (func_ov012_02162ae8(trainer)) {
+            dest->unk18 = *(PMSData *)trainer->winWords;
+            dest->unk20 = *(PMSData *)trainer->loseWords;
+        }
+    }
 }
 
 static void LoadTrialHouseParty(BSubwayTrainer *trainer, PokeParty *party, u16 level, int count, HeapID heapId) {

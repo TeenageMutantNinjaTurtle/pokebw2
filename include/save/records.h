@@ -11,6 +11,8 @@
 void RecordSave_ClearMatchInProgress(RecordSave *record);
 
 void RecordAddOne(GameRecords *records, u32 id);
+// The size of the records
+u32 func_020093d0(void);
 u32 RecordGet(GameRecords *records, u32 id);
 void RecordAdd(GameRecords *records, u32 id, u32 value);
 // Sets a record to value if that is higher, up to the record's maximum

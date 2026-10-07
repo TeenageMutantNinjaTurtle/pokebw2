@@ -15,7 +15,9 @@ struct BtlFieldSituation {
     u8 weather;
     u8 unk09;
     u16 zoneId;
-    u8 unk0c[6];
+    u8 unk0c[4];
+    // The battle's music
+    u16 bgm;
     u16 unk12;
     void *netHandle;
     u8 unk18;
@@ -136,6 +138,19 @@ void BtlSetup_SetNet1v1Single(BtlSetup *setup, GameData *gameData, NetHandle *ha
 void BtlSetup_SetNetRotation(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);
 void BtlSetup_SetNetTriple(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, HeapID heapId);
 void BtlSetup_SetNetMultiVsNet(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, u8 a4, HeapID heapId);
+// Battles against trainers, in the surroundings that SaveBtlFieldStatus saved
+void BtlSetup_SetTrainer1v1Single(BtlSetup *setup, GameData *gameData, BtlFieldStatus *status, u32 a3, HeapID heapId);
+void BtlSetup_SetTrainer1v1Double(BtlSetup *setup, GameData *gameData, BtlFieldStatus *status, u32 a3, HeapID heapId);
+void BtlSetup_SetTrainer2v2(BtlSetup *setup, GameData *gameData, BtlFieldStatus *status, u32 a3, u32 a4, u32 a5,
+                            HeapID heapId);
+void BtlSetup_SetTrainer3v3(BtlSetup *setup, GameData *gameData, BtlFieldStatus *status, u32 a3, HeapID heapId);
+void BtlSetup_SetTrainerRotation(BtlSetup *setup, GameData *gameData, BtlFieldStatus *status, u32 a3, HeapID heapId);
+// A multi battle of two linked players against trainers
+void BtlSetup_SetNetMultiVsAI(BtlSetup *setup, GameData *gameData, NetHandle *handle, u32 a3, u8 a4, u32 a5, u32 a6,
+                              HeapID heapId);
+void BtlSetup_PostProcessTrialHouse(BtlSetup *setup);
+// Changes the levels of the parties for the challenge mode of the zone, which the keys of Unova Link unlock
+void adjustPkmLvForChallengeKeys(BtlSetup *setup, GameData *gameData, u16 zoneId);
 // Frees what the setup holds and clears it
 void func_02017cac(BtlSetup *setup);
 void func_02017cfc(BtlSetup *setup, PokeParty *party, u32 a2);

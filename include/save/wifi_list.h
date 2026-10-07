@@ -12,6 +12,10 @@ void func_0200a2d4(WifiList *wifiList, u32 friendIndex, u32 wins, u32 losses, u3
 void func_0200a29c(WifiList *wifiList, u32 friendIndex);
 // Finds the player among the friends
 BOOL func_0200a438(WifiList *wifiList, PlayerInfo *info, u32 *friendIndex);
+// A block after the friends, of the players met, with its size
+u32 func_0200a4b8(void);
+void func_0200a504(void *block, PlayerInfo *info);
+void func_0200a5cc(void *block);
 
 BOOL func_0200a138(WifiList *list, u32 index);
 u32 func_02009f80(WifiList *list, u32 index, u32 a2);

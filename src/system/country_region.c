@@ -213,14 +213,14 @@ BOOL Country_IsValidPlace(u32 country, u32 region, BOOL japanOnly) {
     return TRUE;
 }
 
-u32 Country_GetValidCountry(u32 country, u32 region, BOOL japanOnly) {
+u8 Country_GetValidCountry(u8 country, u8 region, u8 japanOnly) {
     if (!Country_IsValidPlace(country, region, japanOnly)) {
         country = COUNTRY_NONE;
     }
     return country;
 }
 
-u32 Country_GetValidRegion(u32 country, u32 region, BOOL japanOnly) {
+u8 Country_GetValidRegion(u8 country, u8 region, u8 japanOnly) {
     if (!Country_IsValidPlace(country, region, japanOnly)) {
         region = 0;
     }

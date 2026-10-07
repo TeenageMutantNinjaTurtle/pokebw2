@@ -61,6 +61,7 @@ typedef enum {
 } PkmField;
 
 u32 PokeParty_GetParam(PartyPkm *pkm, PkmField param, void *buffer);
+u32 PokeParty_GetNature(PartyPkm *pkm);
 // A field that is not a number takes a pointer to its value
 void PokeParty_SetParam(PartyPkm *pkm, PkmField param, u32 value);
 u32 GetStatusCond(PartyPkm *pkm);
@@ -133,6 +134,12 @@ u32 func_02021118(void);
 u32 func_0202111c(void);
 u32 getOBJTileMapping_MainEng(void);
 // A species with its form and sex in one u16
+// The palette of a Pokémon's icon
+u32 func_020210c0(BoxPkm *pkm);
+// The icons' palette and cell files, for the OBJ mapping in use
+u32 func_02021114(void);
+u32 func_02021154(void);
+u32 getOBJTileMapping_MainEng(void);
 u16 func_02021204(u32 species, u32 form, u32 sex);
 // A Pokémon icon's character file in its archive, and its palette
 u32 PokeParty_GetIconIndex(u32 species, u32 form, u32 sex, BOOL egg);
@@ -188,6 +195,17 @@ u16 func_0201d358(PartyPkm *pkm, u32 *index, HeapID heapId);
 // Allocates a Pokémon that is not in a party. What the 64-bit argument sets is not known yet; 0 is one of the values
 // that PML_CreatePkm treats specially
 PartyPkm *PokeParty_NewTempPkm(u16 species, u16 level, u64 a2, HeapID heapId);
+PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
+// Whether the species is a legendary Pokémon of the national Pokédex
+BOOL PML_PkmIsLegendNational(u16 species);
+// Sets the nickname to the species name
+void setNicknameToNick(PartyPkm *pkm);
+// Whether the Pokémon is in a form that it changed into, which it would lose in a box
+BOOL hasPokemonChangedForm(BoxPkm *pkm);
+// The number of Pokémon in the party that can battle: not fainted and not eggs
+int countActivePkms(PokeParty *party);
+// Whether the Pokémon knows a hidden machine move
+BOOL doesPkmHaveTmMove(BoxPkm *pkm, u32 a1);
 PartyPkm *PokeParty_NewPkm(u16 species, u16 level, u32 trainerId, u32 a3, s32 a4, u64 pid, HeapID heapId);
 void TransformVsPokePartyBySeason(GameData *gameData, PokeParty *party, u8 season);
 

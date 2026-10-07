@@ -150,6 +150,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   `BOOL x = FALSE; if (...) x = TRUE;` flag gives the `sub; cmp 1; bhi` range test. (matching.md: "range check")
 - A clamp that ends in one store is a conditional expression; `if`/`else if` stores each limit.
   (matching.md: "A clamp that ends in one store")
+- One store after an `if`/`else` of two constants, with a `b` over the else, is still an `if`/`else`; the conditional
+  expression has no `b`. (matching.md: "assigns one field a constant in each branch")
 - `f(x ? a : b)` against two calls in `if`/`else`, which are merged into one call with a `beq; b` layout.
   (matching.md: "picked by branches")
 - A `return` inside `for (;;)` leaves a dead `bx lr`, which the original counts as padding.
@@ -196,6 +198,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Float arithmetic on a local holding a constant isn't folded. (matching.md: "doesn't fold float arithmetic")
 - Division and modulo call `_s32_div_f` or `_u32_div_f` by signedness. A `u8`/`u16` promotes to signed `int`.
   (matching.md: "_s32_div_f")
+- `__aeabi_uldivmod` on sign-extended operands is an `int` cast to `u64`; MWCC calls it `_ll_udiv`.
+  (matching.md: "A 64-bit division")
+- A float one ULP off a round decimal is written with the shortest digits that round to it. (matching.md: "one ULP
+  off")
 
 ## Data and sections
 
@@ -209,6 +215,13 @@ text to `grep -n` there. Entries without a key come from later work and still be
   given the `.data` tables with the `.rodata` objects it predicts the `.rodata` order. (matching.md: "The list that is
   heapsorted")
 - `.bss` statics are ordered by size, then in an order that isn't the declaration order; try permutations.
+- A table that only one function reads can be a `static const` inside it, which moves it in the heapsort's list.
+  (matching.md: "declared inside the one function")
+- A `.rodata` template copied to a local, then patched with computed fields, in a section of its own: a local
+  initializer with the computed values in its braces, in a block after any calls before it. (matching.md: "a few
+  fields overwritten")
+- When the prediction is wrong, move one declaration at a time and compare the built sections with the ROM.
+  (matching.md: "prediction disagrees")
 - `static const` goes in `.rodata`, so a table in `.data` isn't `const`. (matching.md: "`static const` data goes in")
 - A `static const` whose address is never taken is folded and not emitted. If the original has it, it isn't static.
   (matching.md: "whose address is never taken")

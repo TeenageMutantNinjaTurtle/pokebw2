@@ -32,9 +32,9 @@ u32 Country_GetJapan(void);
 // Japan or no country is valid
 BOOL Country_IsValidPlace(u32 country, u32 region, BOOL japanOnly);
 // The country, or 0 if the country and region aren't valid
-u32 Country_GetValidCountry(u32 country, u32 region, BOOL japanOnly);
+u8 Country_GetValidCountry(u8 country, u8 region, u8 japanOnly);
 // The region, or 0 if the country and region aren't valid
-u32 Country_GetValidRegion(u32 country, u32 region, BOOL japanOnly);
+u8 Country_GetValidRegion(u8 country, u8 region, u8 japanOnly);
 // The regions of a country in the order they are listed, and how many there are; FALSE if it isn't divided
 BOOL Country_GetRegionOrder(u32 country, const u8 **order, u32 *count);
 

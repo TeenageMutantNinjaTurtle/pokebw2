@@ -43,6 +43,8 @@ void copyTrainerNameFromStrbuf(PlayerInfo *info, const StrBuf *name);
 void setIDAsUInt(PlayerInfo *info, u32 id);
 // A new game sets this to a random 0 to 7, plus 8 for a female player
 void func_02008bf8(PlayerInfo *info, u8 value);
+// The region of the player's country
+u8 TrainerInfo_GetRegion(PlayerInfo *info);
 void func_02008c00(PlayerInfo *info, u8 value);
 void func_02008c08(PlayerInfo *info, u8 value);
 void func_02008c14(PlayerInfo *info, u8 a1, u8 a2);

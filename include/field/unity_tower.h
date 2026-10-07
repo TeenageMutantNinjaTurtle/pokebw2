@@ -20,11 +20,15 @@ typedef struct {
 
 UnityTowerFloor *GameData_GetUnityTowerSave(GameData *gameData);
 void *UnityTower_GetVisitor(UnityTowerSurveySave *save, u32 index);
-u32 UnityTowerVisitor_GetProvince(void *visitor);
-u32 UnityTowerVisitor_GetCountry(PlayerInfo *playerInfo);
+u8 UnityTowerVisitor_GetProvince(void *visitor);
+u8 UnityTowerVisitor_GetCountry(PlayerInfo *playerInfo);
 u32 UnityTower_GetVisitorParam(UnityTowerSurveySave *save, u32 index, u32 param);
 void func_02009db4(UnityTowerSurveySave *save, u32 index, u32 param, u32 value);
 void func_02009d18(UnityTowerSurveySave *save, u8 index);
+// The size of the survey's block
+u32 func_02009b5c(void);
+u8 func_02009ca0(UnityTowerSurveySave *save);
+u8 func_02009d28(UnityTowerSurveySave *save);
 u32 func_02009ce4(UnityTowerSurveySave *save);
 // Whether a visitor from the country has come
 BOOL func_02009eb0(UnityTowerSurveySave *save, u32 country);
