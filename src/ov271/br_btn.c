@@ -183,8 +183,8 @@ BrBtnSys *BrBtnSys_Init(int menuID, ClActUnit *unit, BrRes *res, BrRecordInfo *r
     } else {
         p_wk->objID = BR_RES_OBJ_BROWSE_BTN_M;
     }
-    func_ov271_021f2c3c(p_wk->res, p_wk->objID, heapId);
-    func_ov271_021f2c3c(p_wk->res, p_wk->objID + 1, heapId);
+    BrRes_LoadOBJ(p_wk->res, p_wk->objID, heapId);
+    BrRes_LoadOBJ(p_wk->res, p_wk->objID + 1, heapId);
 
     p_wk->btn_max = BrBtnData_GetMaxNum(p_wk->btnData);
     {
@@ -199,7 +199,7 @@ BrBtnSys *BrBtnSys_Init(int menuID, ClActUnit *unit, BrRes *res, BrRecordInfo *r
     p_wk->seq = func_ov271_021f44ec(p_wk, BrBtnSys_Seq_Start, heapId);
 
     if (p_wk->recovery->stack_num != 0) {
-        MsgData *msg = func_ov271_021f3000(res);
+        MsgData *msg = BrRes_GetMsgData(res);
 
         for (i = 0; i < p_wk->recovery->stack_num; i++) {
             const BrBtnData *cp_data =
@@ -218,7 +218,7 @@ BrBtnSys *BrBtnSys_Init(int menuID, ClActUnit *unit, BrRes *res, BrRecordInfo *r
         func_ov271_021f4550(p_wk->seq, BrBtnSys_Seq_Unstack);
         p_wk->btnType = BR_BTN_TYPE_RETURN;
     } else {
-        MsgData *msg = func_ov271_021f3000(res);
+        MsgData *msg = BrRes_GetMsgData(res);
 
         p_wk->btn_num = BrBtnData_GetNum(p_wk->btnData, menuID);
         for (i = 0; i < p_wk->btn_num; i++) {
@@ -252,8 +252,8 @@ void BrBtnSys_Exit(BrBtnSys *p_wk) {
         BrBtnWork_Exit(&p_wk->btn[i]);
     }
     GFL_HeapFree(p_wk->btn);
-    func_ov271_021f2eb4(p_wk->res, p_wk->objID);
-    func_ov271_021f2eb4(p_wk->res, p_wk->objID + 1);
+    BrRes_UnloadOBJ(p_wk->res, p_wk->objID);
+    BrRes_UnloadOBJ(p_wk->res, p_wk->objID + 1);
     BrBtnData_Exit(p_wk->btnData);
     BmpOam_Exit(p_wk->bmpoam);
     func_02021a18(p_wk->que);
@@ -316,7 +316,7 @@ static void BrBtnSys_LoadMenu(BrBtnSys *p_wk, u32 menuID, const BrPoint *cp_pos)
         BrBtnWork_Exit(&p_wk->btn[i]);
     }
 
-    msg = func_ov271_021f3000(p_wk->res);
+    msg = BrRes_GetMsgData(p_wk->res);
     p_wk->btn_num = BrBtnData_GetNum(p_wk->btnData, menuID);
     for (i = 0; i < p_wk->btn_num; i++) {
         const BrBtnData *cp_data = BrBtnData_GetData(p_wk->btnData, menuID, i);
@@ -835,8 +835,8 @@ static void BrBtnWork_Init(BrBtnWork *p_wk, const BrBtnData *cp_data, ClActUnit 
         setup.y = BrBtnData_GetParam(p_wk->data, BR_BTN_DATA_PARAM_Y);
         setup.sequence = BrBtnData_GetParam(p_wk->data, BR_BTN_DATA_PARAM_ANMSEQ);
         setup.priority = 1;
-        func_ov271_021f2f10(res, p_wk->objID + 1, &obj);
-        p_wk->btn = BrBtn_Init(&setup, p_wk->str, 160, p_wk->display, unit, bmpoam, func_ov271_021f2ff8(res), &obj,
+        BrRes_GetObjData(res, p_wk->objID + 1, &obj);
+        p_wk->btn = BrBtn_Init(&setup, p_wk->str, 160, p_wk->display, unit, bmpoam, BrRes_GetFont(res), &obj,
                                HEAPID_TAIL(heapId));
     }
 }
@@ -926,10 +926,10 @@ static void BrBtnWork_ChangeDisplay(BrBtnWork *p_wk, u32 display) {
         setup.sequence = BrBtnData_GetParam(p_wk->data, BR_BTN_DATA_PARAM_ANMSEQ);
         setup.priority = softPriority;
         setup.bgPriority = bgPriority;
-        func_ov271_021f2f10(p_wk->res, p_wk->objID + display, &obj);
-        font = func_ov271_021f2ff8(p_wk->res);
+        BrRes_GetObjData(p_wk->res, p_wk->objID + display, &obj);
+        font = BrRes_GetFont(p_wk->res);
         // The message data and the label's message ID are read and left unused: the label is kept
-        func_ov271_021f3000(p_wk->res);
+        BrRes_GetMsgData(p_wk->res);
         BrBtnData_GetParam(p_wk->data, BR_BTN_DATA_PARAM_MSGID);
         p_wk->btn = BrBtn_Init(&setup, p_wk->str, 160, display, p_wk->unit, p_wk->bmpoam, font, &obj, p_wk->heapId);
     }
