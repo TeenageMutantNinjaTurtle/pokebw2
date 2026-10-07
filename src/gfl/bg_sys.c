@@ -376,7 +376,7 @@ void GFL_BGSysSetBGEnabled(u8 bg, u8 enabled) {
     }
 }
 
-void GFL_BGSysMoveBG(u8 bg, u32 op, int value) {
+void GFL_BGSysMoveBG(u8 bg, u8 op, int value) {
     int x;
     int y;
 
@@ -600,7 +600,7 @@ void GFL_BGSysFreeFilledChar(u32 bg, u32 tileCount, u32 offset) {
     }
 }
 
-void GFL_BGSysUploadStdPalette(u32 bg, const void *src, u32 size, u32 offset) {
+void GFL_BGSysUploadStdPalette(u8 bg, const void *src, u16 size, u16 offset) {
     cp15_flushDC(src, size);
     if (bg < BGSYS_BG_SUB) {
         gfxUploadStdPaletteBGA(src, offset, size);
@@ -609,7 +609,7 @@ void GFL_BGSysUploadStdPalette(u32 bg, const void *src, u32 size, u32 offset) {
     }
 }
 
-void GFL_BGSysResetStdPalette(u32 bg, GXRgb color) {
+void GFL_BGSysResetStdPalette(u8 bg, GXRgb color) {
     GFL_BGSysUploadStdPalette(bg, &color, sizeof(GXRgb), 0);
 }
 

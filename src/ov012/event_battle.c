@@ -363,8 +363,8 @@ GameEvent *EventCaptureDemo_Create(GameSystem *gsys, Field *field, HeapID heapId
     PokeParty_SetMove(pkm, 0, 3);
     PokeParty_AddPkm(enemyParty, pkm);
     SaveBtlFieldStatus(&status, gameData, field);
-    status.unk4 = 5;
-    status.unk0 = 1;
+    status.terrain = 5;
+    status.bgId = 1;
     BtlSetup_SetCaptureDemo(setup, gameData, party, enemyParty, &status, heapId);
     GFL_HeapFree(pkm);
     GFL_HeapFree(enemyParty);

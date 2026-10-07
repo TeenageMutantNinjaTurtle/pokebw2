@@ -45,7 +45,7 @@ void ShortcutMenuPos_Init(ShortcutMenuPos *pos) {
     sys_memset(pos, 0, sizeof(ShortcutMenuPos));
 }
 
-u32 ShortcutUtil_GetItemShortcut(u32 item) {
+u32 ShortcutUtil_GetItemShortcut(u16 item) {
     u32 i;
 
     for (i = 0; i < NELEMS(sItemShortcuts); i++) {

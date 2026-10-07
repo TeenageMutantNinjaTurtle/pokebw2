@@ -17,6 +17,6 @@ typedef struct {
 
 void ShortcutMenuPos_Init(ShortcutMenuPos *pos);
 // The shortcut that registers the key item to Y, or SHORTCUT_NONE
-u32 ShortcutUtil_GetItemShortcut(u32 item);
+u32 ShortcutUtil_GetItemShortcut(u16 item);
 
 #endif // POKEBW2_SYSTEM_SHORTCUT_UTIL_H

@@ -90,7 +90,7 @@ typedef struct {
 const FieldProcLink FIELD_PROC_LINK_LIST[15] = {
     { OVERLAY_ID(165), &POKELIST_PROC_FUNCTIONS, func_ov012_0215b7d8, func_ov012_0215b9cc, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(302), &data_ov189_021ae3dc, func_ov012_0215bad4, func_ov012_0215bb44, NULL, func_ov012_0215c594 },
-    { OVERLAY_ID(142), &data_ov142_021a0910, func_ov012_0215bd48, func_ov012_0215bdd0, NULL, func_ov012_0215c594 },
+    { OVERLAY_ID(142), &BAG_PROC_FUNCTIONS, func_ov012_0215bd48, func_ov012_0215bdd0, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(186), &data_ov012_0216dd78, func_ov012_0215bef4, func_ov012_0215bf58, NULL, func_ov012_0215c594 },
     { 0, NULL, NULL, NULL, func_ov012_0215c0dc, func_ov012_0215c594 },
     { OVERLAY_ID(140), &data_ov140_0219eecc, func_ov012_0215c094, func_ov012_0215c0cc, NULL, func_ov012_0215c594 },
@@ -102,7 +102,7 @@ const FieldProcLink FIELD_PROC_LINK_LIST[15] = {
     { OVERLAY_ID(284), &SHINKA_DEMO_PROC_FUNCTIONS, script_evo, func_ov012_0215c3a4, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(272), &data_ov272_021f82b8, func_ov012_0215c3d0, func_ov012_0215c3fc, NULL, func_ov012_0215c594 },
     { OVERLAY_ID(259), &data_ov143_021a039c, func_ov012_0215c438, func_ov012_0215c474, NULL, func_ov012_0215c594 },
-    { OVERLAY_ID(145), &data_ov142_021a0fe0, func_ov012_0215c488, func_ov012_0215c4b4, NULL, func_ov012_0215c594 },
+    { OVERLAY_ID(145), &data_ov145_021a0fe0, func_ov012_0215c488, func_ov012_0215c4b4, NULL, func_ov012_0215c594 },
 };
 
 GameEvent *EventFieldAppCall_Create(FieldAppCallInput *input, u16 code) {
@@ -631,7 +631,7 @@ void *func_ov012_0215bd48(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
     case FIELD_APP_BAG:
         param = BagParam_Create(gameData, &work->perms, func_ov012_0215bd1c(work->input->gameSystem), HEAPID_GAMEEVENT);
         if (appParam != -1) {
-            func_020088a4(param->unk0C, appParam);
+            func_020088a4(param->cursor, appParam);
         }
         break;
     case FIELD_APP_POKELIST:

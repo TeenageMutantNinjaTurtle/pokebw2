@@ -159,7 +159,6 @@ static BOOL CtvtComm_FilterNone(const void *data, void *work);
 static void CtvtComm_UpdateTalk(CommTvtWork *sys, CtvtComm *comm);
 static void CtvtComm_SetScanTime(CommTvtWork *sys, CtvtComm *comm);
 static void CtvtComm_UpdateMembers(CommTvtWork *sys, CtvtComm *comm);
-static BOOL CtvtComm_IsInvited(const CtvtCommBeacon *beacon, const u8 *mac);
 static void CtvtComm_ClearMember(CommTvtWork *sys, CtvtComm *comm, CtvtCommMember *member);
 static void CtvtComm_UpdateMember(CommTvtWork *sys, CtvtComm *comm, CtvtCommMember *member, u8 netId);
 static BOOL CtvtComm_IsMemberTalking(CommTvtWork *sys, CtvtComm *comm, CtvtCommMember *member, u8 netId);
@@ -180,12 +179,9 @@ static BOOL CtvtComm_SendGameData(CommTvtWork *sys, CtvtComm *comm);
 static void CtvtComm_RecvGameData(int netId, int size, void *data, void *work, NetHandle *handle);
 
 static const NetCommand sCtvtCommCommands[] = {
-    { CtvtComm_RecvPacket, NULL },
-    { CtvtComm_RecvVoice, CtvtComm_GetVoiceBuffer },
-    { CtvtComm_RecvDraw, NULL },
-    { CtvtComm_RecvInfo, CtvtComm_GetInfoBuffer },
-    { CtvtComm_RecvGameCommand, NULL },
-    { CtvtComm_RecvGamePacket, NULL },
+    { CtvtComm_RecvPacket, NULL },      { CtvtComm_RecvVoice, CtvtComm_GetVoiceBuffer },
+    { CtvtComm_RecvDraw, NULL },        { CtvtComm_RecvInfo, CtvtComm_GetInfoBuffer },
+    { CtvtComm_RecvGameCommand, NULL }, { CtvtComm_RecvGamePacket, NULL },
     { CtvtComm_RecvGameData, NULL },
 };
 
@@ -243,8 +239,7 @@ CtvtComm *CtvtComm_Create(CommTvtWork *sys, HeapID heapId) {
     }
     for (i = 0; i < CTVT_COMM_PICTURE_BUFFERS; i++) {
         if (!func_ov257_021aab3c(sys) || i == 0) {
-            comm->pictureBuffers[i] =
-                allocConfigDSSoftwareFeature(heapId, CTVT_COMM_PICTURE_SIZE, "ctvt_comm.c", 326);
+            comm->pictureBuffers[i] = allocConfigDSSoftwareFeature(heapId, CTVT_COMM_PICTURE_SIZE, "ctvt_comm.c", 326);
         }
     }
     comm->jpegWork = allocConfigDSSoftwareFeature(
@@ -522,7 +517,7 @@ static BOOL CtvtComm_FilterCall(const void *data, void *work) {
     CtvtComm *comm = work;
     BOOL invited;
 
-    if (func_ov257_021a166c(comm->sys, CommTvt_GetCall(comm->sys), info->mac)) {
+    if (CtvtCall_IsBlackWhite(comm->sys, CommTvt_GetCall(comm->sys), info->mac)) {
         return FALSE;
     }
     invited = CtvtComm_IsInvited(&comm->beacon, info->mac);
@@ -736,7 +731,7 @@ static void CtvtComm_UpdateMembers(CommTvtWork *sys, CtvtComm *comm) {
     CtvtCamera_Redraw(sys, CommTvt_GetCamera(sys), FALSE, TRUE);
 }
 
-static BOOL CtvtComm_IsInvited(const CtvtCommBeacon *beacon, const u8 *mac) {
+BOOL CtvtComm_IsInvited(const CtvtCommBeacon *beacon, const u8 *mac) {
     u8 i, j;
 
     for (i = 0; i < 3; i++) {
@@ -843,8 +838,8 @@ BOOL CtvtComm_SendPacket(CommTvtWork *sys, CtvtComm *comm, u8 type, u32 value) {
 
     packet.type = type;
     packet.value = value;
-    return func_02042c18(handle, CTVT_COMM_SEND_ALL, CTVT_COMM_CMD_PACKET, sizeof(CtvtCommPacket), &packet, TRUE,
-                         FALSE, FALSE);
+    return func_02042c18(handle, CTVT_COMM_SEND_ALL, CTVT_COMM_CMD_PACKET, sizeof(CtvtCommPacket), &packet, TRUE, FALSE,
+                         FALSE);
 }
 
 BOOL CtvtComm_SendPacketAll(CommTvtWork *sys, CtvtComm *comm, u8 type, u32 value) {
@@ -853,8 +848,8 @@ BOOL CtvtComm_SendPacketAll(CommTvtWork *sys, CtvtComm *comm, u8 type, u32 value
 
     packet.type = type;
     packet.value = value;
-    return func_02042c18(handle, CTVT_COMM_SEND_ALL, CTVT_COMM_CMD_PACKET, sizeof(CtvtCommPacket), &packet, TRUE,
-                         TRUE, FALSE);
+    return func_02042c18(handle, CTVT_COMM_SEND_ALL, CTVT_COMM_CMD_PACKET, sizeof(CtvtCommPacket), &packet, TRUE, TRUE,
+                         FALSE);
 }
 
 BOOL CtvtComm_SendPacketData(CommTvtWork *sys, CtvtComm *comm, u8 type, const void *value) {
@@ -863,8 +858,8 @@ BOOL CtvtComm_SendPacketData(CommTvtWork *sys, CtvtComm *comm, u8 type, const vo
 
     packet.type = type;
     sys_memcpy(value, &packet.value, sizeof(packet.value));
-    return func_02042c18(handle, CTVT_COMM_SEND_ALL, CTVT_COMM_CMD_PACKET, sizeof(CtvtCommPacket), &packet, TRUE,
-                         FALSE, FALSE);
+    return func_02042c18(handle, CTVT_COMM_SEND_ALL, CTVT_COMM_CMD_PACKET, sizeof(CtvtCommPacket), &packet, TRUE, FALSE,
+                         FALSE);
 }
 
 static void CtvtComm_RecvPacket(int netId, int size, void *data, void *work, NetHandle *handle) {
@@ -879,11 +874,11 @@ static void CtvtComm_RecvPacket(int netId, int size, void *data, void *work, Net
         }
         break;
     case CTVT_PACKET_TALKER: {
-        u8 talker = packet->value;
+        u32 talker = packet->value;
 
         comm->talker = talker;
         if (talker != CTVT_COMM_NONE) {
-            func_ov257_021aad74(comm->sys);
+            func_ov257_021aad74(comm->sys, talker);
         } else {
             CtvtMic *mic = CommTvt_GetMic(comm->sys);
 
@@ -994,8 +989,8 @@ static void CtvtComm_RecvPacket(int netId, int size, void *data, void *work, Net
 }
 
 BOOL CtvtComm_SendVoice(CommTvtWork *sys, CtvtComm *comm, CtvtVoicePacket *packet) {
-    BOOL sent = func_02042c18(func_02040440(), CTVT_COMM_SEND_ALL, CTVT_COMM_CMD_VOICE, packet->size + 8, packet,
-                              TRUE, FALSE, TRUE);
+    BOOL sent = func_02042c18(func_02040440(), CTVT_COMM_SEND_ALL, CTVT_COMM_CMD_VOICE, packet->size + 8, packet, TRUE,
+                              FALSE, TRUE);
 
     if (sent) {
         comm->voiceBusy = TRUE;

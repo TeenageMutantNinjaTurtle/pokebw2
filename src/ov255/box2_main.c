@@ -2698,7 +2698,7 @@ int Box2Main_PokeStatusExit(Box2SysWork *syswk) {
 int Box2Main_BagCall(Box2SysWork *syswk) {
     BagProcessData *bag = BagParam_Create(syswk->param->gameData, NULL, 2, HEAPID_BOX2);
 
-    QueueGameProc(syswk->procManager, OVERLAY_BAG, &data_ov142_021a0910, bag);
+    QueueGameProc(syswk->procManager, OVERLAY_BAG, &BAG_PROC_FUNCTIONS, bag);
     syswk->subProcWork = bag;
     return 0;
 }

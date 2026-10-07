@@ -15,3 +15,20 @@ src/ov332/key_system_graphic.c:
     .text       start:0x021c0160 end:0x021c058c
     .rodata     start:0x021c8bb4 end:0x021c8da8
     .data       start:0x021c9318 end:0x021c9330
+
+src/ov332/key_system_util.c:
+    .text       start:0x021c058c end:0x021c1e10
+    .rodata     start:0x021c8da8 end:0x021c8e1c
+    .data       start:0x021c9330 end:0x021c9364
+
+src/ov332/key_system_net.c:
+    complete
+    .text       start:0x021c1e10 end:0x021c2b58
+    .rodata     start:0x021c8e1c end:0x021c8eac
+    .data       start:0x021c9364 end:0x021c93f0
+    .bss        start:0x021c94e0 end:0x021c9500
+
+src/ov332/key_system_flow.c:
+    .text       start:0x021c2b58 end:0x021c5420
+    .rodata     start:0x021c8eac end:0x021c9038
+    .data       start:0x021c93f0 end:0x021c9488

@@ -36,6 +36,8 @@ struct SurveyTextWork {
 // The hours since the survey started, up to 24
 u16 detectLengthSinceLastSession(SaveControl *save);
 void *func_0200ec2c(SaveControl *save);
+// Sets the survey's question at index
+void func_0200ecd8(void *survey, u8 question, u32 index);
 void func_0200ca84(TrainerGameInfoSave *info, u8 value);
 void func_0200ca94(TrainerGameInfoSave *info, u8 index, u8 value);
 void func_0200caa8(TrainerGameInfoSave *info, u8 index, u16 value);
@@ -67,9 +69,9 @@ GameEvent *func_ov027_02170860(GameSystem *gsys);
 void func_ov027_02170884(SurveyTextWork *work, GameSystem *gsys);
 u32 func_0200ed90(void *survey, u16 question, int answer);
 void func_0200edb0(void *survey);
-// The counts of an answer, from before today and from today
-u32 func_0200ecf0(void *survey);
-u32 func_0200ed14(void *survey, u8 answer);
+// How many people answered a question, today and before today, which the Research Radar's graph adds up
+u32 func_0200ecf0(void *survey, u8 question);
+u32 func_0200ed14(void *survey, u8 question);
 u32 func_0200ed48(void *survey, u16 question, int answer);
 int GetSurveyAnswerMsgIDCount(u16 question);
 u16 GetSurveyAnswerMsgID(u16 question, int answer);

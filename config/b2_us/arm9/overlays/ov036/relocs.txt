@@ -18363,7 +18363,6 @@ from:0x021cab34 kind:load to:0x0218e9a9 module:overlay(36)
 from:0x021cab38 kind:load to:0x0218eb79 module:overlay(36)
 from:0x021cab3c kind:load to:0x0218ec29 module:overlay(36)
 from:0x021cac5c kind:load to:0x021e0001 module:overlay(36)
-from:0x021cac9c kind:load to:0x021d0001 module:overlay(36)
 from:0x021cacac kind:load to:0x0218fc3d module:overlay(36)
 from:0x021cacb0 kind:load to:0x0218f09d module:overlay(36)
 from:0x021cacb4 kind:load to:0x02191175 module:overlay(36)
@@ -21186,9 +21185,6 @@ from:0x021d01ec kind:load to:0x020f4144 module:main
 from:0x021d0294 kind:load to:0x020d0103 module:main
 from:0x021d0298 kind:load to:0x02130103 module:main
 from:0x021d02a0 kind:load to:0x02130202 module:main
-from:0x021d0308 kind:load to:0x021301f9 module:main
-from:0x021d0310 kind:load to:0x02170216 module:overlay(25)
-from:0x021d031c kind:load to:0x021d021c module:overlay(36)
 from:0x021d037c kind:load to:0x021d4fb8 module:overlay(36)
 from:0x021d0380 kind:load to:0x021d4fc0 module:overlay(36)
 from:0x021d03f0 kind:load to:0x021a3b35 module:overlay(36)

@@ -134,7 +134,7 @@ BOOL s014E_CallBag(VM *vm, FieldScriptEnv *env) {
     result = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(BagScriptResult), TRUE, "scrcmd_proc.c", 280);
     result->hasSelection = hasSelection;
     result->item = item;
-    CreateScrCmdOverlayProcess(vm, env, OVERLAY_BAG, &data_ov142_021a0910, bag, func_ov012_021575b8, result);
+    CreateScrCmdOverlayProcess(vm, env, OVERLAY_BAG, &BAG_PROC_FUNCTIONS, bag, func_ov012_021575b8, result);
     return TRUE;
 }
 

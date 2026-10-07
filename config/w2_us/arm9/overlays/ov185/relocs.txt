@@ -429,7 +429,7 @@ from:0x0219e850 kind:thumb_call to:0x0204855c module:main
 from:0x0219e864 kind:load to:0x021a7554 module:overlay(185)
 from:0x0219e868 kind:load to:0x021a7090 module:overlay(185)
 from:0x0219e876 kind:thumb_call to:0x02048590 module:main
-from:0x0219e87c kind:thumb_call to:0x0219a4d0 module:overlays(139,142)
+from:0x0219e87c kind:thumb_call to:0x0219a4d0 module:overlay(139)
 from:0x0219e888 kind:thumb_call to:0x02048800 module:main
 from:0x0219e894 kind:thumb_call to:0x0203a278 module:main
 from:0x0219e944 kind:thumb_call to:0x02048720 module:main
@@ -442,7 +442,7 @@ from:0x0219e9b4 kind:thumb_call to:0x02048a14 module:main
 from:0x0219e9da kind:thumb_call to:0x0219d310 module:overlay(185)
 from:0x0219ea18 kind:thumb_call to:0x0219d368 module:overlay(185)
 from:0x0219ea2a kind:thumb_call to:0x0219d2f8 module:overlay(185)
-from:0x0219ea74 kind:thumb_call to:0x0219a4e4 module:overlays(139,172)
+from:0x0219ea74 kind:thumb_call to:0x0219a4e4 module:overlay(139)
 from:0x0219ea8a kind:thumb_call to:0x0219d310 module:overlay(185)
 from:0x0219ea9a kind:thumb_call to:0x0219d368 module:overlay(185)
 from:0x0219eaaa kind:thumb_call to:0x0219d2f8 module:overlay(185)
@@ -451,13 +451,13 @@ from:0x0219eb00 kind:load to:0x0219d35d module:overlay(185)
 from:0x0219eb2c kind:load to:0x021a70c8 module:overlay(185)
 from:0x0219eb30 kind:load to:0x02048685 module:main
 from:0x0219eb40 kind:load to:0x021a70c8 module:overlay(185)
-from:0x0219eb58 kind:load to:0x021a70ca module:overlay(185)
-from:0x0219eb5c kind:load to:0x021a70cb module:overlay(185)
-from:0x0219eb6c kind:load to:0x021a70cc module:overlay(185)
-from:0x0219eb7c kind:load to:0x021a70cd module:overlay(185)
-from:0x0219eb8c kind:load to:0x021a70ce module:overlay(185)
-from:0x0219eb9c kind:load to:0x021a70cf module:overlay(185)
-from:0x0219ebac kind:load to:0x021a70d1 module:overlay(185)
+from:0x0219eb58 kind:load to:0x021a70c8 add:0x2 module:overlay(185)
+from:0x0219eb5c kind:load to:0x021a70c8 add:0x3 module:overlay(185)
+from:0x0219eb6c kind:load to:0x021a70c8 add:0x4 module:overlay(185)
+from:0x0219eb7c kind:load to:0x021a70c8 add:0x5 module:overlay(185)
+from:0x0219eb8c kind:load to:0x021a70c8 add:0x6 module:overlay(185)
+from:0x0219eb9c kind:load to:0x021a70c8 add:0x7 module:overlay(185)
+from:0x0219ebac kind:load to:0x021a70c8 add:0x9 module:overlay(185)
 from:0x0219ebc4 kind:thumb_call to:0x0203a228 module:main
 from:0x0219ebdc kind:thumb_call to:0x021a2ff4 module:overlay(185)
 from:0x0219ebe8 kind:load to:0x021a7564 module:overlay(185)

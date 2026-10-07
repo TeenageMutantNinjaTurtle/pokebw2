@@ -38,6 +38,13 @@
 #define PKM_PARAM_MOVE1_PP 0x3a
 #define PKM_PARAM_MOVE1_PP_UP 0x3e
 #define PKM_PARAM_MOVE1_MAX_PP 0x42
+// Not from swan: the individual values, HP to special defense
+#define PKM_PARAM_IV_HP 0x46
+#define PKM_PARAM_IV_ATTACK 0x47
+#define PKM_PARAM_IV_DEFENSE 0x48
+#define PKM_PARAM_IV_SPEED 0x49
+#define PKM_PARAM_IV_SP_ATTACK 0x4a
+#define PKM_PARAM_IV_SP_DEFENSE 0x4b
 #define PKM_PARAM_IS_EGG 0x4c
 #define PKM_PARAM_RIBBON_G3_COOL 0x4d
 #define PKM_PARAM_FATEFUL_ENCOUNTER 0x6d
@@ -56,6 +63,14 @@
 // The original trainer's name, copied to or from a u16 array (not from swan)
 #define PKM_PARAM_OT_NAME_RAW 0x8e
 // Where the Pokémon was met as an egg and as itself, and the level (not from swan)
+// Not from swan: the dates the Pokémon was met as an egg and as itself, each two digits of the year, the month and
+// the day
+#define PKM_PARAM_EGG_YEAR 0x8f
+#define PKM_PARAM_EGG_MONTH 0x90
+#define PKM_PARAM_EGG_DAY 0x91
+#define PKM_PARAM_MET_YEAR 0x92
+#define PKM_PARAM_MET_MONTH 0x93
+#define PKM_PARAM_MET_DAY 0x94
 #define PKM_PARAM_EGG_LOCATION 0x95
 #define PKM_PARAM_MET_LOCATION 0x96
 #define PKM_PARAM_MET_LEVEL 0x99

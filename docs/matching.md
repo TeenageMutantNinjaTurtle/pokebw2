@@ -58,6 +58,12 @@ Same instructions, registers swapped.
 - A pointer local to an element of a struct, like `dst = &shot->pokes[i]`, takes a callee-saved register of its own
   and can push the struct's pointer to the stack along with a constant MWCC keeps for it. The musical's photo
   (`musical_event.c`'s `func_ov012_02151384`) only matches with `shot->pokes[pos].field` written at each use.
+  The base register tells the two apart: `&call->rows[i]` is `call + 0x40 + i * 0x1c`, used with the field's own
+  offset (`[r5, #0x14]`), while `call->rows[i].window` written out is `call + i * 0x1c` with the array's offset
+  folded in (`[r5, #0x54]`), as in `ctvt_call.c`'s `CtvtCall_Leave` and `CtvtCall_Main`.
+- An element address computed before an inline helper's argument calls, and kept in a register while the loop counter
+  spills, is the address passed to the helper: `CtvtCall_CreateActor(sys, &call->rows[i].frame, ...)` stores through
+  a `ClActor **`, where `call->rows[i].frame = CtvtCall_CreateActor(...)` computes the address after the call.
 - Two loops that reuse one counter and both spill it share its stack slots in the order MWCC splits the variable,
   not in declaration order; giving the second loop a counter of its own, as `pos` in the same function, moves it.
 - Variables declared in an inner block are allocated apart from the function's variables of the same name: in
@@ -69,6 +75,12 @@ Same instructions, registers swapped.
 - A loop condition written with a local for its row start, `start = pos + j * 6; if (x >= start && x < w + start)`,
   allocates registers differently from the same sums written in both comparisons: the PC box's `func_ov255_021d229c`
   only matched with the sums written out.
+- A parameter that the callers narrow with shifts before the call is a `u16` or `u8`, and the type also decides how it
+  is spilled: `BagItemList_GetItem` spills `pocket` first and compares the reloaded copy only once `pocket` and `index`
+  are `u16`, as `itemmenu.c`'s caller narrows them; as `u32` it compares a register copy and stores it after.
+- Loops over an array of structs that test two fields through a pointer to the element, then write the fields as
+  `list->entries[i].x` in the body, keep the array's base in a register and the element's address in another, as
+  `bag_item.c`'s `BagItemList_Remove` and `BagItemList_GetItem` do; indexing in the test too folds the field offsets.
 
 ## Stack slots
 
@@ -157,6 +169,11 @@ Same code, other `sp` offsets or frame size.
 
 - Block-scoped arrays set both the stack order and where their initializers are copied: infowin.c's
   `InfoWin_VBlankTask` matches only with each table declared in the `if` block that uses it.
+- A local pointer to a struct member, `PrintWindow *window = &work->priceWindow;`, is kept as the member's offset in a
+  callee-saved register, added to the struct's base at each use, and where the pointer is assigned decides when that
+  register is loaded. When the original loads a member's offset into `r6` or `r7` early and indexes from it, the
+  source had such a pointer: the bag's `ItemMenuDisp_DrawQuantity`, `ItemMenuDisp_ShowMessage` and
+  `ItemMenuDisp_DrawTMInfo` only match with one, and it also stopped MWCC from holding a zero for the stack arguments.
 
 ## Instruction order
 
@@ -167,6 +184,9 @@ Same instructions, scheduled in another order.
 - The same rule moves a call's stack argument stores. When loads through a pointer that is not `const` follow the
   call, the stack arguments are stored before the register arguments are set up. If the original stores them last,
   the pointer is `const`.
+- A struct assignment loads every field before it stores any, through a pointer that is not `const` too. Two
+  fields copied with both loads first, `ldr r2, [r0, #0x10]; ldr r1, [r0, #0x14]; str r2, [r0]`, are one struct
+  copied: `KeySystemTween_Update` ends with `tween->pos = tween->end;` for an `{ s32 x, y; }` position.
 - A load through a `const` pointer is also reused across stores, as the World Tournament's `wbt_setup.c` reads an
   entrant's bit fields from one load, but it is not hoisted out of a loop: `wbt_party.c`'s filter check reads each
   list's count again in every iteration because its filter is `const`, where a plain pointer's count is loaded once
@@ -184,6 +204,9 @@ Same instructions, scheduled in another order.
 - A field of a local struct that a call fills is loaded before the next call only when the source reads it there: the
   Pokédex forms page copies `targetX = target.x;` between `ZukanDetailForm_GetSpritePosF32(..., &target)` and
   `MCSS_GetPosition`.
+- A call nested in another call's arguments is made after the other arguments' addresses are computed. When the
+  original makes the inner call first, its result was put in a local: the summary screen's ribbon list writes
+  `y = PStaRibbon_GetRowY(ribbon, i); PStaOam_SetPosition(ribbon->rows[i].oam, ROW_X, y);`.
 - A conditional expression among a call's arguments is evaluated before the plain ones. When the original loads the
   arguments in their order, the conditional one was a local set before the call: the forms page passes `addToDex`
   locals `sex` and `rare` set just before it.
@@ -217,6 +240,12 @@ Same instructions, scheduled in another order.
 
 Narrowing shifts, reloads, recomputed addresses and folded constants.
 
+- `field += value` on an `s16` field with an `int` value narrows the value first and shares the narrowed copy between
+  such adds, where `field = field + value` adds the `int` as it is. The phrase input's `PMSIVEdit_ScrollWait` adds its
+  step to two scroll fields the second way.
+- An argument narrowed by a `u16` parameter is narrowed again at each call, and only hoisted out of a loop, while a
+  `(u16)` cast is computed once and reused: `PMSIVEdit_ScrollWait` matched only once `func_0204c1a8` and
+  `func_0204c1dc` took their surface as `u16`.
 - A compound assignment to a narrow field narrows its right side first: `work->checkFlag &= 0xff ^ (1 << waza);` on a
   `u8` shifts the mask down to a byte before the `and`, while `work->checkFlag = work->checkFlag & (0xff ^ (1 << waza));`
   ands the full mask, as the PC box's `Box2Main_PokeFreeWazaCheck` does.
@@ -232,6 +261,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   them is for a wider parameter. Read the narrowings of every caller together: `GFL_BitmapFillArea` takes `s16 x, s16
   y, u16 width, u16 height`, and `GFL_BitmapGetWidth` returns a `u16`, which is why printsys.c passes its width
   without shifts and bmp_menulist.c's `PrintOptions` narrows its computed width and height.
+- MWCC trusts the type of a call's result: a `u8` returned by one function and passed on to a `u8` parameter isn't
+  narrowed again. When the original narrows such a value before the call, it was held in an `int` or `u32` local, as
+  `research_graph.c`'s `SetFirstAnswer` and `ChangeAnswer` keep a question's ID in an `int`.
 - A `u8` function that narrows its result at the return (`lsl #24; lsr #24` after setting a 0/1 flag) keeps the flag
   in a `BOOL` local, as palanm.c's `IsBitSet` does.
 - A signed compare (`bge`) of a parameter that callers pass as a `u8` without narrowing means the parameter is an
@@ -282,6 +314,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - Stores to fixed addresses fold into one literal each, `((u16 *)(HW_DB_BG_PLTT + 0x1c0))[9]` included. A literal kept as
   a base with offsets, `ldr r1, =0x50005c0; strh r0, [r1, #0x12]`, is a pointer local: the summary screen's
   `PStatus_InitText` sets two font colors through `GXRgb *pltt = (GXRgb *)(HW_DB_BG_PLTT + 0x1c0);`.
+- A loop that computes an element's offset (`i * size`) once into a register of its own, using it both for stores
+  through the array and for `&arr[i]` passed to a call, took the element's address into a pointer at the top of the
+  body and used the pointer only for the call: the phrase input's `PMSIVMenu_SetupEditButtons` keeps
+  `wk->items[i].str = ...` for its stores and passes `item`. Indexing at both places multiplies twice, and storing
+  through the pointer moves the stores onto it.
 - Stores through a pointer to an array element, `icon = &icons[3]; icon->chars = ...;`, use the element's address as
   their base register, while `icons[3].chars = ...;` reaches the field from a base of MWCC's choosing, often an
   earlier element. The Pokédex touch bar's map and forms buttons are filled through a pointer. The other way round,
@@ -311,10 +348,17 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `adds r5, r4, #4` from the counter's zero: `iss_switch_set.c`'s `ISSSwitchSet_LoadArcDataCore` declares `int i = 0;
   u32 offset = 0;`, where `offset = 4` shares the `movs #4` of another argument instead.
 - A value moved into an argument register just before a call, and used for nothing else, is an argument the prototype
-  is missing. `GFL_SEPlayKeepVol` takes the sound's player as well as the sound.
+  is missing. `GFL_SEPlayKeepVol` takes the sound's player as well as the sound. The value can be narrowed for it:
+  `CtvtComm_RecvPacket` narrows `packet->value` into r1 (`lsls`/`lsrs #24`) but compares the unnarrowed value with
+  0xff, because `func_ov257_021aad74(sys, u8 talker)` takes it; with `u32 talker = packet->value` and the talker
+  passed, it matches, where a `u8` local or no argument cannot. A missing parameter can also swap the registers of
+  the caller's loop variables, as it did in `CtvtComm_UpdateTalk` (`CtvtComm_IsMemberTalking` takes the net ID).
 - A caller that keeps an argument register untouched across a call to a function that ignores it is passing that
   argument: `ShinkaDemoPieces_IsFadeDone` takes the heap ID like the functions around it.
 
+- A ternary argument `f(c ? 1 : 0)` compiles to the select form (`movs r0, #1; cmp; beq; movs r0, #0`). A branchy
+  original (`bne`; `movs #1`; `b`; `movs #0`) is an `if`/`else` with a call in each branch, as `CtvtTalk_UpdateMain`
+  calls `func_0203d564(TRUE)` or `func_0203d564(FALSE)`.
 - A ternary store `*p = c ? a : b` computes the address once and stores after the branches; an `if`/`else` with a
   store in each branch computes the address in each, as `Bitmap_Scroll16` does.
 - Parenthesized offsets change the code: `pixels + (dst + 4)` adds the offsets and indexes once, `pixels + dst + 4`
@@ -382,8 +426,18 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   A test that branches past an unconditional jump, `bne next; b hide`, where `||` would give one `beq hide`, is the
   first copy of a body written twice in an `if`/`else if` chain and replaced by a jump to the second:
   `func_ov194_021c4ec0` hides a marking icon with `if (anim == -1) { hide } else if (isEgg && i == 6) { hide }`.
+- A `bne` over a `b` into another branch's call, `cmp r0, #0; bne x; b call; x: cmp r7, #0; beq call; mov r6, #1;
+  call:`, is the call written in both branches: overlay 185's `PMSIView_CmdWordWinToCategory` matches only with
+  `if (mode == 0) { f(flag); } else { if (search) { flag = TRUE; } f(flag); }`. Writing the call once after the `if`
+  also swapped the registers of `flag` and `search`.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
+- MWCC evaluates the operands of `|` in the order they are grouped, so a color built from three computed parts shows
+  its grouping: `field_menu.c`'s cursor fade (`func_ov036_021a040c`) computes red, then blue, then green, and only
+  matches as `r | ((b << 10) | (g << 5))`, not as `GX_RGB(r, g, b)`.
+- A block that many cases of a switch branch to, such as the step advance of `event_entrance_effect.c`'s
+  `func_ov036_0219f380` (`*state = next(work); advance(work);`), is each case's own copy merged by cross-jumping. A flag
+  set in the cases and tested after the switch keeps a register for it and doesn't match.
 - An early `return` at the top of a long function jumps to the nearest `b` to the epilogue. When the original skips the
   body with `bne` over a `b` to the very end, the body was wrapped in `if (cond) { ... }`, as in the PC box's
   `Box2Main_PokeDataMove`.
@@ -437,6 +491,12 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - When the original puts an `if`'s then-block after the else path, write the condition negated with the bodies
   swapped: brightness.c's `BrightnessData_Step` matches with the long advance body first and `done = TRUE` in the
   `else`, for both its tests.
+- A test of a value against a few nearby constants returned as `return x == a || x == b || x == c;` compiles to a bit
+  test, `sub; cmp #range; bhi; mov #1; lsl; tst #mask`, while the same test as an `if`, or as a `switch` that returns or
+  sets a flag, compiles to compares. `itemmenu.c`'s `ItemMenu_IsRepel` returns the expression for its three repels.
+- Nested tests that end in the same call can come from a nested `if` whose inner `if` has no `else`: the bag's item menu
+  calls `func_0202d384` with `if (pocket != FREE_SPACE) { if (pocket != KEY_ITEMS) f(); } else if (...) f();`, which
+  puts the Free Space's test after the other two; an `if`/`else if` chain or a `switch` puts it first.
 
 ## Loops
 
@@ -456,6 +516,14 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   body. When the original loads the field again at the top of the body, the loop walks a local cursor set from the
   parameter instead (`for (option = options; option->text != END; option++)`), as bmp_menuwork.c's
   `ListMenuCore_FreeStrBufs` and `ListMenuCore_GetFirstFreeIndex` do.
+- A bound written as `i <= N - 1` is computed once into a register before the loop and tested with `ble`, where
+  `i < N` reloads `N` from the literal pool and tests with `blt`. The bag's Free Space list compacts its entries with
+  `for (i = 0; i <= BAG_ITEM_LIST_SLOTS - 1; i++)` in `bag_item.c`'s `BagItemList_Compact`.
+
+- A test that the original places after its body, entered from the top as well as from an earlier branch, is a loop
+  that stops after its first pass: `while (box < n) { ...; break; }`. The trade does one box a frame this way in
+  `pokemontrade_proc.c`'s `func_ov194_021bb3c0` and `pokemontrade_2d.c`'s `func_ov194_021c2c04` and
+  `func_ov194_021c3e9c`, each 8 bytes or so shorter as an `if`. Comment it, so it isn't "fixed".
 
 ## Switches
 

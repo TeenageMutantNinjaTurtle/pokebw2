@@ -16,14 +16,14 @@ BagProcessData *BagParam_Create(GameData *gameData, const PlayerActionPerms *per
     param->gameData = gameData;
     param->trainerData = getTrainerDataBlkAddress(save);
     param->playerInfo = GetGameDataPlayerInfo(gameData);
-    param->unk0C = func_0201734c(gameData);
+    param->cursor = func_0201734c(gameData);
     param->bag = GameData_GetBag(gameData);
-    param->unk10 = func_020088e8(param->unk0C);
+    param->freeSpaceFilter = func_020088e8(param->cursor);
     if (perms != NULL) {
         sys_memcpy(perms, &param->perms, sizeof(PlayerActionPerms));
     }
     param->mode = mode;
     param->isCycling = FieldPlayerState_GetExState(GameData_GetPlayerState(gameData)) == FLD_PLAYER_EXSTATE_CYCLING;
-    param->unk40 = GameData_GetLastSubscreen(gameData) == 6;
+    param->dowsingActive = GameData_GetLastSubscreen(gameData) == 6;
     return param;
 }

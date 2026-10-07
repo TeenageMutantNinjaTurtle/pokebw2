@@ -19,6 +19,8 @@ enum {
     HEAPID_DEVICE_ALLOC = 0x9,
     HEAPID_STARTMENU = 0xb,
     HEAPID_DLP = 0xc,
+    // Not from swan: the bag's heap, overlay 142
+    HEAPID_BAG = 0xe,
     // Not from swan: the battle's heap, which overlay 167 allocates its Pokémon and parties from
     HEAPID_BATTLE = 0x12,
     HEAPID_FIELDMAP = 0x15,
@@ -27,6 +29,7 @@ enum {
     HEAPID_NAMEIN = 0x1e,
     HEAPID_IRC_BATTLE_MENU = 0x1f,
     HEAPID_TRAINER_CARD = 0x26,
+    HEAPID_PMS_INPUT = 0x2a,
     HEAPID_MUSICAL_EVENT = 0x2c,
     HEAPID_MUSICAL_DRESSUP = 0x2d,
     HEAPID_MUSICAL = 0x2e,

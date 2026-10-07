@@ -103,7 +103,7 @@ typedef struct {
 typedef struct {
     void (*print)(void *work, u32 index, PrintWindow *window, s16 y);
     void (*select)(void *work, u32 index);
-    void (*scroll)(void *work, int delta);
+    void (*scroll)(void *work, s16 delta);
 } Ov139ListCallbacks;
 
 typedef struct {
@@ -124,6 +124,7 @@ void func_ov139_0219b138(Ov139List *list);
 void func_ov139_0219b1b4(Ov139List *list, u32 type, u32 value);
 // Loads the screen of the list's frame, and its palette
 void func_ov139_0219b1e0(Ov139List *list, ArcTool *arc, u32 fileId, BOOL compressed, u32 index);
+void func_ov139_0219b21c(Ov139List *list, ArcTool *arc, u32 fileId, BOOL compressed, u32 a4, u16 a5, u8 a6);
 void func_ov139_0219b27c(Ov139List *list, ArcTool *arc, u32 fileId, u32 palette, u32 count);
 // Whether the list is still drawing its items
 BOOL func_ov139_0219b294(Ov139List *list);
@@ -141,6 +142,23 @@ s16 func_ov139_0219cc3c(Ov139List *list);
 BOOL func_ov139_0219cc44(Ov139List *list);
 void func_ov139_0219cc58(Ov139List *list, int pos);
 void func_ov139_0219cc90(Ov139List *list);
+void func_ov139_0219ccc8(Ov139List *list, u32 a1);
+void func_ov139_0219ccd0(Ov139List *list, int a1);
+u32 func_ov139_0219cd0c(Ov139List *list);
+
+// A search of message files for the strings that start with a prefix
+typedef struct Ov139Search Ov139Search;
+
+// A string found: its message file and its line
+typedef struct {
+    u32 file;
+    u32 line;
+} Ov139SearchResult;
+
+Ov139Search *func_ov139_0219a438(MsgData **files, u32 count, HeapID heapId);
+void func_ov139_0219a490(Ov139Search *search);
+// Fills results with the strings of a file that start with prefix, up to max, and returns how many it found
+u32 func_ov139_0219a4a4(Ov139Search *search, u32 file, u32 a2, StrBuf *prefix, Ov139SearchResult *results, u32 max);
 
 typedef struct TwoChoiceMenu TwoChoiceMenu;
 

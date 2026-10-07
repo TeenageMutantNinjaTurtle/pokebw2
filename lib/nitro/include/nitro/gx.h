@@ -222,7 +222,9 @@ typedef enum {
 #define GX_VRAM_BG_32_FG (GX_VRAM_F | GX_VRAM_G)
 #define GX_VRAM_BG_64_E GX_VRAM_E
 #define GX_VRAM_BG_128_A GX_VRAM_A
+#define GX_VRAM_BG_128_B GX_VRAM_B
 #define GX_VRAM_BG_128_D GX_VRAM_D
+#define GX_VRAM_BG_256_AB (GX_VRAM_A | GX_VRAM_B)
 #define GX_VRAM_BGEXTPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_BGEXTPLTT_23_G GX_VRAM_G
 #define GX_VRAM_SUB_BG_32_H GX_VRAM_H
@@ -242,6 +244,7 @@ typedef enum {
 #define GX_VRAM_TEX_0_D GX_VRAM_D
 #define GX_VRAM_TEXPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_TEX_0_A GX_VRAM_A
 #define GX_VRAM_TEX_0_B GX_VRAM_B
 #define GX_VRAM_TEX_0_D GX_VRAM_D
 #define GX_VRAM_TEX_01_AB (GX_VRAM_A | GX_VRAM_B)
@@ -789,7 +792,7 @@ static inline void G3_LightColor(GXLightId lightID, GXRgb rgb) {
 }
 
 static inline void G3_Vtx(fx16 x, fx16 y, fx16 z) {
-    reg_G3_VTX_16 = (u32)(u16)x | ((u32)(u16)y << 16);
+    reg_G3_VTX_16 = (u32)((u16)x | ((u16)y << 16));
     reg_G3_VTX_16 = (u32)(u16)z;
 }
 #define reg_G2_BG2PA (*(vu16 *)0x04000020)
@@ -1276,9 +1279,13 @@ static inline void GXS_DispOn(void) {
 // NitroSDK's G3X_Reset, G3X_ResetMtxStack and G3X_GetBoxTestResult, under swan's names. The box test result is 0 when
 // the box is outside the view, and the function returns nonzero while the test is still running
 void gfxReset3D(void);
+// NitroSDK's G3X_Init, under swan's name
+void gfxInit3D(void);
 // NitroSDK's G3i_LookAt_, which loads the camera matrix into the geometry engine when isLoad is set, G3_RotX, G3_RotY,
 // G3_RotZ and G3_MultTransMtx33, under swan's names
 void gfxLookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL isLoad, MtxFx43 *mtx);
+// NitroSDK's G3i_OrthoW_, which loads the projection matrix into the geometry engine when isLoad is set
+void gfxOrtho(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL isLoad, MtxFx44 *mtx);
 void gfxRotateX(fx32 sin, fx32 cos);
 void gfxRotateY(fx32 sin, fx32 cos);
 void gfxRotateZ(fx32 sin, fx32 cos);

@@ -16,6 +16,13 @@ u32 PassPower_ApplyPrizeMoney(u32 money);
 BOOL PassPower_IsBW1Compatible(u32 passPower);
 u32 PassPower_ApplyEXP(u32 exp);
 u32 PassPower_ApplyCapture(u32 rate);
+// The pass powers on wild encounters: the encounter rate, the rolls for a shiny and the row of the slots' odds
+u32 PassPower_ApplyEncounter(u32 rate);
+u32 PassPower_ApplyLuckyShiny(u32 rolls);
+u32 PassPower_ApplyLuckyEncProb(u32 row);
+// The steps between phenomena, and the chance of one, in tenths of a percent
+u16 PassPower_ApplyExploring(u16 steps);
+u32 PassPower_ApplyExploringChance(u32 chance);
 // The pass powers' table, read from its archive
 void *PassPowerData_Create(HeapID heapId);
 void PassPowerData_Free(void *data);
