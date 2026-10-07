@@ -41,7 +41,7 @@ enum {
 };
 
 // A window that prints one string
-typedef struct {
+struct MysteryTextLine {
     PrintWindow printWindow;
     PrintQueue *queue;
     BmpWin *window;
@@ -52,7 +52,7 @@ typedef struct {
     u32 align;
     // The window's screen is sent to VRAM by MysteryTextLine_Flush rather than when it is made
     BOOL deferFlush;
-} MysteryTextLine;
+};
 
 struct MysteryTextWin {
     const MysteryTextWinEntry *entries;
@@ -147,15 +147,8 @@ struct MysteryOamText {
     PrintQueue *queue;
 };
 
-static MysteryTextLine *MysteryTextLine_Create(BOOL deferFlush, u16 bg, u8 x, u8 y, u8 width, u8 height, u8 palette,
-                                               PrintQueue *queue, HeapID heapId);
-static void MysteryTextLine_Delete(MysteryTextLine *line);
 static void MysteryTextLine_ClearScreen(MysteryTextLine *line);
 static void MysteryTextLine_PrintMsg(MysteryTextLine *line, MsgData *msgData, u32 msgId, Font *font);
-static void MysteryTextLine_PrintStr(MysteryTextLine *line, const StrBuf *str, Font *font);
-static void MysteryTextLine_SetColor(MysteryTextLine *line, u16 color);
-static void MysteryTextLine_SetPos(MysteryTextLine *line, s32 x, s32 y, u32 align);
-static BOOL MysteryTextLine_Update(MysteryTextLine *line);
 static void MysteryTextLine_Flush(MysteryTextLine *line);
 static void MysteryTextLine_GetPos(const MysteryTextLine *line, Font *font, MysteryPos *pos);
 static void Mystery_AlignText(u32 align, const MysteryPos *pos, GFLBitmap *bitmap, const StrBuf *str, Font *font,
@@ -181,8 +174,8 @@ static inline void MysteryMsgWin_PrintQueue(PrintWindow *printWindow, PrintQueue
     printWindow->flushPending = TRUE;
 }
 
-static MysteryTextLine *MysteryTextLine_Create(BOOL deferFlush, u16 bg, u8 x, u8 y, u8 width, u8 height, u8 palette,
-                                               PrintQueue *queue, HeapID heapId) {
+MysteryTextLine *MysteryTextLine_Create(BOOL deferFlush, u16 bg, u8 x, u8 y, u8 width, u8 height, u8 palette,
+                                        PrintQueue *queue, HeapID heapId) {
     MysteryTextLine *line = GFL_HeapAllocate(heapId, sizeof(MysteryTextLine), FALSE, "mystery_util.c", 85);
 
     sys_memset(line, 0, sizeof(MysteryTextLine));
@@ -202,7 +195,7 @@ static MysteryTextLine *MysteryTextLine_Create(BOOL deferFlush, u16 bg, u8 x, u8
     return line;
 }
 
-static void MysteryTextLine_Delete(MysteryTextLine *line) {
+void MysteryTextLine_Delete(MysteryTextLine *line) {
     BmpWin_Free(line->window);
     GFL_StrBufFree(line->str);
     GFL_HeapFree(line);
@@ -221,7 +214,7 @@ static void MysteryTextLine_PrintMsg(MysteryTextLine *line, MsgData *msgData, u3
     PrintWindow_Print(&line->printWindow, line->queue, pos.x, pos.y, line->str, font, line->color);
 }
 
-static void MysteryTextLine_PrintStr(MysteryTextLine *line, const StrBuf *str, Font *font) {
+void MysteryTextLine_PrintStr(MysteryTextLine *line, const StrBuf *str, Font *font) {
     MysteryPos pos;
 
     GFL_BitmapFill(BmpWin_GetBitmap(line->window), line->color & 0x1f);
@@ -230,17 +223,17 @@ static void MysteryTextLine_PrintStr(MysteryTextLine *line, const StrBuf *str, F
     PrintWindow_Print(&line->printWindow, line->queue, pos.x, pos.y, line->str, font, line->color);
 }
 
-static void MysteryTextLine_SetColor(MysteryTextLine *line, u16 color) {
+void MysteryTextLine_SetColor(MysteryTextLine *line, u16 color) {
     line->color = color;
 }
 
-static void MysteryTextLine_SetPos(MysteryTextLine *line, s32 x, s32 y, u32 align) {
+void MysteryTextLine_SetPos(MysteryTextLine *line, s32 x, s32 y, u32 align) {
     line->pos.x = x;
     line->pos.y = y;
     line->align = align;
 }
 
-static BOOL MysteryTextLine_Update(MysteryTextLine *line) {
+BOOL MysteryTextLine_Update(MysteryTextLine *line) {
     if (!line->deferFlush) {
         PrintWindow_Flush(&line->printWindow, line->queue);
         if (!line->printWindow.flushPending) {
