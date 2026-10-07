@@ -20,10 +20,15 @@ typedef struct MailData {
 MailData *CreateMailData(HeapID heapId);
 // Empties the mail
 void ResetMailData(MailData *mail);
-// The size of the save block of mail (func_02009790), and putting a mail in a slot of it
-u32 func_020097a0(void);
-void func_020097e0(void *block, u32 a1, int slot, MailData *mail);
-// Sets the name of the mail's writer
+// Sets the mail's author's name
 void func_02009738(MailData *mail, const u16 *name);
+// The size of the save block of mail (func_02009790)
+u32 func_020097a0(void);
+// The mail of the save's mailbox (a1 0) or of a Pokémon: the free slot, and clearing, copying and reading a slot's
+// mail
+s32 func_020097c4(void *mailbox, u32 box);
+void func_020097d0(void *mailbox, u32 box, u32 index);
+void func_020097e0(void *mailbox, u32 box, u32 index, MailData *mail);
+MailData *func_020097f4(void *mailbox, u32 box, u32 index, HeapID heapId);
 
 #endif // POKEBW2_PML_MAIL_H

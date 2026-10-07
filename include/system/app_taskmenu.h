@@ -7,12 +7,12 @@
 #include "system/gf_font.h"
 #include "system/printsys.h"
 
-// The menus of buttons on the lower screen that apps open, such as the trade's. The name is descriptive
+// The apps' menus of buttons, in the file the ROM names app_taskmenu.c
 
+// A menu, a menu of one button, and the graphics of the buttons that menus share. The declarations below take them
+// as void pointers
 typedef struct AppTaskMenu AppTaskMenu;
-// A menu of one button
 typedef struct AppTaskMenuWin AppTaskMenuWin;
-// The graphics of the buttons, which menus share
 typedef struct AppTaskMenuRes AppTaskMenuRes;
 
 typedef struct {
@@ -34,26 +34,28 @@ typedef struct {
     u8 height;
 } TaskMenuSetup;
 
-AppTaskMenu *func_0202d974(const TaskMenuSetup *setup, AppTaskMenuRes *res);
-
-// Frees the menu
-void func_0202da54(AppTaskMenu *menu);
-// Whether the choice's animation has ended
-BOOL func_0202dbe4(AppTaskMenu *menu);
-// The button that was chosen
-u8 func_0202dc00(AppTaskMenu *menu);
+void *func_0202d974(const TaskMenuSetup *setup, void *res);
+void func_0202da54(void *menu);
+void func_0202db70(void *menu);
+// Whether an item was picked, and which
+BOOL func_0202dbe4(void *menu);
+u8 func_0202dc00(void *menu);
 // Shows or hides the cursor on the button
-void func_0202dc04(AppTaskMenu *menu, BOOL show);
+void func_0202dc04(void *menu, BOOL show);
 // Whether a button was touched
-BOOL func_0202dc1c(AppTaskMenu *menu);
-void func_0202db70(AppTaskMenu *menu);
-// The graphics of the buttons, loaded into a BG of the main (bg < 4) or sub engine
-AppTaskMenuRes *func_0202e168(u32 bg, u32 palette, Font *font, PrintQueue *printQueue, HeapID heapId);
-void func_0202e1dc(AppTaskMenuRes *res);
+BOOL func_0202dc1c(void *menu);
+
+// The graphics of the menu's buttons, loaded into a BG of the main (bg < 4) or sub engine
+void *func_0202e168(u32 bg, u32 palette, Font *font, PrintQueue *printQueue, HeapID heapId);
+void func_0202e1dc(void *res);
+// A single button, as a battle's selection has at the bottom of the screen
+void *func_0202e1f0(void *res, const TaskMenuItem *item, u32 x, u8 y, u32 a4, HeapID heapId);
 // A menu of one button, at x and y with the size in tiles
-AppTaskMenuWin *func_0202e210(AppTaskMenuRes *res, const TaskMenuItem *item, u8 x, u8 y, u8 width, u8 height, u32 a6,
-                              u32 a7, HeapID heapId);
-void func_0202e34c(AppTaskMenuWin *win);
-void func_0202e37c(AppTaskMenuWin *win);
+void *func_0202e210(void *res, const TaskMenuItem *item, u8 x, u8 y, u8 width, u8 height, u32 a6, u32 a7,
+                    HeapID heapId);
+void func_0202e34c(void *button);
+void func_0202e37c(void *button);
+void func_0202e41c(void *button, BOOL active);
+void func_0202e430(void *button, BOOL pressed);
 
 #endif // POKEBW2_SYSTEM_APP_TASKMENU_H

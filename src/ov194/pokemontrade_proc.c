@@ -834,7 +834,7 @@ static BOOL func_ov194_021b82a8(PokemonTradeWork *wk, int box, int slot) {
 static BOOL PokemonTrade_IsBadPkm(PartyPkm *pkm) {
     int species;
     BOOL ret = FALSE;
-    if (PokeParty_GetParam(pkm, PKM_PARAM_CHECKSUM_FAILED, NULL) == TRUE) {
+    if (PokeParty_GetParam(pkm, PKM_PARAM_BAD_EGG, NULL) == TRUE) {
         return TRUE;
     }
     species = PokeParty_GetParam(pkm, PKM_PARAM_SPECIES, NULL);

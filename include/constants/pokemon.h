@@ -10,8 +10,8 @@
 
 // Fields of a Pokémon, which PokeParty_GetParam and PokeParty_SetParam read and write. Names from swan's PkmField
 #define PKM_PARAM_PID 0x0
-// Whether the data of the Pokémon failed its checksum, as a bad egg has
-#define PKM_PARAM_CHECKSUM_FAILED 0x3
+// Whether the Pokémon's data is broken, making it a bad egg (our name)
+#define PKM_PARAM_BAD_EGG 0x3
 #define PKM_PARAM_SPECIES 0x5
 #define PKM_PARAM_ITEM 0x6
 #define PKM_PARAM_ID 0x7
@@ -42,7 +42,7 @@
 #define PKM_PARAM_ORIGIN_GAME 0x77
 #define PKM_PARAM_RIBBON_G4_COOL 0x78
 #define PKM_PARAM_OT_NAME 0x8d
-// The original trainer's name, copied to or from a u16 array
+// The original trainer's name, copied to or from a u16 array (not from swan)
 #define PKM_PARAM_OT_NAME_RAW 0x8e
 #define PKM_PARAM_OT_GENDER 0x9a
 #define PKM_PARAM_POKERUS 0x97
@@ -56,6 +56,8 @@
 #define PKM_PARAM_SPEED 0xa4
 #define PKM_PARAM_SP_ATTACK 0xa5
 #define PKM_PARAM_SP_DEFENSE 0xa6
+// Whether the Pokémon's name is followed by its sex, which isn't for Nidoran (our name)
+#define PKM_PARAM_SHOW_SEX 0xad
 // The mail the Pokémon holds, copied from a MailData
 #define PKM_PARAM_MAIL 0xa7
 // Whether there is a Pokémon in the slot
