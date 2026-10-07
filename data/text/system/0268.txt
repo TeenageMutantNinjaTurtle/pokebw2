@@ -1,0 +1,21 @@
+{bd02}A sea breeze wafts over the pier\n{bd02}where a giant cruise ship is docked.
+{bd02}Passengers hurry on board\n{bd02}in the shining moonlight.
+{bd02}A threatening shadow hides in the crowd.\n\n{bd02}The stage is set for trouble...
+{bd02}However!\n\n{bd02}It's darkest just before the dawn!\n\n{bd02}A hero has appeared!
+{bd02}And that hero's name is...\n\n{bd02}The {0102:0} Kid!
+なし
+なし
+なし
+なし
+なし
+{bd02}A sea breeze wafts over the pier\n{bd02}where a giant cruise ship is docked.
+{bd02}Passengers hurry on board\n{bd02}in the shining moonlight.
+{bd02}A threatening shadow hides in the crowd.\n\n{bd02}The stage is set for trouble...
+{bd02}However!\n\n{bd02}It's darkest just before the dawn!\n\n{bd02}A heroine has appeared!
+{bd02}And that heroine's name is...\n\n{bd02}The {0102:0} Girl!
+なし
+なし
+なし
+なし
+なし
+なし

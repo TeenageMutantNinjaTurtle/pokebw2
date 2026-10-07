@@ -1,0 +1,22 @@
+{bd02}Ghost Erasers...\n\n\n{bd02}Their identity remains\n{bd02}shrouded in mystery...
+{bd02}They blend in with ordinary people\n{bd02}and solve cases without people knowing.\n{bd02}That's their style...
+{bd02}Ghost Eraser Case Files\n\n{bd02}Case No. 002\n\n{bd02}Code Name: {0102:0}
+{bd02}There's a report about\n\n{bd02}a possessed girl\n\n{bd02}in a certain village.
+{bd02}Since the spectral activity began,\n\n{bd02}no one has seen this girl.
+{bd02}We will now try to make\n\n{bd02}direct contact for the\n\n{bd02}investigation.
+なし
+なし
+なし
+なし
+{bd02}Ghost Erasers...\n\n\n{bd02}Their identity remains\n{bd02}shrouded in mystery...
+{bd02}They blend in with ordinary people\n{bd02}and solve cases without people knowing.\n{bd02}That's their style...
+{bd02}Ghost Eraser Case Files\n\n{bd02}Case No. 002\n\n{bd02}Code Name: {0102:0}
+{bd02}There's a report about\n\n{bd02}a possessed girl\n\n{bd02}in a certain village.
+{bd02}Since the spectral activity began,\n\n{bd02}no one has seen this girl.
+{bd02}We will now try to make\n\n{bd02}direct contact for the\n\n{bd02}investigation.
+なし
+なし
+なし
+なし
+なし
+\pad{08}

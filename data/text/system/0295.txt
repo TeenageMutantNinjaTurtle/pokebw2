@@ -1,0 +1,22 @@
+{bd02}The free-spirited traveler {0100:1}\n{bd02}decided to rest in a lodge due\n{bd02}to the sudden onset of a thick fog.
+{bd02}In the middle of the night,\n{bd02}an ominous red fog started\n{bd02}to gather in his room.
+{bd02}Then, a shadow\n{bd02}stepped out of the fog...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}The free-spirited traveler {0100:1}\n{bd02}decided to rest in a lodge due\n{bd02}to the sudden onset of a thick fog.
+{bd02}In the middle of the night,\n{bd02}an ominous red fog started\n{bd02}to gather in her room.
+{bd02}Then, a shadow\n{bd02}stepped out of the fog...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+\pad{c8}

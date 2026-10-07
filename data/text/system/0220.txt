@@ -1,0 +1,71 @@
+Chic Actress
+Popular Girl
+{0100:1}: No, no way...
+Barbara: Hm...{be01}\n(...Well now, prepare yourself!\nYou're going to feel even worse...){be01}\n(...You'll regret having professed\nyour love to me...)
+Barbara: That gets me off my game...
+{0100:1}: Barbara, your Pokémon\nis really aggressive!
+Barbara: Oh, come now.\nAre you afraid of my little Smeargle?{be01}\nYou'll never be worthy of being my man.
+{0100:1}: Please come at me\nwith everything you've got!
+Barbara: So you call me to a place like this,\njust to ask me to go out with you?
+{0100:1}: Um, I...\nFrom the first time I saw you,{be00}\nI couldn't think about anything else!{be01}\nI love you!
+Barbara: Me and you?\nYou're kidding, right?
+{0100:1}: I'm serious.\nI won't leave until I get an answer!
+Barbara: Hm...{be01}\n(...Oh, what a precocious little boy.\nMakes me want to be a little mean to him...)
+Barbara: How about this, then?\nWant to have a Pokémon battle{be00}\nto test how compatible we are?
+{0100:1}: Y-yes! I'll battle you!
+Barbara: Hm... That's good!{be01}\n(...Heh heh heh... I can't wait...\nI love seeing depressed men{be00}\nso much I can barely stand it...)
+Smeargle: Argle! Arrrrg!
+Barbara: OK! Here I come!{be01}\n(...Smeargle's raring to go, too!...){be01}\n(...The boys who've professed their\nlove to me so far...{be00}\nEvery single one was brought down,{be00}\nand their pride was shattered...){be01}\n(...I wonder how much this little boy\ncan stand...)
+{0100:1}: B-Barbara!\nBefore we start,{be00}\nI have a request!{be00}\nIf I win...
+Barbara: If you win?
+{0100:1}: Marry me!
+Barbara: Wh-whaaaaat?!\nMarriage? When you say marriage,{be00}\ndo you mean THAT marriage?{be01}\nWho would make a promise like that...\nThat's no good! I mean it's seriously bad!
+{0100:1}: Let's go on a date!
+Barbara: What are you saying\nall of a sudden?!{be01}\nA date with me?\nGet a life!
+{0100:1}: B-Barbara...\nYou're so cool...
+Barbara: What?
+{0100:1}: When you don't like what you\nhear, you express your opinion directly!{be01}\nThinking of me like that...\nYou are a wonderful person!
+Barbara: Ah, I see...{be01}\n(...What is going on?\nHe's really tough!{be00}\nNo more Ms. Nice Girl...)
+Barbara: Give it a rest!{be01}\nI don't care about you at all, all right?!
+{0100:1}: So great!
+Barbara: Aaahhh! C'mon!\nDo you have wax in your ears?!{be00}\nIf I can't make you understand with words,{be00}\nI guess I'll have to use force!
+{0100:1}: Please do!
+Smeargle: Smearrrrrg!
+{0100:1}: I-I'm scared!
+Smeargle: Smearrrg?
+{0100:1}: Noooo!\nI lost!{be01}\nBarbara, you're so strong!\nI didn't stand a chance!
+Barbara: What?\nAre you flattering me?{be00}\nThat won't get you{be00}\nanywhere with me at all!
+Barbara: ...{be01}\n(...That's strange...\nWhy don't I feel any malice...){be01}\n(...He took all of my Pokémon's attacks...\nWhat a big-hearted guy...)
+{0100:1}: Heh heh!
+Barbara: ...{be01}\n(...Sigh... No matter how terrible a thing\nI say, he keeps smiling that smile...){be01}\n(...Huh? Did I start to feel something\nfor him at some point?...)
+{0100:1}: Barbara,\nis something wrong?
+Barbara: If you want to be friends,\nI'll hang out with you!
+Barbara: Hm...{be01}\n(...What is this? It's weird.\nA guy who makes me feel good{be00}\njust by being around me.{be00}\nI've never felt this before...)
+Just as battles aren't won\nby power alone,{be01}\nthe strongest person doesn't always\nwin in relationships either.
+Turning the other cheek!\nThat's another form love takes!
+{0100:1}: Huff, puff...
+Barbara: Hm. What do you want?\nAre you winded already?{be01}\nAnother disappointment...\nWhere are the men worthy of me?
+{0100:1}: Barbara...\nNo...
+Barbara: I'm sorry,\nbut I'm just not interested{be00}\nin ordinary guys like you...{be01}\nI don't think we'll meet again.\nLet's go, Smeargle!
+Smeargle: Arg! Smearg!
+Just as the results of\nbattle don't follow a set pattern,{be00}\nrelationships between people don't{be00}\nalways go how you would expect.
+Sometimes you must endure\na painful parting because you care!{be00}\nThat's another form love takes!
+Smeargle: Arg... Argle argle...
+Barbara: Tsk. What?\nYou're terrible!{be00}\nBeating up my little Smeargle like that!{be01}\nSeriously! I can't believe you!\nI'm sorry. I never want to see you again.{be00}\nYou are so rude!
+{0100:1}: Rude?\nI'm a terrible guy?{be00}\nBarbara, you're so tough!{be01}\nEh heh heh... Eh heh heh heh...{be01}\nThat's what's great about you!
+Just as crazy things happen\nin the world of battling,{be01}\nyou never know what is\ngoing to happen in relationships.
+Some people take painful and\ncruel treatment with joy!{be00}\nThat's another form love takes!
+Barbara: What is it about you?\nI can't figure you out...
+{0100:1}: Hee hee.
+Barbara: Just getting involved won't work.\nThe only thing to do with guys{be00}\nlike you is leave...
+{0100:1}: Hey! No way!\nPay attention to me!
+Smeargle: Smearrrrgle!
+{0100:1}: I won't give up!\nI'll get you to turn my way!
+Just as the results of\nbattle don't follow a set pattern,{be01}\nrelationships between people don't\nalways go how you would expect.
+Not giving up on love,\neven if they won't look your way...{be00}\nThat's another form love takes!
+Barbara: What was that now?
+{0100:1}: Um... Er...\nIt was...Attract...
+Barbara: Ha ha...{be01}\nYou thought you could change\nmy mind with Attract?{be01}\nWhat a fool...
+{0100:1}: I'm...\nI'm sorry...
+Barbara: ...
+{0100:1}: Oohhh...

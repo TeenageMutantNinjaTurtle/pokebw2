@@ -1,0 +1,150 @@
+                 \x{ffff}
+                                     \x{ffff}
+{0100:0} is seeking someone\nto battle.
+{0100:0} is seeking someone\nto trade with.
+                 \x{ffff}
+What would you like to seek?
+Seeking participants...
+Suspend your invitation?
+Communicating. Please stand by...
+                       \x{ffff}
+                            \x{ffff}
+{0100:0} invites you for\na Voice Chat!
+{0100:0} appears to be busy...
+You can't connect with\n{0100:0}.
+Communicating with {0100:0}...
+{0100:0} failed to respond...
+{0100:0} ended the Voice Chat.
+Would you like to end\nthis Voice Chat?
+                 \x{ffff}
+             \x{ffff}
+    \x{ffff}
+    \x{ffff}
+Battle
+    \x{ffff}
+       \x{ffff}
+Trade
+       \x{ffff}
+Voice Chat
+           \x{ffff}
+              \x{ffff}
+     \x{ffff}
+       \x{ffff}
+Cancel
+{0100:0}
+         \x{ffff}
+BATTLE RECORD
+W: {bd03:1}{0203:0}
+L: {bd03:1}{0203:0}
+POKÉMON TRADES
+{bd03:1}{0203:0}
+        \x{ffff}
+      \x{ffff}
+DATE LAST PLAYED
+    \x{ffff}
+{0201:1}/{0201:2}/{0203:0}
+              \x{ffff}
+{0100:0} wants to join you!{be02:60}
+                         \x{ffff}
+                         \x{ffff}
+Standing by...
+       \x{ffff}
+{0100:0} is in a battle.
+{0100:0} is trading.
+{0100:0} is in a Voice Chat.
+                          \x{ffff}
+Reconnect to Nintendo WFC?
+                                 \x{ffff}
+Voice Chat was turned on.
+Voice Chat was turned off.
+???
+Single Battle
+Double Battle
+Triple Battle
+Rotation Battle
+No Restrictions
+Flat rule
+Wonder Launcher On
+Wonder Launcher Off
+Your friend ended\nthe communication battle.
+Communicating. Please stand by...
+                                \x{ffff}
+Suspend your request?
+Voice Chat will be turned on\nwhile you are playing with this friend.{be01}\nVoice Chat will be turned off\nwhen you finish playing.{be01}\nDo you want to play with this friend?
+Voice Chat will be turned off\nwhile you are playing with this friend.{be01}\nVoice Chat will be turned on\nwhen you finish playing.{be01}\nDo you want to play with this friend?\x{ffff}
+The request has been suspended.
+                      \x{ffff}
+Awaiting your friend's decision.\nPlease wait.
+みちぼしゅうちゅう
+じょうたいかいじょ
+                      \x{ffff}
+             \x{ffff}
+                    \x{ffff}
+      \x{ffff}
+      \x{ffff}
+         \x{ffff}
+         \x{ffff}
+         \x{ffff}
+    \x{ffff}
+Xtransceiver
+{0100:0} seems\nto be busy.
+{0100:0} wants to\nhave a Voice Chat.
+{0100:0} is using\nthe Xtransceiver.
+{0100:0} is looking for someone\nto chat with on the Xtransceiver.
+Connect
+{0100:0} has\ncontacted you...
+Do you want to play\nwith {0100:0}?
+What would you like to\ndo with {0100:0}?
+Would you like to talk with\n{0100:0} using Voice Chat?
+Would you like to talk with\n{0100:0} using the Xtransceiver?
+Trade with {0100:0}?
+Confirm
+Rules
+In party
+Battle Box
+You do not meet the conditions,\nso you cannot battle.
+Will you have a Single Battle\nwith no restrictions?
+Will you have a Double Battle\nwith no restrictions?
+Will you have a Triple Battle\nwith no restrictions?
+Will you have a Rotation Battle\nwith no restrictions?
+Will you have a Single Battle\nwith flat rules?
+Will you have a Double Battle\nwith flat rules?
+Will you have a Triple Battle\nwith flat rules?
+Will you have a Rotation Battle\nwith flat rules?
+Please select whether to use your\nparty Pokémon or your Battle Box.
+You declined the offer.
+Your friend is apparently\nunable to participate.
+L{0202:0}
+{ff00:2}⑭{ff00:0}
+{ff00:1}⑮{ff00:0}
+Would you like to play with\n{0100:0} again?
+                                                                                                           \x{ffff}
+You need at least two Pokémon\nif you want to trade!
+Talking
+Press the B Button\nto end Voice Chat.
+You ended the conversation.
+Your friend is busy.\nEnding communication...
+Awaiting {0100:0}'s response...
+      \x{ffff}
+          \x{ffff}
+        \x{ffff}
+           \x{ffff}
+Battle Format{bd05:120}: {ff00:2}Single Battle{ff00:0}
+Battle Format{bd05:120}: {ff00:2}Double Battle{ff00:0}
+Battle Format{bd05:120}: {ff00:2}Triple Battle{ff00:0}
+Battle Format{bd05:120}: {ff00:2}Rotation Battle{ff00:0}
+Battle Rule{bd05:120}: {ff00:2}No Restrictions{ff00:0}
+Battle Rule{bd05:120}: {ff00:2}Flat rules{ff00:0}
+Wonder Launcher{bd05:120}: {ff00:2}On{ff00:0}
+Wonder Launcher{bd05:120}: {ff00:2}Off{ff00:0}
+                        \x{ffff}
+It looks like you can't talk now.
+Single
+Double
+Triple
+Rotation
+Please choose the Pokémon that\nwill participate.
+Please select three Pokémon that\nwill participate.
+Please select four Pokémon that\nwill participate.
+Please select six Pokémon that\nwill participate.
+This uses the camera function\nto send image data to your friends.{be00}\nIs this OK?

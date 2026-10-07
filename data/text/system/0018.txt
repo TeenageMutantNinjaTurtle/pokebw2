@@ -1,0 +1,1160 @@
+{0102:0} fainted!
+The wild {0102:0} fainted!
+The foe's {0102:0} fainted!
+{0102:0} recovered\nfrom fainting!
+The wild {0102:0} recovered\nfrom fainting!
+The foe's {0102:0} recovered\nfrom fainting!
+It's super effective on\n{0102:0}!
+It's super effective on\nthe wild {0102:0}!
+It's super effective on\nthe foe's {0102:0}!
+It's super effective on\n{0102:0} and {0102:1}!
+It's super effective on the wild\n{0102:0} and {0102:1}!
+It's super effective on\nthe foe's {0102:0} and {0102:1}!
+It's super effective on {0102:0},\n{0102:1}, and {0102:2}!
+It's super effective on the wild\n{0102:0}, {0102:1}, and {0102:2}!
+It's super effective on the foe's\n{0102:0}, {0102:1}, and {0102:2}!
+It's not very effective on {0102:0}.
+It's not very effective on\nthe wild {0102:0}.
+It's not very effective on\nthe foe's {0102:0}.
+It's not very effective on\n{0102:0} or {0102:1}.
+It's not very effective on the wild\n{0102:0} or {0102:1}.
+It's not very effective on the foe's\n{0102:0} or {0102:1}.
+It's not very effective on {0102:0},\n{0102:1}, or {0102:2}!
+It's not very effective on the wild\n{0102:0}, {0102:1}, or {0102:2}!
+It's not very effective on the foe's\n{0102:0}, {0102:1}, or {0102:2}!
+But it failed to affect\n{0102:0}!
+But it failed to affect\nthe wild {0102:0}!
+But it failed to affect\nthe foe's {0102:0}!
+{0102:0}'s Attack\nrose!
+The wild {0102:0}'s Attack\nrose!
+The foe's {0102:0}'s Attack\nrose!
+{0102:0}'s Defense\nrose!
+The wild {0102:0}'s Defense\nrose!
+The foe's {0102:0}'s Defense\nrose!
+{0102:0}'s Special Attack\nrose!
+The wild {0102:0}'s Special Attack\nrose!
+The foe's {0102:0}'s Special Attack\nrose!
+{0102:0}'s Special Defense\nrose!
+The wild {0102:0}'s Special Defense\nrose!
+The foe's {0102:0}'s Special Defense\nrose!
+{0102:0}'s Speed\nrose!
+The wild {0102:0}'s Speed\nrose!
+The foe's {0102:0}'s Speed\nrose!
+{0102:0}'s accuracy\nrose!
+The wild {0102:0}'s accuracy\nrose!
+The foe's {0102:0}'s accuracy\nrose!
+{0102:0}'s evasiveness\nrose!
+The wild {0102:0}'s evasiveness\nrose!
+The foe's {0102:0}'s evasiveness\nrose!
+{0102:0}'s Attack\nrose sharply!
+The wild {0102:0}'s Attack\nrose sharply!
+The foe's {0102:0}'s Attack\nrose sharply!
+{0102:0}'s Defense\nrose sharply!
+The wild {0102:0}'s Defense\nrose sharply!
+The foe's {0102:0}'s Defense\nrose sharply!
+{0102:0}'s Special Attack\nrose sharply!
+The wild {0102:0}'s Special Attack\nrose sharply!
+The foe's {0102:0}'s Special Attack\nrose sharply!
+{0102:0}'s Special Defense\nrose sharply!
+The wild {0102:0}'s Special Defense\nrose sharply!
+The foe's {0102:0}'s Special Defense\nrose sharply!
+{0102:0}'s Speed\nrose sharply!
+The wild {0102:0}'s Speed\nrose sharply!
+The foe's {0102:0}'s Speed\nrose sharply!
+{0102:0}'s accuracy\nrose sharply!
+The wild {0102:0}'s accuracy\nrose sharply!
+The foe's {0102:0}'s accuracy\nrose sharply!
+{0102:0}'s evasiveness\nrose sharply!
+The wild {0102:0}'s evasiveness\nrose sharply!
+The foe's {0102:0}'s evasiveness\nrose sharply!
+{0102:0}'s Attack\nrose drastically!
+The wild {0102:0}'s Attack\nrose drastically!
+The foe's {0102:0}'s Attack\nrose drastically!
+{0102:0}'s Defense\nrose drastically!
+The wild {0102:0}'s Defense\nrose drastically!
+The foe's {0102:0}'s Defense\nrose drastically!
+{0102:0}'s Special Attack\nrose drastically!
+The wild {0102:0}'s Special Attack\nrose drastically!
+The foe's {0102:0}'s Special Attack\nrose drastically!
+{0102:0}'s Special Defense\nrose drastically!
+The wild {0102:0}'s Special Defense\nrose drastically!
+The foe's {0102:0}'s Special Defense\nrose drastically!
+{0102:0}'s Speed\nrose drastically!
+The wild {0102:0}'s Speed\nrose drastically!
+The foe's {0102:0}'s Speed\nrose drastically!
+{0102:0}'s accuracy\nrose drastically!
+The wild {0102:0}'s accuracy\nrose drastically!
+The foe's {0102:0}'s accuracy\nrose drastically!
+{0102:0}'s evasiveness\nrose drastically!
+The wild {0102:0}'s evasiveness\nrose drastically!
+The foe's {0102:0}'s evasiveness\nrose drastically!
+{0102:0}'s Attack\nfell!
+The wild {0102:0}'s Attack\nfell!
+The foe's {0102:0}'s Attack\nfell!
+{0102:0}'s Defense\nfell!
+The wild {0102:0}'s Defense\nfell!
+The foe's {0102:0}'s Defense\nfell!
+{0102:0}'s Special Attack\nfell!
+The wild {0102:0}'s Special Attack\nfell!
+The foe's {0102:0}'s Special Attack\nfell!
+{0102:0}'s Special Defense\nfell!
+The wild {0102:0}'s Special Defense\nfell!
+The foe's {0102:0}'s Special Defense\nfell!
+{0102:0}'s Speed\nfell!
+The wild {0102:0}'s Speed\nfell!
+The foe's {0102:0}'s Speed\nfell!
+{0102:0}'s accuracy\nfell!
+The wild {0102:0}'s accuracy\nfell!
+The foe's {0102:0}'s accuracy\nfell!
+{0102:0}'s evasiveness\nfell!
+The wild {0102:0}'s evasiveness\nfell!
+The foe's {0102:0}'s evasiveness\nfell!
+{0102:0}'s Attack\nharshly fell!
+The wild {0102:0}'s Attack\nharshly fell!
+The foe's {0102:0}'s Attack\nharshly fell!
+{0102:0}'s Defense\nharshly fell!
+The wild {0102:0}'s Defense\nharshly fell!
+The foe's {0102:0}'s Defense\nharshly fell!
+{0102:0}'s Special Attack\nharshly fell!
+The wild {0102:0}'s Special Attack\nharshly fell!
+The foe's {0102:0}'s Special Attack\nharshly fell!
+{0102:0}'s Special Defense\nharshly fell!
+The wild {0102:0}'s Special Defense\nharshly fell!
+The foe's {0102:0}'s Special Defense\nharshly fell!
+{0102:0}'s Speed\nharshly fell!
+The wild {0102:0}'s Speed\nharshly fell!
+The foe's {0102:0}'s Speed\nharshly fell!
+{0102:0}'s accuracy\nharshly fell!
+The wild {0102:0}'s accuracy\nharshly fell!
+The foe's {0102:0}'s accuracy\nharshly fell!
+{0102:0}'s evasiveness\nharshly fell!
+The wild {0102:0}'s evasiveness\nharshly fell!
+The foe's {0102:0}'s evasiveness\nharshly fell!
+{0102:0}'s Attack\nseverely fell!
+The wild {0102:0}'s Attack\nseverely fell!
+The foe's {0102:0}'s Attack\nseverely fell!
+{0102:0}'s Defense\nseverely fell!
+The wild {0102:0}'s Defense\nseverely fell!
+The foe's {0102:0}'s Defense\nseverely fell!
+{0102:0}'s Special Attack\nseverely fell!
+The wild {0102:0}'s Special Attack\nseverely fell!
+The foe's {0102:0}'s Special Attack\nseverely fell!
+{0102:0}'s Special Defense\nseverely fell!
+The wild {0102:0}'s Special Defense\nseverely fell!
+The foe's {0102:0}'s Special Defense\nseverely fell!
+{0102:0}'s Speed\nseverely fell!
+The wild {0102:0}'s Speed\nseverely fell!
+The foe's {0102:0}'s Speed\nseverely fell!
+{0102:0}'s accuracy\nseverely fell!
+The wild {0102:0}'s accuracy\nseverely fell!
+The foe's {0102:0}'s accuracy\nseverely fell!
+{0102:0}'s evasiveness\nseverely fell!
+The wild {0102:0}'s evasiveness\nseverely fell!
+The foe's {0102:0}'s evasiveness\nseverely fell!
+{0102:0}'s Attack won't\ngo any higher!
+The wild {0102:0}'s Attack\nwon't go any higher!
+The foe's {0102:0}'s Attack\nwon't go any higher!
+{0102:0}'s Defense won't\ngo any higher!
+The wild {0102:0}'s Defense\nwon't go any higher!
+The foe's {0102:0}'s Defense\nwon't go any higher!
+{0102:0}'s Special Attack won't\ngo any higher!
+The wild {0102:0}'s Special Attack\nwon't go any higher!
+The foe's {0102:0}'s Special Attack\nwon't go any higher!
+{0102:0}'s Special Defense won't\ngo any higher!
+The wild {0102:0}'s Special Defense\nwon't go any higher!
+The foe's {0102:0}'s Special Defense\nwon't go any higher!
+{0102:0}'s Speed won't\ngo any higher!
+The wild {0102:0}'s Speed\nwon't go any higher!
+The foe's {0102:0}'s Speed\nwon't go any higher!
+{0102:0}'s accuracy won't\ngo any higher!
+The wild {0102:0}'s accuracy\nwon't go any higher!
+The foe's {0102:0}'s accuracy\nwon't go any higher!
+{0102:0}'s evasiveness won't\ngo any higher!
+The wild {0102:0}'s evasiveness\nwon't go any higher!
+The foe's {0102:0}'s evasiveness\nwon't go any higher!
+{0102:0}'s Attack won't\ngo any lower!
+The wild {0102:0}'s Attack\nwon't go any lower!
+The foe's {0102:0}'s Attack\nwon't go any lower!
+{0102:0}'s Defense won't\ngo any lower!
+The wild {0102:0}'s Defense\nwon't go any lower!
+The foe's {0102:0}'s Defense\nwon't go any lower!
+{0102:0}'s Special Attack won't\ngo any lower!
+The wild {0102:0}'s Special Attack\nwon't go any lower!
+The foe's {0102:0}'s Special Attack\nwon't go any lower!
+{0102:0}'s Special Defense won't\ngo any lower!
+The wild {0102:0}'s Special Defense\nwon't go any lower!
+The foe's {0102:0}'s Special Defense\nwon't go any lower!
+{0102:0}'s Speed won't\ngo any lower!
+The wild {0102:0}'s Speed\nwon't go any lower!
+The foe's {0102:0}'s Speed\nwon't go any lower!
+{0102:0}'s accuracy won't\ngo any lower!
+The wild {0102:0}'s accuracy\nwon't go any lower!
+The foe's {0102:0}'s accuracy\nwon't go any lower!
+{0102:0}'s evasiveness won't\ngo any lower!
+The wild {0102:0}'s evasiveness\nwon't go any lower!
+The foe's {0102:0}'s evasiveness\nwon't go any lower!
+{0102:0}'s stat changes\nwere removed!
+The wild {0102:0}'s stat changes\nwere removed!
+The foe's {0102:0}'s stat changes\nwere removed!
+{0102:0}'s stats\nwere not lowered!
+The wild {0102:0}'s stats\nwere not lowered!
+The foe's {0102:0}'s stats\nwere not lowered!
+{0102:0}'s Attack\nwas not lowered!
+The wild {0102:0}'s Attack\nwas not lowered!
+The foe's {0102:0}'s Attack\nwas not lowered!
+{0102:0}'s Defense\nwas not lowered!
+The wild {0102:0}'s Defense\nwas not lowered!
+The foe's {0102:0}'s Defense\nwas not lowered!
+{0102:0}'s accuracy\nwas not lowered!
+The wild {0102:0}'s accuracy\nwas not lowered!
+The foe's {0102:0}'s accuracy\nwas not lowered!
+It doesn't affect\n{0102:0}...
+It doesn't affect\nthe wild {0102:0}...
+It doesn't affect\nthe foe's {0102:0}...
+{0102:0} avoided\nthe attack!
+The wild {0102:0} avoided\nthe attack!
+The foe's {0102:0} avoided\nthe attack!
+{0102:0} is\nunaffected!
+The wild {0102:0} is\nunaffected!
+The foe's {0102:0} is\nunaffected!
+The {0109:1} weakened the damage\nto {0102:0}!
+The {0109:1} weakened the damage\nto the wild {0102:0}!
+The {0109:1} weakened the damage\nto the foe's {0102:0}!
+{0102:0} transformed!
+The wild {0102:0}\ntransformed!
+The foe's {0102:0}\ntransformed!
+{0102:0} dropped\nits {0109:1}!
+The wild {0102:0} dropped\nits {0109:1}!
+The foe's {0102:0} dropped\nits {0109:1}!
+{0102:0}'s status\nwas restored!
+The wild {0102:0}'s status\nwas restored!
+The foe's {0102:0}'s status\nwas restored!
+{0102:0} moved\nto the center!
+The wild {0102:0} moved\nto the center!
+The foe's {0102:0} moved\nto the center!
+{0102:0}\nwas poisoned!
+The wild {0102:0}\nwas poisoned!
+The foe's {0102:0}\nwas poisoned!
+{0102:0} was badly\npoisoned!
+The wild {0102:0} was badly\npoisoned!
+The foe's {0102:0} was badly\npoisoned!
+{0102:0} was badly\npoisoned by the {0109:1}!
+The wild {0102:0} was badly\npoisoned by the {0109:1}!
+The foe's {0102:0} was badly\npoisoned by the {0109:1}!
+{0102:0} was hurt\nby poison!
+The wild {0102:0} was hurt\nby poison!
+The foe's {0102:0} was hurt\nby poison!
+{0102:0} was cured of its\npoisoning.
+{0102:0} was cured of its\npoisoning.
+{0102:0} was cured of its\npoisoning.
+{0102:0} is already\npoisoned.
+The wild {0102:0} is already\npoisoned.
+The foe's {0102:0} is already\npoisoned.
+{0102:0} cannot\nbe poisoned!
+The wild {0102:0} cannot\nbe poisoned!
+The foe's {0102:0} cannot\nbe poisoned!
+{0102:0} was burned!
+The wild {0102:0}\nwas burned!
+The foe's {0102:0}\nwas burned!
+{0102:0} was burned by {0109:1}!
+The wild {0102:0}\nwas burned by {0109:1}!
+The foe's {0102:0}\nwas burned by {0109:1}!
+{0102:0} was hurt\nby its burn!
+The wild {0102:0} was hurt\nby its burn!
+The foe's {0102:0} was hurt\nby its burn!
+{0102:0}'s burn was healed.
+The wild {0102:0} healed its burn!
+The foe's {0102:0} healed its burn!
+{0102:0} already\nhas a burn.
+The wild {0102:0} already\nhas a burn.
+The foe's {0102:0} already\nhas a burn.
+{0102:0} cannot\nbe burned!
+The wild {0102:0} cannot\nbe burned!
+The foe's {0102:0} cannot\nbe burned!
+{0102:0} is paralyzed!\nIt may be unable to move!
+The wild {0102:0} is paralyzed!\nIt may be unable to move!
+The foe's {0102:0} is paralyzed!\nIt may be unable to move!
+{0102:0} is paralyzed!\nIt can't move!
+The wild {0102:0} is paralyzed!\nIt can't move!
+The foe's {0102:0} is paralyzed!\nIt can't move!
+{0102:0} was cured of\nparalysis.
+The wild {0102:0} was cured of\nparalysis.
+The foe's {0102:0} was cured of\nparalysis.
+{0102:0} is\nalready paralyzed!
+The wild {0102:0} is\nalready paralyzed!
+The foe's {0102:0} is\nalready paralyzed!
+{0102:0} cannot\nbe paralyzed!
+The wild {0102:0} cannot\nbe paralyzed!
+The foe's {0102:0} cannot\nbe paralyzed!
+{0102:0} was\nfrozen solid!
+The wild {0102:0} was\nfrozen solid!
+The foe's {0102:0} was\nfrozen solid!
+{0102:0} is\nfrozen solid!
+The wild {0102:0} is\nfrozen solid!
+The foe's {0102:0} is\nfrozen solid!
+{0102:0} thawed out!
+The wild {0102:0} thawed out!
+The foe's {0102:0} thawed out!
+{0102:0} is\nalready frozen solid!
+The wild {0102:0} is\nalready frozen solid!
+The foe's {0102:0} is\nalready frozen solid!
+{0102:0} cannot be\nfrozen solid!
+The wild {0102:0} cannot be\nfrozen solid!
+The foe's {0102:0} cannot be\nfrozen solid!
+{0102:0}'s {0107:1}\nmelted the ice!
+The wild {0102:0}'s {0107:1}\nmelted the ice!
+The foe's {0102:0}'s {0107:1}\nmelted the ice!
+{0102:0}\nfell asleep!
+The wild {0102:0}\nfell asleep!
+The foe's {0102:0}\nfell asleep!
+{0102:0} is fast\nasleep.
+The wild {0102:0} is fast\nasleep.
+The foe's {0102:0} is fast\nasleep.
+{0102:0} woke up!
+The wild {0102:0}\nwoke up!
+The foe's {0102:0}\nwoke up!
+{0102:0} is\nalready asleep!
+The wild {0102:0} is\nalready asleep!
+The foe's {0102:0} is\nalready asleep!
+{0102:0} stays awake!
+The wild {0102:0} stays awake!
+The foe's {0102:0} stays awake!
+{0102:0} began having\na nightmare!
+The wild {0102:0} began\nhaving a nightmare!
+The foe's {0102:0} began\nhaving a nightmare!
+{0102:0} is locked\nin a nightmare!
+The wild {0102:0} is locked\nin a nightmare!
+The foe's {0102:0} is locked\nin a nightmare!
+{0102:0}\nfell in love!
+The wild {0102:0}\nfell in love!
+The foe's {0102:0}\nfell in love!
+{0102:0}\nfell in love from the {0109:1}!
+The wild {0102:0}\nfell in love from the {0109:1}!
+The foe's {0102:0}\nfell in love from the {0109:1}!
+{0102:0} is in love\nwith {0102:1}!
+The wild {0102:0} is in love\nwith {0102:1}!
+The foe's {0102:0} is in love\nwith {0102:1}!
+{0102:0} is\nimmobilized by love!
+The wild {0102:0} is\nimmobilized by love!
+The foe's {0102:0} is\nimmobilized by love!
+{0102:0} got over its\ninfatuation.
+The wild {0102:0} got over its\ninfatuation.
+The foe's {0102:0} got over its\ninfatuation.
+{0102:0}'s status\nis returned to normal!
+The wild {0102:0}'s status\nis returned to normal!
+The foe's {0102:0}'s status\nis returned to normal!
+{0102:0} became\nconfused!
+The wild {0102:0} became\nconfused!
+The foe's {0102:0} became\nconfused!
+{0102:0} is\nconfused!
+The wild {0102:0} is\nconfused!
+The foe's {0102:0} is\nconfused!
+{0102:0} snapped out of its\nconfusion.
+The wild {0102:0} snapped\nout of confusion!
+The foe's {0102:0} snapped\nout of confusion!
+{0102:0} is\nalready confused!
+The wild {0102:0} is\nalready confused!
+The foe's {0102:0} is\nalready confused!
+{0102:0} doesn't\nbecome confused!
+The wild {0102:0} doesn't\nbecome confused!
+The foe's {0102:0} doesn't\nbecome confused!
+{0102:0} became\nconfused due to fatigue!
+The wild {0102:0} became\nconfused due to fatigue!
+The foe's {0102:0} became\nconfused due to fatigue!
+{0102:0} flinched\nand couldn't move!
+The wild {0102:0} flinched\nand couldn't move!
+The foe's {0102:0} flinched\nand couldn't move!
+{0102:0} lost its\nfocus and couldn't move!
+The wild {0102:0} lost its\nfocus and couldn't move!
+The foe's {0102:0} lost its\nfocus and couldn't move!
+{0102:0} was identified!
+The wild {0102:0} was identified!
+The foe's {0102:0} was identified!
+{0102:0} is hurt\nby {0107:1}!
+The wild {0102:0} is hurt\nby {0107:1}!
+The foe's {0102:0} is hurt\nby {0107:1}!
+{0102:0} was freed\nfrom {0107:1}!
+The wild {0102:0} was freed\nfrom {0107:1}!
+The foe's {0102:0} was freed\nfrom {0107:1}!
+{0102:0} is damaged\nby recoil!
+The wild {0102:0} is damaged\nby recoil!
+The foe's {0102:0} is damaged\nby recoil!
+It traced\n{0102:0}'s {0106:1}!
+It traced the wild\n{0102:0}'s {0106:1}!
+It traced the foe's\n{0102:0}'s {0106:1}!
+A critical hit on {0102:0}!
+A critical hit on the wild {0102:0}!
+A critical hit on the foe's {0102:0}!
+{0102:0}'s HP was restored.
+The wild {0102:0} had its HP restored.
+The foe's {0102:0} had its HP restored.
+{0102:0} restored\n{0107:1}'s PP!
+The wild {0102:0} restored\n{0107:1}'s PP!
+The foe's {0102:0} restored\n{0107:1}'s PP!
+{0102:0} restored all its\nmoves' PP!
+The wild {0102:0} restored all its\nmoves' PP!
+The foe's {0102:0} restored all its\nmoves' PP!
+{0102:0} is buffeted\nby the sandstorm!
+The wild {0102:0} is buffeted\nby the sandstorm!
+The foe's {0102:0} is buffeted\nby the sandstorm!
+{0102:0} is buffeted\nby the hail!
+The wild {0102:0} is buffeted\nby the hail!
+The foe's {0102:0} is buffeted\nby the hail!
+{0102:0}\nis hurt!
+The wild {0102:0}\nis hurt!
+The foe's {0102:0}\nis hurt!
+{0102:0} acquired\n{0106:1}!
+The wild {0102:0} acquired\n{0106:1}!
+The foe's {0102:0} acquired\n{0106:1}!
+{0102:0} floats in the air\nwith its Air Balloon!
+The wild {0102:0} floats in the air\nwith its Air Balloon!
+The foe's {0102:0} floats in the air\nwith its Air Balloon!
+{0102:0}'s Air Balloon\npopped!
+The wild {0102:0}'s Air Balloon\npopped!
+The foe's {0102:0}'s Air Balloon\npopped!
+{0102:0} is switched out\nwith the Eject Button!
+The wild {0102:0} is switched out\nwith the Eject Button!
+The foe's {0102:0} is switched out\nwith the Eject Button!
+{0102:0} held up its Red Card\nagainst {0102:1}!
+{0102:0} held up its Red Card\nagainst the wild {0102:1}!
+{0102:0} held up its Red Card\nagainst the foe's {0102:1}!
+The wild {0102:0} held up its Red Card\nagainst {0102:1}!
+The wild {0102:0} held up its Red Card\nagainst the wild {0102:1}!
+The foe's {0102:0} held up its Red Card\nagainst {0102:1}!
+The foe's {0102:0} held up its Red Card\nagainst the foe's {0102:1}!
+{0102:0} was hurt\nby the Rocky Helmet!
+The wild {0102:0} was hurt\nby the Rocky Helmet!
+The foe's {0102:0} was hurt\nby the Rocky Helmet!
+The power of {0102:0}'s\nFire-type moves rose!
+The power of the wild {0102:0}'s\nFire-type moves rose!
+The power of the foe's {0102:0}'s\nFire-type moves rose!
+{0102:0}\nwas hurt!
+The wild {0102:0}\nwas hurt!
+The foe's {0102:0}\nwas hurt!
+It was alerted to {0102:0}'s\n{0107:1}!
+It was alerted to the wild {0102:0}'s\n{0107:1}!
+It was alerted to the foe's {0102:0}'s\n{0107:1}!
+{0102:0}\nshuddered!
+The wild {0102:0}\nshuddered!
+The foe's {0102:0}\nshuddered!
+{0102:0} frisked its\ntarget and found one {0109:1}!
+The wild {0102:0} frisked its\ntarget and found one {0109:1}!
+The foe's {0102:0} frisked its\ntarget and found one {0109:1}!
+{0102:0}\nbreaks the mold!
+The wild {0102:0}\nbreaks the mold!
+The foe's {0102:0}\nbreaks the mold!
+{0102:0} is\nloafing around!
+The wild {0102:0} is\nloafing around!
+The foe's {0102:0} is\nloafing around!
+{0102:0}\ntook the attack!
+The wild {0102:0}\ntook the attack!
+The foe's {0102:0}\ntook the attack!
+{0102:0} stays awake!
+The wild {0102:0} stays awake!
+The foe's {0102:0} stays awake!
+{0102:0} anchors itself!
+The wild {0102:0} anchors itself!
+The foe's {0102:0} anchors itself!
+{0102:0} sucked up the\nliquid ooze!
+The wild {0102:0} sucked up the\nliquid ooze!
+The foe's {0102:0} sucked up the\nliquid ooze!
+It stole\n{0102:0}'s {0109:1}!
+It stole\nthe wild {0102:0}'s {0109:1}!
+It stole\nthe foe's {0102:0}'s {0109:1}!
+{0102:0}'s Ability\nbecame Mummy!
+The wild {0102:0}'s Ability\nbecame Mummy!
+The foe's {0102:0}'s Ability\nbecame Mummy!
+It bounced back\n{0102:0}'s {0107:1}!
+It bounced back\nthe wild {0102:0}'s {0107:1}!
+It bounced back\nthe foe's {0102:0}'s {0107:1}!
+{0102:0} avoids attacks\nby its ally Pokémon!
+The wild {0102:0} avoids attacks\nby its ally Pokémon!
+The foe's {0102:0} avoids attacks\nby its ally Pokémon!
+It poisoned {0102:0}!
+It poisoned the wild {0102:0}!
+It poisoned the foe's {0102:0}!
+{0102:0} harvested\none {0109:1}!
+The wild {0102:0} harvested\none {0109:1}!
+The foe's {0102:0} harvested\none {0109:1}!
+{0102:0}'s\nillusion wore off!
+The wild {0102:0}'s\nillusion wore off!
+The foe's {0102:0}'s\nillusion wore off!
+{0102:0}\nmaxed its Attack!
+The wild {0102:0}\nmaxed its Attack!
+The foe's {0102:0}\nmaxed its Attack!
+{0102:0}\nis tormented!
+The wild {0102:0}\nis tormented!
+The foe's {0102:0}\nis tormented!
+{0102:0} is exerting\nits pressure!
+The wild {0102:0} is exerting\nits pressure!
+The foe's {0102:0} is exerting\nits pressure!
+{0102:0} found\none {0109:1}!
+The wild {0102:0} found\none {0109:1}!
+The foe's {0102:0} found\none {0109:1}!
+{0102:0}'s item\ncannot be stolen!
+The wild {0102:0}'s item\ncannot be stolen!
+The foe's {0102:0}'s item\ncannot be stolen!
+{0102:0}\ncan't get it going!
+The wild {0102:0}\ncan't get it going!
+The foe's {0102:0}\ncan't get it going!
+{0102:0} finally got\nits act together!
+The wild {0102:0} finally got\nits act together!
+The foe's {0102:0} finally got\nits act together!
+{0102:0} is radiating\na bursting aura!
+The wild {0102:0} is radiating\na bursting aura!
+The foe's {0102:0} is radiating\na bursting aura!
+{0102:0} is radiating\na blazing aura!
+The wild {0102:0} is radiating\na blazing aura!
+The foe's {0102:0} is radiating\na blazing aura!
+{0102:0} swapped\nAbilities with its target!
+The wild {0102:0} swapped\nAbilities with its target!
+The foe's {0102:0} swapped\nAbilities with its target!
+{0102:0} braced\nitself!
+The wild {0102:0} braced\nitself!
+The foe's {0102:0} braced\nitself!
+{0102:0} endured\nthe hit!
+The wild {0102:0} endured\nthe hit!
+The foe's {0102:0} endured\nthe hit!
+{0102:0} protected\nitself!
+The wild {0102:0} protected\nitself!
+The foe's {0102:0} protected\nitself!
+It broke through\n{0102:0}'s protection!
+It broke through the wild\n{0102:0}'s protection!
+It broke through the foe's\n{0102:0}'s protection!
+{0102:0}\nprotected itself!
+The wild {0102:0}\nprotected itself!
+The foe's {0102:0}\nprotected itself!
+{0102:0} fell for\nthe feint!
+The wild {0102:0} fell for\nthe feint!
+The foe's {0102:0} fell for\nthe feint!
+{0102:0} flew\nup high!
+The wild {0102:0} flew\nup high!
+The foe's {0102:0} flew\nup high!
+{0102:0}'s rage\nis building!
+The wild {0102:0}'s rage\nis building!
+The foe's {0102:0}'s rage\nis building!
+{0102:0} hid\nunderwater!
+The wild {0102:0} hid\nunderwater!
+The foe's {0102:0} hid\nunderwater!
+{0102:0} burrowed\nits way under the ground!
+The wild {0102:0} burrowed\nits way under the ground!
+The foe's {0102:0} burrowed\nits way under the ground!
+{0102:0} vanished\ninstantly!
+The wild {0102:0} vanished\ninstantly!
+The foe's {0102:0} vanished\ninstantly!
+{0102:0} sprang up!
+The wild {0102:0} sprang up!
+The foe's {0102:0} sprang up!
+{0102:0} whipped\nup a whirlwind!
+The wild {0102:0} whipped\nup a whirlwind!
+The foe's {0102:0} whipped\nup a whirlwind!
+{0102:0} became\ncloaked in a harsh light!
+The wild {0102:0} became\ncloaked in a harsh light!
+The foe's {0102:0} became\ncloaked in a harsh light!
+{0102:0} absorbed\nlight!
+The wild {0102:0} absorbed\nlight!
+The foe's {0102:0} absorbed\nlight!
+{0102:0} tucked in\nits head!
+The wild {0102:0} tucked in\nits head!
+The foe's {0102:0} tucked in\nits head!
+{0102:0} received\nan encore!
+The wild {0102:0} received\nan encore!
+The foe's {0102:0} received\nan encore!
+{0102:0}'s encore\nended!
+The wild {0102:0}'s encore\nended!
+The foe's {0102:0}'s encore\nended!
+{0102:0}'s Ability\nwas suppressed!
+The wild {0102:0}'s Ability\nwas suppressed!
+The foe's {0102:0}'s Ability\nwas suppressed!
+{0102:0} fell for\nthe taunt!
+The wild {0102:0} fell for\nthe taunt!
+The foe's {0102:0} fell for\nthe taunt!
+{0102:0} can't use\n{0107:1} after the taunt!
+The wild {0102:0} can't use\n{0107:1} after the taunt!
+The foe's {0102:0} can't use\n{0107:1} after the taunt!
+{0102:0}'s taunt\nwore off!
+The wild {0102:0}'s taunt\nwore off!
+The foe's {0102:0}'s taunt\nwore off!
+{0102:0} was subjected\nto torment!
+The wild {0102:0} was subjected\nto torment!
+The foe's {0102:0} was subjected\nto torment!
+{0102:0} can't use the same move\ntwice in a row due to the torment!
+The wild {0102:0} can't use the same move\ntwice in a row due to the torment!
+The foe's {0102:0} can't use the\nsame move twice in a row due to the torment!
+{0102:0}'s torment\nwore off!
+The wild {0102:0}'s torment\nwore off!
+The foe's {0102:0}'s torment\nwore off!
+{0102:0} sealed the\nopponent's move(s)!
+The wild {0102:0} sealed the\nopponent's move(s)!
+The foe's {0102:0} sealed the\nopponent's move(s)!
+{0102:0} can't use\nthe sealed {0107:1}!
+The wild {0102:0} can't use\nthe sealed {0107:1}!
+The foe's {0102:0} can't use\nthe sealed {0107:1}!
+{0102:0}'s {0107:1}\nwas disabled!
+The wild {0102:0}'s\n{0107:1} was disabled!
+The foe's {0102:0}'s\n{0107:1} was disabled!
+{0102:0}'s {0107:1}\nis disabled!
+The wild {0102:0}'s\n{0107:1} is disabled!
+The foe's {0102:0}'s\n{0107:1} is disabled!
+{0102:0} is no\nlonger disabled!
+The wild {0102:0} is no\nlonger disabled!
+The foe's {0102:0} is no\nlonger disabled!
+{0102:0} surrounded\nitself with a veil of water!
+The wild {0102:0} surrounded\nitself with a veil of water!
+The foe's {0102:0} surrounded\nitself with a veil of water!
+Aqua Ring restored\n{0102:0}'s HP!
+Aqua Ring restored\nthe wild {0102:0}'s HP!
+Aqua Ring restored\nthe foe's {0102:0}'s HP!
+{0102:0} was seeded!
+The wild {0102:0}\nwas seeded!
+The foe's {0102:0}\nwas seeded!
+{0102:0}'s health is\nsapped by Leech Seed!
+The wild {0102:0}'s health is\nsapped by Leech Seed!
+The foe's {0102:0}'s health is\nsapped by Leech Seed!
+{0102:0} cut its own HP\nand maximized its Attack!
+The wild {0102:0} cut its own HP\nand maximized its Attack!
+The foe's {0102:0} cut its own HP\nand maximized its Attack!
+{0102:0} is tightening\nits focus!
+The wild {0102:0} is tightening\nits focus!
+The foe's {0102:0} is tightening\nits focus!
+{0102:0} copied\n{0102:1}'s {0106:2}!
+{0102:0} copied the wild\n{0102:1}'s {0106:2}!
+{0102:0} copied the foe's\n{0102:1}'s {0106:2}!
+The wild {0102:0} copied\n{0102:1}'s {0106:2}!
+The wild {0102:0} copied the wild\n{0102:1}'s {0106:2}!
+The foe's {0102:0} copied\n{0102:1}'s {0106:2}!
+The foe's {0102:0} copied the\nfoe's {0102:1}'s {0106:2}!
+{0102:0} is trying\nto take its foe down with it!
+The wild {0102:0} is trying\nto take its foe down with it!
+The foe's {0102:0} is trying\nto take its foe down with it!
+{0102:0} took its attacker\ndown with it!
+The wild {0102:0} took its attacker\ndown with it!
+The foe's {0102:0} took its attacker\ndown with it!
+{0102:0} wants its target\nto bear a grudge!
+The wild {0102:0} wants its target\nto bear a grudge!
+The foe's {0102:0} wants its target\nto bear a grudge!
+{0102:0}'s\n{0107:1} lost all its PP{be00}\ndue to the grudge!
+The wild {0102:0}'s\n{0107:1} lost all its PP{be00}\ndue to the grudge!
+The foe's {0102:0}'s\n{0107:1} lost all its PP{be00}\ndue to the grudge!
+{0102:0} slept and\nbecame healthy!
+The wild {0102:0} slept and\nbecame healthy!
+The foe's {0102:0} slept and\nbecame healthy!
+It reduced the PP of {0102:0}'s\n{0107:1} by {0200:2}!
+It reduced the PP of the wild\n{0102:0}'s {0107:1} by {0200:2}!
+It reduced the PP of the foe's\n{0102:0}'s {0107:1} by {0200:2}!
+{0102:0} transformed\ninto {0102:1}!
+{0102:0} transformed\ninto the wild {0102:1}!
+{0102:0} transformed\ninto the foe's {0102:1}!
+The wild {0102:0} transformed\ninto {0102:1}!
+The wild {0102:0} transformed\ninto the wild {0102:1}!
+The foe's {0102:0} transformed\ninto {0102:1}!
+The foe's {0102:0} transformed\ninto the foe's {0102:1}!
+{0102:0} took aim at\n{0102:1}!
+{0102:0} took aim at\nthe wild {0102:1}!
+{0102:0} took aim at\nthe foe's {0102:1}!
+The wild {0102:0} took aim at\n{0102:1}!
+The wild {0102:0} took aim at\nthe wild {0102:1}!
+The foe's {0102:0} took aim at\n{0102:1}!
+The foe's {0102:0} took aim at\nthe foe's {0102:1}!
+{0102:0} levitated\nwith electromagnetism!
+The wild {0102:0} levitated\nwith electromagnetism!
+The foe's {0102:0} levitated\nwith electromagnetism!
+{0102:0}'s\nelectromagnetism wore off!
+The wild {0102:0}'s\nelectromagnetism wore off!
+The electromagnetism of the foe's\n{0102:0} wore off!
+{0102:0} began\ncharging power!
+The wild {0102:0} began\ncharging power!
+The foe's {0102:0} began\ncharging power!
+{0102:0} grew drowsy!
+The wild {0102:0} grew drowsy!
+The foe's {0102:0} grew drowsy!
+{0102:0} became\nthe center of attention!
+The wild {0102:0} became\nthe center of attention!
+The foe's {0102:0} became\nthe center of attention!
+{0102:0} switched stat\nchanges with the target!
+The wild {0102:0} switched stat\nchanges with the target!
+The foe's {0102:0} switched stat\nchanges with the target!
+{0102:0} switched all\nchanges to its Attack and Sp. Atk{be00}\nwith the target!
+The wild {0102:0} switched all\nchanges to its Attack and Sp. Atk{be00}\nwith the target!
+The foe's {0102:0} switched all\nchanges to its Attack and Sp. Atk{be00}\nwith the target!
+{0102:0} switched all\nchanges to its Defense and Sp. Def{be00}\nwith the target!
+The wild {0102:0} switched all\nchanges to its Defense and Sp. Def{be00}\nwith the target!
+The foe's {0102:0} switched all\nchanges to its Defense and Sp. Def{be00}\nwith the target!
+{0102:0} switched\nitems with its target!
+The wild {0102:0} switched\nitems with its target!
+The foe's {0102:0} switched\nitems with its target!
+{0102:0} obtained\none {0109:1}.
+The wild {0102:0} obtained\none {0109:1}.
+The foe's {0102:0} obtained\none {0109:1}.
+{0102:0} learned\n{0107:1}!
+The wild {0102:0} learned\n{0107:1}!
+The foe's {0102:0} learned\n{0107:1}!
+{0102:0} sketched\n{0107:1}!
+The wild {0102:0} sketched\n{0107:1}!
+The foe's {0102:0} sketched\n{0107:1}!
+{0102:0} became cloaked\nin mystical moonlight!
+The wild {0102:0} became cloaked\nin mystical moonlight!
+The foe's {0102:0} became cloaked\nin mystical moonlight!
+The healing wish came true\nfor {0102:0}!
+The healing wish came true\nfor the wild {0102:0}!
+The healing wish came true\nfor the foe's {0102:0}!
+{0102:0}'s wish\ncame true!
+The wild {0102:0}'s wish\ncame true!
+The foe's {0102:0}'s wish\ncame true!
+{0102:0} caused\nan uproar!
+The wild {0102:0} caused\nan uproar!
+The foe's {0102:0} caused\nan uproar!
+The uproar woke up\nthe {0102:0}!
+The uproar woke up the\nwild {0102:0}!
+The uproar woke up the\nfoe's {0102:0}!
+But the uproar kept\n{0102:0} awake!
+But the uproar kept\nthe wild {0102:0} awake!
+But the uproar kept\nthe foe's {0102:0} awake!
+But {0102:0} can't\nsleep in an uproar!
+But the wild {0102:0} can't\nsleep in an uproar!
+But the foe's {0102:0} can't\nsleep in an uproar!
+{0102:0} is making\nan uproar!
+The wild {0102:0} is making\nan uproar!
+The foe's {0102:0} is making\nan uproar!
+{0102:0}\ncalmed down.
+The wild {0102:0}\ncalmed down.
+The foe's {0102:0}\ncalmed down.
+{0102:0} stockpiled {0200:1}!
+The wild {0102:0} stockpiled {0200:1}!
+The foe's {0102:0} stockpiled {0200:1}!
+{0102:0}'s stockpiled\neffect wore off!
+The wild {0102:0}'s stockpiled\neffect wore off!
+The foe's {0102:0}'s stockpiled\neffect wore off!
+{0102:0} can't use\nitems anymore!
+The wild {0102:0} can't use\nitems anymore!
+The foe's {0102:0} can't use\nitems anymore!
+{0102:0} can use\nitems again!
+The wild {0102:0} can use\nitems again!
+The foe's {0102:0} can use\nitems again!
+{0102:0} found\none {0109:1}!
+The wild {0102:0} found\none {0109:1}!
+The foe's {0102:0} found\none {0109:1}!
+{0102:0} planted its roots!
+The wild {0102:0} planted\nits roots!
+The foe's {0102:0} planted\nits roots!
+{0102:0} absorbed\nnutrients with its roots!
+The wild {0102:0} absorbed\nnutrients with its roots!
+The foe's {0102:0} absorbed\nnutrients with its roots!
+{0102:0} anchored\nitself with its roots!
+The wild {0102:0} anchored\nitself with its roots!
+The foe's {0102:0} anchored\nitself with its roots!
+{0102:0} is storing\nenergy!
+The wild {0102:0} is storing\nenergy!
+The foe's {0102:0} is storing\nenergy!
+{0102:0} unleashed\nenergy!
+The wild {0102:0} unleashed\nenergy!
+The foe's {0102:0} unleashed\nenergy!
+{0102:0} waits for a target\nto make a move!
+The wild {0102:0} waits for\na target to make a move!
+The foe's {0102:0} waits for\na target to make a move!
+{0102:0} snatched\n{0102:1}'s move!
+{0102:0} snatched the wild\n{0102:1}'s move!
+{0102:0} snatched the foe's\n{0102:1}'s move!
+The wild {0102:0} snatched\n{0102:1}'s move!
+The wild {0102:0} snatched\nthe wild {0102:1}'s move!
+The foe's {0102:0} snatched\n{0102:1}'s move!
+The foe's {0102:0} snatched\nthe foe's {0102:1}'s move!
+{0102:0} shrouded\nitself with Magic Coat!
+The wild {0102:0} shrouded\nitself with Magic Coat!
+The foe's {0102:0} shrouded\nitself with Magic Coat!
+{0102:0}\nbounced the {0107:1} back!
+The wild {0102:0}\nbounced the {0107:1} back!
+The foe's {0102:0}\nbounced the {0107:1} back!
+{0102:0} fled\nfrom battle!
+The wild {0102:0} fled\nfrom battle!
+The foe's {0102:0} fled\nfrom battle!
+{0102:0} went back\nto {0100:1}!
+The wild {0102:0} went back\nto {0100:1}!
+The foe's {0102:0} went back\nto {0100:1}!
+{0102:0} switched\nits Attack and Defense!
+The wild {0102:0} switched\nits Attack and Defense!
+The foe's {0102:0} switched\nits Attack and Defense!
+{0102:0} stole and\nate its target's {0109:1}!
+The wild {0102:0} stole and\nate its target's {0109:1}!
+The foe's {0102:0} stole and\nate its target's {0109:1}!
+{0102:0} flung\nits {0109:1}!
+The wild {0102:0} flung\nits {0109:1}!
+The foe's {0102:0} flung\nits {0109:1}!
+{0102:0} blew away\n{0107:1}!
+The wild {0102:0} blew away\n{0107:1}!
+The foe's {0102:0} blew away\n{0107:1}!
+{0102:0} put in\na substitute!
+The wild {0102:0} put in\na substitute!
+The foe's {0102:0} put in\na substitute!
+{0102:0} already\nhas a substitute!
+The wild {0102:0} already\nhas a substitute!
+The foe's {0102:0} already\nhas a substitute!
+The substitute took damage\nfor {0102:0}!
+The substitute took damage\nfor the wild {0102:0}!
+The substitute took damage\nfor the foe's {0102:0}!
+{0102:0}'s\nsubstitute faded!
+The wild {0102:0}'s\nsubstitute faded!
+The foe's {0102:0}'s\nsubstitute faded!
+Wide Guard protected\n{0102:0}!
+Wide Guard protected\nthe wild {0102:0}!
+Wide Guard protected\nthe foe's {0102:0}!
+Quick Guard protected\n{0102:0}!
+Quick Guard protected\nthe wild {0102:0}!
+Quick Guard protected\nthe foe's {0102:0}!
+{0102:0} was squeezed\nby {0102:1}!
+{0102:0} was squeezed\nby the wild {0102:1}!
+{0102:0} was squeezed\nby the foe's {0102:1}!
+The wild {0102:0} was squeezed\nby {0102:1}!
+The wild {0102:0} was squeezed\nby the wild {0102:1}!
+The foe's {0102:0} was squeezed\nby {0102:1}!
+The foe's {0102:0} was squeezed\nby the foe's {0102:1}!
+{0102:0} was wrapped by\n{0102:1}!
+{0102:0} was wrapped\nby the wild {0102:1}!
+{0102:0} was wrapped\nby the foe's {0102:1}!
+The wild {0102:0} was wrapped by\n{0102:1}!
+The wild {0102:0} was wrapped\nby the wild {0102:1}!
+The foe's {0102:0} was wrapped\nby {0102:1}!
+The foe's {0102:0} was wrapped\nby the foe's {0102:1}!
+{0102:1} clamped\n{0102:0}!
+The wild {0102:1} clamped\n{0102:0}!
+The foe's {0102:1} clamped\n{0102:0}!
+{0102:1} clamped\nthe wild {0102:0}!
+The wild {0102:1} clamped\nthe wild {0102:0}!
+{0102:1} clamped\nthe foe's {0102:0}!
+The foe's {0102:1} clamped\nthe foe's {0102:0}!
+{0102:0} became trapped\nin the vortex!
+The wild {0102:0} became trapped\nin the vortex!
+The foe's {0102:0} became trapped\nin the vortex!
+{0102:0} became trapped\nin the fiery vortex!
+The wild {0102:0} became trapped\nin the fiery vortex!
+The foe's {0102:0} became trapped\nin the fiery vortex!
+{0102:0} became\ntrapped by swirling magma!
+The wild {0102:0} became\ntrapped by swirling magma!
+The foe's {0102:0} became\ntrapped by swirling magma!
+{0102:0} became trapped\nby Sand Tomb!
+The wild {0102:0} became trapped\nby Sand Tomb!
+The foe's {0102:0} became trapped\nby Sand Tomb!
+{0102:0} has no\nmoves left!
+The wild {0102:0} has no\nmoves left!
+The foe's {0102:0} has no\nmoves left!
+{0102:0} is protected\nby Safeguard!
+The wild {0102:0} is protected\nby Safeguard!
+The foe's {0102:0} is protected\nby Safeguard!
+{0102:0} is protected\nby the mist!
+The wild {0102:0} is protected\nby the mist!
+The foe's {0102:0} is protected\nby the mist!
+{0102:0} was\ndragged out!
+The wild {0102:0} was\ndragged out!
+The foe's {0102:0} was\ndragged out!
+{0102:0} must\nrecharge!
+The wild {0102:0} must\nrecharge!
+The foe's {0102:0} must\nrecharge!
+{0102:0} is hurt\nby the spikes!
+The wild {0102:0} is hurt\nby the spikes!
+The foe's {0102:0} is hurt\nby the spikes!
+Pointed stones dug into\n{0102:0}!
+Pointed stones dug into\nthe wild {0102:0}!
+Pointed stones dug into\nthe foe's {0102:0}!
+{0102:0} twisted\nthe dimensions!
+The wild {0102:0} twisted\nthe dimensions!
+The foe's {0102:0} twisted\nthe dimensions!
+{0102:0}'s perish count\nfell to {0200:1}!
+The wild {0102:0}'s perish count\nfell to {0200:1}!
+The foe's {0102:0}'s perish count\nfell to {0200:1}!
+{0102:0} became cloaked\nin a freezing light!
+The wild {0102:0} became cloaked\nin a freezing light!
+The foe's {0102:0} became cloaked\nin a freezing light!
+{0102:0} became cloaked\nin freezing air!
+The wild {0102:0} became cloaked\nin freezing air!
+The foe's {0102:0} became cloaked\nin freezing air!
+{0102:0} prevents\nescape with {0106:1}!
+The wild {0102:0} prevents\nescape with {0106:1}!
+The foe's {0102:0} prevents\nescape with {0106:1}!
+{0102:0} can no\nlonger escape!
+The wild {0102:0} can no\nlonger escape!
+The foe's {0102:0} can no\nlonger escape!
+{0102:0}\ncan't escape!
+The wild {0102:0}\ncan't escape!
+The foe's {0102:0}\ncan't escape!
+                           \x{ffff}
+                                \x{ffff}
+                                \x{ffff}
+{0102:0} was prevented\nfrom healing!
+The wild {0102:0} was prevented\nfrom healing!
+The foe's {0102:0} was prevented\nfrom healing!
+{0102:0}'s Heal Block\nwore off!
+The wild {0102:0}'s Heal Block\nwore off!
+The foe's {0102:0}'s Heal Block\nwore off!
+{0102:0} was prevented\nfrom healing due to Heal Block!
+The wild {0102:0} was prevented\nfrom healing due to Heal Block!
+The foe's {0102:0} was prevented\nfrom healing due to Heal Block!
+{0102:0} can't use\n{0107:1} because of Heal Block!
+The wild {0102:0} can't use\n{0107:1} because of Heal Block!
+The foe's {0102:0} can't use\n{0107:1} because of Heal Block!
+{0102:0}'s\nHP is full!
+The wild {0102:0}'s\nHP is full!
+The foe's {0102:0}'s\nHP is full!
+{0102:0} transformed\ninto the {0103:1} type!
+The wild {0102:0} transformed\ninto the {0103:1} type!
+The foe's {0102:0} transformed\ninto the {0103:1} type!
+{0102:0} had its\nenergy drained!
+The wild {0102:0} had its\nenergy drained!
+The foe's {0102:0} had its\nenergy drained!
+{0102:0} kept going\nand crashed!
+The wild {0102:0} kept going\nand crashed!
+The foe's {0102:0} kept going\nand crashed!
+{0102:0}\ncannot use {0107:1}!
+The wild {0102:0}\ncannot use {0107:1}!
+The foe's {0102:0}\ncannot use {0107:1}!
+{0102:0} restored its\nhealth using its {0109:1}!
+The wild {0102:0} restored its\nhealth using its {0109:1}!
+The foe's {0102:0} restored its\nhealth using its {0109:1}!
+{0102:0} restored\n{0107:2}'s PP using its{be00}\n{0109:1}!
+The wild {0102:0} restored\n{0107:2}'s PP using its{be00}\n{0109:1}!
+The foe's {0102:0} restored\n{0107:2}'s PP using its{be00}\n{0109:1}!
+{0102:0} restored\na little HP using its {0109:1}!
+The wild {0102:0} restored\na little HP using its {0109:1}!
+The foe's {0102:0} restored\na little HP using its {0109:1}!
+{0102:0}'s {0109:1}\ncured its poison!
+The wild {0102:0}'s\n{0109:1} cured its poison!
+The foe's {0102:0}'s\n{0109:1} cured its poison!
+{0102:0}'s {0109:1}\ncured its paralysis!
+The wild {0102:0}'s\n{0109:1} cured its paralysis!
+The foe's {0102:0}'s\n{0109:1} cured its paralysis!
+{0102:0}'s {0109:1}\nwoke it up!
+The wild {0102:0}'s {0109:1}\nwoke it up!
+The foe's {0102:0}'s {0109:1}\nwoke it up!
+{0102:0}'s {0109:1}\ndefrosted it!
+The wild {0102:0}'s\n{0109:1} defrosted it!
+The foe's {0102:0}'s\n{0109:1} defrosted it!
+{0102:0}'s {0109:1}\nhealed its burn!
+The wild {0102:0}'s\n{0109:1} healed its burn!
+The foe's {0102:0}'s\n{0109:1} healed its burn!
+{0102:0}'s {0109:1}\nsnapped it out of its confusion!
+The wild {0102:0}'s\n{0109:1} snapped it out of{be00}\nits confusion!
+The foe's {0102:0}'s\n{0109:1} snapped it out of{be00}\nits confusion!
+{0102:0} cured its\ninfatuation status{be00}\nusing its {0109:1}!
+The wild {0102:0} cured its\ninfatuation status{be00}\nusing its {0109:1}!
+The foe's {0102:0} cured its\ninfatuation status{be00}\nusing its {0109:1}!
+The {0109:1} raised\n{0102:0}'s Attack!
+The {0109:1} raised\nthe wild {0102:0}'s Attack!
+The {0109:1} raised\nthe foe's {0102:0}'s Attack!
+The {0109:1} raised\n{0102:0}'s Defense!
+The {0109:1} raised\nthe wild {0102:0}'s Defense!
+The {0109:1} raised\nthe foe's {0102:0}'s Defense!
+The {0109:1} raised\n{0102:0}'s Special Attack!
+The {0109:1} raised\nthe wild {0102:0}'s Special Attack!
+The {0109:1} raised\nthe foe's {0102:0}'s Special Attack!
+The {0109:1} raised\n{0102:0}'s Special Defense!
+The {0109:1} raised\nthe wild {0102:0}'s Special Defense!
+The {0109:1} raised\nthe foe's {0102:0}'s Special Defense!
+The {0109:1} raised\n{0102:0}'s Speed!
+The {0109:1} raised\nthe wild {0102:0}'s Speed!
+The {0109:1} raised\nthe foe's {0102:0}'s Speed!
+The {0109:1} raised\n{0102:0}'s accuracy!
+The {0109:1} raised\nthe wild {0102:0}'s accuracy!
+The {0109:1} raised\nthe foe's {0102:0}'s accuracy!
+The {0109:1} raised\n{0102:0}'s evasiveness!
+The {0109:1} raised\nthe wild {0102:0}'s evasiveness!
+The {0109:1} raised\nthe foe's {0102:0}'s evasiveness!
+The {0109:1} sharply raised\n{0102:0}'s Attack!
+The {0109:1} sharply raised\nthe wild {0102:0}'s Attack!
+The {0109:1} sharply raised\nthe foe's {0102:0}'s Attack!
+The {0109:1} sharply raised\n{0102:0}'s Defense!
+The {0109:1} sharply raised\nthe wild {0102:0}'s Defense!
+The {0109:1} sharply raised\nthe foe's {0102:0}'s Defense!
+The {0109:1} sharply raised\n{0102:0}'s Special Attack!
+The {0109:1} sharply raised\nthe wild {0102:0}'s Special Attack!
+The {0109:1} sharply raised\nthe foe's {0102:0}'s Special Attack!
+The {0109:1} sharply raised\n{0102:0}'s Special Defense!
+The {0109:1} sharply raised\nthe wild {0102:0}'s Special Defense!
+The {0109:1} sharply raised\nthe foe's {0102:0}'s Special Defense!
+The {0109:1} sharply raised\n{0102:0}'s Speed!
+The {0109:1} sharply raised\nthe wild {0102:0}'s Speed!
+The {0109:1} sharply raised\nthe foe's {0102:0}'s Speed!
+The {0109:1} sharply raised\n{0102:0}'s accuracy!
+The {0109:1} sharply raised\nthe wild {0102:0}'s accuracy!
+The {0109:1} sharply raised\nthe foe's {0102:0}'s accuracy!
+The {0109:1} sharply raised\n{0102:0}'s evasiveness!
+The {0109:1} sharply raised\nthe wild {0102:0}'s evasiveness!
+The {0109:1} sharply raised\nthe foe's {0102:0}'s evasiveness!
+The {0109:1} drastically raised\n{0102:0}'s Attack!
+The {0109:1} drastically raised\nthe wild {0102:0}'s Attack!
+The {0109:1} drastically raised\nthe foe's {0102:0}'s Attack!
+The {0109:1} drastically raised\n{0102:0}'s Defense!
+The {0109:1} drastically raised\nthe wild {0102:0}'s Defense!
+The {0109:1} drastically raised\nthe foe's {0102:0}'s Defense!
+The {0109:1} drastically raised\n{0102:0}'s Special Attack!
+The {0109:1} drastically raised\nthe wild {0102:0}'s Special Attack!
+The {0109:1} drastically raised\nthe foe's {0102:0}'s Special Attack!
+The {0109:1} drastically raised\n{0102:0}'s Special Defense!
+The {0109:1} drastically raised\nthe wild {0102:0}'s Special Defense!
+The {0109:1} drastically raised\nthe foe's {0102:0}'s Special Defense!
+The {0109:1} drastically raised\n{0102:0}'s Speed!
+The {0109:1} drastically raised\nthe wild {0102:0}'s Speed!
+The {0109:1} drastically raised\nthe foe's {0102:0}'s Speed!
+The {0109:1} drastically raised\n{0102:0}'s accuracy!
+The {0109:1} drastically raised\nthe wild {0102:0}'s accuracy!
+The {0109:1} drastically raised\nthe foe's {0102:0}'s accuracy!
+The {0109:1} drastically raised\n{0102:0}'s evasiveness!
+The {0109:1} drastically raised\nthe wild {0102:0}'s evasiveness!
+The {0109:1} drastically raised\nthe foe's {0102:0}'s evasiveness!
+{0102:0} used\nthe {0109:1} to get pumped!
+The wild {0102:0} used\nthe {0109:1} to get pumped!
+The foe's {0102:0} used\nthe {0109:1} to get pumped!
+{0102:0} fled\nusing its {0109:1}!
+The wild {0102:0} fled\nusing its {0109:1}!
+The foe's {0102:0} fled\nusing its {0109:1}!
+{0102:0} hung on\nusing its {0109:1}!
+The wild {0102:0} hung on\nusing its {0109:1}!
+The foe's {0102:0} hung on\nusing its {0109:1}!
+{0102:0} restored its\nstatus using its {0109:1}!
+The wild {0102:0} restored its\nstatus using its {0109:1}!
+The foe's {0102:0} restored its\nstatus using its {0109:1}!
+{0102:0} lost\nsome of its HP!
+The wild {0102:0} lost\nsome of its HP!
+The foe's {0102:0} lost\nsome of its HP!
+...But {0102:0}\nis not here!
+...But the wild {0102:0}\nis not here!
+...But the foe's {0102:0}\nis not here!
+...But {0102:0} was not\nholding a usable item!
+...But the wild {0102:0} was not\nholding a usable item!
+...But the foe's {0102:0} was not\nholding a usable item!
+{0102:0} became fully\ncharged due to its {0109:1}!
+The wild {0102:0} became fully\ncharged due to its {0109:1}!
+The foe's {0102:0} became fully\ncharged due to its {0109:1}!
+{0102:0}'s {0109:1}\nlet it move first!
+The wild {0102:0}'s\n{0109:1} let it move first!
+The foe's {0102:0}'s\n{0109:1} let it move first!
+{0102:0} boosted\nthe accuracy of its next move{be00}\nusing its {0109:1}!
+The wild {0102:0} boosted\nthe accuracy of its next move{be00}\nusing its {0109:1}!
+The foe's {0102:0} boosted\nthe accuracy of its next move{be00}\nusing its {0109:1}!
+{0102:0} is hurt by\n{0102:1}'s {0109:2}!
+{0102:0} is hurt by the wild\n{0102:1}'s {0109:2}!
+{0102:0} is hurt by the foe's\n{0102:1}'s {0109:2}!
+The wild {0102:0} is hurt by\n{0102:1}'s {0109:2}!
+The wild {0102:0} is hurt by\nthe wild {0102:1}'s {0109:2}!
+The foe's {0102:0} is hurt by\n{0102:1}'s {0109:2}!
+The foe's {0102:0} is hurt by\nthe foe's {0102:1}'s {0109:2}!
+{0102:0} is hurt\nby its {0109:1}!
+The wild {0102:0} is hurt\nby its {0109:1}!
+The foe's {0102:0} is hurt\nby its {0109:1}!
+{0102:0} is getting\npumped!
+The wild {0102:0} is getting\npumped!
+The foe's {0102:0} is getting\npumped!
+{0102:0} is ready to\nhelp {0102:1}!
+The wild {0102:0} is ready to\nhelp {0102:1}!
+The foe's {0102:0} is ready to\nhelp {0102:1}!
+{0102:0} copied\n{0102:1}'s stat changes!
+The wild {0102:0} copied\n{0102:1}'s stat changes!
+The foe's {0102:0} copied\n{0102:1}'s stat changes!
+{0102:0} knocked off\n{0102:1}'s {0109:2}!
+{0102:0} knocked off the wild\n{0102:1}'s {0109:2}!
+{0102:0} knocked off the foe's\n{0102:1}'s {0109:2}!
+The wild {0102:0} knocked off\n{0102:1}'s {0109:2}!
+The wild {0102:0} knocked off the\nwild {0102:1}'s {0109:2}!
+The foe's {0102:0} knocked off\n{0102:1}'s {0109:2}!
+The foe's {0102:0} knocked off\nthe foe's {0102:1}'s{be00}\n{0109:2}!
+{0102:0} stole\n{0102:1}'s {0109:2}!
+{0102:0} stole the wild\n{0102:1}'s {0109:2}!
+{0102:0} stole the foe's\n{0102:1}'s {0109:2}!
+The wild {0102:0} stole\n{0102:1}'s {0109:2}!
+The wild {0102:0} stole the wild\n{0102:1}'s {0109:2}!
+The foe's {0102:0} stole\n{0102:1}'s {0109:2}!
+The foe's {0102:0} stole the\nfoe's {0102:1}'s {0109:2}!
+{0102:0} cut its own HP\nand laid a curse on {0102:1}!
+{0102:0} cut its own HP\nand laid a curse on the wild {0102:1}!
+{0102:0} cut its own HP\nand laid a curse on the foe's {0102:1}!
+The wild {0102:0} cut its own HP\nand laid a curse on {0102:1}!
+The wild {0102:0} cut its own HP\nand laid a curse on the wild {0102:1}!
+The foe's {0102:0} cut its own HP\nand laid a curse on {0102:1}!
+The foe's {0102:0} cut its own HP\nand laid a curse on the foe's {0102:1}!
+{0102:0} is afflicted\nby the curse!
+The wild {0102:0} is afflicted\nby the curse!
+The foe's {0102:0} is afflicted\nby the curse!
+{0102:0} foresaw\nan attack!
+The wild {0102:0} foresaw\nan attack!
+The foe's {0102:0} foresaw\nan attack!
+{0102:0} chose\nDoom Desire as its destiny!
+The wild {0102:0} chose\nDoom Desire as its destiny!
+The foe's {0102:0} chose\nDoom Desire as its destiny!
+{0102:0} took\nthe {0107:1} attack!
+The wild {0102:0} took\nthe {0107:1} attack!
+The foe's {0102:0} took\nthe {0107:1} attack!
+{0102:0} couldn't stay\nairborne because of gravity!
+The wild {0102:0} couldn't stay\nairborne because of gravity!
+The foe's {0102:0} couldn't stay\nairborne because of gravity!
+{0102:0} can't use\n{0107:1} because of gravity!
+The wild {0102:0} can't use\n{0107:1} because of gravity!
+The foe's {0102:0} can't use\n{0107:1} because of gravity!
+{0102:0}'s type\nchanged to match {0102:1}'s!
+{0102:0}'s type\nchanged to match the wild {0102:1}'s!
+{0102:0}'s type\nchanged to match the foe's {0102:1}'s!
+The wild {0102:0}'s type\nchanged to match {0102:1}'s!
+The wild {0102:0}'s type\nchanged to match the wild {0102:1}'s!
+The foe's {0102:0}'s type\nchanged to match {0102:1}'s!
+The foe's {0102:0}'s type\nchanged to match the foe's {0102:1}'s!
+{0102:0} shared its\npower with the target!
+The wild {0102:0} shared its\npower with the target!
+The foe's {0102:0} shared its\npower with the target!
+{0102:0} shared its\nguard with the target!
+The wild {0102:0} shared its\nguard with the target!
+The foe's {0102:0} shared its\nguard with the target!
+{0102:0} became nimble!
+The wild {0102:0} became nimble!
+The foe's {0102:0} became nimble!
+The bursting flame hit {0102:0}!
+The bursting flame hit the wild {0102:0}!
+The bursting flame hit the foe's {0102:0}!
+{0102:0}'s {0109:1}\nwas burnt up!
+The wild {0102:0}'s {0109:1}\nwas burnt up!
+The foe's {0102:0}'s {0109:1}\nwas burnt up!
+{0102:0} received {0109:2}\nfrom {0102:1}!
+{0102:0} received {0109:2}\nfrom the wild {0102:1}!
+{0102:0} received {0109:2}\nfrom the foe's {0102:1}!
+The wild {0102:0} received {0109:2}\nfrom {0102:1}!
+The wild {0102:0} received {0109:2}\nfrom the wild {0102:1}!
+The foe's {0102:0} received {0109:2}\nfrom {0102:1}!
+The foe's {0102:0} received {0109:2}\nfrom the foe's {0102:1}!
+{0102:0} took\n{0102:1} into the sky!
+{0102:0} took\nthe wild {0102:1} into the sky!
+{0102:0} took\nthe foe's {0102:1} into the sky!
+The wild {0102:0} took\n{0102:1} into the sky!
+The wild {0102:0} took\nthe wild {0102:1} into the sky!
+The foe's {0102:0} took\n{0102:1} into the sky!
+The foe's {0102:0} took\nthe foe's {0102:1} into the sky!
+{0102:0} was freed\nfrom the Sky Drop!
+The wild {0102:0} was freed\nfrom the Sky Drop!
+The foe's {0102:0} was freed\nfrom the Sky Drop!
+{0102:0} fell\nstraight down!
+The wild {0102:0} fell\nstraight down!
+The foe's {0102:0} fell\nstraight down!
+{0102:0}'s move\nwas postponed!
+The wild {0102:0}'s move\nwas postponed!
+The foe's {0102:0}'s move\nwas postponed!
+{0102:0}\ntook the kind offer!
+The wild {0102:0}\ntook the kind offer!
+The foe's {0102:0}\ntook the kind offer!
+{0102:0} and\n{0102:1} switched places!
+The wild {0102:0} and\n{0102:1} switched places!
+The foe's {0102:0} and\n{0102:1} switched places!
+{0102:0} was hurled\ninto the air!
+The wild {0102:0} was hurled\ninto the air!
+The foe's {0102:0} was hurled\ninto the air!
+{0102:0} was freed\nfrom the telekinesis!
+The wild {0102:0} was freed\nfrom the telekinesis!
+The foe's {0102:0} was freed\nfrom the telekinesis!
+{0102:0} is waiting\nfor {0102:1}'s move...
+{0102:0} is waiting\nfor the wild {0102:1}'s move...
+{0102:0} is waiting\nfor the foe's {0102:1}...
+The wild {0102:0} is waiting\nfor {0102:1}'s move...
+The wild {0102:0} is waiting\nfor the wild {0102:1}'s move...
+The foe's {0102:0} is waiting\nfor {0102:1}'s move...
+The foe's {0102:0} is waiting\nfor the foe's {0102:1}'s move...
+It is completely synchronized\nwith {0102:0}!
+It is completely synchronized\nwith the wild {0102:0}!
+It is completely synchronized\nwith the foe's {0102:0}!
+{0102:0} is hurt\nby the sea of fire!
+The wild {0102:0} is hurt\nby the sea of fire!
+The foe's {0102:0} is hurt\nby the sea of fire!
+\pad{54}

@@ -1,0 +1,14 @@
+C-Gear
+Infrared
+Wireless
+Game Sync
+Trade
+Battle
+Friend Code
+Trainer Card
+C-Gear>Infrared
+C-Gear>Infrared>Battle
+C-Gear>Infrared>Trade
+C-Gear>Game Sync
+C-Gear>Wireless
+\pad{9a}

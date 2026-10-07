@@ -1,0 +1,70 @@
+PAL PAD
+CHECK FRIEND ROSTER
+REGISTER FRIEND CODE
+{0100:0}'S FRIEND CODE
+    \x{ffff}
+FRIEND ROSTER
+    \x{ffff}
+      \x{ffff}
+DETAILS
+REWRITE NAME
+DELETE
+CANCEL
+What would you like to do\nwith {0100:0}'s data?
+RECORD WITH {0100:0}
+                   \x{ffff}
+    \x{ffff}
+    \x{ffff}
+       \x{ffff}
+            \x{ffff}
+BATTLE RECORD
+WIN
+LOSE
+{bd03:0}{0203:0}
+POKÉMON TRADES
+{bd03:0}{0203:0}
+        \x{ffff}
+    \x{ffff}
+DATE LAST PLAYED
+{0201:1}/{0201:2}/{0203:0}
+      \x{ffff}
+         \x{ffff}
+        \x{ffff}
+       \x{ffff}
+        \x{ffff}
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+         \x{ffff}
+     \x{ffff}
+       \x{ffff}
+         \x{ffff}
+             \x{ffff}
+         \x{ffff}
+          \x{ffff}
+          \x{ffff}
+         \x{ffff}
+           \x{ffff}
+           \x{ffff}
+        \x{ffff}
+      \x{ffff}
+{0100:0}'S FRIEND CODE
+      \x{ffff}
+{bd02}{0203:1} {0203:2} {0203:3}
+By exchanging Friend Codes\nwith other players, you may\ntrade and battle with them\nover Nintendo Wi-Fi Connection.
+To obtain your Friend Code,\nplease log on to Nintendo WFC.
+{0203:1} {0203:2} {0203:3}\n{0100:0} will be registered.
+The Friend Code is wrong.\n{0203:1} {0203:2} {0203:3}
+{0100:0} will be deleted.\nAre you sure about this?
+Your Friend Roster is full!
+That Friend Code has already been\nregistered.
+{0100:0}'s Friend Code:\n{0203:1} {0203:2} {0203:3}
+CHECK FRIEND CODE
+                             \x{ffff}
+                                \x{ffff}
+                       \x{ffff}
+                     \x{ffff}
+YES
+NO
+Please go to the Wi-Fi Club\nwith {0100:0}.
+\pad{3c}

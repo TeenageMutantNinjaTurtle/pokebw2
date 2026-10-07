@@ -1,0 +1,46 @@
+Please insert a Pokémon\nDiamond, Pearl, Platinum, HeartGold,\nor SoulSilver Version Game Card in the\nother DS system and turn it on. Then\nselect “Poké Transfer ID: {0204:0}"\nfrom “DS Download Play."
+Sending data to\nthe other DS system.
+Please select Pokémon\nin the other DS system.
+Activating Poké Transfer...
+Testing Poké Transfer...
+Receiving test data...
+Saving...\nDon't turn off the power.
+The game has been saved.{be02:60}
+Poké Transfer will end.{be02:60}
+Will you cancel Poké Transfer?
+Unable to connect to the\nother DS system.{be01}
+Waiting for the other DS system's\ndecision.
+Poké Transfer ID: {0204:0}
+Pokémon Black Version 2\nPoké Transfer Program
+Pokémon White Version 2\nPoké Transfer Program
+               \x{ffff}
+                            \x{ffff}
+                            \x{ffff}
+YES
+NO
+                                                                                                                                                          \x{ffff}
+                            \x{ffff}
+                                                                   \x{ffff}
+                                                                   \x{ffff}
+                                    \x{ffff}
+                                      \x{ffff}
+                               \x{ffff}
+                                  \x{ffff}
+                                 \x{ffff}
+                        \x{ffff}
+                                                                 \x{ffff}
+                                   \x{ffff}
+                                         \x{ffff}
+                                                                       \x{ffff}
+                              \x{ffff}
+                                                \x{ffff}
+                                                                                \x{ffff}
+                        \x{ffff}
+                                   \x{ffff}
+                \x{ffff}
+                       \x{ffff}
+                                                                                          \x{ffff}
+                  \x{ffff}
+                    \x{ffff}
+                                                                                \x{ffff}
+\pad{6e}

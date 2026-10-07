@@ -1,0 +1,21 @@
+{bd02}Professor {0100:1} rode his own\n{bd02}invention, the temporal transport,\n{bd02}into the future!
+{bd02}As he collected soil and stones\n{bd02}from the future as research samples...
+{bd02}An unimaginable resident\n{bd02}of this future world\n{bd02}stood right behind him...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+{bd02}Professor {0100:1} rode her own\n{bd02}invention, the temporal transport,\n{bd02}into the future!
+{bd02}As she collected soil and stones\n{bd02}from the future as research samples...
+{bd02}An unimaginable resident\n{bd02}of this future world\n{bd02}stood right behind her...
+なし
+なし
+なし
+なし
+なし
+なし
+なし
+なし

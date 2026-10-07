@@ -1,0 +1,18 @@
+ENTRALINK
+XTRANSCEIVER
+Union Room
+{0201:0} Ppl
+Wireless Distribution
+YES
+NO
+    \x{ffff}
+    \x{ffff}
+    \x{ffff}
+                              \x{ffff}
+                     \x{ffff}
+C-Gear Detected
+    \x{ffff}
+    \x{ffff}
+            \x{ffff}
+               \x{ffff}
+            \x{ffff}
