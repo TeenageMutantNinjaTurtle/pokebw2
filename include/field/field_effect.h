@@ -21,6 +21,7 @@ void func_ov036_021c6d3c(void *effect);
 void func_ov036_021c6cf8(void *effect);
 
 void *func_ov036_021b3f14(void *effects, FieldActor *actor, u32 arg2, u32 arg3);
+FieldEffectTask *func_ov036_021b3f64(FieldEffects *effects, FieldActor *actor, u32 arg2, u32 arg3);
 // Break the rock in front of an actor with Rock Smash
 void func_ov036_021a56c8(FieldActor *actor, FieldEffects *effects);
 // The ripples of a fishing line cast in dir from pos, and how fast they play
