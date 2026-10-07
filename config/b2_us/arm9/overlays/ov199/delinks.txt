@@ -32,3 +32,19 @@ src/ov199/gsync_state.c:
     .text       start:0x021b5bfc end:0x021b8238
     .rodata     start:0x021b97f4 end:0x021b9820
     .data       start:0x021b9b50 end:0x021b9b98
+
+src/ov199/pdwacc_message.c:
+    complete
+    .text       start:0x021b8238 end:0x021b88d0
+    .rodata     start:0x021b9820 end:0x021b9864
+    .data       start:0x021b9b98 end:0x021b9bac
+
+src/ov199/pdwacc_disp.c:
+    .text       start:0x021b88d0 end:0x021b8f4c
+    .rodata     start:0x021b9864 end:0x021b9964
+    .data       start:0x021b9bac end:0x021b9c00
+
+src/ov199/pdwacc_state.c:
+    complete
+    .text       start:0x021b8f4c end:0x021b95ac
+    .rodata     start:0x021b9964 end:0x021b9970
