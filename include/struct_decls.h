@@ -146,6 +146,8 @@ typedef struct CommTvtWork CommTvtWork;
 typedef struct CtvtCall CtvtCall;
 typedef struct CtvtCamera CtvtCamera;
 typedef struct CtvtComm CtvtComm;
+typedef struct CtvtCommBeacon CtvtCommBeacon;
+typedef struct CtvtCommMemberInfo CtvtCommMemberInfo;
 typedef struct CtvtDraw CtvtDraw;
 typedef struct CtvtGame CtvtGame;
 typedef struct CtvtMic CtvtMic;
