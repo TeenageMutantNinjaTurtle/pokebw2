@@ -156,6 +156,7 @@ typedef struct FieldFollowWk FieldFollowWk;
 typedef struct FieldMenu FieldMenu;
 typedef struct BtlvCore BtlvCore;
 typedef struct BtlvScu BtlvScu;
+typedef struct PokewoodCutin PokewoodCutin;
 typedef struct BtlvPokeListCmd BtlvPokeListCmd;
 typedef struct BtlvPokeSelectParam BtlvPokeSelectParam;
 typedef struct BtlvSelectTargetParam BtlvSelectTargetParam;

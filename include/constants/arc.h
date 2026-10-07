@@ -121,6 +121,9 @@
 #define ARCID_AREA_BMDATA_INT 226
 // The Join Avenue's tables, which resort_binary.c loads. Our name, not swan's
 #define ARCID_RESORT_BINARY 244
+// The Pokestar Studios cut-ins' graphics and scripts, which pokewood_cutin.c loads. Our names, not swan's
+#define ARCID_POKEWOOD_CUTIN_GRA 274
+#define ARCID_POKEWOOD_CUTIN_SCRIPT 275
 // Unova Link's graphics (not from swan)
 #define ARCID_KEY_SYSTEM 277
 #define ARCID_GIMMICK_EXPOBJ_MARINETUBE 295
