@@ -45,6 +45,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 ## Stack slots or frame size
 
 - Stack locals are laid out in reverse declaration order. (matching.md: "reverse declaration order")
+- A struct copied from `.rodata` once before a loop into the lowest slot, then into another slot inside it: a
+  local initializer in the loop body. (matching.md: "local initializer inside a loop")
 - Spilled variables get slots in the order they are first assigned, in small functions. In big switches,
   declarations count too. (matching.md: "Spilled variables get their stack slots")
 - A variable reused by several switch cases splits per case, and a spilled piece takes the lowest slot.

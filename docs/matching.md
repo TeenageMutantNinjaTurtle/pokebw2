@@ -97,6 +97,10 @@ Same code, other `sp` offsets or frame size.
 - Declaration order does move spill slots in longer functions: `func_ov255_021d0374` matched with its loop counters
   declared first and `y` before the row width.
 - Stack locals are laid out in reverse declaration order.
+- A local initializer inside a loop is copied from `.rodata` once, before the loop, into a compiler temporary at the
+  bottom of the frame, and copied from there into the local on each pass. `mus_shot_photo.c`'s
+  `MusShotPhoto_InitPokes` declares `VecFx32 offset = { 0, FX32_CONST(-35), 0 };` in the branch for the top Pokémon,
+  which gives the original's two copies (`sp+0x14` before the loop, `sp+0x20` in the branch).
 - Spilled variables get their stack slots in the order they are first assigned, the first at the lowest address,
   whatever their declaration order or use counts, in small functions. A value that sits above values assigned after
   it was spilled in a later round of register allocation. In the Join Avenue's records command, a large switch, the
@@ -189,6 +193,13 @@ Same instructions, scheduled in another order.
   gives `adds r5, r5, r2`, where `<< 12` gave `adds r5, r2, r5`.
 - Loads through a pointer are not moved above stores unless the pointee is `const`. A load that the original
   schedules early, such as an argument loaded before the stack arguments are stored, points to a `const` parameter.
+  It has to be the parameter: `fld_scenearea_loader.c`'s camera-area callbacks scheduled their area's loads only
+  once the callback typedefs took `const CameraArea *`, and a `const` local pointer to the member did nothing. The
+  same change fixed the register allocation of the loop in `fld_scenearea.c` that calls them.
+- A local assigned once and used once is moved to its use when nothing between them writes memory, and the 64-bit
+  multiply helper of `FX_Mul` doesn't count as a write. To keep a value computed where the original computes it,
+  build it in steps: `RECT_PitchYawTZ` writes `pitch = rect.pitch2 - rect.pitch1; pitch = pitch * progress /
+  FX32_ONE; pitch += rect.pitch1;`, where the one-expression form sank the pitch into its call.
 - The same rule moves a call's stack argument stores. When loads through a pointer that is not `const` follow the
   call, the stack arguments are stored before the register arguments are set up. If the original stores them last,
   the pointer is `const`.
@@ -347,6 +358,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   declared in an inner block opened there: the forms page's `BOOL hasSex[3] = { FALSE, FALSE, FALSE };` follows the
   Pokédex reads in a block around the rest of the gathering, and `BOOL seenRare[2] = { FALSE, FALSE };` sits in the
   loop over the forms.
+- A struct member set from a C99 compound literal, `request.pos = (VecFx32){ 0, 0, 0 };`, builds the literal in a
+  stack temporary through a base register just before the copy (`str r6, [r3]; str r6, [r3, #4]; str r6, [r3, #8];
+  ldm r3!, {r0, r1}`), in source order among the other member stores. An initialized local makes the same stores at
+  its declaration, and a local set field by field stores at `sp` offsets. fldeff_shadow.c's shadow task builds its
+  actor request so.
 - A value that a loop uses and the code after it uses again is reused from the copy hoisted out of the loop. When
   the original computes it again after the loop, the loop assigns it to a variable declared in the loop's body, as
   `int wanted = mode + 1;` in the Join Avenue's records command.

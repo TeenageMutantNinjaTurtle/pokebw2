@@ -1177,6 +1177,8 @@ overlays/ov194 0x021c71e4 remove_reloc
 overlays/ov194 0x021c7200 remove_reloc
 overlays/ov194 0x021c7240 remove_reloc
 overlays/ov194 0x021c7268 remove_reloc
+overlays/ov197 0x021be558 add_data data_ov197_021be558
+overlays/ov197 0x021be610 add_data data_ov197_021be610
 overlays/ov198 0x021b4550 remove_reloc
 overlays/ov199 0x021b805e reloc_module overlay(189)
 overlays/ov199 0x021b943c reloc_module overlay(189)
@@ -1207,6 +1209,38 @@ overlays/ov207 0x021bb1b5 remove_symbol
 overlays/ov207 0x021bb349 remove_symbol
 overlays/ov207 0x021bb369 remove_symbol
 overlays/ov207 0x021bb37d remove_symbol
+overlays/ov209 0x021ba3dc overlay_id 211
+overlays/ov209 0x021ba3e0 overlay_id 210
+overlays/ov209 0x021ba4a8 overlay_id 211
+overlays/ov209 0x021ba4ac overlay_id 210
+overlays/ov209 0x021ba5fa reloc_module overlay(210)
+overlays/ov209 0x021bb3cc reloc_module overlay(210)
+overlays/ov209 0x021bb3fa reloc_module overlay(210)
+overlays/ov209 0x021bb472 reloc_module overlay(210)
+overlays/ov209 0x021bb578 reloc_module overlay(210)
+overlays/ov209 0x021bb5a0 reloc_module overlay(210)
+overlays/ov209 0x021bb5aa reloc_module overlay(210)
+overlays/ov209 0x021bb5b0 reloc_module overlay(210)
+overlays/ov209 0x021bb5be reloc_module overlay(210)
+overlays/ov209 0x021bb5c4 reloc_module overlay(210)
+overlays/ov209 0x021bb5d4 reloc_module overlay(210)
+overlays/ov209 0x021bb5e0 reloc_module overlay(210)
+overlays/ov209 0x021bb658 reloc_module overlay(210)
+overlays/ov209 0x021bb668 reloc_module overlay(210)
+overlays/ov209 0x021bb6ec reloc_module overlay(210)
+overlays/ov209 0x021bb6fc reloc_module overlay(210)
+overlays/ov209 0x021bb832 reloc_module overlay(210)
+overlays/ov209 0x021bb9b4 reloc_module overlay(210)
+overlays/ov209 0x021bfdf4 reloc_module overlay(211)
+overlays/ov209 0x021bfe1a reloc_module overlay(211)
+overlays/ov209 0x021bfff6 reloc_module overlay(211)
+overlays/ov209 0x021c0e00 reloc_module overlay(210)
+overlays/ov209 0x021c0e04 reloc_module overlay(210)
+overlays/ov209 0x021c2c2c add_data MUS_SHOT_PHOTO_UNUSED
+overlays/ov209 0x021c2c74 remove_reloc
+overlays/ov209 0x021c2d88 add_data data_ov209_021c2d88
+overlays/ov209 0x021c2e28 remove_reloc
+overlays/ov209 0x021c2ea8 remove_reloc
 overlays/ov214 0x021d3490 overlay_id 189
 overlays/ov214 0x021d3494 overlay_id 139
 overlays/ov214 0x021d35c0 reloc_addend 4

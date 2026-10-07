@@ -180,6 +180,7 @@ BOOL Field_GetFadeFlag(Field *field);
 FieldFog *Field_GetFog(Field *field);
 FieldG3DMapper *Field_GetG3DMapper(Field *field);
 GameSystem *Field_GetGameSystem(Field *field);
+AreaData *Field_GetAreaData(Field *field);
 TCBManager *Field_GetTCBMgr(Field *field);
 EncEff *Field_GetEncEff(Field *field);
 EncountSystem *Field_GetEncountSystem(Field *field);

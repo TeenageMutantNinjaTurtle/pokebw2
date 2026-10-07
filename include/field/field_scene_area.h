@@ -11,8 +11,8 @@
 typedef struct FieldSceneArea FieldSceneArea;
 typedef struct CameraArea CameraArea;
 
-typedef BOOL (*CameraAreaCollCheck)(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos);
-typedef void (*CameraAreaCalcFunc)(FieldSceneArea *area, CameraArea *cameraArea, const VecFx32 *pos);
+typedef BOOL (*CameraAreaCollCheck)(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos);
+typedef void (*CameraAreaCalcFunc)(FieldSceneArea *area, const CameraArea *cameraArea, const VecFx32 *pos);
 
 // A rectangle of the map with two camera settings, which the camera blends between across it
 typedef struct {
