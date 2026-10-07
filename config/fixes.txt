@@ -119,8 +119,8 @@ overlays/ov008 0x0214fd10 overlay_id 257
 overlays/ov008 0x0214fd14 reloc_module overlay(257)
 overlays/ov009 0x0214f60c overlay_id 191
 overlays/ov009 0x0214f610 reloc_module overlay(191)
-overlays/ov011 0x021722c4 remove_reloc
 overlays/ov011 0x0216eba2 reloc_module overlay(189)
+overlays/ov011 0x021722c4 remove_reloc
 overlays/ov012 0x02150aa0 overlay_id 36
 overlays/ov012 0x02150aa4 reloc_module overlay(36)
 overlays/ov012 0x02150aa8 overlay_id 174
@@ -942,6 +942,37 @@ overlays/ov214 0x021e2e6c remove_symbol
 overlays/ov215 0x021ab0c8 remove_reloc
 overlays/ov255 0x021d7454 remove_reloc
 overlays/ov257 0x021acc14 add_reloc load,overlay(257),0x021b6238
+overlays/ov257 0x021af8b5 remove_symbol
+overlays/ov257 0x021af8fd remove_symbol
+overlays/ov257 0x021af94d remove_symbol
+overlays/ov257 0x021af9dd remove_symbol
+overlays/ov257 0x021afcd5 remove_symbol
+overlays/ov257 0x021afcfd remove_symbol
+overlays/ov257 0x021afd9d remove_symbol
+overlays/ov257 0x021afe05 remove_symbol
+overlays/ov257 0x021afe21 remove_symbol
+overlays/ov257 0x021afe91 remove_symbol
+overlays/ov257 0x021aff01 remove_symbol
+overlays/ov257 0x021aff95 remove_symbol
+overlays/ov257 0x021b0000 remove_symbol
+overlays/ov257 0x021b0001 remove_symbol
+overlays/ov257 0x021b001b remove_symbol
+overlays/ov257 0x021b001c remove_symbol
+overlays/ov257 0x021b0045 remove_symbol
+overlays/ov257 0x021b00f5 remove_symbol
+overlays/ov257 0x021b018d remove_symbol
+overlays/ov257 0x021b01e1 remove_symbol
+overlays/ov257 0x021b0205 remove_symbol
+overlays/ov257 0x021b0215 remove_symbol
+overlays/ov257 0x021b0219 remove_symbol
+overlays/ov257 0x021b021a remove_symbol
+overlays/ov257 0x021b0403 remove_symbol
+overlays/ov257 0x021b0501 remove_symbol
+overlays/ov257 0x021b0681 remove_symbol
+overlays/ov257 0x021b0905 remove_symbol
+overlays/ov257 0x021b0d03 remove_symbol
+overlays/ov257 0x021b0fdc remove_symbol
+overlays/ov257 0x021b18c4 add_data data_ov257_021b18c4
 overlays/ov260 0x021b51fa reloc_module overlay(262)
 overlays/ov260 0x021bb788 reloc_module overlay(189)
 overlays/ov260 0x021bb902 reloc_module overlay(189)

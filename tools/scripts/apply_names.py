@@ -16,6 +16,7 @@ from dsd_config import ROOT, SYMBOL_RE
 
 PRIMARY = "b2_us"
 DEFAULT_RE = re.compile(r"\b(?:func|data)_(?:ov(\d{3})_)?([0-9a-f]{8})\b")
+IDENTIFIER_RE = re.compile(r"[A-Za-z_]\w*")
 SOURCE_DIRS = ["src", "include", "lib"]
 
 
@@ -42,7 +43,8 @@ def main():
     def replace(m: re.Match) -> str:
         module = f"ov{m.group(1)}" if m.group(1) else "."
         name = names.get((module, int(m.group(2), 16)))
-        if name is None or DEFAULT_RE.fullmatch(name):
+        # Labels (`.L_...`) and default names are not names to give
+        if name is None or DEFAULT_RE.fullmatch(name) or not IDENTIFIER_RE.fullmatch(name):
             return m.group(0)
         return name
 

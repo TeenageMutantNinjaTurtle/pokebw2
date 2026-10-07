@@ -79,6 +79,8 @@
 #define ARCID_SHINKA_DEMO 179
 // The walking Pokémon's object codes (tpoke_data.c)
 #define ARCID_TPOKE 208
+// The Research Radar's graphics. Our name, not swan's
+#define ARCID_RESEARCH_RADAR 189
 #define ARCID_CDEMO_GFLOGO 220
 #define ARCID_CDEMO_OPENINGWB 221
 #define ARCID_CDEMO_OPENINGSW 222
