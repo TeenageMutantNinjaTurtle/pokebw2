@@ -17,6 +17,7 @@ u32 PassPower_GetUsedIDByEffect(int effect);
 BOOL PassPower_IsBW1Compatible(u32 passPower);
 u32 PassPower_GetRemainingSeconds(int effect);
 u32 PassPower_ApplyPrizeMoney(u32 money);
+u32 PassPower_ApplyBargain(u32 price);
 BOOL PassPower_IsBW1Compatible(u32 passPower);
 u32 PassPower_ApplyEXP(u32 exp);
 u32 PassPower_ApplyCapture(u32 rate);

@@ -82,6 +82,8 @@ u32 GetStatusCond(PartyPkm *pkm);
 void PokeParty_SetStatusCond(PartyPkm *pkm, u32 status);
 u32 PokeParty_GetSex(PartyPkm *pkm);
 BOOL PokeParty_CheckAnyRibbon(PartyPkm *pkm);
+// Whether the Pokémon can learn the move at moveIndex of a move tutor's list, by its species and form
+BOOL PokeParty_CheckMoveTutorPaid(PartyPkm *pkm, u32 moveIndex, u32 tutor);
 BOOL PokeParty_IsRare(PartyPkm *pkm);
 // Decrypt a Pokémon for a series of reads and writes, and return whether it was encrypted, which is what the
 // encryption afterwards takes
