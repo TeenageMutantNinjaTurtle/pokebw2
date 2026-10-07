@@ -522,10 +522,15 @@ void *func_ov012_0215bb70(FieldAppCallWork *work, s32 appParam, s32 prevAppId, v
     param->forceExit = FALSE;
     param->isNationalDex = PokeDex_IsNationalObtained(pokedex);
     if (prevAppId == FIELD_APP_POKELIST) {
+        PokeParty *listParty;
+        TrainerDataSave *trainerData;
+
         partyParam = prevParam;
-        param->party = partyParam->party;
-        param->trainerData = partyParam->trainerData;
-        param->partyCount = PokeParty_GetPkmCount(param->party);
+        listParty = partyParam->party;
+        trainerData = partyParam->trainerData;
+        param->party = listParty;
+        param->trainerData = trainerData;
+        param->partyCount = PokeParty_GetPkmCount(listParty);
         param->partyIndex = partyParam->index;
         switch (partyParam->result) {
         case 4:

@@ -663,10 +663,12 @@ void *GFL_G3DAnmCreate(G3DModel *model, void *resource, u32 anmIdx) {
     NNSG3dResTex *tex = NULL;
     void *anm;
     NNSG3dResMdl *mdl;
+    void *data;
 
     animation->magic = G3D_ANM_MAGIC;
+    data = ((G3DResource *)resource)->data;
     animation->resource = resource;
-    anm = NNS_G3DResGetAnm(animation->resource->data, anmIdx);
+    anm = NNS_G3DResGetAnm(data, anmIdx);
     mdl = model->renderObj->resMdl;
     if (GFL_G3DMdlGetTexResource(model) != NULL) {
         tex = NNS_G3DResGetTexBlock(model->texResource->data);
