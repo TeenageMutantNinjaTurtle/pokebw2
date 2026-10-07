@@ -146,6 +146,8 @@ u32 func_02035944(u16 item);
 // Records how and where the Pokémon was met, with the player as its Trainer
 void PokeParty_SetupMetData(PartyPkm *pkm, u32 a1, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
 u32 func_02035cf8(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);
+// Sets where and when a Pokémon from the Dream Radar was met
+void setDreamRadarPokeMetInfo(BoxPkm *pkm);
 void func_02035efc(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);
 void PokeParty_ClearPkm(PartyPkm *pkm);
 // Restores a Pokémon's HP and PP and cures its status
