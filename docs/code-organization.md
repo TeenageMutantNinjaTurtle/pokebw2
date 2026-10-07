@@ -36,8 +36,9 @@ every section.
   layout with padding is still the one definition.
 - Headers are grouped like the game's code: `system/` (game system, game data, events), `field/`, `save/`, `gfl/`
   (Game Freak's library), `pml/` (Pokémon data), `battle/`, `demo/` and `constants/`. The libraries' headers are in
-  `lib/`, as `lib/nitro/include/nitro/`, `lib/nnsys/include/nnsys/`, `lib/spl/include/spl/` and
-  `lib/dsprot/include/dsprot/`.
+  `lib/`, as `lib/nitro/include/nitro/`, `lib/nnsys/include/nnsys/`, `lib/spl/include/spl/`,
+  `lib/dsprot/include/dsprot/`, `lib/dwc/include/dwc/` (Nintendo's Wi-Fi Connection library) and
+  `lib/dpw/include/dpw/` (the Global Trade Station's server library).
   A header is named after the original file that owns its declarations, or after swan's header for it, such as
   `field/field_3dci.h`.
 - Put functions, data and callback tables used across source files or overlays in the owning file's header. Declare

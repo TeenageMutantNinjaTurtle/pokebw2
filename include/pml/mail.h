@@ -18,6 +18,8 @@ typedef struct MailData {
 
 // Allocates a blank mail
 MailData *CreateMailData(HeapID heapId);
+// Sets the mail's author's name
+void func_02009738(MailData *mail, const u16 *name);
 // The mail of the save's mailbox (a1 0) or of a Pokémon: the free slot, and clearing, copying and reading a slot's
 // mail
 s32 func_020097c4(void *mailbox, u32 box);
