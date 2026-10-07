@@ -1419,8 +1419,6 @@ from:0x021a3fcc kind:thumb_call_arm to:0x02078920 module:main
 from:0x021a3fe8 kind:thumb_call to:0x021a4000 module:overlay(181)
 from:0x021a3ffc kind:load to:0x021a4908 module:overlay(181)
 from:0x021a403c kind:load to:0x021a4908 module:overlay(181)
-from:0x021a4068 kind:load to:0x020d0001 module:main
-from:0x021a40e8 kind:load to:0x020d0003 module:main
 from:0x021a41c4 kind:load to:0x0219f9ed module:overlay(181)
 from:0x021a41cc kind:load to:0x0219fb75 module:overlay(181)
 from:0x021a41d0 kind:load to:0x0219fb85 module:overlay(181)
