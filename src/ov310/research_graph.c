@@ -210,7 +210,6 @@ enum {
 #define PERCENTAGE_INTERVAL 10
 
 // A text color of the text renderer, from each color's index
-#define TEXT_COLOR(letter, shadow, back) ((u16)(((letter) & 0x1f) << 10 | ((shadow) & 0x1f) << 5 | ((back) & 0x1f)))
 
 struct ResearchGraph {
     ResearchCommon *common;
@@ -3013,7 +3012,7 @@ static void ResearchGraph_DrawBitmaps(ResearchGraph *wk) {
             StrBuf *str;
 
             GFL_BitmapCopyArea(base, wk->bitmaps[i], 0, 0, 0, 0, entry->width * 8, entry->height * 8, entry->backColor);
-            color = TEXT_COLOR(entry->letterColor, entry->shadowColor, entry->backColor);
+            color = PRINT_COLOR(entry->letterColor, entry->shadowColor, entry->backColor);
             str = GFL_MsgDataLoadStrbufNew(wk->msgData[entry->msgDataIndex], entry->strId);
             GFL_TextRendererDrawToBitmapEx(wk->bitmaps[i], entry->textX, entry->textY, str, wk->font, color);
             GFL_HeapFree(str);
@@ -3044,7 +3043,7 @@ static void ResearchGraph_DrawButton(ResearchGraph *wk) {
     }
     GFL_BitmapFree(base);
 
-    color = TEXT_COLOR(entry->letterColor, entry->shadowColor, entry->backColor);
+    color = PRINT_COLOR(entry->letterColor, entry->shadowColor, entry->backColor);
     str = GFL_MsgDataLoadStrbufNew(wk->msgData[entry->msgDataIndex], entry->strId);
     GFL_TextRendererDrawToBitmapEx(wk->bitmaps[BMP_BUTTON], entry->textX, entry->textY, str, wk->font, color);
     GFL_HeapFree(str);
