@@ -15,5 +15,8 @@ BOOL func_0200a438(WifiList *wifiList, PlayerInfo *info, u32 *friendIndex);
 
 BOOL func_0200a138(WifiList *list, u32 index);
 u32 func_02009f80(WifiList *list, u32 index, u32 a2);
+void *getPalPadFriendListAddress(SaveControl *save);
+// Records a trainer the player traded with
+void func_0200a504(void *list, PlayerInfo *info);
 
 #endif // POKEBW2_SAVE_WIFI_LIST_H

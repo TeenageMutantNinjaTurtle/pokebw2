@@ -159,6 +159,8 @@ void GFL_NetErrMarkShown(void);
 void GFL_NetErrShow(u32 a0);
 // Shows the error with the code given
 void func_02011d04(u32 code);
+// Records the error with the code given, to show it
+void func_020120f0(u32 code);
 void func_02011de0(void);
 // Whether the error was handled, after shutting the connection down
 BOOL func_02012154(void);

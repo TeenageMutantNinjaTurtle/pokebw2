@@ -71,3 +71,9 @@ src/ov214/worldtrade_title.c:
     .text       start:0x021dec14 end:0x021dfa78
     .rodata     start:0x021e27ec end:0x021e2910
     .data       start:0x021e2f80 end:0x021e2fbc
+
+src/ov214/worldtrade_upload.c:
+    complete
+    .text       start:0x021dfa78 end:0x021e14e0
+    .rodata     start:0x021e2910 end:0x021e2980
+    .data       start:0x021e2fbc end:0x021e308c

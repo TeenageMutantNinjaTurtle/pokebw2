@@ -86,5 +86,19 @@ void func_ov189_021a7efc(Dpw_Common_Profile *profile, Dpw_Common_ProfileResult *
 // Searches the server for up to maxNum Pokémon, without and with a country
 void func_ov189_021a7bfc(const Dpw_Tr_PokemonSearchData *search, s32 maxNum, Dpw_Tr_Data *result);
 void func_ov189_021a7ca8(const Dpw_Tr_PokemonSearchDataEx *search, Dpw_Tr_Data *result);
+// Deposits a Pokémon with its signature, and ends the deposit
+void func_ov189_021a779c(Dpw_Tr_Data *data, const void *sign, u32 size);
+void func_ov189_021a7854(void);
+// Asks for the player's deposited Pokémon, and whether it was traded
+void func_ov189_021a78e0(Dpw_Tr_Data *result);
+void func_ov189_021a7960(Dpw_Tr_Data *result);
+// End the taking back of a traded Pokémon, and of a deposited one
+void func_ov189_021a79e0(void);
+void func_ov189_021a7a5c(void);
+// Cancels the request
+void func_ov189_021a7ad4(void);
+// Trades for the Pokémon of the given ID, and ends the trade
+void func_ov189_021a7d4c(s32 id, Dpw_Tr_Data *upload, Dpw_Tr_Data *result, const void *sign, u32 size);
+void func_ov189_021a7df8(void);
 
 #endif // POKEBW2_DPW_DPW_TR_H

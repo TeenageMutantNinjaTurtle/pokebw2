@@ -18,5 +18,7 @@ typedef struct MailData {
 
 // Allocates a blank mail
 MailData *CreateMailData(HeapID heapId);
+// Sets the mail's author's name
+void func_02009738(MailData *mail, const u16 *name);
 
 #endif // POKEBW2_PML_MAIL_H

@@ -79,6 +79,9 @@ BoxPkm *func_0201d620(PartyPkm *pkm);
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
+// Resets the nickname to the species' name
+void setNicknameToNick(PartyPkm *pkm);
+u32 PML_UtilDerivePkmSex(u16 species, u16 form, u32 pid);
 void copyPkmIntoPartyBlk(PokeParty *party, u32 index, const PartyPkm *pkm);
 // Changes a Pokémon into another species, as evolution does
 void setChangedPkmSpecies(PartyPkm *pkm, u32 species);

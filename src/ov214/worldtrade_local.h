@@ -4,6 +4,7 @@
 #include "types.h"
 #include "app/worldtrade.h"
 #include "dpw/dpw_tr.h"
+#include "dpw/nhttp_rap.h"
 #include "gfl/bmp_menu.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
@@ -111,6 +112,15 @@ typedef struct {
     int pos;
 } WorldTradeEvoPokeInfo;
 
+// The check of the trainer's name for bad words, which replaces a bad name
+typedef struct {
+    u16 name[12];
+    const u16 *words;
+    char result[4];
+    int badWordCount;
+    u16 unk24;
+} WorldTradeNameCheck;
+
 // The deposit and search screens' work
 typedef struct {
     ListMenuOption *pokename;
@@ -192,7 +202,8 @@ struct WorldTradeWork {
     int subReturnProcess;
     int oldSubProcess;
     int subProcessMode;
-    int unk24;
+    // The message that the save after a server check ends with
+    int errorMesNo;
     int subprocessSeq;
     int subprocessNextSeq;
     // Set once the player has seen the title's opening walk
@@ -294,7 +305,10 @@ struct WorldTradeWork {
     WorldTradeDepositWork *dw;
     AppTaskMenuRes *task_res;
     AppTaskMenu *task_work;
-    u8 unkE0C[0x8];
+    // worldtrade_upload.c's steps after the two halves of a save, and after the name check
+    u16 saveNextSeq1st;
+    u16 saveNextSeq2nd;
+    int nameCheckNextSeq;
     // The task that walks the player in or out of the lower screen's trade room
     TCB *demoTask;
     // Set once the player's walk ends
@@ -339,7 +353,12 @@ struct WorldTradeWork {
     WorldTradePrint print;
     // The parameter of the proc that a screen runs, the trade demo or the evolution demo
     void *subProcParam;
-    u8 unk10E0[0x8c];
+    // The server's check of the Pokémon to send, through nhttp_rap.c: the request, its result and the signature
+    // that the upload or the trade sends with the Pokémon
+    NHttpRap *evilCheck;
+    u8 evilCheckStatus;
+    u32 evilCheckResult;
+    u8 evilCheckSign[0x80];
     // The Wi-Fi login proc's work
     u8 wifiLoginBuffer[0x174];
     // Set once the lower screen's BGs are set up, and while a screen keeps them for the next one
@@ -354,7 +373,9 @@ struct WorldTradeWork {
     int checkEvolution;
     // Set when the partner screen comes back for another partner, which keeps the lower screen's windows
     int partnerChange;
-    u8 unk1300[0x2c];
+    WorldTradeNameCheck nameCheck;
+    // How many times the server's check was made again, after the name was replaced
+    int evilCheckRetry;
 };
 
 // worldtrade.c
@@ -531,6 +552,7 @@ StrBuf *func_ov214_021e156c(WordSet *wordSet, MsgData *msgData, u32 msgNo, HeapI
 // The width of a string in the print's font
 int func_ov214_021e15c0(WorldTradePrint *print, u8 font, StrBuf *str, int spacing);
 void func_ov214_021e159c(BoxPkm *pkm, PartyPkm *dest);
+BoxPkm *func_ov214_021e15b8(PartyPkm *pkm);
 void func_ov214_021e15d4(WorldTradePrint *print, TrainerDataSave *config);
 void func_ov214_021e1640(WorldTradePrint *print);
 void func_ov214_021e166c(WorldTradePrint *print);
