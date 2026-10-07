@@ -17,8 +17,7 @@ typedef struct {
     u32 size;
 } DWCNdFileInfo;
 
-// NitroDWC's DWCNdError, the errors of the download library. The game's handling of 6 and 8, a cancel and a fatal
-// error, fits these names
+// NitroDWC's DWCNdError, the errors of the download library
 enum {
     DWC_ND_ERROR_NONE,
     DWC_ND_ERROR_ALLOC,
