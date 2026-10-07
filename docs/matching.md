@@ -8,6 +8,10 @@ tools that show the differences.
 
 ## Registers
 
+- A variable initialized at its declaration before a local array with an initializer stays live across the
+  initializer's `ldm`/`stm` copy, which pushes the copy's pointer to a higher saved register:
+  `pokemontrade_message.c`'s `func_ov194_021c0684` copies with `r6`, as the original does, only as
+  `int i = 0; u32 params[] = { ... }; for (; i < 5; i++)`.
 - The operands of an add or compare come in another order when one of them is an unnamed temporary: MWCC puts a
   register local first, whatever the source order. Give the other operand an `int` variable of its own.
   `btl_string.c`'s `func_ov167_021d5440` adds the variant second only as `base = message + stat * 3;` then
