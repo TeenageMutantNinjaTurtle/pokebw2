@@ -241,6 +241,9 @@ Same instructions, scheduled in another order.
   storing `pos`; the same stores written out load it after.
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call sets `i` after the call,
   while `for (i = 0; ...)` sets it at the loop, after any statements before the loop.
+- Two loop variables zeroed in the other order: zero both in the `for` initializer in the original's order.
+  `scrcmd_medal.c`'s `GetHintableMedalCount` zeroes `i` before `count` only as `for (i = 0, count = 0; ...)`; `count`
+  initialized at its declaration, or declared first, zeroes it first.
 - A counter's zero stored to its stack slot ahead of a call, in another register than the call's arguments, can be
   written after that call: overlay 185's `CountupGreetings` stores `n`'s zero before calling
   `PMSWord_GetWordNumByGmmId` only with `n = 0;` after `first` and `last` are computed. Written before the call, it is

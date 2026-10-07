@@ -85,6 +85,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A load through a `const` pointer is reused across stores but not hoisted out of a loop. (matching.md: "reused across stores")
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call against `for (i = 0; ...)`.
   (matching.md: "scheduled where they are written")
+- Two loop variables zeroed in the wrong order: `for (i = 0, count = 0; ...)` in the original's order.
+  (matching.md: "Two loop variables zeroed")
 - A u16 stack parameter left in its slot and reloaded with `ldrh`, one load shared by two calls: those callees take
   `u32`; check their prototypes against their asm. (matching.md: "reloaded with `ldrh`")
 - An argument loaded before a call among the arguments was passed to an inlined helper that makes the call.

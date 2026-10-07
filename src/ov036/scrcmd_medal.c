@@ -119,7 +119,8 @@ u32 CountMedalsByStatus(FieldScriptEnv *env, u32 status) {
     u32 count = 0;
 
     for (i = 0; i < MEDAL_COUNT; i++) {
-        if (MedalBox_GetMedalStatus(box, i) == status) {
+        u8 medalStatus = MedalBox_GetMedalStatus(box, i);
+        if (medalStatus == status) {
             count++;
         }
     }
@@ -129,11 +130,10 @@ u32 CountMedalsByStatus(FieldScriptEnv *env, u32 status) {
 u32 GetHintableMedalCount(FieldScriptEnv *env) {
     MedalBox *box = SaveControl_GetMedalBox(GameData_GetSaveControl(FieldScriptEnv_GetGameData(env)));
     ArcTool *arc = GFL_ArcSysCreateFileHandle(0xeb, FieldScriptEnv_GetHeapID(env));
-    u32 i;
-    u32 count = 0;
+    u32 i, count;
     MedalData data;
 
-    for (i = 0; i < MEDAL_COUNT; i++) {
+    for (i = 0, count = 0; i < MEDAL_COUNT; i++) {
         GFL_ArcToolRead(arc, i, &data);
         if (data.hintable && MedalBox_GetMedalStatus(box, i) == MEDAL_STATUS_UNKNOWN) {
             count++;
