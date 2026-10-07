@@ -190,3 +190,6 @@ src/ov036/scrcmd_menu.c:
 src/ov036/scrcmd_gym.c:
     complete
     .text       start:0x021aad84 end:0x021ab258
+
+src/ov036/scrcmd_fade.c:
+    .text       start:0x021ab258 end:0x021ab77c
