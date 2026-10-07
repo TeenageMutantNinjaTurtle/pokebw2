@@ -369,6 +369,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   A test that branches past an unconditional jump, `bne next; b hide`, where `||` would give one `beq hide`, is the
   first copy of a body written twice in an `if`/`else if` chain and replaced by a jump to the second:
   `func_ov194_021c4ec0` hides a marking icon with `if (anim == -1) { hide } else if (isEgg && i == 6) { hide }`.
+- A `bne` over a `b` into another branch's call, `cmp r0, #0; bne x; b call; x: cmp r7, #0; beq call; mov r6, #1;
+  call:`, is the call written in both branches: overlay 185's `PMSIView_CmdWordWinToCategory` matches only with
+  `if (mode == 0) { f(flag); } else { if (search) { flag = TRUE; } f(flag); }`. Writing the call once after the `if`
+  also swapped the registers of `flag` and `search`.
 - A branch to the very next instruction is left by cross-jumping: two statements that end the same way, such as a
   store in each case of a switch, share their tail, and the first jumps to it even when it follows.
 - A block that many cases of a switch branch to, such as the step advance of `event_entrance_effect.c`'s
