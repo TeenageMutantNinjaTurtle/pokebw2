@@ -3113,6 +3113,7 @@ overlays/ov209 0x021bbe50 MusicalMcss_InitSystem
 overlays/ov209 0x021bbe9c MusicalMcss_TermSystem
 overlays/ov209 0x021bbed0 MusicalMcss_UpdateSystem
 overlays/ov209 0x021bbf14 MusicalMcss_DrawSystem
+overlays/ov209 0x021bc734 MusicalMcss_DrawQuad
 overlays/ov209 0x021bc974 MusicalMcss_Add
 overlays/ov209 0x021bca30 MusicalMcss_Del
 overlays/ov209 0x021bca74 MusicalMcss_SetOrthoMode
@@ -3130,6 +3131,11 @@ overlays/ov209 0x021bcb28 MusicalMcss_IsHidden
 overlays/ov209 0x021bcb34 MusicalMcss_Hide
 overlays/ov209 0x021bcb44 MusicalMcss_Show
 overlays/ov209 0x021bcb54 MusicalMcss_CopyState
+overlays/ov209 0x021bcc10 MusicalMcss_Load
+overlays/ov209 0x021bcd98 MusicalMcss_LoadTask
+overlays/ov209 0x021bcdf4 MusicalMcss_InitMCAnime
+overlays/ov209 0x021bce44 MusicalMcss_SetMaterial
+overlays/ov209 0x021bce64 MusicalMcss_MulVecMtx44
 overlays/ov209 0x021bcf9c MusicalMcss_GetCharacterDataNo
 overlays/ov209 0x021bcfd4 MusicalMcss_GetPaletteDataNo
 overlays/ov209 0x021bd010 MusicalMcss_GetCellsDataNo
@@ -3137,6 +3143,7 @@ overlays/ov209 0x021bd044 MusicalMcss_GetCellAnimeDataNo
 overlays/ov209 0x021bd078 MusicalMcss_GetMultiCellsDataNo
 overlays/ov209 0x021bd0ac MusicalMcss_GetMultiCellAnimeDataNo
 overlays/ov209 0x021bd0e0 MusicalMcss_GetBinFileDataNo
+overlays/ov209 0x021bd114 MusicalMcss_GetDataIDBase
 overlays/ov209 0x021c2bec MUSICAL_SHOT_LCD_CONFIG
 overlays/ov209 0x021c2bfc MUSICAL_SHOT_VRAM_CONFIG
 overlays/ov209 0x021c2c30 MUS_SHOT_PHOTO_CAMERA_TARGET
@@ -3158,6 +3165,9 @@ overlays/ov209 0x021c2d48 MUS_SHOT_INFO_BG6_SETUP
 overlays/ov209 0x021c2d68 MUS_SHOT_INFO_BG7_SETUP
 overlays/ov209 0x021c2d88 MUS_ITEM_DRAW_UNUSED_0
 overlays/ov209 0x021c2d90 MUS_ITEM_DRAW_SHOW
+overlays/ov209 0x021c2d94 MUSICAL_MCSS_ORTHO_TARGET
+overlays/ov209 0x021c2da0 MUSICAL_MCSS_ORTHO_POS
+overlays/ov209 0x021c2dac MUSICAL_MCSS_ORTHO_UP
 overlays/ov209 0x021c3000 MUSICAL_SHOT_PROC_FUNCTIONS
 overlays/ov214 0x021d3380 WorldTradeProc_Init
 overlays/ov214 0x021d34b4 WorldTradeProc_Main

@@ -16,7 +16,7 @@
 #define MUS_POKE_DRAW_CELL_MARK5 5
 #define MUS_POKE_DRAW_CELL_EQUIP 7
 
-static void MusPokeDraw_CellCallback(u32 kind, const MusicalMcssCellInfo *info, void *work);
+static void MusPokeDraw_CellCallback(u32 kind, MusicalMcssCellInfo *info, void *work);
 static void MusPokeDraw_GetLoadInfo(MusicalPoke *musPoke, MCSSLoadInfo *info, BOOL back);
 
 MusPokeDrawSys *MusPokeDraw_InitSystem(HeapID heapId) {
@@ -197,7 +197,7 @@ VecFx32 *MusPokeDraw_GetMarkPos5(MusPokeDraw *poke) {
     return &poke->markPos5;
 }
 
-static void MusPokeDraw_CellCallback(u32 kind, const MusicalMcssCellInfo *info, void *work) {
+static void MusPokeDraw_CellCallback(u32 kind, MusicalMcssCellInfo *info, void *work) {
     MusPokeDraw *poke = work;
 
     if (kind >= MUS_POKE_DRAW_CELL_EQUIP) {
@@ -206,9 +206,9 @@ static void MusPokeDraw_CellCallback(u32 kind, const MusicalMcssCellInfo *info, 
         poke->equips[kind].info.pos = info->pos;
         poke->equips[kind].info.offset = info->offset;
         poke->equips[kind].info.rotation = info->rotation;
-        poke->equips[kind].info.flip = info->flip;
+        poke->equips[kind].info.cellRotation = info->cellRotation;
         poke->equips[kind].info.scale = info->scale;
-        poke->equips[kind].info.size = info->size;
+        poke->equips[kind].info.center = info->center;
     } else if (kind == MUS_POKE_DRAW_CELL_MARK4) {
         fx32 x = info->offset.x;
         fx32 y = info->offset.y;

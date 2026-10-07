@@ -85,7 +85,7 @@ MusicalMcss_InitSystem kind:function(thumb,size=0x4c) addr:0x021bbe50
 MusicalMcss_TermSystem kind:function(thumb,size=0x32) addr:0x021bbe9c
 MusicalMcss_UpdateSystem kind:function(thumb,size=0x44) addr:0x021bbed0
 MusicalMcss_DrawSystem kind:function(thumb,size=0x820) addr:0x021bbf14
-func_ov209_021bc734 kind:function(thumb,size=0x240) addr:0x021bc734
+MusicalMcss_DrawQuad kind:function(thumb,size=0x240) addr:0x021bc734
 MusicalMcss_Add kind:function(thumb,size=0xbc) addr:0x021bc974
 MusicalMcss_Del kind:function(thumb,size=0x44) addr:0x021bca30
 MusicalMcss_SetOrthoMode kind:function(thumb,size=0xe) addr:0x021bca74
@@ -103,11 +103,11 @@ MusicalMcss_IsHidden kind:function(thumb,size=0xa) addr:0x021bcb28
 MusicalMcss_Hide kind:function(thumb,size=0x10) addr:0x021bcb34
 MusicalMcss_Show kind:function(thumb,size=0x10) addr:0x021bcb44
 MusicalMcss_CopyState kind:function(thumb,size=0xbc) addr:0x021bcb54
-func_ov209_021bcc10 kind:function(thumb,size=0x188) addr:0x021bcc10
-func_ov209_021bcd98 kind:function(thumb,size=0x5a) addr:0x021bcd98
-func_ov209_021bcdf4 kind:function(thumb,size=0x50) addr:0x021bcdf4
-func_ov209_021bce44 kind:function(thumb,size=0x20) addr:0x021bce44
-func_ov209_021bce64 kind:function(thumb,size=0x136) addr:0x021bce64
+MusicalMcss_Load kind:function(thumb,size=0x188) addr:0x021bcc10
+MusicalMcss_LoadTask kind:function(thumb,size=0x5a) addr:0x021bcd98
+MusicalMcss_InitMCAnime kind:function(thumb,size=0x50) addr:0x021bcdf4
+MusicalMcss_SetMaterial kind:function(thumb,size=0x20) addr:0x021bce44
+MusicalMcss_MulVecMtx44 kind:function(thumb,size=0x136) addr:0x021bce64
 MusicalMcss_GetCharacterDataNo kind:function(thumb,size=0x38) addr:0x021bcf9c
 MusicalMcss_GetPaletteDataNo kind:function(thumb,size=0x3c) addr:0x021bcfd4
 MusicalMcss_GetCellsDataNo kind:function(thumb,size=0x32) addr:0x021bd010
@@ -115,7 +115,7 @@ MusicalMcss_GetCellAnimeDataNo kind:function(thumb,size=0x32) addr:0x021bd044
 MusicalMcss_GetMultiCellsDataNo kind:function(thumb,size=0x32) addr:0x021bd078
 MusicalMcss_GetMultiCellAnimeDataNo kind:function(thumb,size=0x32) addr:0x021bd0ac
 MusicalMcss_GetBinFileDataNo kind:function(thumb,size=0x32) addr:0x021bd0e0
-func_ov209_021bd114 kind:function(thumb,size=0x124) addr:0x021bd114
+MusicalMcss_GetDataIDBase kind:function(thumb,size=0x124) addr:0x021bd114
 func_ov209_021bd238 kind:function(thumb,size=0x40) addr:0x021bd238
 func_ov209_021bd278 kind:function(thumb,size=0x32) addr:0x021bd278
 func_ov209_021bd2ac kind:function(thumb,size=0x28) addr:0x021bd2ac
@@ -383,9 +383,9 @@ MUS_SHOT_INFO_BG7_SETUP kind:data(any) addr:0x021c2d68
 MUS_ITEM_DRAW_UNUSED_0 kind:data(any) addr:0x021c2d88
 MUS_ITEM_DRAW_UNUSED_1 kind:data(any) addr:0x021c2d8c
 MUS_ITEM_DRAW_SHOW kind:data(any) addr:0x021c2d90
-data_ov209_021c2d94 kind:data(any) addr:0x021c2d94
-data_ov209_021c2da0 kind:data(any) addr:0x021c2da0
-data_ov209_021c2dac kind:data(any) addr:0x021c2dac
+MUSICAL_MCSS_ORTHO_TARGET kind:data(any) addr:0x021c2d94
+MUSICAL_MCSS_ORTHO_POS kind:data(any) addr:0x021c2da0
+MUSICAL_MCSS_ORTHO_UP kind:data(any) addr:0x021c2dac
 data_ov209_021c2db8 kind:data(any) addr:0x021c2db8
 data_ov209_021c2dbc kind:data(any) addr:0x021c2dbc
 data_ov209_021c2dd4 kind:data(any) addr:0x021c2dd4

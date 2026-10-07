@@ -13,17 +13,21 @@
 
 // Where a marker cell of a sprite was drawn this frame, as a draw callback gets it
 typedef struct {
+    // The sprite's position, y up
     VecFx32 pos;
+    // The cell's offset from it, scaled, and its depth
     VecFx32 offset;
     VecFx32 scale;
-    VecFx32 size;
+    // The sprite's center of rotation
+    VecFx32 center;
     u16 rotation;
-    u16 flip;
+    // The cell's rotation, its own plus the multi-cell's
+    u16 cellRotation;
 } MusicalMcssCellInfo;
 
 // Called for each marker cell of a sprite as it is drawn, with the cell's kind and the work given to
 // MusicalMcss_Add
-typedef void (*MusicalMcssCellCallback)(u32 kind, const MusicalMcssCellInfo *info, void *work);
+typedef void (*MusicalMcssCellCallback)(u32 kind, MusicalMcssCellInfo *info, void *work);
 
 MusicalMcssSys *MusicalMcss_InitSystem(u32 count, HeapID heapId);
 void MusicalMcss_TermSystem(MusicalMcssSys *sys);
@@ -37,8 +41,8 @@ void MusicalMcss_SetOrthoMode(MusicalMcssSys *sys);
 // Where the sprites' characters and palettes go in texture VRAM
 void MusicalMcss_SetTexBase(MusicalMcssSys *sys, u32 base);
 void MusicalMcss_SetPlttBase(MusicalMcssSys *sys, u32 base);
-void MusicalMcss_SetPosition(MusicalMcss *mcss, const VecFx32 *pos);
-void MusicalMcss_SetScale(MusicalMcss *mcss, const VecFx32 *scale);
+void MusicalMcss_SetPosition(MusicalMcss *mcss, VecFx32 *pos);
+void MusicalMcss_SetScale(MusicalMcss *mcss, VecFx32 *scale);
 void MusicalMcss_SetRotation(MusicalMcss *mcss, u16 rotation);
 void MusicalMcss_SetFlip(MusicalMcss *mcss);
 void MusicalMcss_ResetFlip(MusicalMcss *mcss);
