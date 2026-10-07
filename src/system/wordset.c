@@ -300,7 +300,7 @@ void loadTrainerNamesToStrbuf(WordSet *wordSet, u32 index, u32 trainerId) {
     GFL_WordSetLoadMsg(wordSet, index, 0x17e, trainerId);
 }
 
-void loadStatNameToStrbuf(WordSet *wordSet, u32 index, u32 stat) {
+void loadStatNameToStrbuf(WordSet *wordSet, u32 index, u8 stat) {
     GFL_WordSetLoadMsg(wordSet, index, 0x174, stat);
 }
 

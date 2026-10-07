@@ -880,7 +880,7 @@ BOOL func_0204c138(ClActor *actor) {
     return actor->visible;
 }
 
-void func_0204c140(ClActor *actor, const ClActorPos *pos, u32 surface) {
+void func_0204c140(ClActor *actor, const ClActorPos *pos, u16 surface) {
     ClActorPos offset;
     ClActorPos actorPos;
 
