@@ -12,8 +12,8 @@
 MysteryGraphic *MysteryGraphic_Create(u32 mode, HeapID heapId);
 void MysteryGraphic_Delete(MysteryGraphic *graphic);
 void MysteryGraphic_Update(MysteryGraphic *graphic);
-void MysteryGraphic_Draw3D(MysteryGraphic *graphic);
-void MysteryGraphic_UpdateCamera(MysteryGraphic *graphic);
+void MysteryGraphic_BeginFrame3D(MysteryGraphic *graphic);
+void MysteryGraphic_EndFrame3D(MysteryGraphic *graphic);
 ClActUnit *MysteryGraphic_GetClactUnit(MysteryGraphic *graphic);
 // Switch the main screen to 3D for the effect of a received gift, and back
 void MysteryGraphic_Start3D(MysteryGraphic *graphic);
