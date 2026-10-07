@@ -80,6 +80,12 @@ void OS_GetLowEntropyData(u32 buffer[8]);
 int STD_CompareString(const char *a, const char *b);
 // NitroSDK's STD_GetStringLength
 int NNS_STD_StrLen(const char *str);
+// NitroSDK's STD_CopyLString: copies at most size - 1 characters and a NUL, returning the length of src
+int func_0207f7cc(char *dst, const char *src, int size);
+// NitroSDK's STD_TSPrintf
+int func_020800e8(char *dst, const char *fmt, ...);
+// TwlSDK's OS_SpinWaitSysCycles: busy-waits for some cycles of the system clock
+void func_0207c160(u32 cycles);
 
 // NitroSDK's OS_WaitIrq and OS_IsRunOnTwl, under swan's names
 void irq_waitFor(BOOL clear, u32 interrupts);
@@ -129,5 +135,7 @@ typedef struct {
 } OSOwnerInfo;
 
 void OS_GetOwnerInfo(OSOwnerInfo *info);
+
+int OS_SNPrintf(char *dst, u32 len, const char *format, ...);
 
 #endif // POKEBW2_NITRO_OS_H
