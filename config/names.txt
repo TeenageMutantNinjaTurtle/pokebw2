@@ -2497,9 +2497,9 @@ overlays/ov298 0x021ac544 sZukanDetailMapZones
 overlays/ov298 0x021ac5f0 sZukanDetailMapPlaceFlags
 overlays/ov298 0x021ac74c ZUKAN_DETAIL_VOICE_PROC_FUNCS
 overlays/ov298 0x021ac760 sZukanDetailVoiceActors
-overlays/ov298 0x021ac7f0 sZukanDetailFormStrbufMessages
-overlays/ov298 0x021ac7fc sZukanDetailFormActors
-overlays/ov298 0x021ac81c sZukanDetailFormDefaultPositions
+overlays/ov298 0x021ac7f0 ZUKAN_DETAIL_FORM_STRBUF_MESSAGES
+overlays/ov298 0x021ac7fc ZUKAN_DETAIL_FORM_ACTORS
+overlays/ov298 0x021ac81c ZUKAN_DETAIL_FORM_DEFAULT_POSITIONS
 overlays/ov298 0x021ac878 ZUKAN_DETAIL_FORM_PROC_FUNCS
 overlays/ov298 0x021ac8b0 sZukanDetailFormSpritePositions
 overlays/ov298 0x021ace74 sZukanDetailMapKindPalettes
