@@ -217,10 +217,6 @@ void HandlerSolarPowerWeather(BattleEventItem *item, BtlServerFlow *flow, u8 mon
 void HandlerSolarPowerPower(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 const BattleEventHandlerEntry *EventAddSolarPower(u32 *priority);
 extern const BattleEventHandlerEntry data_ov167_021d7d70[];
-BOOL func_ov167_021cde38(u32 monId);
-BOOL func_ov167_021cdedc(BtlServerFlow *flow, u8 monId);
-BOOL func_ov167_021cdf28(BtlServerFlow *flow, u8 monId, u8 otherId);
-BOOL IsMonLastInTurnOrder(BtlServerFlow *flow, u8 monId);
 void HandlerShieldDustStatus(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 void HandlerShieldDustRank(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 void HandlerShieldDustShrink(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
@@ -330,7 +326,6 @@ void HandlerFlashFirePower(BattleEventItem *item, BtlServerFlow *flow, u8 monId,
 void HandlerFlashFireRemove(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 void HandlerFlashFireCheckNoEffect(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 const BattleEventHandlerEntry *EventAddFlashFire(u32 *priority);
-BOOL CommonCheckRunMessage(void *context);
 void HandlerRunAwayMessage(BattleEventItem *item, BtlServerFlow *flow, u8 monId, s32 *work);
 extern const BattleEventHandlerEntry data_ov167_021d7934[];
 const BattleEventHandlerEntry *EventAddRunAway(u32 *priority);

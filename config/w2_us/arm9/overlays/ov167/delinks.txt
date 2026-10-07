@@ -45,6 +45,7 @@ src/ov167/btl_calc.c:
     .text       start:0x021bd094 end:0x021bdb38
     .rodata     start:0x021d74e0 end:0x021d7664
     .data       start:0x021dafd4 end:0x021dafe0
+    .bss        start:0x021dd884 end:0x021dd8a4
 
 src/ov167/battle_action.c:
     complete
@@ -52,6 +53,23 @@ src/ov167/battle_action.c:
 
 src/ov167/ability_handlers.c:
     .text       start:0x021bdcec end:0x021c272c
+    .rodata     start:0x021d7664 end:0x021d8428
+
+src/ov167/item_handlers.c:
+    .text       start:0x021c272c end:0x021c5b44
+    .rodata     start:0x021d8428 end:0x021d94c8
+
+src/ov167/move_handlers.c:
+    .text       start:0x021c5b44 end:0x021cde78
+    .rodata     start:0x021d94c8 end:0x021da904
+
+src/ov167/handler_common.c:
+    .text       start:0x021cde78 end:0x021ce14c
+
+src/ov167/battle_overlay.c:
+    complete
+    .text       start:0x021ce14c end:0x021ce198
+    .bss        start:0x021dd8a4 end:0x021dd8a8
 
 src/ov167/battle_condition.c:
     complete
