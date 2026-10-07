@@ -149,6 +149,8 @@ enum {
 #define ITEM_ROWS 3
 #define VIEW_TOP 24
 #define VIEW_BOTTOM 168
+// The BG scroll that shows the end of the list of all the surveys, which the saved scroll is kept within
+#define MAX_BG_SCROLL (SURVEY_COUNT * ITEM_HEIGHT - VIEW_BOTTOM)
 
 // The scroll bar's knob moves between these y
 #define BAR_TOP 32
@@ -168,7 +170,6 @@ enum {
 #define LAST_SURVEY_FLAG 0xc7
 
 // A text color of the text renderer, from each color's index
-#define TEXT_COLOR(letter, shadow, back) ((u16)(((letter) & 0x1f) << 10 | ((shadow) & 0x1f) << 5 | ((back) & 0x1f)))
 
 struct ResearchList {
     ResearchCommon *common;
@@ -1452,12 +1453,9 @@ static u8 ResearchList_GetCurrentSurvey(ResearchList *wk) {
             return index;
         }
     }
-#ifdef BUGFIX
-    return SURVEY_NONE;
-#else
-    // BUG: The callers check for SURVEY_NONE, but questions of no survey give the first
+    // Questions of no survey give the first, though some callers check for SURVEY_NONE. Returning SURVEY_NONE instead
+    // would not fix it: ResearchList_SeqDecide passes the result on to ResearchList_UnindentItem unchecked
     return 0;
-#endif
 }
 
 // Makes the chosen survey the one being run
@@ -2050,8 +2048,8 @@ static void ResearchList_LoadRecovery(ResearchList *wk) {
         if (bgScroll < -VIEW_TOP) {
             bgScroll = -VIEW_TOP;
         }
-        if (bgScroll > 72) {
-            bgScroll = 72;
+        if (bgScroll > MAX_BG_SCROLL) {
+            bgScroll = MAX_BG_SCROLL;
         }
         ResearchList_SetBGScroll(bgScroll);
 
@@ -2076,8 +2074,8 @@ static void ResearchList_SaveRecovery(ResearchList *wk) {
         if (bgScroll < -VIEW_TOP) {
             bgScroll = -VIEW_TOP;
         }
-        if (bgScroll > 72) {
-            bgScroll = 72;
+        if (bgScroll > MAX_BG_SCROLL) {
+            bgScroll = MAX_BG_SCROLL;
         }
         ResearchListRecovery_SetBGScroll(wk->recovery, bgScroll);
 
@@ -2593,7 +2591,7 @@ static void ResearchList_DrawBitmaps(ResearchList *wk) {
             StrBuf *str;
 
             GFL_BitmapCopyArea(base, wk->bitmaps[i], 0, 0, 0, 0, entry->width * 8, entry->height * 8, entry->backColor);
-            color = TEXT_COLOR(entry->letterColor, entry->shadowColor, entry->backColor);
+            color = PRINT_COLOR(entry->letterColor, entry->shadowColor, entry->backColor);
             str = GFL_MsgDataLoadStrbufNew(wk->msgData[entry->msgDataIndex], entry->strId);
             GFL_TextRendererDrawToBitmapEx(wk->bitmaps[i], entry->textX, entry->textY, str, wk->font, color);
             GFL_HeapFree(str);
@@ -2624,7 +2622,7 @@ static void ResearchList_DrawYesButton(ResearchList *wk) {
     }
     GFL_BitmapFree(base);
 
-    color = TEXT_COLOR(entry->letterColor, entry->shadowColor, entry->backColor);
+    color = PRINT_COLOR(entry->letterColor, entry->shadowColor, entry->backColor);
     str = GFL_MsgDataLoadStrbufNew(wk->msgData[entry->msgDataIndex], entry->strId);
     GFL_TextRendererDrawToBitmapEx(wk->bitmaps[BMP_YES], entry->textX, entry->textY, str, wk->font, color);
     GFL_HeapFree(str);
@@ -2651,7 +2649,7 @@ static void ResearchList_DrawNoButton(ResearchList *wk) {
     }
     GFL_BitmapFree(base);
 
-    color = TEXT_COLOR(entry->letterColor, entry->shadowColor, entry->backColor);
+    color = PRINT_COLOR(entry->letterColor, entry->shadowColor, entry->backColor);
     str = GFL_MsgDataLoadStrbufNew(wk->msgData[entry->msgDataIndex], entry->strId);
     GFL_TextRendererDrawToBitmapEx(wk->bitmaps[BMP_NO], entry->textX, entry->textY, str, wk->font, color);
     GFL_HeapFree(str);

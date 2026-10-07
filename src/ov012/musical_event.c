@@ -287,7 +287,7 @@ static GameEventReturnCode func_ov012_02150e6c(GameEvent *event, u32 *state, voi
         break;
     case 7:
         func_ov012_02151384(work);
-        GSYS_QueueProc(work->gsys, OVERLAY_ID(209), &data_ov209_021c3000, work->shot);
+        GSYS_QueueProc(work->gsys, OVERLAY_ID(209), &MUSICAL_SHOT_PROC_FUNCTIONS, work->shot);
         work->state = 8;
         break;
     case 8:
@@ -479,8 +479,8 @@ static void func_ov012_02151384(MusicalEventWork *work) {
 
     work->shot = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(MusicalShotParam), FALSE, "musical_event.c", 798);
     work->shot->shot = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(MusicalShot), TRUE, "musical_event.c", 799);
-    work->shot->unk4 = 0;
-    work->shot->unk8 = 0;
+    work->shot->loadComm = FALSE;
+    work->shot->loadData = FALSE;
     work->shot->comm = work->comm;
     shot = work->shot->shot;
     RTC_GetCachedDate(&date);
@@ -542,7 +542,7 @@ static void func_ov012_02151384(MusicalEventWork *work) {
             }
         }
     }
-    work->shot->unk0 = 1;
+    work->shot->askSave = TRUE;
     work->shot->save = getAddressOfMusicalDataInfo(GameData_GetSaveControl(GSYS_GetGameData(work->gsys)));
     for (i = 0; i < 4; i++) {
         points[i] = work->stage->pokes[i]->points;

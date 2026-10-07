@@ -240,9 +240,11 @@ void PMSIVWordWin_MoveCursor(PMSIVWordWin *wk, u32 pos) {
 
 void PMSIVWordWin_StartScroll(PMSIVWordWin *wk, int vector) {
     int count, i;
-    u32 start, newTop;
+    u8 y;
+    u8 newY;
+    u32 newTop;
+    u32 start;
     int dy;
-    u8 y, newY;
 
     PMSIVWordWin_ClearScrollArea(wk, vector);
     count = vector * 2;
@@ -253,8 +255,8 @@ void PMSIVWordWin_StartScroll(PMSIVWordWin *wk, int vector) {
     if (vector < 0) {
         start = newTop;
         y = newY;
-        vector = -vector;
         count = -count;
+        vector = -vector;
     } else {
         y = wk->y + 192;
         start += WORDWIN_DRAW_WORDS;
@@ -301,9 +303,7 @@ void PMSIVWordWin_SetScrollBar(PMSIVWordWin *wk, u32 top, u32 scrollMax) {
         pos.y = SCROLL_BAR_TOP;
     } else if (top == scrollMax) {
         pos.y = SCROLL_BAR_BOTTOM;
-    } else if (scrollMax == 0) {
-        pos.y = SCROLL_BAR_TOP;
-    } else {
+    } else if (scrollMax != 0) {
         s16 start = top * SCROLL_BAR_HEIGHT / (scrollMax + 1) + SCROLL_BAR_TOP;
         s16 end = (top + 1) * SCROLL_BAR_HEIGHT / (scrollMax + 1) + SCROLL_BAR_TOP - 1;
 
@@ -313,6 +313,8 @@ void PMSIVWordWin_SetScrollBar(PMSIVWordWin *wk, u32 top, u32 scrollMax) {
         } else if (pos.y > SCROLL_BAR_BOTTOM) {
             pos.y = SCROLL_BAR_BOTTOM;
         }
+    } else {
+        pos.y = SCROLL_BAR_TOP;
     }
     func_0204c140(wk->scrollBar, &pos, CLACT_SURFACE_MAIN);
 }
@@ -337,8 +339,11 @@ u32 PMSIVWordWin_GetScrollBarLine(PMSIVWordWin *wk, u32 scrollMax) {
     s16 y, i;
 
     PMSIVWordWin_GetScrollBarPos(wk, &pos);
-    if (scrollMax != 0 && (y = pos.y) != SCROLL_BAR_TOP) {
-        if (y == SCROLL_BAR_BOTTOM) {
+    if (scrollMax != 0) {
+        y = pos.y;
+        if (y == SCROLL_BAR_TOP) {
+            line = 0;
+        } else if (y == SCROLL_BAR_BOTTOM) {
             line = scrollMax;
         } else {
             for (i = 0; i <= scrollMax; i++) {

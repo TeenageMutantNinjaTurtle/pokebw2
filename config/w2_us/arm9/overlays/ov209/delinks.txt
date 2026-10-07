@@ -3,3 +3,14 @@
     .ctor       start:0x021c3024 end:0x021c3024 kind:rodata align:4
     .data       start:0x021c3040 end:0x021c3280 kind:data align:32
     .bss        start:0x021c3280 end:0x021c32a0 kind:bss align:32
+
+src/ov209/musical_shot_sys.c:
+    complete
+    .text       start:0x021ba180 end:0x021ba5d8
+    .rodata     start:0x021c2c2c end:0x021c2c6c
+    .data       start:0x021c3040 end:0x021c3060
+
+src/ov209/mus_shot_photo.c:
+    .text       start:0x021ba5d8 end:0x021bad6c
+    .rodata     start:0x021c2c6c end:0x021c2d60
+    .data       start:0x021c3060 end:0x021c3074
