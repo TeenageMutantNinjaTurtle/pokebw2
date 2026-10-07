@@ -36,4 +36,11 @@ void MedalBox_GetMedalDate(MedalBox *box, u16 medal, u8 *year, u8 *month, u8 *da
 u32 MedalBox_GetNextRankRequirement(MedalBox *box);
 void MedalBox_IncrementRank(MedalBox *box);
 
+// The Pokédex's habitat list, kept in the medal box's block: the zone it shows, its season and its kind of habitat.
+// These functions come from a later file than the medal box's, which has no header yet
+void *func_02010cb8(SaveControl *save);
+void func_02010d70(void *data, u16 zone);
+void func_02010d80(void *data, u8 season);
+void func_02010d90(void *data, u8 type);
+
 #endif // POKEBW2_SAVE_MEDAL_BOX_H

@@ -489,8 +489,8 @@ WorldTradeInputWork *WorldTrade_Input_Init(WorldTradeInputHeader *header, int fr
     func_0204c488(wk->cursorAct, 4);
     func_0204c520(wk->cursorAct, TRUE);
     func_0204c124(wk->cursorAct, FALSE);
-    wk->numFont = func_ov214_021e1874(15, 14, 2, HEAPID_WORLDTRADE);
-    func_ov214_021e15d4(&wk->print, header->config);
+    wk->numFont = WorldTrade_NumFontCreate(15, 14, 2, HEAPID_WORLDTRADE);
+    WorldTrade_PrintInit(&wk->print, header->config);
     return wk;
 }
 
@@ -525,8 +525,8 @@ void WorldTrade_Input_Start(WorldTradeInputWork *wk, int type) {
 }
 
 void WorldTrade_Input_Exit(WorldTradeInputWork *wk) {
-    func_ov214_021e1640(&wk->print);
-    func_ov214_021e18d8(wk->numFont);
+    WorldTrade_PrintExit(&wk->print);
+    WorldTrade_NumFontDelete(wk->numFont);
     func_02033120(wk->bgWinFrm);
     GFL_HeapFree(wk);
 }
@@ -535,8 +535,8 @@ u32 WorldTrade_Input_Main(WorldTradeInputWork *wk) {
     u32 ret = sInputFuncTable[wk->seq](wk);
 
     func_0203349c(wk->bgWinFrm);
-    func_ov214_021e166c(&wk->print);
-    func_ov214_021e18fc(wk->numFont);
+    WorldTrade_PrintMain(&wk->print);
+    WorldTrade_NumFontMain(wk->numFont);
     return ret;
 }
 
@@ -1383,7 +1383,7 @@ static void Input_LevelSelectInit(WorldTradeInputWork *wk) {
 }
 
 static void Input_SysPrint(void *frm, BmpWin *win, StrBuf *str, int x, u16 color, WorldTradePrint *print) {
-    func_ov214_021e17c4(win, 0, str, x, 0, 0, color, print);
+    WorldTrade_PrintColor(win, 0, str, x, 0, 0, color, print);
     BmpWin_FlushChar(win);
     func_020335c4(frm, 0, win);
 }
@@ -2165,7 +2165,7 @@ static void Input_SystemPrint(void *frm, MsgData *msgManager, BmpWin *win, int m
 static void Input_TouchPrint(void *frm, MsgData *msgManager, BmpWin *win, int msgNo, WorldTradePrint *print) {
     StrBuf *str = GFL_MsgDataLoadStrbufNew(msgManager, msgNo);
 
-    func_ov214_021e17c4(win, 0, str, 0, 0, 0, INPUT_COLOR_NORMAL, print);
+    WorldTrade_PrintColor(win, 0, str, 0, 0, 0, INPUT_COLOR_NORMAL, print);
     BmpWin_FlushChar(win);
     func_020335c4(frm, 0, win);
     GFL_StrBufFree(str);
@@ -2173,9 +2173,9 @@ static void Input_TouchPrint(void *frm, MsgData *msgManager, BmpWin *win, int ms
 
 static void Input_PagePrint(void *frm, WorldTradeNumFont *numFont, BmpWin *win, int page, int max) {
     GFL_BitmapFill(BmpWin_GetBitmap(win), 8);
-    func_ov214_021e1954(numFont, page + 1, 2, 1, win, 0, 0);
-    func_ov214_021e1a28(numFont, 0, win, 16, 0);
-    func_ov214_021e1954(numFont, max, 2, 0, win, 24, 0);
+    WorldTrade_NumFontPrintNumber(numFont, page + 1, 2, 1, win, 0, 0);
+    WorldTrade_NumFontPrintSlash(numFont, 0, win, 16, 0);
+    WorldTrade_NumFontPrintNumber(numFont, max, 2, 0, win, 24, 0);
     BmpWin_FlushChar(win);
     func_020335c4(frm, 0, win);
 }

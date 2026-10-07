@@ -41,7 +41,7 @@ int WorldTrade_Demo_Init(WorldTradeWork *wk, int seq) {
         GFL_HeapAllocate(HEAPID_WORLDTRADE, sizeof(PokemonTradeGtsParam), FALSE, "worldtrade_demo.c", 94);
     sys_memset(wk->subProcParam, 0, sizeof(PokemonTradeGtsParam));
     param = wk->subProcParam;
-    wk->sentPokemon = func_ov214_021e1504(HEAPID_WORLDTRADE);
+    wk->sentPokemon = WorldTrade_AllocPartyPkm(HEAPID_WORLDTRADE);
     param->gameData = GSYS_GetGameData(wk->param->gsys);
     param->myStatus = wk->param->mystatus;
 
@@ -138,7 +138,7 @@ int WorldTrade_Demo_Main(WorldTradeWork *wk, int seq) {
             u32 method;
 
             pkm = Demo_GetTradePokemon(wk, wk->subProcessMode);
-            sent = func_ov214_021e1504(HEAPID_WORLDTRADE);
+            sent = WorldTrade_AllocPartyPkm(HEAPID_WORLDTRADE);
             func_0200b4b8(wk->param->worldtrade_data, sent);
             if (PokeParty_GetParam(pkm, PKM_PARAM_SPECIES, NULL) != PokeParty_GetParam(sent, PKM_PARAM_SPECIES, NULL) ||
                 PokeParty_GetParam(pkm, PKM_PARAM_PID, NULL) != PokeParty_GetParam(sent, PKM_PARAM_PID, NULL)) {
@@ -261,7 +261,7 @@ static void Demo_StoreTradedPokemon(WorldTradeWork *wk) {
     PartyPkm *pkm = Demo_GetTradePokemon(wk, wk->subProcessMode);
 
     if (wk->evoPokeInfo.boxNo == 0xff) {
-        func_ov214_021e1528(pkm, PokeParty_GetPkm(wk->param->myparty, wk->evoPokeInfo.pos));
+        WorldTrade_CopyPartyPkm(pkm, PokeParty_GetPkm(wk->param->myparty, wk->evoPokeInfo.pos));
     } else {
         int box = 0;
         int slot = 0;

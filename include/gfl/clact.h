@@ -56,6 +56,13 @@ enum {
     CLACT_VRAM_BOTH,
 };
 
+// The surfaces of the default renderer, which the actors' positions are relative to. An enum, which MWCC does not
+// propagate as a constant, as the Pokédex's info page shows
+typedef enum {
+    CLACT_SURFACE_MAIN,
+    CLACT_SURFACE_SUB,
+} ClActSurface;
+
 typedef struct ClActRenderer ClActRenderer;
 
 // A surface of a renderer: its view, its screen and how it culls cells
