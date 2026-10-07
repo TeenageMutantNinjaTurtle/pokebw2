@@ -382,6 +382,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A caller that keeps an argument register untouched across a call to a function that ignores it is passing that
   argument: `ShinkaDemoPieces_IsFadeDone` takes the heap ID like the functions around it.
 
+- `if (!f()) { ... } else { return x; }` puts the `else` out of line, after the function's other code, where
+  `if (f()) { return x; }` keeps it in place (`ctvt_game.c`'s `CtvtGame_Main` and `CtvtGame_UpdatePlay`).
+- A `u16` local that holds a call's result changes the operand order of a later add with it, and
+  `index = first; index += kind;` truncates a `u32` field before the add, where `first + kind` does not
+  (`ctvt_game.c`'s `CtvtGameTarget_UpdateHit` and `CtvtGameTarget_Draw`).
 - A ternary argument `f(c ? 1 : 0)` compiles to the select form (`movs r0, #1; cmp; beq; movs r0, #0`). A branchy
   original (`bne`; `movs #1`; `b`; `movs #0`) is an `if`/`else` with a call in each branch, as `CtvtTalk_UpdateMain`
   calls `func_0203d564(TRUE)` or `func_0203d564(FALSE)`.
