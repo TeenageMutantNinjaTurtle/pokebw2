@@ -3,3 +3,24 @@
     .ctor       start:0x021b25d8 end:0x021b25d8 kind:rodata align:4
     .data       start:0x021b25e0 end:0x021b3da0 kind:data align:32
     .bss        start:0x021b3da0 end:0x021b7a20 kind:bss align:32
+
+src/ov257/camera_system.c:
+    .text       start:0x02199900 end:0x0219a390
+    .data       start:0x021b25e0 end:0x021b25f0
+    .bss        start:0x021b3da0 end:0x021b3da4
+
+src/ov257/ima_adpcm.c:
+    complete
+    .text       start:0x0219a390 end:0x0219a590
+    .rodata     start:0x021af77c end:0x021af8f0
+    .bss        start:0x021b3da4 end:0x021b3dac
+
+src/ov257/draw_system.c:
+    .text       start:0x0219a590 end:0x0219a890
+    .rodata     start:0x021af8f0 end:0x021b1900
+    .data       start:0x021b25f0 end:0x021b2600
+
+src/ov257/ctvt_mic.c:
+    .text       start:0x0219ef8c end:0x0219f274
+    .data       start:0x021b2650 end:0x021b268c
+    .bss        start:0x021b3dac end:0x021b3db0

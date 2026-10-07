@@ -222,6 +222,7 @@ typedef enum {
 #define GX_VRAM_TEX_0_D GX_VRAM_D
 #define GX_VRAM_TEXPLTT_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_TEX_0_B GX_VRAM_B
 #define GX_VRAM_TEX_0_D GX_VRAM_D
 #define GX_VRAM_TEX_01_AB (GX_VRAM_A | GX_VRAM_B)
 #define GX_VRAM_TEX_01_BD (GX_VRAM_B | GX_VRAM_D)
@@ -1123,6 +1124,9 @@ u16 gfxGetObjBanksB(void);
 
 // NitroSDK's G2_GetBG0ScrPtr
 void *gfxGetScreenAddrBG0A(void);
+// NitroSDK's G2_GetBG2ScrPtr and G2_GetBG3ScrPtr
+void *gfxGetScreenAddrBG2A(void);
+void *gfxGetScreenAddrBG3A(void);
 
 // NitroSDK's G2_GetBG0CharPtr to G2S_GetBG3CharPtr
 void *gfxGetCharAddrBG0A(void);
