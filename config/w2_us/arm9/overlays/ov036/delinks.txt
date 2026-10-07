@@ -162,3 +162,7 @@ src/ov036/event_trainer_eye.c:
 src/ov036/scrcmd_trainer.c:
     complete
     .text       start:0x021a66a8 end:0x021a6bc0
+
+src/ov036/scrcmd_save.c:
+    complete
+    .text       start:0x021a6bc0 end:0x021a6d54

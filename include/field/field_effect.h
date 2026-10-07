@@ -14,7 +14,8 @@ typedef struct FieldEffectTask FieldEffectTask;
 
 void *Field_GetEffectBlAct(Field *field);
 void *Field_GetWildEffectBlAct(Field *field);
-void *func_ov036_021c6cc8(u32 effectId, Field *field);
+// The saving icon, and showing, hiding and freeing it
+void *func_ov036_021c6cc8(HeapID heapId, Field *field);
 void func_ov036_021c6d14(void *effect);
 void func_ov036_021c6d3c(void *effect);
 void func_ov036_021c6cf8(void *effect);
