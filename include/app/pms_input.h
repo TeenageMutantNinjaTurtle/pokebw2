@@ -22,13 +22,19 @@ u32 PMSInput_GetCategoryMode(const PMSInputWork *wk);
 u32 PMSInput_GetEditAreaCursorPos(const PMSInputWork *wk);
 u32 PMSInput_GetButtonCursorPos(const PMSInputWork *wk);
 u32 PMSInput_GetCategoryCursorPos(const PMSInputWork *wk);
-u32 func_ov185_021a300c(const PMSInputWork *wk);
+// Where the categories' cursor was before the erase button was pressed
+u32 PMSInput_GetCategoryPosSaved(const PMSInputWork *wk);
+// The words of the chosen group or of the search, and the two places of the word window's buttons
+u32 PMSInput_GetCategoryWordMax(const PMSInputWork *wk);
+void PMSInput_GetCategoryWord(const PMSInputWork *wk, u32 index, StrBuf *buf);
 u32 PMSInput_GetWordWinCursorPos(const PMSInputWork *wk);
 int PMSInput_GetWordWinScrollVector(const PMSInputWork *wk);
 BOOL PMSInput_GetWordWinUpArrowVisible(const PMSInputWork *wk);
 BOOL PMSInput_GetWordWinDownArrowVisible(const PMSInputWork *wk);
 BOOL PMSInput_HasStartSentence(const PMSInputWork *wk);
 TCBManager *PMSInput_GetTCBManager(const PMSInputWork *wk);
+// The word window's first line and its last first line
+void PMSInput_GetWordWinScroll(const PMSInputWork *wk, u16 *top, u16 *scrollMax);
 // Whether every word of the sentence is filled in
 BOOL PMSInput_IsEditComplete(const PMSInputWork *wk);
 // The search's letters and results, through pmsi_search.c
@@ -37,5 +43,7 @@ void PMSInput_ResetSearch(const PMSInputWork *wk);
 u32 PMSInput_GetSearchResultCount(const PMSInputWork *wk);
 u32 PMSInput_GetSearchInputLen(const PMSInputWork *wk);
 void PMSInput_GetSearchResultStr(const PMSInputWork *wk, u32 index, StrBuf *buf);
+// Puts the categories' cursor on the first category
+void PMSInput_ResetCategoryPos(PMSInputWork *wk);
 
 #endif // POKEBW2_APP_PMS_INPUT_H

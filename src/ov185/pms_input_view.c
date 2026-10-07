@@ -1135,7 +1135,7 @@ static void PMSIView_CmdShowMenu(TCB *tcb, void *data) {
     case 1:
         if (PMSIVMenu_WaitButton(vwk->menu, 2)) {
             if (*vwk->keyMode == 0 && PMSInput_GetCategoryCursorPos(vwk->mwk) == 0xfd &&
-                func_ov185_021a300c(vwk->mwk) == 0xfd) {
+                PMSInput_GetCategoryPosSaved(vwk->mwk) == 0xfd) {
                 PMSIVMenu_SetCursor(vwk->menu, 1, TRUE);
             } else {
                 PMSIVMenu_SetCursor(vwk->menu, 0, FALSE);
@@ -1188,7 +1188,7 @@ u16 PMSIView_GetSentenceWord(PMSInputView *vwk, u32 index) {
     return PMSIVEdit_GetWordIndex(vwk->edit, index);
 }
 
-void PMSIView_GetSentenceWordArea(PMSInputView *vwk, TouchRect *rect, u32 index) {
+void PMSIView_GetSentenceWordArea(PMSInputView *vwk, TouchRect *rect, u8 index) {
     PMSIVEdit_GetWordArea(vwk->edit, rect, index);
 }
 
@@ -1271,7 +1271,7 @@ int PMSIView_GetWordWinScrollDir(PMSInputView *vwk, u32 unused, u32 pos) {
     return 3;
 }
 
-void PMSIView_SetWordWinScrollBarY(PMSInputView *vwk, s16 y) {
+void PMSIView_SetWordWinScrollBarY(PMSInputView *vwk, u32 y) {
     func_ov185_021a3704(vwk->wordWin, y);
 }
 

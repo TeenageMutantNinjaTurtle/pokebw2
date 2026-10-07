@@ -23,7 +23,7 @@ void func_ov185_021a3584(PMSIVWordWin *wk, int vector);
 BOOL func_ov185_021a3640(PMSIVWordWin *wk);
 BOOL func_ov185_021a3674(PMSIVWordWin *wk, ClActorPos *pos);
 void func_ov185_021a3690(PMSIVWordWin *wk, BOOL up, BOOL down);
-void func_ov185_021a3704(PMSIVWordWin *wk, s16 y);
+void func_ov185_021a3704(PMSIVWordWin *wk, u32 y);
 u32 func_ov185_021a3740(PMSIVWordWin *wk, u32 count);
 void func_ov185_021a398c(PMSIVWordWin *wk, u32 pos);
 BOOL func_ov185_021a39dc(PMSIVWordWin *wk);
