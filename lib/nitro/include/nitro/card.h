@@ -51,6 +51,11 @@ BOOL func_0206f888(void);
 BOOL func_0206f890(void);
 void func_0206f898(void);
 
+// Called when the card is pulled out; returns whether to stop the system
+typedef BOOL (*CARDPulledOutCallback)(void);
+
+void func_0206ff50(CARDPulledOutCallback callback); // CARD_SetPulledOutCallback
+
 static inline BOOL CARD_ReadBackup(u32 src, void *dest, u32 size) {
     return func_0206f80c(src, (u32)dest, size, NULL, NULL, FALSE, CARD_REQ_READ_BACKUP, 1, CARD_REQUEST_MODE_RECV);
 }
