@@ -35,7 +35,7 @@
 #include "nitro/gx.h"
 #include "save/player_info.h"
 #include "save/save_control.h"
-#include "system/app_common.h"
+#include "system/app_menu_common.h"
 #include "system/app_taskmenu.h"
 #include "system/bmp_winframe.h"
 #include "system/dsi.h"
