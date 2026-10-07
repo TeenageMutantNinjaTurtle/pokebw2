@@ -395,3 +395,12 @@ src/ov012/event_battle.c:
     .text       start:0x021684a8 end:0x021691dc
     .rodata     start:0x0216dcd0 end:0x0216dda0
     .data       start:0x0216e60c end:0x0216e62c
+
+src/ov012/pair_sys.c:
+    complete
+    .text       start:0x0216a27c end:0x0216a6e4
+    .data       start:0x0216e64c end:0x0216e658
+
+src/ov012/scrcmd_download_data.c:
+    complete
+    .text       start:0x0216a990 end:0x0216ac00

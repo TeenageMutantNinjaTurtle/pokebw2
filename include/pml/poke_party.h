@@ -45,7 +45,15 @@ PokeParty *PokeParty_Create(HeapID heapId);
 void PokeParty_CreateTempPkm(PartyPkm *pkm, u16 species, u16 level, u64 id);
 u32 PokeParty_GetSaveDataSize(void);
 u32 PML_GenPID(u32 seed, u16 species, u16 form, u32 sex, u32 ability, u32 a5);
-void PokeParty_CreatePkm(PartyPkm *pkm, u16 species, u16 level, u32 a3, u32 a4, s32 a5, u32 pid, u32 a7);
+// The trainer ID and the PID are 64-bit so that they can hold these values beside any 32-bit one. The trainer ID is
+// random, or one with which the PID isn't shiny; the PID is random, or the trainer ID's value. ivs packs six 5-bit
+// IVs, or is PKM_IVS_RANDOM
+#define PKM_ID_RANDOM 0xffffffffffffffffULL
+#define PKM_ID_NOT_SHINY 0xffffffff00000000ULL
+#define PKM_PID_RANDOM 0xffffffff00000000ULL
+#define PKM_PID_FROM_ID 0xffffffff00000001ULL
+#define PKM_IVS_RANDOM -1
+void PokeParty_CreatePkm(PartyPkm *pkm, u16 species, u16 level, u64 trainerId, s32 ivs, u64 pid);
 void PokeParty_SetHiddenAbil(PartyPkm *pkm, u32 species, u32 form);
 void PokeParty_SetDefaultMoves(PartyPkm *pkm);
 void FriendshipManagerCalc(PartyPkm *pkm, u32 reason, u16 zoneId, u16 heapId);
@@ -89,6 +97,9 @@ u8 PML_PkmGetSex(BoxPkm *pkm);
 BOOL doesPokerusHaveDuration(BoxPkm *pkm);
 // Whether the Pokémon has had Pokérus
 BOOL doesPokeHavePokerus(BoxPkm *pkm);
+// The same two for a Pokémon of the party
+BOOL pokerusDuration(PartyPkm *pkm);
+BOOL pokeHasPkrs(PartyPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
 // Marks the Pokémon as met in a fateful encounter, at the location and on the date
 void setFatefulEncounterPkmData(BoxPkm *pkm, u16 location, u32 year, u32 month, u32 day);
@@ -96,6 +107,10 @@ void setFatefulEncounterPkmData(BoxPkm *pkm, u16 location, u32 year, u32 month, 
 void PML_PkmSetParam(BoxPkm *pkm, u32 param, u32 value);
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
+// The size of a boxed Pokémon's data
+u32 PML_GetPkmRawSize(void);
+void PML_PkmInit(BoxPkm *pkm);
+void PML_CreateTempPkm(BoxPkm *pkm, u16 species, u16 level, u32 a3, u32 a4);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
 // Resets the nickname to the species' name
 void setNicknameToNick(PartyPkm *pkm);
@@ -148,6 +163,9 @@ u32 func_02021034(u32 species, u32 form, u32 sex, BOOL egg);
 // The level, 0 to 4, of a Pokémon's Pokéstar fame
 int func_0201f010(u8 fame);
 PartyPkm *PokeParty_GetPkm(PokeParty *party, u32 index);
+// A flag of each slot, kept in the party
+BOOL PokeParty_GetSlotExists(PokeParty *party, u32 slot);
+void PokeParty_SetSlotExists(PokeParty *party, u32 slot, BOOL exists);
 BoxPkm *func_0201d624(PartyPkm *pkm);
 // A new party Pokémon made from a box Pokémon, with its stats calculated
 PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
@@ -173,7 +191,7 @@ u32 func_02021034(u32 species, u32 form, u32 sex, BOOL egg);
 u32 func_02021114(void);
 u32 func_02021154(void);
 u32 getOBJTileMapping_SubEng(void);
-void PokeParty_ChangeForme(PartyPkm *pkm, u32 forme);
+void PokeParty_ChangeForme(PartyPkm *pkm, u16 forme);
 // The form of Arceus for a plate, and of Genesect for a drive
 u16 _getTypeForPlate(u16 item);
 u32 func_0201ef8c(u16 item);

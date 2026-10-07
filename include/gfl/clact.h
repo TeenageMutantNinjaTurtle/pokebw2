@@ -161,7 +161,7 @@ ClActor *func_0204c0a4(ClActUnit *unit, u32 chars, u32 palette, u32 cellAnims, c
 void func_0204c108(ClActor *actor);
 void func_0204c124(ClActor *actor, BOOL visible);
 BOOL func_0204c138(ClActor *actor);
-void func_0204c140(ClActor *actor, const ClActorPos *pos, u32 surface);
+void func_0204c140(ClActor *actor, const ClActorPos *pos, u16 surface);
 void func_0204c178(ClActor *actor, ClActorPos *pos, u32 surface);
 void func_0204c1a8(ClActor *actor, s16 value, u32 surface, u32 axis);
 s16 func_0204c1dc(ClActor *actor, u32 surface, u32 axis);

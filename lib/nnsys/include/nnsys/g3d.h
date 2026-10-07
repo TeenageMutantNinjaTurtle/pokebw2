@@ -209,6 +209,23 @@ typedef union {
 
 // NitroSDK's NNS_G3dGetResDataByName: the data of the dictionary's entry of the name, or NULL
 void *NNS_G3DFind(const NNSG3dResDict *dict, const NNSG3dResName *name);
+// NitroSDK's NNS_G3dGetResDictIdxByName: the index of the dictionary's entry of the name, or -1
+int NNS_G3DFindIndex(const NNSG3dResDict *dict, const NNSG3dResName *name);
+
+static inline const NNSG3dResName *NNS_G3dGetResNameByIdx(const NNSG3dResDict *dict, u32 idx) {
+    if (dict != NULL && idx < dict->numEntry) {
+        const NNSG3dResDictEntryHeader *hdr = (const NNSG3dResDictEntryHeader *)((u8 *)dict + dict->ofsEntry);
+
+        return (const NNSG3dResName *)((u8 *)hdr + hdr->ofsName) + idx;
+    }
+    return NULL;
+}
+
+// The data of a texture block's dictionary entry: the texture's GX_TEXIMAGE_PARAM, with its offset in the low bits
+typedef struct {
+    u32 texImageParam;
+    u32 extraParam;
+} NNSG3dResDictTexData;
 void *NNS_G3DResGetAnm(const NNSG3dResFileHeader *header, u32 idx);
 
 // Textures and palettes in VRAM: NNS_G3dTexGetRequiredSize, NNS_G3dTexSetTexKey, NNS_G3dTexLoad,

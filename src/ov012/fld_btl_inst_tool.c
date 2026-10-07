@@ -243,12 +243,12 @@ static void func_ov012_02162394(u32 mode, u32 trainerId, BSubwayTrainer *trainer
     dest->trainerClass = trainerClass;
     dest->aiFlags = aiFlags;
     GFL_StrBufLoadString(dest->name, trainer->name);
-    // The setup's phrases are bytes in battle/btl_setup.h, which the battle code uses as such
     if (clearWords == TRUE) {
         PMSData_Clear(&dest->unk18);
         PMSData_Clear(&dest->unk20);
     }
     if (copyWords == TRUE) {
+        // The trainer keeps its phrases as four words each, which func_ov012_02162ae8 checks one by one
         if (mode == 4) {
             dest->unk18 = *(PMSData *)trainer->winWords;
             dest->unk20 = *(PMSData *)trainer->loseWords;
@@ -353,7 +353,7 @@ static void genSubwayBtlInstitutePoke(const BSubwayPokemon *src, PartyPkm *pkm, 
     u16 terminator;
 
     PokeParty_ClearPkm(pkm);
-    PokeParty_CreatePkm(pkm, src->species, level, -1, -1, src->ivs.all & 0x3fffffff, src->personality, 0);
+    PokeParty_CreatePkm(pkm, src->species, level, PKM_ID_RANDOM, src->ivs.all & 0x3fffffff, src->personality);
     PokeParty_SetParam(pkm, PKM_PARAM_FORM, (u8)src->form);
     PokeParty_SetParam(pkm, PKM_PARAM_ITEM, src->item);
     for (i = 0; i < 4; i++) {

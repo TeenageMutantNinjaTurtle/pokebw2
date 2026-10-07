@@ -33,10 +33,14 @@ void GFL_SndPlayerSetVolume(s32 player, s32 volume);
 void GFL_SndPlayerSetParams(s32 player, s32 a1, s32 a2, s32 a3);
 void GFL_SndPlayerSetVolumeEx(u32 volume, u32 playerMask);
 void GFL_SndSEPlay(u32 se);
+// Plays a sound effect at a volume below 128, or at the sequence's own volume
+void GFL_SndSEPlayEx(u32 se, u32 volume);
 void GFL_SEPlayKeepVol(u32 se, s32 player);
 // Called once with start TRUE for a sequence, then each frame with FALSE until it returns TRUE
 BOOL func_02006424(u32 seq, u32 *step, BOOL start);
 void func_02005d8c(void);
+// Sets the callback that says whether a sequence may play while the sound thread is loading
+void GFL_SndSetSeqVerifyCallback(BOOL (*callback)(u32 seq));
 BOOL GFL_SndIsPlaying(u32 seq);
 void GFL_SndStop(void);
 void GFL_SndSetVolumeControlCallbacks(void);
@@ -71,6 +75,7 @@ BOOL PokeVoice_StartPlayback(u32 handle);
 BOOL PokeVoice_IsPlaying(u32 handle);
 BOOL PokeVoice_IsPlayingAny(void);
 void PokeVoice_ReleaseAll(void);
+void PokeVoice_Release(u32 handle);
 // What a handle plays: its volume, speed, samples, count of samples and sample rate
 s8 PokeVoice_GetVolume(u32 handle);
 int PokeVoice_GetSpeed(u32 handle);

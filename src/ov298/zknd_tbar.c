@@ -256,7 +256,7 @@ void ZkndTbar_SetPos(ZkndTbar *tbar, int icon, const ClActorPos *pos) {
         surface = CLACT_VRAM_MAIN;
     }
     // The original truncates the surface to 16 bits
-    func_0204c140(item->actor, pos, (u16)surface);
+    func_0204c140(item->actor, pos, surface);
 }
 
 void ZkndTbar_Push(ZkndTbar *tbar, int icon) {

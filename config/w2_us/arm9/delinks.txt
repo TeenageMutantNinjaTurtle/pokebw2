@@ -526,3 +526,31 @@ src/system/tpoke_data.c:
     complete
     .text       start:0x02030404 end:0x0203050c
     .data       start:0x0209a6f8 end:0x0209a708
+
+src/system/ringtone_sys.c:
+    complete
+    .text       start:0x020301f0 end:0x02030404
+    .rodata     start:0x020922d4 end:0x020922e4
+    .data       start:0x0209a6e8 end:0x0209a6f8
+    .bss        start:0x02141844 end:0x02141848
+
+src/system/event_sound.c:
+    complete
+    .text       start:0x0202f738 end:0x0202ffa0
+
+src/system/field_sound.c:
+    complete
+    .text       start:0x0202ffa0 end:0x020301f0
+    .rodata     start:0x02092254 end:0x020922d4
+
+src/system/field_sound_system.c:
+    complete
+    .text       start:0x0202eaf4 end:0x0202f738
+    .rodata     start:0x02092150 end:0x02092254
+    .data       start:0x0209a658 end:0x0209a6e8
+
+src/system/tr_tool.c:
+    complete
+    .text       start:0x0203050c end:0x02030efc
+    .rodata     start:0x020922e4 end:0x02092770
+    .data       start:0x0209a708 end:0x0209a714

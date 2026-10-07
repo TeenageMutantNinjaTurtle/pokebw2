@@ -46,10 +46,15 @@ void func_02019bcc(MCSSSystem *system, TCBManager *tcbMgr);
 // slot
 void func_0201aefc(MCSSSystem *system, u32 characterOffset);
 void func_0201af00(MCSSSystem *system, u32 paletteOffset);
+void func_0201af9c(MCSSSystem *system, u32 offset);
 
 void MCSS_GetPosition(MCSS *mcss, VecFx32 *position);
 void MCSS_SetPosition(MCSS *mcss, const VecFx32 *position);
 void MCSS_SetScale(MCSS *mcss, const VecFx32 *scale);
+void func_0201abb8(MCSS *mcss, const VecFx32 *a1);
+void func_0201ac0c(MCSS *mcss, const VecFx32 *a1);
+void func_0201ac5c(MCSS *mcss, u16 a1);
+void func_0201ac70(MCSS *mcss, const VecFx32 *a1);
 void func_0201ac8c(MCSS *mcss);
 void func_0201ac9c(MCSS *mcss);
 void MCSS_PauseAnimation(MCSS *mcss);
@@ -68,6 +73,7 @@ u8 func_0201ae88(MCSS *mcss);
 void func_0201ae2c(MCSS *mcss, u8 startLevel, u8 endLevel, s32 wait, GXRgb color);
 BOOL func_0201aee8(MCSS *mcss);
 void func_0201aecc(MCSS *mcss, u32 a1);
+void func_0201aeb0(MCSS *mcss, u32 a1);
 void func_0201ab54(MCSS *mcss, const VecFx32 *a1);
 u16 func_0201ade8(MCSS *mcss);
 u16 func_0201ade0(MCSS *mcss);

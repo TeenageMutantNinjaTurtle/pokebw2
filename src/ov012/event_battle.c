@@ -11,11 +11,13 @@
 #include "constants/moves.h"
 #include "constants/pokemon.h"
 #include "constants/species.h"
+#include "constants/version.h"
 #include "field/badge_gate.h"
 #include "field/black_tower_gimmick.h"
 #include "field/encounter.h"
 #include "field/event_battle.h"
 #include "field/event_battle_lose.h"
+#include "field/event_sound.h"
 #include "field/festival.h"
 #include "field/field.h"
 #include "field/field_actor.h"
@@ -133,7 +135,7 @@ void burmyTransform(GameData *gameData, PartyPkm *pkm, u32 terrain) {
             u32 form = data_ov012_0216dc90[i].form;
 
             if (species == SPECIES_BURMY) {
-                PokeParty_ChangeForme(pkm, (u16)form);
+                PokeParty_ChangeForme(pkm, form);
                 PokeDex_RegistPkm(pokedex, pkm);
             }
             return;
@@ -383,11 +385,11 @@ GameEvent *LoadTradedPokemonBattleStats(GameSystem *gsys, Field *field, u32 a2, 
     if (func_0200efd4(block, index)) {
         EventBattleCallWork *work = GameEvent_GetData(event);
         PartyPkm *pkm = PokeParty_GetPkm(work->setup->party[1], 0);
-        u32 species = func_0200f01c(block, index, 0x17);
+        u32 species = func_0200f01c(block, index, GAME_VERSION);
         u8 level = func_0200efe0(block, index);
         u32 id = func_0200f068(block, index);
 
-        PokeParty_CreatePkm(pkm, species, level, id, 0, -1, func_0200f058(block, index), 0);
+        PokeParty_CreatePkm(pkm, species, level, id, PKM_IVS_RANDOM, func_0200f058(block, index));
         if (func_0200f000(block, index)) {
             PokeParty_SetParam(pkm, 0x71, TRUE);
             PokeParty_SetParam(pkm, PKM_PARAM_ABILITY, func_0200f014(block, index));

@@ -25,6 +25,7 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
+#include "system/ringtone_sys.h"
 
 typedef struct {
     u8 battleMode;
@@ -226,7 +227,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, void *d
         }
         break;
     case 5:
-        func_0203021c();
+        RingtoneSys_RestoreLidCallbacks();
         GameEvent_ChainNext(event, EventFieldOpen_CreateHeadless(gsys));
         (*state)++;
         break;

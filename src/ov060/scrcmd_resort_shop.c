@@ -1469,7 +1469,7 @@ static void func_ov060_021e7974(ResortShopWork *wk, BmpMenuListCursorCallback cu
     header.work = wk;
     header.fontSizeX = 12;
     header.fontSizeY = 16;
-    header.unk20 = 0;
+    header.msgData = NULL;
     header.printWindow = &wk->printWindow;
     header.queue = wk->printQueue;
     header.font = wk->font;
