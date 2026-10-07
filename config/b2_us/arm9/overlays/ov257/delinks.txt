@@ -31,6 +31,7 @@ src/ov257/ctvt_camera.c:
     .data       start:0x021b25c0 end:0x021b25f8
 
 src/ov257/ctvt_comm.c:
+    complete
     .text       start:0x0219b5b8 end:0x0219cd74
     .rodata     start:0x021b18f0 end:0x021b19ac
     .data       start:0x021b25f8 end:0x021b2604
