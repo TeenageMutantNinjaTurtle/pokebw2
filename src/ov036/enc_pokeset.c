@@ -159,7 +159,7 @@ void CreateEncountManager(EncountManager *manager, GameData *gameData, int encTy
     manager->pokeCount = manager->doubleBattle + 1;
 }
 
-u32 FieldEncount_CalcEncountRate(EncountManager *manager, u32 a1, u32 baseRate) {
+u32 FieldEncount_CalcEncountRate(EncountManager *manager, GameData *gameData, u32 baseRate) {
     u32 rate = baseRate;
 
     if (manager->isFishing) {

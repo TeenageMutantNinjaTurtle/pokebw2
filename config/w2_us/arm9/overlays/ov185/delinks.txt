@@ -37,3 +37,14 @@ src/ov185/pmsiv_tool.c:
     complete
     .text       start:0x021a00ac end:0x021a02b0
     .rodata     start:0x021a71f0 end:0x021a71f4
+
+src/ov185/pmsiv_edit.c:
+    complete
+    .text       start:0x0219f57c end:0x021a00ac
+    .data       start:0x021a7578 end:0x021a7588
+
+src/ov185/pmsiv_menu.c:
+    complete
+    .text       start:0x021a02b0 end:0x021a0da4
+    .rodata     start:0x021a71f4 end:0x021a7210
+    .data       start:0x021a7588 end:0x021a7598

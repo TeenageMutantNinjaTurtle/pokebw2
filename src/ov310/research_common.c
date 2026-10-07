@@ -76,6 +76,10 @@ static void ResearchCommon_InitTouchRects(ResearchCommon *common);
 static u32 ResearchCommon_GetObjRes(ResearchCommon *common, u32 index);
 static ClActUnit *ResearchCommon_GetUnit(ResearchCommon *common, u32 index);
 
+// Nothing reads it; as a global that no code refers to, it gets a section of its own, laid out before the file's
+// smaller data
+const u32 ResearchCommon_Unused = 0x00010002;
+
 static const ResearchRect sCommonTouchRects[TOUCH_RECT_COUNT] = {
     { 216, 240, 168, 192 },
 #ifdef BUGFIX

@@ -29,6 +29,8 @@ BOOL PMSInput_GetWordWinUpArrowVisible(const PMSInputWork *wk);
 BOOL PMSInput_GetWordWinDownArrowVisible(const PMSInputWork *wk);
 BOOL PMSInput_HasStartSentence(const PMSInputWork *wk);
 TCBManager *PMSInput_GetTCBManager(const PMSInputWork *wk);
+// Whether every word of the sentence is filled in
+BOOL PMSInput_IsEditComplete(const PMSInputWork *wk);
 // The search's letters and results, through pmsi_search.c
 void PMSInput_GetSearchInputStr(const PMSInputWork *wk, StrBuf *buf);
 void PMSInput_ResetSearch(const PMSInputWork *wk);

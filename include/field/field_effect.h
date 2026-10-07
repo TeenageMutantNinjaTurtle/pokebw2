@@ -21,6 +21,10 @@ struct FieldG3DObjSystem *func_ov036_021a3724(void *effects);
 void *func_ov036_021b3f14(void *effects, FieldActor *actor, u32 arg2, u32 arg3);
 void func_ov036_021a5968(void *effect, u32 arg1);
 void func_ov036_021a3a70(void *effect);
+// The field effect of a phenomenon, which fldeff_encount.c plays
+void *func_ov036_021a53f8(EncountSystem *system, void *fieldEffects, u16 x, u16 z, fx32 height, u32 kind);
+void func_ov036_021a5498(void *effect, u32 a1);
+void func_ov036_021a54a8(void *effect, u32 a1);
 void *func_ov036_021a58e0(void *effects, VecFx32 *position, u32 direction, u32 flag);
 void *FieldEffects_Create(Field *field, u32 count, HeapID heapId);
 void FieldEffects_Free(void *effects);

@@ -54,7 +54,7 @@ void func_ov012_0215917c(GameData *gameData, Field *field) {
     u32 terrain;
 
     player = Field_GetPlayer(field);
-    func_ov036_021a203c(system, system->unk10);
+    func_ov036_021a203c(system, system->effectEncountState);
     state = GameData_GetEncountState(gameData);
     terrain = FieldPlayer_GetTileTypeUnder(player);
     EncountState_SetTerrain(state, terrain);
@@ -62,7 +62,7 @@ void func_ov012_0215917c(GameData *gameData, Field *field) {
 
 void func_ov012_021591b4(GameData *gameData) {
     EncountState *state = GameData_GetEncountState(gameData);
-    state->unk14 = 0;
+    state->phenomenonSteps = 0;
 }
 
 void GameData_InitEncountTerrain(GameData *gameData, Field *field) {
@@ -74,10 +74,10 @@ void GameData_InitEncountTerrain(GameData *gameData, Field *field) {
 
 void EncountState_SetTerrain(EncountState *state, u32 terrain) {
     state->terrain = terrain;
-    state->unk08 = 0;
-    state->unk10 = 1;
-    state->unk06 = 0;
-    state->unk07 = 0;
+    state->rateStepCounter = 0;
+    state->encountRate = 1;
+    state->rateBlockCounter = 0;
+    state->rateStepIncrement = 0;
 }
 
 void func_ov012_021591f4(GameData *gameData) {

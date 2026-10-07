@@ -22,6 +22,9 @@ void FieldPlayer_GetWPos(FieldPlayer *player, VecFx32 *pos);
 u32 FieldPlayer_GetFaceDir(FieldPlayer *player);
 // The unit vector of the direction on the grid, and the rail position a step in the direction on rails
 void func_ov036_0219aab0(FieldPlayer *player, u32 dir, VecFx32 *vec);
+// Whether the player is on a catwalk, and takes them off it
+BOOL func_ov036_0219ac8c(FieldPlayer *player);
+void func_ov036_0219acac(FieldPlayer *player);
 void func_ov036_0219ad30(FieldPlayer *player, u32 dir, RailPosition *pos);
 // The player's object code for a sex, in a form or an extra state
 u16 FieldPlayer_GetObjCodeByForme(u32 sex, u32 forme);

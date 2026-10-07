@@ -5290,9 +5290,6 @@ ENCOUNTRATE_RND5T2 kind:data(any) addr:0x021d0148
 ENCOUNTRATE_RND12 kind:data(any) addr:0x021d015c
 N_POKEMON_INFO kind:data(any) addr:0x021d018c
 data_ov036_021d01fc kind:data(any) addr:0x021d01fc
-data_ov036_021d0217 kind:data(any) addr:0x021d0217 ambiguous
-data_ov036_021d021a kind:data(any) addr:0x021d021a ambiguous
-data_ov036_021d021c kind:data(any) addr:0x021d021c
 ENCOUNT_RATE_CONFIGS kind:data(any) addr:0x021d0294
 data_ov036_021d02c4 kind:data(any) addr:0x021d02c4
 data_ov036_021d02c5 kind:data(any) addr:0x021d02c5
