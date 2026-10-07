@@ -376,7 +376,7 @@ void GFL_BGSysSetBGEnabled(u8 bg, u8 enabled) {
     }
 }
 
-void GFL_BGSysMoveBG(u8 bg, u32 op, int value) {
+void GFL_BGSysMoveBG(u8 bg, u8 op, int value) {
     int x;
     int y;
 
