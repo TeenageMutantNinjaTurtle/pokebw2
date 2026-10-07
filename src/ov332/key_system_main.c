@@ -120,7 +120,7 @@ static BOOL KeySystem_ProcInit(GameProc *proc, u32 *state, void *param, void *wo
         InitZoneDataSystem(HEAPID_KEY_SYSTEM);
     }
     gameData = wk->param->gameData;
-    wk->net = func_ov332_021c1dd0(&gameData, HEAPID_KEY_SYSTEM);
+    wk->net = KeySystemNet_Create(&gameData, HEAPID_KEY_SYSTEM);
     KeySystemTags_Init(wk->tags, HEAPID_KEY_SYSTEM);
     wk->seq = KeySystemSeq_Create(12, wk, NULL, HEAPID_KEY_SYSTEM);
     first = sStartSeqs[wk->param->mode];
@@ -140,7 +140,7 @@ static BOOL KeySystem_ProcExit(GameProc *proc, u32 *state, void *param, void *wo
     }
     KeySystem_Teardown(wk, FALSE);
     KeySystemSeq_Free(wk->seq);
-    func_ov332_021c1e14(wk->net);
+    KeySystemNet_Free(wk->net);
     if (param == NULL) {
         FreeZoneDataSystem();
         GameData_Free(wk->param->gameData);
@@ -159,19 +159,19 @@ static BOOL KeySystem_ProcMain(GameProc *proc, u32 *state, void *param, void *wo
     KeySystemWork *wk = work;
 
     if (wk->net != NULL) {
-        switch (func_ov332_021c2044(wk->net)) {
+        switch (KeySystemNet_CheckError(wk->net)) {
         case 0:
             break;
         case 1:
         case 2:
         default:
-            func_ov332_021c2110(wk->net);
+            KeySystemNet_Reset(wk->net);
             GFL_SndStop();
             if (wk->wbSave != NULL) {
                 GFL_HeapFree(wk->wbSave);
                 wk->wbSave = NULL;
             }
-            func_ov332_021c1e54(wk->net, 0);
+            KeySystemNet_SetMode(wk->net, 0);
             KeySystemSeq_PopTo(wk->seq, KeySystem_SeqTop);
             if (wk->menu != NULL) {
                 KeySystem_FreeMenu(wk);
@@ -220,7 +220,7 @@ static BOOL KeySystem_ProcMain(GameProc *proc, u32 *state, void *param, void *wo
         KeySystemMenu_UpdatePrint(wk->menu);
     }
     if (wk->net != NULL) {
-        func_ov332_021c1e30(wk->net);
+        KeySystemNet_Update(wk->net);
     }
     if (KeySystemSeq_IsEmpty(wk->seq)) {
         return TRUE;
