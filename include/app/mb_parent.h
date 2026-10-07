@@ -5,16 +5,16 @@
 #include "gfl/proc.h"
 #include "struct_decls.h"
 
-// The parent of a DS Download Play session (ov181, mb_parent_sys.c), which the start menu's unnamed item starts, and
-// the Poké Transfer Lab for Poké Transfer
+// The parent of a DS Download Play session (ov181, mb_parent_sys.c), which the Poké Transfer Lab starts for Poké
+// Transfer, and the start menu's item for what appears to be the Pokémon Dream Radar's transfer
 typedef struct {
-    // 1 from the start menu, 0 from the Poké Transfer Lab
-    u8 unk0;
+    // TRUE from the start menu, FALSE from the Poké Transfer Lab
+    u8 startMenu;
     // Set by the Poké Transfer Lab
     GameData *gameData;
 } MBParentParam;
 
-extern const GameProcFunctions MB_PARENT_PROC_FUNCTIONS;
+extern GameProcFunctions MB_PARENT_PROC_FUNCTIONS;
 
 // The link that Unova Link runs in overlay 181. None of these has a name yet
 void *func_ov181_021a039c(u32 a0);
