@@ -41,8 +41,10 @@ a rule here changes, change it there too.
   enforces these.
 - **Publish every commit.** Right after each commit: `git fetch origin && git merge origin/main` (in a worktree too,
   into its branch), resolve any conflicts, run `python3 configure.py && ninja` and check that both SHA1s match, then
-  `git push origin HEAD:main`. If the push is rejected because someone pushed first, fetch, merge, build and push
-  again. Never force-push, and never push a merge that doesn't build both ROMs. The `finish-file` skill has the steps.
+  `ninja report`, then `git push origin HEAD:main`. `ninja report` is needed because the default target never compiles
+  incomplete files, so a broken one passes `ninja` and breaks everyone's build. If the push is rejected because
+  someone pushed first, fetch, merge, build and push again. Never force-push, and never push a merge that doesn't build
+  both ROMs. The `finish-file` skill has the steps.
 - **Context is the scarce resource.** Never print a whole `.s` file, a whole doc, a ninja log or a permuter log. Use
   `show_func.py NAME`, `compiler_probe.py --functions F --mismatches --align`, `grep -n` and `| tail`.
 - Long jobs run with `run_in_background` or Monitor, never `sleep`. Run the permuter only under a memory cap: an
