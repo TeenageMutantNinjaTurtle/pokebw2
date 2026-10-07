@@ -53,7 +53,7 @@ void func_02024574(WordSet *wordSet, u32 index, u32 value);
 void loadTypeTextToStrbuf(WordSet *wordSet, u32 index, u32 type);
 void loadTrainerTypeText(WordSet *wordSet, u32 index, u8 trainerType);
 void loadTrainerTypeToStrbuf(WordSet *wordSet, u32 index, u32 trainerId);
-void loadTrainerTypeWithArticleToStrbuf(WordSet *wordSet, u32 index, u32 trainerType);
+void loadTrainerTypeWithArticleToStrbuf(WordSet *wordSet, u32 index, u8 trainerType);
 void loadTrainerNamesToStrbuf(WordSet *wordSet, u32 index, u32 trainerId);
 void loadStatNameToStrbuf(WordSet *wordSet, u32 index, u8 stat);
 void loadBoxNameForDisplay(WordSet *wordSet, u32 index, void *boxData, u32 box);

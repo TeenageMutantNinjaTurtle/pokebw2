@@ -292,7 +292,7 @@ void loadTrainerTypeToStrbuf(WordSet *wordSet, u32 index, u32 trainerId) {
     loadTrainerTypeText(wordSet, index, TrainerData_GetParam(trainerId, 1));
 }
 
-void loadTrainerTypeWithArticleToStrbuf(WordSet *wordSet, u32 index, u32 trainerType) {
+void loadTrainerTypeWithArticleToStrbuf(WordSet *wordSet, u32 index, u8 trainerType) {
     GFL_WordSetLoadMsg(wordSet, index, 0x1e5, trainerType);
 }
 
