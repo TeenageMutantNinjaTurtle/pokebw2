@@ -8,6 +8,10 @@ tools that show the differences.
 
 ## Registers
 
+- Saved registers swapped around an indirect call, with `r0` still holding a value just stored, mean the call passes
+  an argument: `net_state.c`'s `func_020411fc` calls the network's end callback as `callback(NULL)`, so the callback
+  type takes a `void *`. Parameters spilled at entry in the wrong order can be narrower than written:
+  `net_command.c`'s `func_02040f84` takes a `u8` and a `u16`, which its caller in overlay 70 narrows.
 - A pointer that follows another (`cr = cb + n`) adds its operands the other way round when written from the base,
   `cr = y + n + n`, which reuses `y + n` and adds the scaled count first: `ssp_jpegenc.c`'s
   `JpegEnc_ConvertYUV422`. A product the original computes by doubling one factor in place (`lsls rW, rW, #1`

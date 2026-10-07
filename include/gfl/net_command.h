@@ -35,7 +35,7 @@ void func_02040e0c(void);
 void func_02040e10(int netId, int size, void *data, void *work, NetHandle *handle);
 void func_02040ebc(int netId, int size, void *data, void *work, NetHandle *handle);
 // Sends data in chunks, returning whether it could start
-int func_02040f84(NetHandle *handle, int netIds, int command, u32 size, void *data);
+int func_02040f84(NetHandle *handle, u8 netIds, u16 command, u32 size, void *data);
 // Sends the next chunk, each frame
 void func_020410dc(void);
 

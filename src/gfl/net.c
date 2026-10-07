@@ -24,7 +24,7 @@ static struct {
     int bg1X;
 } sNet;
 
-static void func_020427b8(void);
+static void func_020427b8(void *work);
 static void func_02042ae4(int x, int y);
 static void func_02042b40(void);
 
@@ -115,7 +115,7 @@ BOOL func_020427a4(void) {
     return FALSE;
 }
 
-static void func_020427b8(void) {
+static void func_020427b8(void *work) {
     GFLNetSys *pNet = func_02042e78();
     HeapID heapId = pNet->aNetInit.heapId;
     HeapID wifiHeapId = pNet->aNetInit.wifiHeapId;

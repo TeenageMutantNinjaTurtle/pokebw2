@@ -25,7 +25,7 @@ void func_02041d0c(int netId, int size, void *data, void *work, NetHandle *handl
 void func_02041e20(int netId, int size, void *data, void *work, NetHandle *handle);
 void func_020421f8(int netId, int size, void *data, void *work, NetHandle *handle);
 // Ends the network, calling callback when it has
-void func_02041da8(void (*callback)(void));
+void func_02041da8(void (*callback)(void *work));
 void func_02041de4(void);
 void func_02041dfc(void);
 BOOL func_02041fd0(int a0);
@@ -38,7 +38,7 @@ void func_020421ac(BOOL a0);
 u8 func_02042210(void);
 BOOL func_02042220(void);
 BOOL func_0204223c(void);
-void func_0204230c(void (*callback)(void));
+void func_0204230c(void (*callback)(void *work));
 void func_020423e0(void);
 void func_02042410(u8 a0);
 void func_02042424(int a0);

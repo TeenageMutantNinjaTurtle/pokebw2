@@ -312,7 +312,7 @@ void func_02040ebc(int netId, int size, void *data, void *work, NetHandle *handl
     }
 }
 
-int func_02040f84(NetHandle *handle, int netIds, int command, u32 size, void *data) {
+int func_02040f84(NetHandle *handle, u8 netIds, u16 command, u32 size, void *data) {
     GFLNetInitData *pNetIni = func_02042e84();
     NetHugeSend *send;
     int i;

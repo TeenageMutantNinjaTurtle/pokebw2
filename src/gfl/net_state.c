@@ -26,7 +26,7 @@ struct NetState {
     MATHRandContext32 rand;
     u8 unk24[4];
     // Called when the network has ended
-    void (*endCallback)(void);
+    void (*endCallback)(void *work);
     // Called when the network is ready
     void (*connectCallback)(void *work);
     GFLNetErrorInfo error;
@@ -142,7 +142,7 @@ static void func_020411c4(MATHRandContext32 *rand) {
 
 // Ends the network once the device has
 static void func_020411fc(NetState *state) {
-    void (*callback)(void);
+    void (*callback)(void *work);
     GFLNetSys *sys = func_02042e78();
 
     if (sys->pDevTable->unk74()) {
@@ -154,7 +154,7 @@ static void func_020411fc(NetState *state) {
         GFL_HeapFree(_pNetState);
         _pNetState = NULL;
         if (callback != NULL) {
-            callback();
+            callback(NULL);
         }
     }
 }
@@ -575,7 +575,7 @@ static void func_02041d70(NetState *state) {
     }
 }
 
-void func_02041da8(void (*callback)(void)) {
+void func_02041da8(void (*callback)(void *work)) {
     // BUG: When the network is not running, this writes through a NULL pointer
 #ifdef BUGFIX
     if (_pNetState != NULL && !_pNetState->ending) {
@@ -834,7 +834,7 @@ static void func_020422cc(NetState *state) {
     }
 }
 
-void func_0204230c(void (*callback)(void)) {
+void func_0204230c(void (*callback)(void *work)) {
     if (_pNetState != NULL) {
         GFLNetSys *sys = func_02042e78();
 
