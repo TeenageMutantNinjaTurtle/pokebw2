@@ -361,9 +361,11 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool, shift: int) ->
     report = build_dir / "report.json"
     n.build([report], "report", [], implicit=["objdiff.json", *compiled, *delink_outputs])
     n.build([f"{version}_progress"], "progress", [report])
+    # The checks also compile every source file, so that an incomplete file, whose object only feeds the report and
+    # is never linked, can't stop compiling without the default build noticing.
     if not matching:
-        return [rom, *checks], dsd_configs
-    return [modules_ok, rom_ok, *checks], dsd_configs
+        return [rom, *checks, *compiled], dsd_configs
+    return [modules_ok, rom_ok, *checks, *compiled], dsd_configs
 
 
 def main():

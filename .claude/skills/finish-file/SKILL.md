@@ -80,10 +80,9 @@ Every commit goes to `origin/main` at once, so the sessions working in parallel 
      sides declared the same functions in different headers, keep the header of the side that decompiled the
      function and convert the other side's callers (types and field names too), then probe those callers: they must
      show only their documented rows.
-3. `python3 configure.py && ninja`, and check both SHA1s. Then `ninja report`, which compiles the incomplete files:
-   the default target never builds them (their objects only feed `report.json`), so a broken incomplete file passes
-   `ninja` and breaks the build for everyone who merges it. A merge that breaks either is fixed before it is pushed
-   (the `fix-build` skill).
+3. `python3 configure.py && ninja`, and check both SHA1s. The default target also compiles every incomplete file in
+   both versions, though only complete ones are linked, so a file that no longer compiles fails here instead of in
+   the next session's build. A merge that breaks the build is fixed before it is pushed (the `fix-build` skill).
 4. `git push origin HEAD:main`. If it is rejected because `origin/main` moved, go back to step 1.
 
 Never force-push or rewrite pushed commits. If a conflict can't be resolved without knowing what the other session
