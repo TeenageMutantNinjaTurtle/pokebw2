@@ -1,6 +1,7 @@
 # Names that are not in swan, applied by tools/scripts/rename_symbol.py
 # module address(b2_us) name
 . 0x02005c70 GFL_SndDestroyHeap
+. 0x02005d6c GFL_SndSetSeqVerifyCallback
 . 0x02005e48 GFL_SndBGMGetTick
 . 0x02008b08 PlayerInfo_GetSize
 . 0x02008dd0 SaveControl_GetPlayerInfo
@@ -488,7 +489,38 @@
 . 0x0202e96c KeyCursor_UpdateWait
 . 0x0202e9c8 KeyCursor_ShowWhenDone
 . 0x0202ea2c PlayerVolumeFader_SetMuted
+. 0x0202ec0c FieldSnd_IsBGMChanging
+. 0x0202ec58 FieldSnd_IsPopDone
+. 0x0202ece8 FieldSnd_RingRingtone
+. 0x0202ecf4 FieldSnd_StopRingtone
+. 0x0202eeb4 FieldSnd_IsSongListed
+. 0x0202eed4 FieldSnd_IsSeqDataLoaded
+. 0x0202ef34 FieldSnd_CanPlaySeqWhileLoading
+. 0x0202f010 FieldSnd_GetLastQueuedCommand
+. 0x0202f19c FieldSnd_SetCommandFadeIn
+. 0x0202f1b4 FieldSnd_SetCommandFadeOut
+. 0x0202f1cc FieldSnd_SetCommandPush
+. 0x0202f1e4 FieldSnd_SetCommandPop
+. 0x0202f200 FieldSnd_SetCommandChange
+. 0x0202f220 FieldSnd_SetCommandPrepare
+. 0x0202f23c FieldSnd_SetCommandPlay
+. 0x0202febc EventWaitFieldSound_Callback
 . 0x0202fee8 EventWaitFieldSound_Create
+. 0x02030040 FieldSnd_DuckVolume
+. 0x0203005c FieldSnd_RestoreVolume
+. 0x020301f4 RingtoneSys_Free
+. 0x020301fc RingtoneSys_Update
+. 0x02030204 RingtoneSys_Ring
+. 0x02030210 RingtoneSys_Stop
+. 0x0203021c RingtoneSys_RestoreLidCallbacks
+. 0x0203023c RingtoneSys_UpdateTimer
+. 0x02030280 RingtoneSys_OnLidClose
+. 0x02030294 RingtoneSys_OnLidOpen
+. 0x020302a8 RingtoneSys_StartTone
+. 0x020302cc RingtoneSys_StopTone
+. 0x020302dc RingtoneSys_SetMuted
+. 0x02030334 RingtoneSys_SendEvent
+. 0x02030398 RingtoneSys_UpdateState
 . 0x02032538 ISSSwitchSys_ResetSwitches
 . 0x02032548 ISSSwitchSys_ResetMuteStateChangeRequests
 . 0x02036e44 JoinAvenuePerson_IsEmpty
@@ -713,6 +745,10 @@
 . 0x020681b8 NNS_G3dFreeAnmObj
 . 0x020683a0 NNS_G3DResMdlGetMatAlpha
 . 0x0206bf74 NNS_SndPlayerGetTick
+. 0x0206cc4c NNS_SndArcGetSeqInfo
+. 0x0206cce4 NNS_SndArcGetBankInfo
+. 0x0206cd30 NNS_SndArcGetWaveArcInfo
+. 0x0206cfb4 NNS_SndArcGetFileAddress
 . 0x02073df0 FX_Div
 . 0x02073dfc FX_Inv
 . 0x02073e28 FX_Sqrt
@@ -822,6 +858,10 @@
 . 0x02092080 sIconPalettes
 . 0x0209208c sTypeIconPalettes
 . 0x020920a4 sCursorBitmap
+. 0x020921b0 FIELD_SND_STATE_ALLOWS_COMMAND
+. 0x02092228 sFunfestBGMExcludedParentZones
+. 0x0209222c sFunfestBGMExcludedZones
+. 0x020922a8 sRingtoneStateTransitions
 . 0x02092f4c sBitCountMasks
 . 0x02092f55 sActiveBits
 . 0x02092f60 sEightMinusLastOneBit
@@ -845,6 +885,7 @@
 . 0x021417dc sMainBrightness
 . 0x021417fc sInfoWin
 . 0x02141800 GameBeaconSys
+. 0x02141804 sRingtoneSys
 . 0x0214181c sHeapMgr
 . 0x0214182c sDTCMHeap
 . 0x02141838 sHeapDumpState
@@ -2901,6 +2942,7 @@ overlays/ov257 0x021b19cb sExitButtons
 overlays/ov257 0x021b19d7 sGameButtons1
 overlays/ov257 0x021b19e3 sGameButtons2
 overlays/ov257 0x021b19ef sSpeedButtons
+overlays/ov257 0x021b1a08 sUnusedColors
 overlays/ov257 0x021b1a12 sPenButtonAnims
 overlays/ov257 0x021b1a14 sPickButtonAnims
 overlays/ov257 0x021b1a16 sEraserButtonAnims
