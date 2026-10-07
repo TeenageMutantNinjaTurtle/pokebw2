@@ -236,23 +236,6 @@ typedef struct {
     BOOL arrowDone;
 } ZukanDetailMapWork;
 
-typedef struct {
-    u32 bg;
-    BGSetup setup;
-    u32 mode;
-    u32 enabled;
-} MapBGSetup;
-
-typedef struct {
-    u8 bg;
-    u8 x;
-    u8 y;
-    u8 width;
-    u8 height;
-    u8 palette;
-    u8 fromEnd;
-} MapWindowData;
-
 // The event flag that the habitat list needs for a zone
 #define PLACE_FLAG_COUNT 57
 
@@ -379,7 +362,7 @@ static const u16 sZukanDetailMapZones[TOWNMAP_PLACE_COUNT + 1] = {
 };
 
 // The map's BGs 2 and 3, 256-color bitmaps, and the BGs they replace
-static const MapBGSetup sZukanDetailMapBGSetups[2] = {
+static const ZukanDetailBGSetup sZukanDetailMapBGSetups[2] = {
     { 2,
       { 0, 0, 0x800, 0, BGRES_256x256, GX_BG_COLORMODE_256, GX_BG_SCRBASE(0x2000), GX_BG_CHARBASE(0x10000), 0x4000,
         GX_BG_EXTPLTT_01, 2, GX_BG_AREAOVER_XLU, FALSE },
@@ -392,7 +375,7 @@ static const MapBGSetup sZukanDetailMapBGSetups[2] = {
       TRUE },
 };
 
-static const MapBGSetup sZukanDetailMapDefaultBGSetups[2] = {
+static const ZukanDetailBGSetup sZukanDetailMapDefaultBGSetups[2] = {
     { 2,
       { 0, 0, 0x800, 0, BGRES_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE(0x2000), GX_BG_CHARBASE(0x10000), 0x8000,
         GX_BG_EXTPLTT_01, 2, GX_BG_AREAOVER_XLU, FALSE },
@@ -1083,11 +1066,11 @@ static void ZukanDetailMap_TransferWindow(ZukanDetailMapParam *param, ZukanDetai
 
 static void ZukanDetailMap_CreateWindows(ZukanDetailMapParam *param, ZukanDetailMapWork *wk,
                                          ZukanDetailCommon *common) {
-    MapWindowData bgWindows[2] = {
+    ZukanDetailWindowData bgWindows[2] = {
         { 6, 0, 0, 1, 1, 8, 0 },
         { 0, 0, 0, 1, 1, 0, 0 },
     };
-    MapWindowData windows[WINDOW_COUNT] = {
+    ZukanDetailWindowData windows[WINDOW_COUNT] = {
         { 6, 12, 21, 16, 3, 8, 0 }, { 6, 9, 25, 16, 2, 8, 0 },  { 0, 2, 0, 15, 2, 0, 0 },
         { 0, 8, 10, 16, 2, 0, 0 },  { 0, 10, 21, 16, 3, 0, 0 },
     };

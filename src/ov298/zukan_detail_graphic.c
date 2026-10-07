@@ -34,13 +34,6 @@ struct ZukanDetailGraphic {
     BOOL g3dCreated;
 };
 
-typedef struct {
-    u32 bg;
-    BGSetup setup;
-    u32 mode;
-    u32 enabled;
-} ZukanDetailBGSetup;
-
 static void ZukanDetailGraphic_VBlank(TCB *tcb, void *data);
 static void ZukanDetailBG_Init(ZukanDetailBG *bg, HeapID heapId);
 static void ZukanDetailBG_Free(ZukanDetailBG *bg);
