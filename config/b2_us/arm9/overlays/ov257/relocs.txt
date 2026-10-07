@@ -3098,8 +3098,8 @@ from:0x021a7960 kind:thumb_call_arm to:0x0207244c module:main
 from:0x021a7988 kind:thumb_call_arm to:0x0207244c module:main
 from:0x021a79c4 kind:load to:0x021b2680 module:overlay(257)
 from:0x021a79cc kind:load to:0x021b2218 module:overlay(257)
-from:0x021a79d0 kind:load to:0x021b221c module:overlay(257)
-from:0x021a79d4 kind:load to:0x021b2220 module:overlay(257)
+from:0x021a79d0 kind:load to:0x021b2218 add:0x4 module:overlay(257)
+from:0x021a79d4 kind:load to:0x021b2218 add:0x8 module:overlay(257)
 from:0x021a79e2 kind:thumb_call to:0x0203a6a8 module:main
 from:0x021a79f0 kind:thumb_call to:0x0203a24c module:main
 from:0x021a7a30 kind:thumb_call to:0x02073fb4 module:main

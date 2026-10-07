@@ -422,6 +422,8 @@ static inline void NNS_G3dGlbLookAt(const VecFx32 *camPos, const VecFx32 *camUp,
 // The alpha of a material of a model resource, from 0 to 31
 u32 NNS_G3DResMdlGetMatAlpha(const NNSG3dResMdl *mdl, u32 matId);
 void NNS_G3DResMdlSetMatAlpha(NNSG3dResMdl *mdl, u32 matId, u32 alpha);
+// The alpha of every material of a model resource, from 0 to 31 (NitroSystem's NNS_G3dMdlSetMdlAlphaAll)
+void func_02068410(NNSG3dResMdl *mdl, int alpha);
 
 // NitroSystem's NNS_G3dWorldPosToScrPos: where a point of the world is on the screen
 int NNS_G3DProject(const VecFx32 *world, int *x, int *y);
