@@ -2,6 +2,7 @@
 # module address(b2_us) action [argument]
 . 0x02006de8 remove_symbol
 . 0x02006dec add_function ampOffFreeBlocks:thumb:0x20
+. 0x0203637c reloc_module overlay(162)
 . 0x02026708 reloc_addend 0x2
 . 0x02026710 reloc_addend 0x2
 . 0x0202678c reloc_addend 0x2
@@ -758,6 +759,15 @@ overlays/ov135 0x021efbaa reloc_module overlay(55)
 overlays/ov137 0x021f52ac add_data RESORT_FIELD_SCENE_ANGLE
 overlays/ov137 0x021f5308 remove_reloc
 overlays/ov137 0x021f5688 add_data data_ov137_021f5688
+overlays/ov142 0x021a13a0 remove_reloc
+overlays/ov142 0x021a13dc remove_reloc
+overlays/ov142 0x021a145c remove_reloc
+overlays/ov142 0x021a1478 remove_reloc
+overlays/ov142 0x021a1484 remove_reloc
+overlays/ov142 0x021a14b4 remove_reloc
+overlays/ov142 0x021a14bc remove_reloc
+overlays/ov142 0x021a14d4 remove_reloc
+overlays/ov142 0x021a1614 remove_symbol
 overlays/ov152 0x021f6228 reloc_module overlay(148)
 overlays/ov152 0x021f6254 reloc_module overlay(150)
 overlays/ov153 0x021f6228 reloc_module overlay(148)
@@ -1050,6 +1060,7 @@ overlays/ov214 0x021e2e68 remove_symbol
 overlays/ov214 0x021e2e6a remove_symbol
 overlays/ov214 0x021e2e6c remove_symbol
 overlays/ov215 0x021ab0c8 remove_reloc
+overlays/ov253 0x0217caa8 reloc_module overlay(162)
 overlays/ov255 0x021d7454 remove_reloc
 overlays/ov257 0x021acc14 add_reloc load,overlay(257),0x021b6238
 overlays/ov257 0x021af8b5 remove_symbol

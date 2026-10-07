@@ -53,7 +53,7 @@ def probe(args) -> str:
     command = [sys.executable, str(Path(__file__).parent / "compiler_probe.py"), str(args.source),
                "--compilers", args.compiler, "--functions", args.function, "--version", args.version]
     if args.extra_flags:
-        command += ["--extra-flags", args.extra_flags]
+        command += ["--extra-flags=" + args.extra_flags]
     if args.score:
         command += ["--show-diff", args.compiler, "--align"]
     output = subprocess.run(command, capture_output=True, text=True, cwd=ROOT).stdout

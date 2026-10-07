@@ -5,6 +5,22 @@
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
+// The bag's pockets, in the order the bag keeps them
+#define BAG_POCKET_ITEMS 0
+#define BAG_POCKET_MEDICINE 1
+#define BAG_POCKET_TMS_HMS 2
+#define BAG_POCKET_BERRIES 3
+#define BAG_POCKET_KEY_ITEMS 4
+// The items the player moved to the Free Space, which stay in their own pockets
+#define BAG_POCKET_FREE_SPACE 5
+#define BAG_POCKET_NONE 6
+
+// An item and its count in a pocket (swan's BagItem)
+struct BagItem {
+    u16 item;
+    u16 count;
+};
+
 BOOL BagSave_AddItem(BagSave *bag, u16 item, u16 count, u32 heapId);
 // BagSave_AddItem, putting the item first in its pocket
 BOOL BagSave_AddItemAsFirst(BagSave *bag, u32 item, u32 count, u32 heapId);
@@ -20,5 +36,29 @@ void BagSave_Init(BagSave *bag);
 // Replaces the DNA Splicers that fuse (0) with those that separate, or those that separate (1) with those that fuse
 void BagSave_SwitchOwnedDNASplicers(BagSave *bag, u32 from);
 void func_020088ec(void *data, u32 value);
+// The bag's Free Space and item slots. Function names from swan, except func_0200891c and func_0200896c
+// Whether an item's Free Space bit is set
+BOOL BagSave_IsItemFreeSpaceBit(BagSave *bag, u16 item);
+// Whether an item is in the Free Space and in the bag
+BOOL BagSave_IsItemInFreeSpace(BagSave *bag, u16 item);
+// Sets or clears an item's Free Space bit
+void BagSave_MoveBetweenFreeSpace(BagSave *bag, u16 item, BOOL toFreeSpace);
+// The pocket that holds an item, or BAG_POCKET_NONE
+u32 BagSave_GetExistingItemPocket(BagSave *bag, u16 item);
+s32 BagSave_GetPocketItemCount(BagSave *bag, u32 pocket);
+// Moves an item to the end of its pocket
+void BagSave_ForceItemAsLast(BagSave *bag, u16 item);
+// The slot at an index of a pocket, or NULL past its end
+BagItem *BagSave_GetItemIndexHandle(BagSave *bag, u32 pocket, u16 index);
+// An item's slot in a pocket, or NULL
+BagItem *BagSave_GetItemHandle(BagSave *bag, u16 pocket, u16 item);
+// The number of slots that hold an item
+u32 BagSave_GetUniqueItemCount(BagItem *items, u32 count);
+// Copies a pocket into items, leaving out the items in the Free Space, or back into the pocket
+void BagSave_CopyPocket(BagSave *bag, BagItem *items, u32 pocket, BOOL load);
+// Sets the flag of each item in the pockets, in an array of ITEM_LAST + 1 flags
+void func_0200891c(BagSave *bag, u8 *inBag);
+// A pocket's slots and their number
+BagItem *func_0200896c(BagSave *bag, u32 pocket, u32 *count);
 
 #endif // POKEBW2_SAVE_BAG_H

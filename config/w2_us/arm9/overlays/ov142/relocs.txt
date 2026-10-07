@@ -1664,11 +1664,3 @@ from:0x021a0e30 kind:load to:0x020d0239 module:main
 from:0x021a0e58 kind:load to:0x02120266 module:main
 from:0x021a1090 kind:load to:0x021e0001 module:overlay(36)
 from:0x021a10f0 kind:load to:0x021d0001 module:overlays(36,194)
-from:0x021a13e0 kind:load to:0x020a0102 module:main
-from:0x021a141c kind:load to:0x021c0210 module:overlays(182,260)
-from:0x021a149c kind:load to:0x020d0219 module:main
-from:0x021a14b8 kind:load to:0x020e0232 module:main
-from:0x021a14c4 kind:load to:0x020c0215 module:main
-from:0x021a14f4 kind:load to:0x021400d4 module:main
-from:0x021a14fc kind:load to:0x020f0018 module:main
-from:0x021a1514 kind:load to:0x020b0056 module:main
