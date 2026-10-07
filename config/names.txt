@@ -3091,6 +3091,7 @@ overlays/ov257 0x021a08e0 CtvtDraw_CheckDisconnect
 overlays/ov257 0x021a0924 CtvtDraw_PrintMessage
 overlays/ov257 0x021a09d0 CtvtDraw_CloseMenus
 overlays/ov257 0x021a0a58 CtvtDraw_UpdateCancel
+overlays/ov257 0x021a166c CtvtCall_IsBlackWhite
 overlays/ov257 0x021aaa0c CommTvt_GetCamera
 overlays/ov257 0x021aaa14 CommTvt_GetComm
 overlays/ov257 0x021aaa1c CommTvt_GetTalk

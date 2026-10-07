@@ -18,9 +18,12 @@
 #include "gfl/key.h"
 #include "gfl/msg.h"
 #include "gfl/std.h"
+#include "gfl/tcb.h"
 #include "gfl/ui.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
+#include "nitro/hw.h"
+#include "nitro/os.h"
 #include "pml/item.h"
 #include "pml/personal.h"
 #include "pml/poke_party.h"
@@ -28,6 +31,7 @@
 #include "system/app_common.h"
 #include "system/bmp_winframe.h"
 #include "system/gf_font.h"
+#include "system/palanm.h"
 #include "system/printsys.h"
 
 // The trade's 2D: the backgrounds of both screens, the strip of boxes on the lower screen with the Pokémon icons in
@@ -68,6 +72,11 @@ static void func_ov194_021c3d2c(PokemonTradeWork *wk);
 static int func_ov194_021c3f5c(int column);
 static void func_ov194_021c3f68(PokemonTradeWork *wk);
 static void func_ov194_021c4e0c(PokemonTradeWork *wk, int side, PartyPkm *pkm);
+static void func_ov194_021c6024(TCB *tcb, void *data);
+static void func_ov194_021c6038(TCB *tcb, void *data);
+static void func_ov194_021c604c(TradeCurve *curve, VecFx32 *start, VecFx32 *control1, VecFx32 *control2, VecFx32 *end,
+                                int frames);
+static BOOL func_ov194_021c60a0(TradeCurve *curve);
 
 // The cell actor systems of the trade, and of the trade demo, which has only a few sprites
 static const ClActSysSetup sClActSetup = { 0, 0, 0, 512, 4, 124, 4, 124, 0, 128, 128, 128, 128, 16, 16 };
@@ -141,6 +150,15 @@ static u32 sInitialWindowPos[][2] = {
     { 1, 9 },   { 4, 9 },   { 7, 9 },  { 10, 9 }, { 13, 9 },  { 16, 9 },  { 19, 9 },  { 22, 9 },  { 25, 9 },
     { 28, 9 },  { 1, 12 },  { 4, 12 }, { 7, 12 }, { 10, 12 }, { 13, 12 }, { 16, 12 }, { 19, 12 }, { 22, 12 },
     { 25, 12 }, { 28, 12 }, { 1, 15 }, { 4, 15 }, { 7, 15 },  { 10, 15 }, { 13, 15 }, { 16, 15 },
+};
+
+// Where the icons of the Pokémon of a negotiation go, for each side: in the row on the main screen, and on the sub
+// screen's panels
+static const u32 sNegoIconPosMain[6][2] = {
+    { 32, 96 }, { 64, 96 }, { 96, 96 }, { 168, 96 }, { 200, 96 }, { 232, 96 },
+};
+static const u32 sNegoIconPosSub[6][2] = {
+    { 24, 46 }, { 24, 94 }, { 24, 142 }, { 152, 46 }, { 152, 94 }, { 152, 142 },
 };
 
 void func_ov194_021c2a24(PokemonTradeWork *wk) {
@@ -1702,4 +1720,633 @@ void func_ov194_021c510c(PokemonTradeWork *wk, int side, BOOL visible) {
             func_0204c124(wk->negoIcons[side][i], visible);
         }
     }
+}
+
+// Sets up the icon of a Pokémon offered in a negotiation, in the row of the main screen or on the sub screen's panel
+void func_ov194_021c5138(PokemonTradeWork *wk, int side, int index, PartyPkm *pkm, BOOL onMain, BOOL visible) {
+    BoxPkm *boxPkm = func_0201d620(pkm);
+    ArcTool *arc = GFL_ArcSysCreateFileHandle(7, wk->heapId);
+    ClActorSetup setup;
+    u32 vramType;
+
+    func_ov194_021c50d8(wk, side, index);
+    if (onMain) {
+        setup.x = sNegoIconPosMain[side * 3 + index][0];
+        setup.y = sNegoIconPosMain[side * 3 + index][1];
+        vramType = CLACT_VRAM_MAIN;
+    } else {
+        setup.x = sNegoIconPosSub[side * 3 + index][0];
+        setup.y = sNegoIconPosSub[side * 3 + index][1];
+        vramType = CLACT_VRAM_SUB;
+    }
+    setup.sequence = 1;
+    setup.priority = 16;
+    setup.bgPriority = 1;
+    wk->negoIconChars[side][index] = func_0204b81c(arc, func_02020f40(boxPkm), FALSE, vramType, wk->heapId);
+    wk->negoIcons[side][index] =
+        func_0204c040(wk->clactUnit, wk->negoIconChars[side][index], wk->objRes[TRADE_OBJRES_PLTT_NEGO],
+                      wk->objRes[TRADE_OBJRES_CELL_NEGO], &setup, vramType, wk->heapId);
+    func_0204c378(wk->negoIcons[side][index], func_020210c0(boxPkm), CLACT_VRAM_SUB);
+    func_0204c520(wk->negoIcons[side][index], FALSE);
+    func_0204c124(wk->negoIcons[side][index], visible);
+    GFL_ArcToolFree(arc);
+}
+
+// Places the icons on the panels of a negotiation, the one picked raised
+void func_ov194_021c5244(PokemonTradeWork *wk, int side, int index) {
+    int i, j;
+    ClActorPos pos;
+
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 3; j++) {
+            if (wk->negoIcons[i][j] != NULL) {
+                pos.x = sNegoIconPosSub[i * 3 + j][0];
+                pos.y = sNegoIconPosSub[i * 3 + j][1];
+                if (i == side && j == index) {
+                    pos.y -= 4;
+                }
+                func_0204c140(wk->negoIcons[i][j], &pos, CLACT_VRAM_SUB);
+            }
+        }
+    }
+}
+
+void func_ov194_021c52bc(PokemonTradeWork *wk) {
+    int j, i;
+
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 3; j++) {
+            func_ov194_021c50d8(wk, i, j);
+        }
+    }
+}
+
+// Makes the copy of an icon that the stylus carries
+void func_ov194_021c52e0(PokemonTradeWork *wk, int column, int row, int x, int y, BoxPkm *pkm) {
+    ClActorSetup setup;
+
+    setup.x = x;
+    setup.y = y;
+    setup.sequence = 1;
+    setup.priority = 0;
+    setup.bgPriority = 0;
+    wk->actors[9] = func_0204c040(wk->clactUnit, wk->iconChars[column][row], wk->objRes[TRADE_OBJRES_PLTT_ICON],
+                                  wk->objRes[TRADE_OBJRES_CELL_ICON], &setup, CLACT_VRAM_SUB, wk->heapId);
+    func_0204c378(wk->actors[9], func_020210c0(pkm), CLACT_VRAM_SUB);
+}
+
+// Lets the carried icon go: it flies on in the direction the stylus moved it and curves off to the upper left
+void func_ov194_021c5348(PokemonTradeWork *wk) {
+    ClActorPos pos;
+    VecFx32 points[4];
+    fx32 x, y, dx, dy, length;
+
+    func_0204c178(wk->actors[9], &pos, CLACT_VRAM_SUB);
+    dx = (pos.x - wk->heldPrevPos.x) * FX32_ONE;
+    dy = (pos.y - wk->heldPrevPos.y) * FX32_ONE;
+    points[0].x = pos.x * FX32_ONE;
+    points[0].y = pos.y * FX32_ONE;
+    points[0].z = 0;
+    points[1].x = (pos.x * 2 - wk->heldPrevPos.x) * FX32_ONE;
+    points[1].y = (pos.y * 2 - wk->heldPrevPos.y) * FX32_ONE;
+    points[1].z = 0;
+    points[3].x = FX32_CONST(28);
+    points[3].y = 0;
+    points[3].z = 0;
+    x = points[0].x - points[3].x;
+    y = points[0].y / 2;
+    length = FX_Sqrt(FX_Mul(x, x) + FX_Mul(y, y)) / 15;
+    points[2].x = x + FX_Mul(dx, length);
+    points[2].y = y + FX_Mul(dy, length);
+    points[2].z = 0;
+    func_ov194_021c604c(&wk->curve, &points[0], &points[1], &points[2], &points[3], 19);
+    wk->curveTimer = 21;
+}
+
+// Moves the icon that was let go along its curve; TRUE when its flight is over
+BOOL func_ov194_021c5460(PokemonTradeWork *wk) {
+    ClActorPos pos;
+
+    if (wk->curveTimer != 0) {
+        wk->curveTimer--;
+        if (wk->curveTimer == 0) {
+            return TRUE;
+        }
+        func_0204c178(wk->actors[9], &pos, CLACT_VRAM_SUB);
+        if (pos.y < 0) {
+            wk->curveTimer = 1;
+        }
+        if (wk->curveTimer == 1) {
+            func_ov194_021c54ec(wk);
+        } else {
+            func_ov194_021c60a0(&wk->curve);
+            pos.x = wk->curve.pos.x / FX32_ONE;
+            pos.y = wk->curve.pos.y / FX32_ONE;
+            func_0204c140(wk->actors[9], &pos, CLACT_VRAM_SUB);
+        }
+    }
+    return FALSE;
+}
+
+void func_ov194_021c54ec(PokemonTradeWork *wk) {
+    if (wk->actors[9] != NULL) {
+        func_0204c108(wk->actors[9]);
+        wk->actors[9] = NULL;
+    }
+}
+
+void func_ov194_021c5504(PokemonTradeWork *wk) {
+    gfxRegSetAlphaBlend(REG_DB_BLDCNT_ADDR, 0,
+                        GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3, 8, 8);
+}
+
+// Shows a stamp's button, under the lower screen's panels
+void func_ov194_021c551c(PokemonTradeWork *wk, int index) {
+    ClActorSetup setup;
+
+    if (wk->stampButtons[index] == NULL) {
+        setup.x = index * 24 + 8;
+        setup.y = 144;
+        setup.sequence = index + 11;
+        setup.priority = 50;
+        setup.bgPriority = 1;
+        wk->stampButtons[index] =
+            func_0204c040(wk->clactUnit, wk->objRes[TRADE_OBJRES_CHAR_SUB], wk->objRes[TRADE_OBJRES_PLTT_SUB],
+                          wk->objRes[TRADE_OBJRES_CELL_SUB], &setup, CLACT_VRAM_SUB, wk->heapId);
+    }
+    func_0204c520(wk->stampButtons[index], TRUE);
+    func_0204c124(wk->stampButtons[index], TRUE);
+}
+
+void func_ov194_021c5594(PokemonTradeWork *wk, int index, BOOL visible) {
+    func_0204c124(wk->stampButtons[index], visible);
+}
+
+void func_ov194_021c55ac(PokemonTradeWork *wk, int index) {
+    if (wk->stampButtons[index] != NULL) {
+        func_0204c108(wk->stampButtons[index]);
+        wk->stampButtons[index] = NULL;
+    }
+}
+
+// Plays the animation of a stamp's button being pressed
+void func_ov194_021c55c8(PokemonTradeWork *wk, u32 index) {
+    func_0204c488(wk->stampButtons[index], index + 15);
+}
+
+// Shows a stamp in a side's balloon
+void func_ov194_021c55e4(PokemonTradeWork *wk, u32 index, int side) {
+    ClActorSetup setup;
+
+    setup.x = side * 206 + 8;
+    setup.y = 160;
+    setup.sequence = 4;
+    setup.priority = 1;
+    setup.bgPriority = 0;
+    if (wk->stamps[side * 2] == NULL) {
+        wk->stamps[side * 2] =
+            func_0204c040(wk->clactUnit, wk->objRes[TRADE_OBJRES_CHAR_MAIN], wk->objRes[TRADE_OBJRES_PLTT_MAIN],
+                          wk->objRes[TRADE_OBJRES_CELL_MAIN], &setup, CLACT_VRAM_MAIN, wk->heapId);
+        func_0204c520(wk->stamps[side * 2], TRUE);
+        func_0204c124(wk->stamps[side * 2], TRUE);
+    } else {
+        func_0204c124(wk->stamps[side * 2], TRUE);
+    }
+    if (wk->stamps[side * 2 + 1] == NULL) {
+        setup.priority = 0;
+        setup.sequence = index;
+        wk->stamps[side * 2 + 1] =
+            func_0204c040(wk->clactUnit, wk->objRes[TRADE_OBJRES_CHAR_MAIN], wk->objRes[TRADE_OBJRES_PLTT_MAIN],
+                          wk->objRes[TRADE_OBJRES_CELL_MAIN], &setup, CLACT_VRAM_MAIN, wk->heapId);
+        func_0204c520(wk->stamps[side * 2 + 1], TRUE);
+        func_0204c124(wk->stamps[side * 2 + 1], TRUE);
+    } else {
+        func_0204c488(wk->stamps[side * 2 + 1], index);
+    }
+}
+
+void func_ov194_021c56b8(PokemonTradeWork *wk, int side) {
+    if (wk->stamps[side * 2 + 1] != NULL) {
+        func_0204c108(wk->stamps[side * 2 + 1]);
+        wk->stamps[side * 2 + 1] = NULL;
+    }
+    if (wk->stamps[side * 2] != NULL) {
+        func_0204c108(wk->stamps[side * 2]);
+        wk->stamps[side * 2] = NULL;
+    }
+}
+
+// Puts the cursor on one of the six panels of a negotiation's Pokémon, or hides it for -1
+void func_ov194_021c56f8(PokemonTradeWork *wk, int cursor) {
+    ClActorPos positions[] = {
+        { 64, 48 }, { 64, 96 }, { 64, 144 }, { 192, 48 }, { 192, 96 }, { 192, 144 },
+    };
+    ClActorSetup setup;
+
+    if (cursor == -1) {
+        if (wk->negoCursor != NULL) {
+            func_0204c124(wk->negoCursor, FALSE);
+        }
+        return;
+    }
+    if (wk->negoCursor == NULL) {
+        setup.x = 64;
+        setup.y = 48;
+        setup.sequence = 23;
+        setup.priority = 0;
+        setup.bgPriority = 1;
+        wk->negoCursor =
+            func_0204c040(wk->clactUnit, wk->objRes[TRADE_OBJRES_CHAR_SUB], wk->objRes[TRADE_OBJRES_PLTT_SUB],
+                          wk->objRes[TRADE_OBJRES_CELL_SUB], &setup, CLACT_VRAM_SUB, wk->heapId);
+    }
+    func_0204c520(wk->negoCursor, TRUE);
+    func_0204c124(wk->negoCursor, TRUE);
+    func_0204c140(wk->negoCursor, &positions[cursor], CLACT_VRAM_SUB);
+}
+
+void func_ov194_021c57a8(PokemonTradeWork *wk) {
+    if (wk->negoCursor != NULL) {
+        func_0204c108(wk->negoCursor);
+        wk->negoCursor = NULL;
+    }
+}
+
+// Slides the panels of a negotiation in, each side from its edge, 4 pixels a frame; TRUE when they are in
+BOOL func_ov194_021c57c4(PokemonTradeWork *wk) {
+    ClActorPos pos, leftPos, rightPos;
+    int i;
+
+    if (wk->panelSlide < 128) {
+        wk->panelSlide += 4;
+    } else {
+        return TRUE;
+    }
+    for (i = 0; i < 8; i++) {
+        func_0204c178(wk->negoPanels[i], &pos, CLACT_VRAM_SUB);
+        if (i / 4) {
+            pos.x += 4;
+        } else {
+            pos.x -= 4;
+        }
+        func_0204c140(wk->negoPanels[i], &pos, CLACT_VRAM_SUB);
+    }
+    for (i = 0; i < 3; i++) {
+        if (wk->negoIcons[0][i] != NULL) {
+            func_0204c178(wk->negoIcons[0][i], &leftPos, CLACT_VRAM_SUB);
+            leftPos.x -= 4;
+            func_0204c140(wk->negoIcons[0][i], &leftPos, CLACT_VRAM_SUB);
+        }
+    }
+    for (i = 0; i < 3; i++) {
+        if (wk->negoIcons[1][i] != NULL) {
+            func_0204c178(wk->negoIcons[1][i], &rightPos, CLACT_VRAM_SUB);
+            rightPos.x += 4;
+            func_0204c140(wk->negoIcons[1][i], &rightPos, CLACT_VRAM_SUB);
+        }
+    }
+    GFL_BGSysMoveBG(5, BG_MOVE_SET_X, -wk->panelSlide);
+    GFL_BGSysMoveBG(4, BG_MOVE_SET_X, wk->panelSlide - 128);
+    return FALSE;
+}
+
+// Moves the panels of a negotiation and their icons off the screen, each side past its edge, for them to slide in
+static void func_ov194_021c58b4(PokemonTradeWork *wk) {
+    ClActorPos pos, leftPos, rightPos;
+    int i;
+
+    for (i = 0; i < 8; i++) {
+        func_0204c178(wk->negoPanels[i], &pos, CLACT_VRAM_SUB);
+        if (i / 4) {
+            pos.x -= 128;
+            func_0204c468(wk->negoPanels[i], 3);
+        } else {
+            pos.x += 128;
+        }
+        func_0204c140(wk->negoPanels[i], &pos, CLACT_VRAM_SUB);
+    }
+    for (i = 0; i < 3; i++) {
+        if (wk->negoIcons[0][i] != NULL) {
+            func_0204c178(wk->negoIcons[0][i], &leftPos, CLACT_VRAM_SUB);
+            leftPos.x += 128;
+            func_0204c140(wk->negoIcons[0][i], &leftPos, CLACT_VRAM_SUB);
+        }
+    }
+    for (i = 0; i < 3; i++) {
+        if (wk->negoIcons[1][i] != NULL) {
+            func_0204c178(wk->negoIcons[1][i], &rightPos, CLACT_VRAM_SUB);
+            rightPos.x -= 128;
+            func_0204c140(wk->negoIcons[1][i], &rightPos, CLACT_VRAM_SUB);
+            func_0204c468(wk->negoIcons[1][i], 3);
+        }
+    }
+    GFL_BGSysSetBGPriority(4, 2);
+    GFL_BGSysSetBGPriority(5, 3);
+}
+
+// Sets up the lower screen's BGs for a negotiation, with its panels off the screen
+void func_ov194_021c5994(PokemonTradeWork *wk) {
+    ArcTool *arc;
+
+    wk->cursorImage = LoadCursorImageEndOfHeap(6, 15, 0, wk->heapId);
+    arc = GFL_ArcSysCreateFileHandle(0x67, wk->heapId);
+    wk->bg5Chars = GFL_BGSysLoadArcNCGRDynamic(arc, 13, 5, 0, FALSE, wk->heapId);
+    GFL_G2DIOLoadNSCRSync(arc, 7, 4, 0, CHAR_POS(wk->bg5Chars), 0, FALSE, wk->heapId);
+    GFL_G2DIOLoadNSCRSync(arc, 7, 5, 0, CHAR_POS(wk->bg5Chars), 0, FALSE, wk->heapId);
+    {
+        BGSetup setup = { 0,
+                          0,
+                          0x1000,
+                          0,
+                          BGRES_256x256,
+                          GX_BG_COLORMODE_16,
+                          GX_BG_SCRBASE(0xf000),
+                          GX_BG_CHARBASE(0x10000),
+                          0x10000,
+                          GX_BG_EXTPLTT_01,
+                          3,
+                          GX_BG_AREAOVER_XLU,
+                          FALSE };
+
+        GFL_BGSysReleaseBG(7);
+        GFL_BGSysCreateBG(7, &setup, BGMODE_TEXT);
+    }
+    GFL_G2DIOLoadNSCRSync(arc, 8, 7, 0, CHAR_POS(wk->bg5Chars), 0, FALSE, wk->heapId);
+    GFL_BGSysMoveBG(4, BG_MOVE_SET_X, -128);
+    GFL_BGSysMoveBG(7, BG_MOVE_SET_X, 0);
+    GFL_BGSysSetBGPriority(4, 3);
+    GFL_G2DIOLoadNSCRSync(arc, 11, 2, 0, CHAR_POS(wk->bg2Chars), 0, FALSE, wk->heapId);
+    GFL_ArcToolFree(arc);
+    wk->panelSlide = 0;
+    func_ov194_021c58b4(wk);
+    GFL_BGSysSetEnabledBGsB(GX_PLANEMASK_BG0 | GX_PLANEMASK_BG1 | GX_PLANEMASK_BG2 | GX_PLANEMASK_BG3 |
+                            GX_PLANEMASK_OBJ);
+}
+
+// Sets up the panels of a negotiation: their bitmaps, the characters they are copied to, and their sprites
+void func_ov194_021c5abc(PokemonTradeWork *wk) {
+    ClActorPos positions[] = {
+        { 96, 32 }, { 104, 64 }, { 104, 112 }, { 104, 160 }, { 224, 32 }, { 232, 64 }, { 232, 112 }, { 232, 160 },
+    };
+    ClActorSetup setup;
+    ArcTool *arc = GFL_ArcSysCreateFileHandle(0x67, wk->heapId);
+    int i;
+
+    wk->negoPanelPltt = func_0204bbb8(arc, 0, CLACT_VRAM_SUB, 0x1c0, 0, 1, wk->heapId);
+    wk->negoPanelCells = func_0204bde0(arc, 2, 1, wk->heapId);
+    for (i = 0; i < 8; i++) {
+        wk->negoBitmaps[i] = GFL_BitmapCreate(16, 6, 32, wk->heapId);
+        wk->negoPanelChars[i] = func_0204b81c(arc, 3, FALSE, CLACT_VRAM_SUB, wk->heapId);
+    }
+    for (i = 0; i < 8; i++) {
+        setup.x = positions[i].x;
+        setup.y = positions[i].y;
+        setup.sequence = 0;
+        setup.priority = 0;
+        setup.bgPriority = 1;
+        wk->negoPanels[i] = func_0204c040(wk->clactUnit, wk->negoPanelChars[i], wk->negoPanelPltt, wk->negoPanelCells,
+                                          &setup, CLACT_VRAM_SUB, wk->heapId);
+        func_0204c124(wk->negoPanels[i], TRUE);
+    }
+    GFL_ArcToolFree(arc);
+}
+
+void func_ov194_021c5bf0(PokemonTradeWork *wk) {
+    int i;
+
+    for (i = 0; i < 8; i++) {
+        if (wk->negoPanels[i] != NULL) {
+            func_0204c108(wk->negoPanels[i]);
+            wk->negoPanels[i] = NULL;
+            GFL_BitmapFree(wk->negoBitmaps[i]);
+            wk->negoBitmaps[i] = NULL;
+            func_0204b98c(wk->negoPanelChars[i]);
+            wk->negoPanelChars[i] = 0;
+        }
+    }
+    if (wk->negoPanelPltt != 0) {
+        func_0204bcd0(wk->negoPanelPltt);
+        wk->negoPanelPltt = 0;
+    }
+#ifdef BUGFIX
+    if (wk->negoPanelCells != 0) {
+        func_0204be64(wk->negoPanelCells);
+        wk->negoPanelCells = 0;
+    }
+#else
+    // BUG: This tests the palette again, freed just above, so the cells are never freed, and it would free a panel's
+    // characters
+    if (wk->negoPanelPltt != 0) {
+        func_0204be64(wk->negoPanelChars[2]);
+        wk->negoPanelPltt = 0;
+    }
+#endif
+}
+
+// Copies the bitmaps of the panels of a negotiation to their characters, which take the 8 tiles of a row of the
+// bitmap two rows apart
+void func_ov194_021c5c80(PokemonTradeWork *wk) {
+    u8 order[] = { 0, 2, 4, 6, 1, 3, 5, 7 };
+    int i, j;
+
+    for (i = 0; i < 8; i++) {
+        u32 dest = func_0204bb80(wk->negoPanelChars[i], TRUE);
+        u8 *pixels = GFL_BitmapGetPixelData(wk->negoBitmaps[i]);
+
+        cp15_flushDC(pixels, GFL_BitmapCalcPixelDataSize(wk->negoBitmaps[i]));
+        for (j = 0; j < 8; j++) {
+            gfxUploadObjCharB(pixels + order[j] * 0x100, dest, 0x100);
+            dest += 0x100;
+        }
+    }
+}
+
+// Shows the background of a side's panel on the sub screen
+void func_ov194_021c5d10(PokemonTradeWork *wk, int side, PartyPkm *pkm) {
+    ArcTool *arc = GFL_ArcSysCreateFileHandle(0x67, wk->heapId);
+    NNSG2dScreenData *screen;
+    void *file;
+    u16 *cells;
+    u32 i;
+
+    if (side == 0) {
+        file = GFL_G2DIOReadNSCRArc(arc, 5, FALSE, &screen, wk->heapId);
+    } else {
+        file = GFL_G2DIOReadNSCRArc(arc, 6, FALSE, &screen, wk->heapId);
+    }
+    cells = (u16 *)screen->rawData;
+    for (i = 0; i < screen->size / 2; i++) {
+        cells[i] += CHAR_POS(wk->bg2Chars);
+    }
+    if (side == 0) {
+        GFL_BGSysLoadScrAreaAll(1, cells, 0, 0, 16, 24);
+    } else {
+        GFL_BGSysLoadScrAreaAll(1, screen->rawData, 16, 0, 16, 24);
+    }
+    GFL_HeapFree(file);
+    GFL_BGSysSetBGPriority(3, 2);
+    GFL_BGSysSetBGPriority(2, 3);
+    GFL_BGSysSetBGPriority(1, 1);
+    GFL_BGSysSetBGPriority(0, 0);
+    GFL_ArcToolFree(arc);
+    GFL_BGSysQueueScrLoad(1);
+}
+
+static void func_ov194_021c5dcc(u32 param, fx32 frame) {
+    PokemonTradeWork *wk = (PokemonTradeWork *)param;
+
+    wk->boxCursorDone = TRUE;
+}
+
+// Shows the cursor over a box of the box list, at its top left corner
+void func_ov194_021c5dd8(PokemonTradeWork *wk, u8 x, u8 y) {
+    ClActorSetup setup;
+    ClActorCallback callback;
+
+    setup.x = x + 12;
+    setup.y = y + 12;
+    setup.sequence = 24;
+    setup.priority = 0;
+    setup.bgPriority = 0;
+    func_ov194_021c5e5c(wk);
+    wk->boxCursor = func_0204c040(wk->clactUnit, wk->objRes[TRADE_OBJRES_CHAR_SUB], wk->objRes[TRADE_OBJRES_PLTT_SUB],
+                                  wk->objRes[TRADE_OBJRES_CELL_SUB], &setup, CLACT_VRAM_SUB, wk->heapId);
+    func_0204c124(wk->boxCursor, TRUE);
+    func_0204c520(wk->boxCursor, TRUE);
+    wk->boxCursorDone = FALSE;
+    callback.type = CLACT_CALLBACK_LAST_FRAME;
+    callback.param = (u32)wk;
+    callback.func = func_ov194_021c5dcc;
+    func_0204c5b0(wk->boxCursor, &callback);
+}
+
+void func_ov194_021c5e5c(PokemonTradeWork *wk) {
+    if (wk->boxCursor != NULL) {
+        func_0204c108(wk->boxCursor);
+        wk->boxCursor = NULL;
+        wk->boxCursorDone = FALSE;
+    }
+}
+
+// Removes the box list's cursor once its animation has ended; TRUE while it plays
+BOOL func_ov194_021c5e80(PokemonTradeWork *wk) {
+    if (wk->boxCursorDone) {
+        func_ov194_021c5e5c(wk);
+        return FALSE;
+    }
+    return TRUE;
+}
+
+// Dims the palettes of a standard palette memory (PALFADE_VRAM_*) in paletteMask
+static void func_ov194_021c5e9c(const PokemonTradeWork *wk, u16 vram, u32 paletteMask) {
+    PaletteFade *fade = PaletteFade_Create(wk->heapId);
+    u8 *colors;
+    int i;
+
+    PaletteFade_AllocBuffer(fade, vram, 0x200, wk->heapId);
+    PaletteFade_LoadFromVRAM(fade, vram, 0, 0x200);
+    PaletteFade_BlendBuffer(fade, vram, 0, 0x100, 6, 0);
+    colors = (u8 *)PaletteFade_GetFadedBuffer(fade, vram);
+    for (i = 0; i < 16; i++) {
+        if (paletteMask & (1 << i)) {
+            cp15_flushDC(colors + i * 32, 32);
+            switch (vram) {
+            case PALFADE_VRAM_SUB_OBJ:
+                gfxUploadStdPaletteObjB(colors + i * 32, i * 32, 32);
+                break;
+            case PALFADE_VRAM_SUB_BG:
+                gfxUploadStdPaletteBGB(colors + i * 32, i * 32, 32);
+                break;
+            case PALFADE_VRAM_MAIN_OBJ:
+                gfxUploadStdPaletteObjA(colors + i * 32, i * 32, 32);
+                break;
+            case PALFADE_VRAM_MAIN_BG:
+                gfxUploadStdPaletteBGA(colors + i * 32, i * 32, 32);
+                break;
+            }
+        }
+    }
+    PaletteFade_FreeBuffer(fade, vram);
+    PaletteFade_Free(fade);
+}
+
+// Dims the palettes in paletteMask of the lower screen's OBJ or BG palettes, keeping a copy of them, or puts the copy
+// back
+static void func_ov194_021c5f64(PokemonTradeWork *wk, BOOL dim, u16 vram, u32 paletteMask) {
+    if (dim) {
+        if (vram == PALFADE_VRAM_SUB_OBJ) {
+            sys_memcpy((void *)HW_DB_OBJ_PLTT, wk->savedObjPalette, 0x200);
+        } else if (vram == PALFADE_VRAM_SUB_BG) {
+            sys_memcpy((void *)HW_DB_BG_PLTT, wk->savedBGPalette, 0x200);
+        }
+        func_ov194_021c5e9c(wk, vram, paletteMask);
+    } else if (vram == PALFADE_VRAM_SUB_OBJ) {
+        cp15_flushDC(wk->savedObjPalette, 0x200);
+        gfxUploadStdPaletteObjB(wk->savedObjPalette, 0, 0x200);
+    } else if (vram == PALFADE_VRAM_SUB_BG) {
+        cp15_flushDC(wk->savedBGPalette, 0x200);
+        gfxUploadStdPaletteBGB(wk->savedBGPalette, 0, 0x200);
+    }
+}
+
+// Dims the lower screen's OBJ palettes but the first, or brings them back
+void func_ov194_021c5fe4(PokemonTradeWork *wk, BOOL dim) {
+    func_ov194_021c5f64(wk, dim, PALFADE_VRAM_SUB_OBJ, 0xfffe);
+}
+
+// Sets the planes of the main screen shown, in the next V-blank
+void func_ov194_021c5ff4(PokemonTradeWork *wk, int planes) {
+    GFL_TCBMgrAddTask(GFL_VBlankGetTCBMgr(), func_ov194_021c6024, (void *)planes, 10);
+}
+
+// Sets the planes of the sub screen shown, in the next V-blank
+void func_ov194_021c600c(PokemonTradeWork *wk, int planes) {
+    GFL_TCBMgrAddTask(GFL_VBlankGetTCBMgr(), func_ov194_021c6038, (void *)planes, 10);
+}
+
+static void func_ov194_021c6024(TCB *tcb, void *data) {
+    GFL_BGSysSetEnabledBGsA((int)data);
+    GFL_TCBRemove(tcb);
+}
+
+static void func_ov194_021c6038(TCB *tcb, void *data) {
+    GFL_BGSysSetEnabledBGsB((int)data);
+    GFL_TCBRemove(tcb);
+}
+
+// Starts a point along the curve from start to end, over frames
+static void func_ov194_021c604c(TradeCurve *curve, VecFx32 *start, VecFx32 *control1, VecFx32 *control2, VecFx32 *end,
+                                int frames) {
+    curve->pos = *start;
+    curve->points[0] = *start;
+    curve->points[1] = *control1;
+    curve->points[2] = *control2;
+    curve->points[3] = *end;
+    curve->frame = 0;
+    curve->frames = frames;
+}
+
+// Moves the point to the curve's next frame; TRUE once it is at the end
+static BOOL func_ov194_021c60a0(TradeCurve *curve) {
+    fx32 t, t2, s, s2, b0, b1, b2, b3;
+
+    if (curve->frame < curve->frames - 1) {
+        t = FX_Div(FX32_CONST(curve->frame), FX32_CONST(curve->frames));
+        t2 = FX_Mul(t, t);
+        s = FX32_ONE - t;
+        s2 = FX_Mul(s, s);
+        b1 = FX_Mul(3 * t, s2);
+        b0 = FX_Mul(s2, s);
+        b2 = FX_Mul(3 * t2, s);
+        b3 = FX_Mul(t2, t);
+        curve->pos.x = FX_Mul(curve->points[0].x, b0) + FX_Mul(curve->points[1].x, b1) +
+                       FX_Mul(curve->points[2].x, b2) + FX_Mul(curve->points[3].x, b3);
+        curve->pos.y = FX_Mul(curve->points[0].y, b0) + FX_Mul(curve->points[1].y, b1) +
+                       FX_Mul(curve->points[2].y, b2) + FX_Mul(curve->points[3].y, b3);
+        curve->pos.z = FX_Mul(curve->points[0].z, b0) + FX_Mul(curve->points[1].z, b1) +
+                       FX_Mul(curve->points[2].z, b2) + FX_Mul(curve->points[3].z, b3);
+        curve->frame++;
+        return FALSE;
+    }
+    curve->pos = curve->points[3];
+    return TRUE;
 }

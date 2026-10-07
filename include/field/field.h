@@ -201,12 +201,15 @@ void func_ov036_021a2398(EncountSystem *encount, u32 a1);
 
 // One of N's Pokémon, which createNPkm makes
 typedef struct {
-    u16 unk0;
+    // The zones it appears in, from firstZone on
+    u16 firstZone : 14;
+    u16 zoneCount : 2;
     u16 species;
     u8 level;
-    u8 unk5;
-    u8 unk6;
-    u8 unk7;
+    u8 nature;
+    u8 sex;
+    // 0 or 1 for the species' abilities, 2 for its hidden ability
+    u8 ability;
 } NPokeSpec;
 
 void createNPkm(PartyPkm *pkm, const NPokeSpec *spec);

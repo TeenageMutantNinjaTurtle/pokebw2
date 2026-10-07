@@ -45,6 +45,11 @@ PokeParty *PokeParty_Create(HeapID heapId);
 void PokeParty_CreateTempPkm(PartyPkm *pkm, u16 species, u16 level, u64 id);
 u32 PokeParty_GetSaveDataSize(void);
 u32 PML_GenPID(u32 seed, u16 species, u16 form, u32 sex, u32 ability, u32 a5);
+// Whether the personality is shiny for the trainer ID
+BOOL PML_UtilPIDIsRare(u32 id, u32 pid);
+u32 makeSpecialPID(u32 id, u16 species, u16 form, u8 sex, u8 a4, BOOL a5);
+// Whether the gender ratio leaves no choice of sex
+BOOL isGenderlessOrSetGender(u8 genderRatio);
 // The trainer ID and the PID are 64-bit so that they can hold these values beside any 32-bit one. The trainer ID is
 // random, or one with which the PID isn't shiny; the PID is random, or the trainer ID's value. ivs packs six 5-bit
 // IVs, or is PKM_IVS_RANDOM
