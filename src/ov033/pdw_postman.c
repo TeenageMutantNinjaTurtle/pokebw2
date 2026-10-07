@@ -613,7 +613,7 @@ u32 func_ov033_02178334(FieldScriptEnv *env, GameData *gameData, MysteryGift *gi
 
 u32 func_ov033_02178338(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env) {
     PlayerInfo *playerInfo;
-    u32 value;
+    u8 value;
 
     playerInfo = GetGameDataPlayerInfo(FieldScriptEnv_GetGameData(env));
     FieldScriptEnv_GetHeapID(env);
