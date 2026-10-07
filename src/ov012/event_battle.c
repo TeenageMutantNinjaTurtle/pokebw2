@@ -16,6 +16,7 @@
 #include "field/encounter.h"
 #include "field/event_battle.h"
 #include "field/event_battle_lose.h"
+#include "field/event_sound.h"
 #include "field/festival.h"
 #include "field/field.h"
 #include "field/field_actor.h"

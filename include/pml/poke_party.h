@@ -89,6 +89,9 @@ u8 PML_PkmGetSex(BoxPkm *pkm);
 BOOL doesPokerusHaveDuration(BoxPkm *pkm);
 // Whether the Pokémon has had Pokérus
 BOOL doesPokeHavePokerus(BoxPkm *pkm);
+// The same two for a Pokémon of the party
+BOOL pokerusDuration(PartyPkm *pkm);
+BOOL pokeHasPkrs(PartyPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
 // Marks the Pokémon as met in a fateful encounter, at the location and on the date
 void setFatefulEncounterPkmData(BoxPkm *pkm, u16 location, u32 year, u32 month, u32 day);
@@ -96,6 +99,10 @@ void setFatefulEncounterPkmData(BoxPkm *pkm, u16 location, u32 year, u32 month, 
 void PML_PkmSetParam(BoxPkm *pkm, u32 param, u32 value);
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
+// The size of a boxed Pokémon's data
+u32 PML_GetPkmRawSize(void);
+void PML_PkmInit(BoxPkm *pkm);
+void PML_CreateTempPkm(BoxPkm *pkm, u16 species, u16 level, u32 a3, u32 a4);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
 // Resets the nickname to the species' name
 void setNicknameToNick(PartyPkm *pkm);

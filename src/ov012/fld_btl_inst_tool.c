@@ -243,12 +243,12 @@ static void func_ov012_02162394(u32 mode, u32 trainerId, BSubwayTrainer *trainer
     dest->trainerClass = trainerClass;
     dest->aiFlags = aiFlags;
     GFL_StrBufLoadString(dest->name, trainer->name);
-    // The setup's phrases are bytes in battle/btl_setup.h, which the battle code uses as such
     if (clearWords == TRUE) {
         PMSData_Clear(&dest->unk18);
         PMSData_Clear(&dest->unk20);
     }
     if (copyWords == TRUE) {
+        // The trainer keeps its phrases as four words each, which func_ov012_02162ae8 checks one by one
         if (mode == 4) {
             dest->unk18 = *(PMSData *)trainer->winWords;
             dest->unk20 = *(PMSData *)trainer->loseWords;

@@ -24,3 +24,13 @@ src/ov257/ctvt_mic.c:
     .text       start:0x0219ef4c end:0x0219f234
     .data       start:0x021b2610 end:0x021b264c
     .bss        start:0x021b3d6c end:0x021b3d70
+
+src/ov257/ctvt_camera.c:
+    .text       start:0x0219a850 end:0x0219b5b8
+    .rodata     start:0x021b18c4 end:0x021b18f0
+    .data       start:0x021b25c0 end:0x021b25f8
+
+src/ov257/ctvt_comm.c:
+    .text       start:0x0219b5b8 end:0x0219cd74
+    .rodata     start:0x021b18f0 end:0x021b19ac
+    .data       start:0x021b25f8 end:0x021b2604

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "app/ov139.h"
-#include "app/ov207.h"
 #include "app/ov287.h"
+#include "app/p_status.h"
 #include "constants/arc.h"
 #include "constants/items.h"
 #include "constants/pokemon.h"
@@ -182,7 +182,7 @@ typedef struct {
     // Whether the player was using the keys rather than the touch screen, for overlay 287's screen
     u8 usingKeys;
     Ov287Param ov287Param;
-    Ov207Param *ov207Param;
+    PStatusParam *pstatusParam;
     ShinkaDemoView *view;
     ShinkaDemoEffect *effect;
     BOOL unk10C;
@@ -267,7 +267,7 @@ static BOOL ShinkaDemo_Init(GameProc *proc, u32 *state, void *param, void *work)
     wk->tcbBuffer = NULL;
     wk->paletteFade = NULL;
     wk->usingKeys = FALSE;
-    wk->ov207Param = GFL_HeapAllocate(wk->heapId, sizeof(Ov207Param), TRUE, "shinka_demo.c", 578);
+    wk->pstatusParam = GFL_HeapAllocate(wk->heapId, sizeof(PStatusParam), TRUE, "shinka_demo.c", 578);
     GFL_FadeSet(3, 16, 16, -16);
     ShinkaDemo_InitBGM(param, wk);
     wk->vblankTask = GFL_VBlankTCBAdd(ShinkaDemo_VBlank, wk, 1);
@@ -288,7 +288,7 @@ static BOOL ShinkaDemo_Exit(GameProc *proc, u32 *state, void *param, void *work)
     FreeGameProcManager(wk->procManager);
     GFL_TCBRemove(wk->vblankTask);
     ShinkaDemo_FreeBGM(param, wk);
-    GFL_HeapFree(wk->ov207Param);
+    GFL_HeapFree(wk->pstatusParam);
     GFL_StrBufFree(wk->nickname);
     GFL_ProcReleaseSubsystem(proc);
     GFL_HeapDelete(HEAPID_SHINKA_DEMO);
@@ -552,19 +552,19 @@ static BOOL ShinkaDemo_Main(GameProc *proc, u32 *state, void *param, void *work)
             ShinkaDemo_FreeGraphics(param, wk);
             wk->state = SHINKA_DEMO_OV207;
             save = GameData_GetSaveControl(demoParam->gameData);
-            wk->ov207Param->unkC = 1;
-            wk->ov207Param->gameData = demoParam->gameData;
-            wk->ov207Param->unk24 = 0;
-            wk->ov207Param->party = demoParam->party;
-            wk->ov207Param->trainerData = getTrainerDataBlkAddress(save);
-            wk->ov207Param->partyCount = PokeParty_GetPkmCount(demoParam->party);
-            wk->ov207Param->partyIndex = demoParam->partyIndex;
-            wk->ov207Param->move = wk->move;
-            wk->ov207Param->unkD = 2;
-            wk->ov207Param->unk10 = 1;
-            wk->ov207Param->unk20 = 0;
-            GFL_OvlLoad(OVERLAY_OV207);
-            QueueGameProc(wk->procManager, OVERLAY_NONE, &data_ov207_021bb6a0, wk->ov207Param);
+            wk->pstatusParam->dataType = PSTATUS_DATA_PARTY;
+            wk->pstatusParam->gameData = demoParam->gameData;
+            wk->pstatusParam->forceExit = FALSE;
+            wk->pstatusParam->party = demoParam->party;
+            wk->pstatusParam->trainerData = getTrainerDataBlkAddress(save);
+            wk->pstatusParam->partyCount = PokeParty_GetPkmCount(demoParam->party);
+            wk->pstatusParam->partyIndex = demoParam->partyIndex;
+            wk->pstatusParam->move = wk->move;
+            wk->pstatusParam->mode = PSTATUS_MODE_FORGET_MOVE;
+            wk->pstatusParam->page = PSTATUS_PAGE_SKILL;
+            wk->pstatusParam->fromFieldMenu = FALSE;
+            GFL_OvlLoad(OVERLAY_PSTATUS);
+            QueueGameProc(wk->procManager, OVERLAY_NONE, &PSTATUS_PROC_FUNCTIONS, wk->pstatusParam);
         }
         break;
     case SHINKA_DEMO_OV207:
@@ -574,7 +574,7 @@ static BOOL ShinkaDemo_Main(GameProc *proc, u32 *state, void *param, void *work)
         }
         return FALSE;
     case SHINKA_DEMO_OV207_END:
-        GFL_OvlUnload(OVERLAY_OV207);
+        GFL_OvlUnload(OVERLAY_PSTATUS);
         wk->state = SHINKA_DEMO_WAIT_FADE_OV207_END;
         ShinkaDemo_InitGraphics(param, wk);
         func_02042ba8(0, wk->heapId);
@@ -582,9 +582,9 @@ static BOOL ShinkaDemo_Main(GameProc *proc, u32 *state, void *param, void *work)
         break;
     case SHINKA_DEMO_WAIT_FADE_OV207_END:
         if (GFL_FadeIsRunning() == FALSE) {
-            switch (wk->ov207Param->result) {
+            switch (wk->pstatusParam->result) {
             case 0:
-                wk->slot = wk->ov207Param->slot;
+                wk->slot = wk->pstatusParam->slot;
                 wk->forgetMove = PokeParty_GetParam(wk->pkm, PKM_PARAM_MOVE1 + wk->slot, NULL);
                 wk->state = SHINKA_DEMO_FORGET;
                 break;

@@ -4,7 +4,7 @@
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0), except
 // ARCID_WINFRAME, ARCID_TITLE, ARCID_STARTMENU, ARCID_SEASON_BANNER, ARCID_COPYRIGHT, ARCID_ZUKAN_GRA, ARCID_INTRO,
 // ARCID_EGG_DEMO, ARCID_SHINKA_DEMO, ARCID_POKEICON, ARCID_BOX2, ARCID_TRAI_SCRIPT, ARCID_BMP_OAM, ARCID_INFOWIN,
-// ARCID_APP_MENU_COMMON and ARCID_TPOKE
+// ARCID_APP_MENU_COMMON, ARCID_TPOKE and ARCID_P_STATUS
 
 #define ARCID_SYSTEM_MESSAGE 2
 #define ARCID_SCRIPT_MESSAGE 3
@@ -44,9 +44,15 @@
 #define ARCID_AREA_ANIME_PAT 69
 #define ARCID_TRSPRITE_FRONT 71
 #define ARCID_TRSPRITE_BACK 72
+// The summary screen's graphics
+#define ARCID_P_STATUS 77
 #define ARCID_RAIL_HEADERS 78
 // The graphics that the menus share (app_menu_common.c)
 #define ARCID_APP_MENU_COMMON 82
+// The trainers' messages as pairs of trainer ID and message type, in trainer order, and the offset of each trainer's
+// first pair (tr_tool.c; not from swan)
+#define ARCID_TRTBL 89
+#define ARCID_TRTBLOFS 90
 #define ARCID_TRDATA 91
 #define ARCID_TRPOKE 92
 // The Global Trade Station's 2D graphics (not from swan)

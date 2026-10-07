@@ -123,6 +123,8 @@ void GameData_SetLastSubscreen(GameData *gameData, u8 subscreen);
 void GameData_SetLastBtlResult(GameData *gameData, u32 result);
 u32 GameData_GetLastBtlResult(GameData *gameData);
 void GameData_SetLensFlareRequested(GameData *gameData, BOOL requested);
+// Whether a Funfest mission is running, which plays its BGM everywhere (a guess from that use)
+BOOL func_02017b34(GameData *gameData);
 u32 GameData_GetLensFlareEntryIdx(GameData *gameData);
 void func_020173f8(GameData *gameData, u8 value);
 void GameData_SetLensFlareEntryIdx(GameData *gameData, u32 index);
@@ -168,6 +170,8 @@ BOOL GameData_CheckEventsPaused(GameData *gameData);
 void *func_02017968(GameData *gameData);
 // Where the Trial House work is kept
 TrialHouseWork **GetTrialHouseWkPPtr(GameData *gameData);
+// The follower of field/pair_sys.h
+FieldFollowWk *GetFieldFollowerCfg(GameData *gameData);
 void GameData_ResetSkipFrame(GameData *gameData);
 void GameData_Set30FPSMode(GameData *gameData, BOOL enable);
 u8 func_02017b70(GameData *gameData);

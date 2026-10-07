@@ -41,6 +41,10 @@ typedef struct {
 
 #define MATH_SHA1_DIGEST_SIZE 20
 
+// Quicksort of num elements of width bytes; stackBuffer may be NULL
+typedef s32 (*MATHCompareFunc)(void *a, void *b);
+void MATH_QSort(void *head, u32 num, u32 width, MATHCompareFunc comp, void *stackBuffer);
+
 void MATH_CRC16CCITTInitTable(MATHCRC16Table *table, u16 poly);
 u16 MATH_CalcCRC16CCITT(const MATHCRC16Table *table, const void *data, u32 size);
 void MATH_SHA1Init(MATHSHA1Context *context);

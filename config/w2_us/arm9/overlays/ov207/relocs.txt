@@ -1754,9 +1754,6 @@ from:0x021bae38 kind:load to:0x021bb1cc module:overlay(207)
 from:0x021bae3c kind:load to:0x021bb1ce module:overlay(207)
 from:0x021bae40 kind:load to:0x021bb1d0 module:overlay(207)
 from:0x021bae4c kind:load to:0x021bb1ce module:overlay(207)
-from:0x021baf24 kind:load to:0x020e0001 module:main
-from:0x021baf64 kind:load to:0x020f0001 module:main
-from:0x021baf84 kind:load to:0x020c0001 module:main
 from:0x021bb144 kind:load to:0x02010005 module:main
 from:0x021bb154 kind:load to:0x02100102 module:main
 from:0x021bb158 kind:load to:0x02100302 module:main

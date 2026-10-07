@@ -10,6 +10,12 @@
 typedef u16 GXRgb;
 
 #define GX_RGB(r, g, b) ((GXRgb)((r) | ((g) << 5) | ((b) << 10)))
+#define GX_RGB_R_SHIFT 0
+#define GX_RGB_R_MASK 0x001f
+#define GX_RGB_G_SHIFT 5
+#define GX_RGB_G_MASK 0x03e0
+#define GX_RGB_B_SHIFT 10
+#define GX_RGB_B_MASK 0x7c00
 
 #define GX_RGB_R_SHIFT 0
 #define GX_RGB_R_MASK 0x001f
@@ -181,6 +187,7 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority, int
 // Shows VRAM D, where the display capture can write, instead of the main engine's output
 #define GX_DISPMODE_VRAM_D 0xe
 #define GX_BGMODE_0 0
+#define GX_BGMODE_3 3
 #define GX_BGMODE_5 5
 #define GX_BG0_AS_2D 0
 #define GX_BG0_AS_3D 1
@@ -1033,6 +1040,18 @@ GX_DEFINE_BG_MOSAIC(G2S_BG0Mosaic, reg_G2S_DB_BG0CNT)
 GX_DEFINE_BG_MOSAIC(G2S_BG1Mosaic, reg_G2S_DB_BG1CNT)
 GX_DEFINE_BG_MOSAIC(G2S_BG2Mosaic, reg_G2S_DB_BG2CNT)
 GX_DEFINE_BG_MOSAIC(G2S_BG3Mosaic, reg_G2S_DB_BG3CNT)
+// clang-format on
+
+#define REG_G2_MOSAIC_BG_V_SHIFT 4
+
+static inline void G2_SetBGMosaicSize(int hSize, int vSize) {
+    *(vu8 *)REG_MOSAIC_ADDR = (u8)(hSize | (vSize << REG_G2_MOSAIC_BG_V_SHIFT));
+}
+
+static inline void G2S_SetBGMosaicSize(int hSize, int vSize) {
+    *(vu8 *)REG_DB_MOSAIC_ADDR = (u8)(hSize | (vSize << REG_G2_MOSAIC_BG_V_SHIFT));
+}
+// clang-format off
 
 GX_DEFINE_BG_OFFSET(G2_SetBG0Offset, reg_G2_BG0OFS)
 GX_DEFINE_BG_OFFSET(G2_SetBG1Offset, reg_G2_BG1OFS)
