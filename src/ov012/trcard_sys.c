@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "app/medal_info.h"
+#include "app/pms_select.h"
 #include "constants/version.h"
 #include "field/app_call.h"
 #include "field/field.h"
@@ -273,7 +274,7 @@ static u32 func_ov012_02169414(TrainerCardSysWork *wk) {
         wk->procMgr = CreateGameProcManager(wk->heapId);
     }
     wk->greeting.save = GameData_GetSaveControl(wk->param->gameData);
-    QueueGameProc(wk->procMgr, OVERLAY_ID(185), &data_ov185_021a72b4, &wk->greeting);
+    QueueGameProc(wk->procMgr, OVERLAY_ID(185), &PMS_SELECT_PROC_FUNCTIONS, &wk->greeting);
     return TRCARD_SEQ_GREETING_WAIT;
 }
 
