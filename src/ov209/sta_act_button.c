@@ -82,9 +82,9 @@ void StaActButton_UpdateSystem(StaActButton *sys) {
             ClActorPos pos;
 
             if (hit == 0) {
-                func_ov209_021bfc60(sys->stage, STA_ACT_BUTTON_EQUIP_LEFT);
+                StaActing_UseItem(sys->stage, STA_ACT_BUTTON_EQUIP_LEFT);
             } else {
-                func_ov209_021bfc60(sys->stage, STA_ACT_BUTTON_EQUIP_RIGHT);
+                StaActing_UseItem(sys->stage, STA_ACT_BUTTON_EQUIP_RIGHT);
             }
             gfxRegSetBrightnessBlend(REG_DB_BLDCNT_ADDR, 0x10, -8);
             sys->used[hit] = TRUE;
@@ -100,7 +100,7 @@ void StaActButton_UpdateSystem(StaActButton *sys) {
         }
     }
     if (sys->selected != STA_ACT_BUTTON_NONE) {
-        if (func_ov209_021bfc98(sys->stage) == FALSE) {
+        if (StaActing_IsUsingItem(sys->stage) == FALSE) {
             if (sys->pressed == FALSE) {
                 sys->active = TRUE;
                 func_0204c124(sys->buttons[sys->selected], FALSE);

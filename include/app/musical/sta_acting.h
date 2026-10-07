@@ -2,8 +2,8 @@
 #define POKEBW2_APP_MUSICAL_STA_ACTING_H
 
 // Overlay 209's sta_acting.c: the musical's stage, which plays the program's script with the Pokémon, the
-// background, the objects, the lights, the effects and the audience. Declared for its callers before the file is
-// decompiled
+// background, the objects, the lights, the effects and the audience. Its init, main and term functions are declared
+// in field/musical_stage_sys.h for overlay 12's proc
 
 #include "types.h"
 #include "app/musical/sta_act_obj.h"
@@ -70,8 +70,15 @@ void StaActing_StopBgm(StaActing *stage);
 // Overlay 210's table of the props, which the item draw system holds
 void *StaActing_GetItemData(StaActing *stage);
 // Asks to use the prop at an equip position of the player's Pokémon
-void func_ov209_021bfc60(StaActing *stage, u32 equipPos);
+void StaActing_UseItem(StaActing *stage, u32 equipPos);
 // Whether a prop of the player's Pokémon is being used
-BOOL func_ov209_021bfc98(StaActing *stage);
+BOOL StaActing_IsUsingItem(StaActing *stage);
+
+// A constant of sta_acting.c that only an accessor nothing calls reads, which puts it among the file's other data
+extern const u32 STA_ACTING_UNUSED;
+
+static inline u32 StaActing_GetUnused(void) {
+    return STA_ACTING_UNUSED;
+}
 
 #endif // POKEBW2_APP_MUSICAL_STA_ACTING_H

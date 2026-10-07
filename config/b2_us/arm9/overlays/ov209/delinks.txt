@@ -82,3 +82,9 @@ src/ov209/script_command.c:
     .text       start:0x021c134c end:0x021c2bec
     .rodata     start:0x021c2f9c end:0x021c2fe4
     .data       start:0x021c3150 end:0x021c3240
+
+src/ov209/sta_acting.c:
+    .text       start:0x021be9b0 end:0x021c0380
+    .rodata     start:0x021c2dd0 end:0x021c2f6c
+    .data       start:0x021c30f0 end:0x021c3100
+    .bss        start:0x021c3240 end:0x021c3260

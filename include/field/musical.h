@@ -59,6 +59,11 @@ struct Ov210Work {
     void *unk4;
     // The archive of the program's messages
     void *msgArc;
+    // The program's script for overlay 209's stage, a table of the offsets of its scripts
+    u32 *script;
+    u32 unk10;
+    // The program's sound data, which the stage passes to the sound functions
+    void *sound[3];
 };
 
 // A prop a Pokémon wears on the stage
@@ -130,6 +135,16 @@ MusicalPoke *func_ov211_021f0094(void *comm, u8 index);
 BOOL func_ov211_021f03d8(void *comm);
 BOOL func_ov211_021f03e0(void *comm);
 u8 func_ov211_021f0470(void *comm);
+// The players' props on the stage: asks to use one, and whether it was sent; the prop each Pokémon uses (10 for
+// none), which is then cleared; the position of the Pokémon in the limelight (4 or more for none), cleared with
+// func_ov211_021f05b4; and the result of a prop's use
+BOOL func_ov211_021f0460(void *comm, u8 equip);
+void func_ov211_021f0510(void *comm, u8 pos, u8 equip);
+u8 func_ov211_021f053c(void *comm, u8 pos);
+void func_ov211_021f056c(void *comm, u8 pos);
+u8 func_ov211_021f0598(void *comm);
+void func_ov211_021f05b4(void *comm);
+void func_ov211_021f05c0(void *comm, u8 pos, u8 equip, u32 result);
 u8 func_ov211_021f0488(void *comm, u8 index);
 u16 *func_ov211_021f0494(void *comm, u8 index);
 BOOL func_ov211_021f04a0(void *comm);

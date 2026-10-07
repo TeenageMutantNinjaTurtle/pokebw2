@@ -294,6 +294,11 @@ Same instructions, scheduled in another order.
 
 Narrowing shifts, reloads, recomputed addresses and folded constants.
 
+- A last call that passes four arguments in registers is a `bl` with a frame, not a tail call: MWCC's tail call
+  loads the callee's address into `r3`, which the fourth argument holds. When the original saves a register and
+  calls where the C tail-calls, the callee takes one argument more: `sta_acting.c`'s `StaActing_PlayWave` matched
+  once `func_02006528` took the fourth argument its code reads, which the caller passes on from its own `r3`.
+
 - `p->stack[p->num - 1]` with the array a direct member of `*p` subtracts 1 and loads from the array's offset
   (`subs; lsls; ldr [r0, #0x4c]`), while the same index into an array inside a nested struct folds the `- 1` into the
   offset (`lsls; ldr [r0, #0x48]`). The Battle Recorder's `BrProcSys_Pop` has the folded load, but its asserts name
