@@ -1561,8 +1561,3 @@ from:0x021f7704 kind:load to:0x021f73b8 module:overlay(271)
 from:0x021f7708 kind:load to:0x021f7220 module:overlay(271)
 from:0x021f7710 kind:load to:0x021f7310 module:overlay(271)
 from:0x021f7714 kind:load to:0x021f7268 module:overlay(271)
-from:0x021f79cc kind:load to:0x02120407 module:main
-from:0x021f79dc kind:load to:0x020c0b04 module:main
-from:0x021f79e4 kind:load to:0x02190d03 module:overlay(11)
-from:0x021f79ec kind:load to:0x02190f03 module:overlay(11)
-from:0x021f79f4 kind:load to:0x020b1104 module:main
