@@ -282,7 +282,7 @@ static void MyPoke_BmpWinInit(WorldTradeWork *wk) {
 static void MyPoke_BmpWinDelete(WorldTradeWork *wk) {
     int i;
 
-    func_ov214_021e1840(&wk->print);
+    WorldTrade_PrintClear(&wk->print);
     BmpWin_Free(wk->explainWin);
     BmpWin_Free(wk->msgWin);
     BmpWin_Free(wk->menuWin[0]);
@@ -401,14 +401,14 @@ static int MyPoke_SubSeqSelectWait(WorldTradeWork *wk) {
 }
 
 static int MyPoke_SubSeqMessageWait(WorldTradeWork *wk) {
-    if (!func_ov214_021e173c(&wk->print)) {
+    if (!WorldTrade_PrintIsBusy(&wk->print)) {
         wk->subprocessSeq = wk->subprocessNextSeq;
     }
     return WT_SEQ_MAIN;
 }
 
 static int MyPoke_SubSeqMessage1MinWait(WorldTradeWork *wk) {
-    if (!func_ov214_021e173c(&wk->print)) {
+    if (!WorldTrade_PrintIsBusy(&wk->print)) {
         wk->wait++;
         if (wk->wait > 45) {
             wk->wait = 0;
@@ -431,7 +431,7 @@ static void MyPoke_SubSeqMessagePrint(WorldTradeWork *wk, int msgNo, int wait, i
     BmpWin_FlushChar(win);
     BmpWin_FlushMap(win);
     GFL_BGSysLoadScr(BmpWin_GetBGIndex(win));
-    func_ov214_021e1754(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
+    WorldTrade_Print(wk->msgWin, 0, wk->talkString, 0, 0, &wk->print);
     GFL_StrBufFree(str);
 }
 
@@ -476,7 +476,7 @@ void WorldTrade_MyPokeInfoPrint(MsgData *msgManager, MsgData *monsNameManager, W
     sexbuf = GFL_MsgDataLoadStrbufNew(msgManager, WorldTrade_SexStringTable[sex]);
     levelLabel = GFL_MsgDataLoadStrbufNew(msgManager, 0x70);
     WordSetNumber(wordSet, 3, level, 3, 0, TRUE);
-    levelbuf = func_ov214_021e156c(wordSet, msgManager, 0x71, HEAPID_WORLDTRADE);
+    levelbuf = WorldTrade_ExpandMessage(wordSet, msgManager, 0x71, HEAPID_WORLDTRADE);
     strbuf = GFL_MsgDataLoadStrbufNew(monsNameManager, monsno);
     setItemNameToStrbuf(itembuf, itemNo, HEAPID_WORLDTRADE);
     nameLabel = GFL_MsgDataLoadStrbufNew(msgManager, 0x41);
