@@ -27,3 +27,8 @@ src/ov207/p_sta_ribbon.c:
     .text       start:0x021b7644 end:0x021b8510
     .rodata     start:0x021bb13c end:0x021bb144
     .data       start:0x021bb6d4 end:0x021bb6e4
+
+src/ov207/p_sta_skill.c:
+    .text       start:0x021b8510 end:0x021ba900
+    .rodata     start:0x021bb144 end:0x021bb184
+    .data       start:0x021bb6e4 end:0x021bb6f4
