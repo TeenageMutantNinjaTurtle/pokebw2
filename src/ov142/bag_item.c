@@ -14,10 +14,6 @@
 // compacting only look at the entries up to this one, not up to ITEM_LAST
 #define BAG_ITEM_LIST_SLOTS 614
 
-// The item data that orders the items of the type sort
-#define ITEM_PARAM_CLASS 15
-#define ITEM_PARAM_SORT_INDEX 17
-
 typedef struct {
     BagItemListEntry entry;
     u32 key;
@@ -167,7 +163,7 @@ BagItem *BagItemList_GetItem(BagItemList *list, u16 pocket, u16 index) {
     return item;
 }
 
-void BagItemList_Remove(BagItemList *list, u32 index, BOOL release) {
+void BagItemList_Remove(BagItemList *list, u16 index, BOOL release) {
     BagItemListEntry *entry;
     u32 count = 0;
     int i;
@@ -191,7 +187,7 @@ void BagItemList_Remove(BagItemList *list, u32 index, BOOL release) {
     BagItemList_Compact(list);
 }
 
-void BagItemList_Add(BagItemList *list, u32 item, u32 pocket) {
+void BagItemList_Add(BagItemList *list, u32 item, s16 pocket) {
     int i;
 
     for (i = 0; i <= BAG_ITEM_LIST_SLOTS; i++) {
@@ -222,9 +218,9 @@ static void BagItemList_Compact(BagItemList *list) {
     }
 }
 
-u32 BagItemList_CountInPocket(BagItemList *list, u32 pocket) {
+s32 BagItemList_CountInPocket(BagItemList *list, u32 pocket) {
     int i;
-    u32 count = 0;
+    s32 count = 0;
 
     for (i = 0; i <= ITEM_LAST; i++) {
         if (pocket == list->entries[i].pocket && list->entries[i].item != ITEM_NONE) {
@@ -325,8 +321,9 @@ static void BagItemList_SortByType(BagItemList *list) {
     for (i = 0; i < count; i++) {
         entry = &list->entries[i];
         data = PML_ItemArcHandleReadFile(arc, entry->item, list->heapId);
-        sort[i].key = (PML_ItemGetParam(data, ITEM_PARAM_CLASS) << 28)
-            + (PML_ItemGetParam(data, ITEM_PARAM_SORT_INDEX) << 16) + entry->item;
+        // By the item's kind, then its place among them
+        sort[i].key = (PML_ItemGetParam(data, ITEM_PARAM_UNK_D) << 28) + (PML_ItemGetParam(data, ITEM_PARAM_UNK_F) << 16)
+            + entry->item;
         sort[i].entry = *entry;
         GFL_HeapFree(data);
     }
