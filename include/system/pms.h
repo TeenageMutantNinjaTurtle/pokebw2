@@ -36,6 +36,23 @@ void *func_0200ef7c(SaveControl *save);
 // Sets the greeting that the game's beacon sends
 void func_0202d0fc(const PMSData *greeting);
 
+// The parameter's save data and its unlocks
+PokeDexSave *PMSInputParam_GetPokeDex(const void *param);
+PMSWordSave *PMSInputParam_GetWordSave(const void *param);
+// Whether event flag 0x960 is set, which unlocks the moves
+BOOL func_02029a74(const void *param);
+// Whether the input offers the hidden words
+BOOL func_02029a84(const void *param);
+
+// The words' texts, one message bank for each kind of word
+PMSWordMan *PMSWordMan_Create(u32 heapId);
+void PMSWordMan_Delete(PMSWordMan *man);
+void PMSWordMan_CopyStr(PMSWordMan *man, u16 word, StrBuf *buf);
+// The word of an entry of a message bank
+u16 PMSWord_GetWordNumByGmmId(u32 gmmId, u32 index);
+// Whether the player has learned one of the greetings
+BOOL PMSWordSave_GetGreetingFlag(const PMSWordSave *save, u32 id);
+
 // Overlay 185, the phrase select
 extern const GameProcFunctions data_ov185_021a7298;
 

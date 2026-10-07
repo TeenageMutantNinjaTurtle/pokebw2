@@ -1,21 +1,21 @@
-func_ov185_0219ce80 kind:function(thumb,size=0x54) addr:0x0219cec0
-func_ov185_0219ced4 kind:function(thumb,size=0x14) addr:0x0219cf14
-func_ov185_0219cee8 kind:function(thumb,size=0x4c) addr:0x0219cf28
-func_ov185_0219cf34 kind:function(thumb,size=0x6c) addr:0x0219cf74
-func_ov185_0219cfa0 kind:function(thumb,size=0x60) addr:0x0219cfe0
-func_ov185_0219d000 kind:function(thumb,size=0x8c) addr:0x0219d040
-func_ov185_0219d08c kind:function(thumb,size=0x68) addr:0x0219d0cc
-func_ov185_0219d0f4 kind:function(thumb,size=0x8c) addr:0x0219d134
-func_ov185_0219d180 kind:function(thumb,size=0x58) addr:0x0219d1c0
-func_ov185_0219d1d8 kind:function(thumb,size=0xa4) addr:0x0219d218
-func_ov185_0219d27c kind:function(thumb,size=0x8) addr:0x0219d2bc
-func_ov185_0219d284 kind:function(thumb,size=0x1e) addr:0x0219d2c4
-func_ov185_0219d2a4 kind:function(thumb,size=0x12) addr:0x0219d2e4
-func_ov185_0219d2b8 kind:function(thumb,size=0xa) addr:0x0219d2f8
-func_ov185_0219d2c4 kind:function(thumb,size=0xc) addr:0x0219d304
-func_ov185_0219d2d0 kind:function(thumb,size=0x4c) addr:0x0219d310
-func_ov185_0219d31c kind:function(thumb,size=0xc) addr:0x0219d35c
-func_ov185_0219d328 kind:function(thumb,size=0x8) addr:0x0219d368
+PMSIData_Create kind:function(thumb,size=0x54) addr:0x0219cec0
+PMSIData_Delete kind:function(thumb,size=0x14) addr:0x0219cf14
+SetupCategoryWords kind:function(thumb,size=0x4c) addr:0x0219cf28
+CountupPokemon kind:function(thumb,size=0x6c) addr:0x0219cf74
+CountupMoves kind:function(thumb,size=0x60) addr:0x0219cfe0
+CountupGreetings kind:function(thumb,size=0x8c) addr:0x0219d040
+CountupHidden kind:function(thumb,size=0x68) addr:0x0219d0cc
+CountupDefault kind:function(thumb,size=0x8c) addr:0x0219d134
+SetupInitialWords kind:function(thumb,size=0x58) addr:0x0219d1c0
+CountupInitialWords kind:function(thumb,size=0xa4) addr:0x0219d218
+PMSIData_GetCategoryWordCount kind:function(thumb,size=0x8) addr:0x0219d2bc
+PMSIData_GetCategoryWord kind:function(thumb,size=0x1e) addr:0x0219d2c4
+PMSIData_GetCategoryWordCode kind:function(thumb,size=0x12) addr:0x0219d2e4
+PMSIData_CountTableWords kind:function(thumb,size=0xa) addr:0x0219d2f8
+SkipDupWords kind:function(thumb,size=0xc) addr:0x0219d304
+PMSIData_GetInitialWordCode kind:function(thumb,size=0x4c) addr:0x0219d310
+PMSIData_GetWordStr kind:function(thumb,size=0xc) addr:0x0219d35c
+PMSIData_GetEndWord kind:function(thumb,size=0x8) addr:0x0219d368
 func_ov185_0219d330 kind:function(thumb,size=0xd0) addr:0x0219d370
 func_ov185_0219d400 kind:function(thumb,size=0x84) addr:0x0219d440
 func_ov185_0219d484 kind:function(thumb,size=0x8) addr:0x0219d4c4
@@ -418,15 +418,11 @@ data_ov185_021a5644 kind:data(any) addr:0x021a5684
 data_ov185_021a56d0 kind:data(any) addr:0x021a5710
 data_ov185_021a5760 kind:data(any) addr:0x021a57a0
 data_ov185_021a57f0 kind:data(any) addr:0x021a5830
-data_ov185_021a5834 kind:data(any) addr:0x021a5874 ambiguous
 data_ov185_021a5888 kind:data(any) addr:0x021a58c8
-data_ov185_021a58e0 kind:data(any) addr:0x021a5920 ambiguous
 data_ov185_021a5924 kind:data(any) addr:0x021a5964
 data_ov185_021a59d0 kind:data(any) addr:0x021a5a10
-data_ov185_021a5a70 kind:data(any) addr:0x021a5ab0 ambiguous
 data_ov185_021a5a7c kind:data(any) addr:0x021a5abc
 data_ov185_021a5b2c kind:data(any) addr:0x021a5b6c
-data_ov185_021a5b34 kind:data(any) addr:0x021a5b74 ambiguous
 data_ov185_021a5be8 kind:data(any) addr:0x021a5c28
 data_ov185_021a5ca4 kind:data(any) addr:0x021a5ce4
 data_ov185_021a5d6c kind:data(any) addr:0x021a5dac
@@ -436,43 +432,8 @@ data_ov185_021a5ffc kind:data(any) addr:0x021a603c
 data_ov185_021a60f0 kind:data(any) addr:0x021a6130
 data_ov185_021a61f8 kind:data(any) addr:0x021a6238
 data_ov185_021a6364 kind:data(any) addr:0x021a63a4
-data_ov185_021a6500 kind:data(any) addr:0x021a6540 ambiguous
 data_ov185_021a657c kind:data(any) addr:0x021a65bc
-data_ov185_021a65ac kind:data(any) addr:0x021a65ec ambiguous
-data_ov185_021a6669 kind:data(any) addr:0x021a66a9 ambiguous
-data_ov185_021a6684 kind:data(any) addr:0x021a66c4 ambiguous
-data_ov185_021a66b5 kind:data(any) addr:0x021a66f5 ambiguous
-data_ov185_021a66c0 kind:data(any) addr:0x021a6700 ambiguous
-data_ov185_021a66ed kind:data(any) addr:0x021a672d ambiguous
-data_ov185_021a6711 kind:data(any) addr:0x021a6751 ambiguous
-data_ov185_021a674c kind:data(any) addr:0x021a678c ambiguous
-data_ov185_021a675d kind:data(any) addr:0x021a679d ambiguous
-data_ov185_021a67a4 kind:data(any) addr:0x021a67e4 ambiguous
-data_ov185_021a67ad kind:data(any) addr:0x021a67ed ambiguous
-data_ov185_021a67dd kind:data(any) addr:0x021a681d ambiguous
-data_ov185_021a685d kind:data(any) addr:0x021a689d ambiguous
-data_ov185_021a68d1 kind:data(any) addr:0x021a6911 ambiguous
-data_ov185_021a68ec kind:data(any) addr:0x021a692c ambiguous
-data_ov185_021a693d kind:data(any) addr:0x021a697d ambiguous
-data_ov185_021a6961 kind:data(any) addr:0x021a69a1 ambiguous
-data_ov185_021a69a5 kind:data(any) addr:0x021a69e5 ambiguous
 data_ov185_021a69d0 kind:data(any) addr:0x021a6a10
-data_ov185_021a69e1 kind:data(any) addr:0x021a6a21 ambiguous
-data_ov185_021a6a25 kind:data(any) addr:0x021a6a65 ambiguous
-data_ov185_021a6a61 kind:data(any) addr:0x021a6aa1 ambiguous
-data_ov185_021a6aa0 kind:data(any) addr:0x021a6ae0 ambiguous
-data_ov185_021a6aa1 kind:data(any) addr:0x021a6ae1 ambiguous
-data_ov185_021a6ac5 kind:data(any) addr:0x021a6b05 ambiguous
-data_ov185_021a6b18 kind:data(any) addr:0x021a6b58 ambiguous
-data_ov185_021a6cd9 kind:data(any) addr:0x021a6d19 ambiguous
-data_ov185_021a6d15 kind:data(any) addr:0x021a6d55 ambiguous
-data_ov185_021a6d5d kind:data(any) addr:0x021a6d9d ambiguous
-data_ov185_021a6dad kind:data(any) addr:0x021a6ded ambiguous
-data_ov185_021a6df5 kind:data(any) addr:0x021a6e35 ambiguous
-data_ov185_021a6e25 kind:data(any) addr:0x021a6e65 ambiguous
-data_ov185_021a6e65 kind:data(any) addr:0x021a6ea5 ambiguous
-data_ov185_021a6e75 kind:data(any) addr:0x021a6eb5 ambiguous
-data_ov185_021a6ec5 kind:data(any) addr:0x021a6f05 ambiguous
 data_ov185_021a6ee4 kind:data(any) addr:0x021a6f24
 data_ov185_021a6ef4 kind:data(any) addr:0x021a6f34
 data_ov185_021a6f09 kind:data(any) addr:0x021a6f49 ambiguous
@@ -559,3 +520,4 @@ data_ov185_021a7564 kind:data(any) addr:0x021a75a4
 data_ov185_021a7574 kind:data(any) addr:0x021a75b4
 data_ov185_021a7578 kind:data(any) addr:0x021a75b8
 data_ov185_021a759d kind:data(any) addr:0x021a75dd ambiguous
+PMSI_FIXED_CATEGORIES kind:data(any) addr:0x021a516c
