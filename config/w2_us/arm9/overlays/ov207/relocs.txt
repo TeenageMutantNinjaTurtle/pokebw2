@@ -817,7 +817,7 @@ from:0x021b6830 kind:thumb_call_arm to:0x0208d638 module:main
 from:0x021b6852 kind:thumb_call_arm to:0x0208d638 module:main
 from:0x021b686e kind:thumb_call to:0x021b6880 module:overlay(207)
 from:0x021b6878 kind:load to:0x021bb090 module:overlay(207)
-from:0x021b687c kind:load to:0x02097c28 module:main
+from:0x021b687c kind:load to:0x020946e8 add:0x3540 module:main
 from:0x021b688e kind:thumb_call to:0x02073fe0 module:main
 from:0x021b6896 kind:thumb_call to:0x0201ac9c module:main
 from:0x021b689e kind:thumb_call to:0x0201ac9c module:main

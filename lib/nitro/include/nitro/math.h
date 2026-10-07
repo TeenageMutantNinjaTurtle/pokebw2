@@ -5,6 +5,8 @@
 
 #define MATH_ABS(a) (((a) < 0) ? -(a) : (a))
 #define MATH_CLAMP(x, low, high) (((x) > (high)) ? (high) : (((x) < (low)) ? (low) : (x)))
+#define MATH_MAX(a, b) (((a) >= (b)) ? (a) : (b))
+#define MATH_MIN(a, b) (((a) <= (b)) ? (a) : (b))
 
 // NitroSDK's linear congruential random numbers, which are inline in the SDK
 

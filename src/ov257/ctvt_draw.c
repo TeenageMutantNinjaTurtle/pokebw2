@@ -1,5 +1,4 @@
 #include "app/comm_tvt/ctvt_draw.h"
-#include "system/bmp_winframe.h"
 #include "types.h"
 #include "app/comm_tvt/comm_tvt_sys.h"
 #include "app/comm_tvt/ctvt_camera.h"
@@ -21,11 +20,12 @@
 #include "gfl/net_handle.h"
 #include "gfl/sound.h"
 #include "gfl/touchpanel.h"
-#include "system/wipe.h"
 #include "nitro/fx.h"
 #include "nitro/gx.h"
 #include "system/app_common.h"
+#include "system/bmp_winframe.h"
 #include "system/printsys.h"
+#include "system/wipe.h"
 
 // The Xtransceiver's drawing mode: the members draw on the top screen over the video, with pens of eight shapes and
 // a color picked from a palette or from the screen. The strokes are sent to the others through ctvt_comm.c
@@ -135,22 +135,13 @@ static const int sPens[] = { DRAW_PEN_ROUND, DRAW_PEN_SMALL, DRAW_PEN_DOT };
 static const int sStamps[] = { DRAW_PEN_HEART, DRAW_PEN_POKE_BALL, DRAW_PEN_FACE, DRAW_PEN_STAR, DRAW_PEN_DROP };
 
 static const TouchRect sStampButtons[CTVT_DRAW_TOUCH_MAX] = {
-    { 0x98, 0xa8, 0x60, 0x70 },
-    { 0x98, 0xa8, 0x70, 0x80 },
-    { 0x98, 0xa8, 0x80, 0x90 },
-    { 0x98, 0xa8, 0x90, 0xa0 },
-    { 0x98, 0xa8, 0xa0, 0xb0 },
-    { TOUCH_RECT_END },
+    { 0x98, 0xa8, 0x60, 0x70 }, { 0x98, 0xa8, 0x70, 0x80 }, { 0x98, 0xa8, 0x80, 0x90 },
+    { 0x98, 0xa8, 0x90, 0xa0 }, { 0x98, 0xa8, 0xa0, 0xb0 }, { TOUCH_RECT_END },
 };
 
 static const TouchRect sToolButtons[CTVT_DRAW_TOUCH_MAX] = {
-    { 0xa8, 0xc0, 0x04, 0x1c },
-    { 0xa8, 0xc0, 0x2c, 0x44 },
-    { 0xa8, 0xc0, 0x54, 0x6c },
-    { 0xa8, 0xc0, 0x7c, 0x94 },
-    { 0xa8, 0xc0, 0xbc, 0xd4 },
-    { 0xa8, 0xc0, 0xe0, 0xf8 },
-    { TOUCH_RECT_END },
+    { 0xa8, 0xc0, 0x04, 0x1c }, { 0xa8, 0xc0, 0x2c, 0x44 }, { 0xa8, 0xc0, 0x54, 0x6c }, { 0xa8, 0xc0, 0x7c, 0x94 },
+    { 0xa8, 0xc0, 0xbc, 0xd4 }, { 0xa8, 0xc0, 0xe0, 0xf8 }, { TOUCH_RECT_END },
 };
 
 static const TouchRect sPenButtons[CTVT_DRAW_TOUCH_MAX] = {
@@ -159,7 +150,6 @@ static const TouchRect sPenButtons[CTVT_DRAW_TOUCH_MAX] = {
     { 0x98, 0xa8, 0x28, 0x38 },
     { TOUCH_RECT_END },
 };
-
 
 CtvtDraw *CtvtDraw_Create(CommTvtWork *sys, HeapID heapId) {
     CtvtDraw *draw = GFL_HeapAllocate(heapId, sizeof(CtvtDraw), TRUE, "ctvt_draw.c", 219);
