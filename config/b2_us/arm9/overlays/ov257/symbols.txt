@@ -309,7 +309,7 @@ func_ov257_021a0ae0 kind:function(thumb,size=0xc) addr:0x021a0ae0
 func_ov257_021a0aec kind:function(thumb,size=0x3d0) addr:0x021a0aec
 func_ov257_021a0ebc kind:function(thumb,size=0xd0) addr:0x021a0ebc
 func_ov257_021a0f8c kind:function(thumb,size=0x6e0) addr:0x021a0f8c
-func_ov257_021a166c kind:function(thumb,size=0x74) addr:0x021a166c
+CtvtCall_IsBlackWhite kind:function(thumb,size=0x74) addr:0x021a166c
 func_ov257_021a16e0 kind:function(thumb,size=0x214) addr:0x021a16e0
 func_ov257_021a18f4 kind:function(thumb,size=0x3a4) addr:0x021a18f4
 func_ov257_021a1c98 kind:function(thumb,size=0xb8) addr:0x021a1c98
@@ -651,6 +651,7 @@ sGameButtons1 kind:data(any) addr:0x021b19d7
 sGameButtons2 kind:data(any) addr:0x021b19e3
 sSpeedButtons kind:data(any) addr:0x021b19ef
 data_ov257_021b1a00 kind:data(any) addr:0x021b1a00
+sUnusedColors kind:data(any) addr:0x021b1a08
 sPenButtonAnims kind:data(any) addr:0x021b1a12
 sPickButtonAnims kind:data(any) addr:0x021b1a14
 sEraserButtonAnims kind:data(any) addr:0x021b1a16

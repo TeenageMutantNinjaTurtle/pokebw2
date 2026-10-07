@@ -114,7 +114,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
         wk->boxPartyPkm = NULL;
     }
     PStatus_InitGraphics(wk);
-    wk->sub = func_ov207_021b5364(wk);
+    wk->sub = PStaSub_Create(wk);
     wk->info = func_ov207_021b6924(wk);
     wk->skill = func_ov207_021b8510(wk);
     wk->ribbon = func_ov207_021b7644(wk);
@@ -130,7 +130,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
     PStatus_LoadPokemon(wk);
     if (wk->param->mode == PSTATUS_MODE_FORGET_MOVE) {
         wk->page = PSTATUS_PAGE_FORGET;
-        func_ov207_021b5710(wk, wk->sub);
+        PStaSub_Load(wk, wk->sub);
         func_ov207_021b9510(wk, wk->skill);
         func_ov207_021b7f7c(wk, wk->ribbon);
     } else {
@@ -141,7 +141,7 @@ BOOL PStatus_Init(PStatusWork *wk) {
                     GameData_IsShortcutRegistered(wk->param->gameData, SHORTCUT_PSTATUS_INFO + i);
             }
         }
-        func_ov207_021b5710(wk, wk->sub);
+        PStaSub_Load(wk, wk->sub);
         func_ov207_021b7f7c(wk, wk->ribbon);
         switch (wk->page) {
         case PSTATUS_PAGE_INFO:
@@ -175,7 +175,7 @@ BOOL PStatus_Exit(PStatusWork *wk) {
     func_ov207_021b767c(wk, wk->ribbon);
     func_ov207_021b8594(wk, wk->skill);
     func_ov207_021b6958(wk, wk->info);
-    func_ov207_021b5394(wk, wk->sub);
+    PStaSub_Free(wk, wk->sub);
     PStatus_ExitGraphics(wk);
     if (wk->page < PSTATUS_PAGE_FORGET) {
         for (i = 0; i < 3; i++) {
@@ -230,7 +230,7 @@ int PStatus_Main(PStatusWork *wk) {
             PStatus_UpdateRedraw(wk);
             break;
         }
-        func_ov207_021b53a0(wk, wk->sub);
+        PStaSub_Main(wk, wk->sub);
         if (wk->param->forceExit == TRUE) {
             wk->exitResult = PSTATUS_RESULT_BACK;
             wk->seq = PSTA_SEQ_EXIT;
@@ -431,7 +431,7 @@ static void PStatus_LoadResources(PStatusWork *wk) {
     wk->clResources[PSTA_RES_CELL(2)] = func_0204bde0(uiArc, func_0202d934(1, 2), func_0202d93c(1, 2), wk->heapId);
     GFL_ArcToolFree(uiArc);
 
-    func_ov207_021b5580(wk, wk->sub, arc);
+    PStaSub_LoadResources(wk, wk->sub, arc);
     func_ov207_021b6970(wk, wk->info, arc);
     func_ov207_021b87e0(wk, wk->skill, arc);
     func_ov207_021b76e4(wk, wk->ribbon, arc);
@@ -444,7 +444,7 @@ static void PStatus_FreeResources(PStatusWork *wk) {
     func_ov207_021b7764(wk, wk->ribbon);
     func_ov207_021b8864(wk, wk->skill);
     func_ov207_021b6a18(wk, wk->info);
-    func_ov207_021b559c(wk, wk->sub);
+    PStaSub_FreeResources(wk, wk->sub);
     for (i = PSTA_RES_PLTT(0); i <= PSTA_RES_PLTT(11); i++) {
         func_0204bcd0(wk->clResources[i]);
     }
@@ -506,7 +506,7 @@ static void PStatus_CreateActors(PStatusWork *wk) {
         func_0204c124(wk->buttons[PSTA_BUTTON_CLOSE], FALSE);
         func_0204c124(wk->buttons[PSTA_BUTTON_SHORTCUT], FALSE);
     }
-    func_ov207_021b55a4(wk, wk->sub);
+    PStaSub_CreateActors(wk, wk->sub);
     func_ov207_021b7798(wk, wk->ribbon);
     func_ov207_021b88ac(wk, wk->skill);
 }
@@ -516,7 +516,7 @@ static void PStatus_FreeActors(PStatusWork *wk) {
 
     func_ov207_021b785c(wk, wk->ribbon);
     func_ov207_021b8a34(wk, wk->skill);
-    func_ov207_021b56e0(wk, wk->sub);
+    PStaSub_FreeActors(wk, wk->sub);
     for (i = 0; i < PSTA_BUTTON_COUNT; i++) {
         func_0204c108(wk->buttons[i]);
     }
@@ -941,10 +941,10 @@ static void PStatus_StartRedraw(PStatusWork *wk) {
     PStatus_SetDecrypted(wk, TRUE);
     if (wk->shownPartyIndex != wk->partyIndex) {
         if (wk->shownPartyIndex != 0xff) {
-            func_ov207_021b5a70(wk, wk->sub);
+            PStaSub_Unload(wk, wk->sub);
             func_ov207_021b804c(wk, wk->ribbon);
         }
-        func_ov207_021b5710(wk, wk->sub);
+        PStaSub_Load(wk, wk->sub);
         func_ov207_021b7f7c(wk, wk->ribbon);
     }
     switch (wk->shownPage) {
@@ -1016,9 +1016,9 @@ static void PStatus_UpdateRedraw(PStatusWork *wk) {
     }
     if (wk->shownPartyIndex != wk->partyIndex) {
         if (wk->shownPartyIndex != 0xff) {
-            func_ov207_021b5a98(wk, wk->sub);
+            PStaSub_Clear(wk, wk->sub);
         }
-        func_ov207_021b57cc(wk, wk->sub);
+        PStaSub_Draw(wk, wk->sub);
         wk->shownPartyIndex = wk->partyIndex;
     }
     switch (wk->shownPage) {

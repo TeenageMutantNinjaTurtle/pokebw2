@@ -219,7 +219,7 @@ void IntroMsg_OpenMenu(IntroMsg *msg, const IntroMenuItem *items, u32 count, BOO
     header.work = NULL;
     header.fontSizeX = 16;
     header.fontSizeY = 16;
-    header.unk20 = 0;
+    header.msgData = NULL;
     header.printWindow = IntroMsg_InitMenuPrint(msg, window);
     header.queue = msg->printQueue;
     header.font = msg->font;

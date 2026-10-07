@@ -31,6 +31,17 @@ src/ov257/ctvt_camera.c:
     .data       start:0x021b2600 end:0x021b2638
 
 src/ov257/ctvt_comm.c:
+    complete
     .text       start:0x0219b5f8 end:0x0219cdb4
     .rodata     start:0x021b192c end:0x021b19e8
     .data       start:0x021b2638 end:0x021b2644
+
+src/ov257/ctvt_draw.c:
+    .text       start:0x0219f274 end:0x021a0b00
+    .rodata     start:0x021b1a44 end:0x021b1adc
+    .data       start:0x021b268c end:0x021b2698
+
+src/ov257/ctvt_talk.c:
+    .text       start:0x0219cdb4 end:0x0219ef8c
+    .rodata     start:0x021b19e8 end:0x021b1a44
+    .data       start:0x021b2644 end:0x021b2650

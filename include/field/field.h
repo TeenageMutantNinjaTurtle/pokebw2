@@ -20,6 +20,9 @@ FieldActor *FieldPlayer_GetActor(FieldPlayer *player);
 u32 FieldPlayer_GetSex(FieldPlayer *player);
 void FieldPlayer_GetWPos(FieldPlayer *player, VecFx32 *pos);
 u32 FieldPlayer_GetFaceDir(FieldPlayer *player);
+// The unit vector of the direction on the grid, and the rail position a step in the direction on rails
+void func_ov036_0219aab0(FieldPlayer *player, u32 dir, VecFx32 *vec);
+void func_ov036_0219ad30(FieldPlayer *player, u32 dir, RailPosition *pos);
 // The player's object code for a sex, in a form or an extra state
 u16 FieldPlayer_GetObjCodeByForme(u32 sex, u32 forme);
 u16 FieldPlayer_GetObjCodeByExState(u32 sex, u32 exState);
@@ -198,12 +201,15 @@ void func_ov036_021a2398(EncountSystem *encount, u32 a1);
 
 // One of N's Pokémon, which createNPkm makes
 typedef struct {
-    u16 unk0;
+    // The zones it appears in, from firstZone on
+    u16 firstZone : 14;
+    u16 zoneCount : 2;
     u16 species;
     u8 level;
-    u8 unk5;
-    u8 unk6;
-    u8 unk7;
+    u8 nature;
+    u8 sex;
+    // 0 or 1 for the species' abilities, 2 for its hidden ability
+    u8 ability;
 } NPokeSpec;
 
 void createNPkm(PartyPkm *pkm, const NPokeSpec *spec);

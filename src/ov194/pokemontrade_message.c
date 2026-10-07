@@ -753,7 +753,7 @@ void func_ov194_021c12ec(PokemonTradeWork *wk, u32 a1) {
         GFL_MsgDataLoadStrbuf(wk->msgData, 129, wk->drawTemplate);
         copyVarForText(wk->wordSet, 0, infos[i]);
         GFL_WordSetFormatStrbuf(wk->wordSet, wk->drawStr, wk->drawTemplate);
-        GFL_TextRendererDrawToBitmap(wk->negoBitmaps[i].player, 0, 0, wk->drawStr, wk->font);
+        GFL_TextRendererDrawToBitmap(wk->negoBitmaps[i * 4], 0, 0, wk->drawStr, wk->font);
     }
     GFL_TextRndUpdateColorIndexLUT(15, 2, 0);
     for (i = 0; i < 2; i++) {
@@ -763,10 +763,10 @@ void func_ov194_021c12ec(PokemonTradeWork *wk, u32 a1) {
             if (wk->negoSlot[1 - i][j] != -1) {
                 BOOL isEgg = PokeParty_GetParam(pkm, PKM_PARAM_IS_EGG, NULL);
                 func_ov194_021c5138(wk, i, j, pkm, 0, 1);
-                func_ov194_021c0234(pkm, wk->negoBitmaps[i].pkm[j], 0, 0, isEgg, func_ov194_021b783c(wk), wk);
+                func_ov194_021c0234(pkm, wk->negoBitmaps[i * 4 + 1 + j], 0, 0, isEgg, func_ov194_021b783c(wk), wk);
                 if (!isEgg) {
-                    func_ov194_021c0474(pkm, wk->negoBitmaps[i].pkm[j], 56, 16, wk, FALSE, func_ov194_021b783c(wk));
-                    func_ov194_021c03fc(pkm, wk->negoBitmaps[i].pkm[j], 0, 16, wk);
+                    func_ov194_021c0474(pkm, wk->negoBitmaps[i * 4 + 1 + j], 56, 16, wk, FALSE, func_ov194_021b783c(wk));
+                    func_ov194_021c03fc(pkm, wk->negoBitmaps[i * 4 + 1 + j], 0, 16, wk);
                 }
             }
         }
