@@ -1441,6 +1441,7 @@ overlays/ov271 0x021f7188 reloc_module overlay(270)
 overlays/ov271 0x021f7190 overlay_id 270
 overlays/ov271 0x021f719c reloc_module overlay(269)
 overlays/ov271 0x021f71a4 overlay_id 269
+overlays/ov271 0x021f7768 add_data BR_GRAPHIC_LCD_CONFIG_3D
 overlays/ov284 0x021e37c6 reloc_module overlay(139)
 overlays/ov284 0x021e3926 reloc_module overlay(139)
 overlays/ov284 0x021e3a40 overlay_id 207
