@@ -214,7 +214,7 @@ static void DataConvert_SeqWireless(KeySystemSeq *seq, int *state, void *work) {
 
     switch (*state) {
     case 0:
-        if (func_02035318()) {
+        if (isWirelessEnabled()) {
             *state = 1;
         } else {
             KeySystemSeq_Push(seq, KeySystem_SeqWirelessOff);
