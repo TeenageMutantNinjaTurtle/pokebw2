@@ -59,6 +59,11 @@ BSubwayScoreData *func_0201795c(GameData *gameData);
 BSubwayScrWork *func_0201794c(GameData *gameData);
 u8 func_02017b8c(GameData *gameData);
 void func_02017bb4(GameData *gameData);
+void func_02017884(GameData *gameData);
+// Starts saving, and runs the save, returning 2 once it ends
+void func_0201782c(GameData *gameData);
+int func_02017850(GameData *gameData);
+void *getChatterDataAddress(GameData *gameData);
 MusicalSave *getMusicalInfoBlkAddress(GameData *gameData);
 ZoneSpawnInfo *GameData_GetNextZone(GameData *gameData);
 PokeParty *GameData_GetParty(GameData *gameData);
@@ -145,9 +150,6 @@ BOOL GameData_CheckEventsPaused(GameData *gameData);
 void *func_02017968(GameData *gameData);
 // Where the Trial House work is kept
 TrialHouseWork **GetTrialHouseWkPPtr(GameData *gameData);
-// Starts the save that runs alongside the field, and its state, 2 once done and 3 on an error
-void func_0201782c(GameData *gameData);
-u32 func_02017850(GameData *gameData);
 void GameData_ResetSkipFrame(GameData *gameData);
 void GameData_Set30FPSMode(GameData *gameData, BOOL enable);
 u8 func_02017b70(GameData *gameData);

@@ -51,8 +51,9 @@
 #define PKM_PARAM_ORIGIN_GAME 0x77
 #define PKM_PARAM_RIBBON_G4_COOL 0x78
 #define PKM_PARAM_OT_NAME 0x8d
-// Not from swan: the trainer's name as a u16 array, where the Pokémon was met as an egg and as itself, and the level
+// The original trainer's name, copied to or from a u16 array (not from swan)
 #define PKM_PARAM_OT_NAME_RAW 0x8e
+// Where the Pokémon was met as an egg and as itself, and the level (not from swan)
 #define PKM_PARAM_EGG_LOCATION 0x95
 #define PKM_PARAM_MET_LOCATION 0x96
 #define PKM_PARAM_MET_LEVEL 0x99

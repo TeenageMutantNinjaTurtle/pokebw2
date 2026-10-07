@@ -237,6 +237,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `GFL_ASSERT(a < (B*C))` needs the game's spacing (`delivery_beacon.c` turns clang-format off for it). In
   `delivery_beacon.c` the game has the asserts' `""` before the file name of an earlier allocation, which no source
   order tried reproduces: a folded assert or an unused inline creates no literal.
+- The list that is heapsorted holds the file's `.data` tables as well as its `.rodata` objects, so a `.data` table's
+  declaration reorders `.rodata` objects of the same size, and `rodata_order.py` predicts the layout only when it is
+  given them too (string literals don't count). `worldtrade_search.c`'s four BG setups come out in the game's order
+  only with its touch screen's cursor table, in `.data`, declared after the touch rectangles rather than at the top.
 - `static const` data goes in `.rodata`, so a table that the original has in `.data` is not `const`. The module
   check fails if a table ends up in the wrong section, even when every function matches.
 - A `static const` variable whose address is never taken is folded into the code and not emitted. If the original has

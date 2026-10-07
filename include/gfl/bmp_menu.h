@@ -59,7 +59,7 @@ void ListMenuCore_AppendMsgOption(ListMenuOption *options, MsgData *msgData, u32
 // The number of options in the list
 u32 ListMenuCore_GetFirstFreeIndex(const ListMenuOption *options);
 
-BmpMenuList *BmpMenuList_Create(const BmpMenuListHeader *header, s16 a1, s16 a2, u32 heapId);
+BmpMenuList *BmpMenuList_Create(const BmpMenuListHeader *header, u16 a1, u16 a2, u32 heapId);
 void BmpMenuList_Free(BmpMenuList *list, u16 *a1, u16 *a2);
 s32 BmpMenuList_Update(BmpMenuList *list);
 void func_02026510(BmpMenuList *list, u32 heapId);

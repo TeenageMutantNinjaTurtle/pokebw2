@@ -74,6 +74,9 @@ BOOL PokeParty_DecryptPkm(PartyPkm *pkm);
 void PokeParty_EncryptPkm(PartyPkm *pkm, BOOL wasEncrypted);
 u32 PML_PkmGetParam(BoxPkm *pkm, u32 param, void *buffer);
 BOOL PML_PkmDecrypt(BoxPkm *pkm);
+u32 PML_PkmGetLevel(BoxPkm *pkm);
+void PML_PkmChangeForme(BoxPkm *pkm, u32 forme);
+BOOL hasPokemonChangedForm(BoxPkm *pkm);
 void PML_PkmReEncrypt(BoxPkm *pkm, BOOL wasEncrypted);
 BOOL PML_PkmIsRare(BoxPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
@@ -82,6 +85,9 @@ void setFatefulEncounterPkmData(BoxPkm *pkm, u16 location, u32 year, u32 month, 
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
+// Resets the nickname to the species' name
+void setNicknameToNick(PartyPkm *pkm);
+u32 PML_UtilDerivePkmSex(u16 species, u16 form, u32 pid);
 void copyPkmIntoPartyBlk(PokeParty *party, u32 index, const PartyPkm *pkm);
 // Changes a Pokémon into another species, as evolution does
 void setChangedPkmSpecies(PartyPkm *pkm, u32 species);
@@ -109,6 +115,9 @@ void PokeParty_SetNature(PartyPkm *pkm, u32 nature);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
 // A species with its form and sex in one u16
 u16 func_02021204(u32 species, u32 form, u32 sex);
+// A Pokémon icon's character file in its archive, and its palette
+u32 PokeParty_GetIconIndex(u32 species, u32 form, u32 sex, BOOL egg);
+u32 func_02021034(u32 species, u32 form, u32 sex, BOOL egg);
 // The level, 0 to 4, of a Pokémon's Pokéstar fame
 int func_0201f010(u8 fame);
 PartyPkm *PokeParty_GetPkm(PokeParty *party, u32 index);

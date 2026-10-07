@@ -49,6 +49,7 @@ void func_0202d608(JoinAvenuePersonList *list);
 u32 func_02010078(JoinAvenueSave *joinAvenue, GameData *gameData, void *entry, u32 a3);
 void *func_02037a40(HeapID heapId);
 void func_02037a68(void *entry);
+void func_02037ab4(void *entry, PlayerInfo *info, u16 species, u32 a3);
 void func_02037a70(void *entry);
 BOOL func_02037a90(void *entry);
 u32 func_02037b38(void *entry, u32 param, void *buffer);
