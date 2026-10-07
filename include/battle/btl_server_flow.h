@@ -110,7 +110,7 @@ BOOL func_ov167_021abeb4(BtlServerFlow *handler, u8 monIndex);
 u32 func_ov167_021abee0(BtlServerFlow *flow, u8 monId);
 u32 func_ov167_021abf0c(BtlServerFlow *flow);
 void SetMoveEffectIndex(BtlServerFlow *flow, u8 index);
-BOOL func_ov167_021abf28(BtlServerFlow *flow, u32 money);
+BOOL func_ov167_021abf28(BtlServerFlow *flow, u32 money, u8 monId);
 void func_ov167_021abf48(BtlServerFlow *flow, u8 monId);
 void func_ov167_021abf74(BtlServerFlow *flow, u8 monId, u8 targetId);
 BOOL func_ov167_021abfac(BtlServerFlow *flow, u8 attackerId, u8 targetId, BOOL *failed);
