@@ -1266,6 +1266,7 @@ overlays/ov209 0x021c2d8c add_data MUS_ITEM_DRAW_UNUSED_1
 overlays/ov209 0x021c2dd0 add_data data_ov209_021c2dd0
 overlays/ov209 0x021c2e28 remove_reloc
 overlays/ov209 0x021c2ea8 remove_reloc
+overlays/ov209 0x021c2f6c add_data STA_ACT_AUDIENCE_UNUSED
 overlays/ov209 0x021c30ac remove_symbol
 overlays/ov214 0x021d3490 overlay_id 189
 overlays/ov214 0x021d3494 overlay_id 139

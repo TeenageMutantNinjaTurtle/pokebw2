@@ -61,3 +61,8 @@ src/ov209/sta_act_poke.c:
     .text       start:0x021bd930 end:0x021be9f0
     .rodata     start:0x021c2dfc end:0x021c2e10
     .data       start:0x021c3120 end:0x021c3130
+
+src/ov209/sta_act_audience.c:
+    .text       start:0x021c055c end:0x021c0b20
+    .rodata     start:0x021c2fac end:0x021c2fb8
+    .data       start:0x021c3154 end:0x021c3168

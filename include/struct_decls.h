@@ -439,6 +439,7 @@ typedef struct ScriptPluginEntry ScriptPluginEntry;
 typedef struct ScriptSubwork ScriptSubwork;
 typedef struct ShortcutMenuWork ShortcutMenuWork;
 typedef struct ShortcutSave ShortcutSave;
+typedef struct StaActAudience StaActAudience;
 typedef struct StaActBg StaActBg;
 typedef struct StaActEffect StaActEffect;
 typedef struct StaActEffectSys StaActEffectSys;

@@ -17,5 +17,9 @@ u8 StaActing_GetLightUpPoke(StaActing *stage);
 StaActEffectSys *StaActing_GetEffectSys(StaActing *stage);
 // How many times the props' effects run this frame
 u32 StaActing_GetUpdateCount(StaActing *stage);
+StaActLightSys *StaActing_GetLightSys(StaActing *stage);
+StaActLight *StaActing_GetLight(StaActing *stage, u8 index);
+// A state of the stage, during which (when not 0) the audience follows the Pokémon
+u16 func_ov209_021c032c(StaActing *stage);
 
 #endif // POKEBW2_APP_MUSICAL_STA_ACTING_H
