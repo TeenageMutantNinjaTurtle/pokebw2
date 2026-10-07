@@ -12,6 +12,9 @@ Same instructions, registers swapped.
 
 - Register allocation follows the declaration order of locals, so try reordering declarations when registers are
   swapped.
+- How a store is written can move the parameters' registers too: `*result = *partyResult != 0 ? 3 : 0;` swapped two
+  pointer parameters' registers in `scrcmd_fld_battle.c`'s `func_ov036_021aec28`, where the same store as an
+  `if`/`else` matched.
 - The registers follow the declarations, but the order the constants are set follows the statements: when the
   declaration order that gives the right registers sets them in the wrong order, or derives one constant from the
   other (`movs r6, #0` ... `subs r4, r6, #1` for `-1`), declare the locals without initializers and assign them in the
@@ -454,6 +457,12 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A `u16` local that holds a call's result changes the operand order of a later add with it, and
   `index = first; index += kind;` truncates a `u32` field before the add, where `first + kind` does not
   (`ctvt_game.c`'s `CtvtGameTarget_UpdateHit` and `CtvtGameTarget_Draw`).
+- `*(data + pos + 1)` adds `pos` once and then loads at `#1`, where `data[pos + 1]` adds `pos + 1` first; and a value
+  built in a `u16` local with `|=` and then returned has no final narrowing pair, where a returned `int` expression
+  does (`ssp_exifdec.c`'s byte readers). A ternary that stores to a static is a select (`bhi`); the original's
+  `bls; b` is an `if`/`else` with a store in each branch.
+- Advancing a pointer-like offset with `x += 0xc` lets MWCC fold the 0xc into every later offset from it; writing
+  `pos = x + 0xc` and reading through `pos` keeps the `add` (`ssp_exifdec.c`'s IFD loop).
 - A ternary argument `f(c ? 1 : 0)` compiles to the select form (`movs r0, #1; cmp; beq; movs r0, #0`). A branchy
   original (`bne`; `movs #1`; `b`; `movs #0`) is an `if`/`else` with a call in each branch, as `CtvtTalk_UpdateMain`
   calls `func_0203d564(TRUE)` or `func_0203d564(FALSE)`.
@@ -722,6 +731,12 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   reproduced under `-nodead`: wipe_sub.c's `.data` and `.rodata` hold the parameters of about 31 handlers the ROM
   doesn't have, as their own function-local statics, which an unemitted handler takes with it. Making them globals
   read by unemitted statics was not tried; it would put names on data Game Freak kept local.
+- Tables that only code the linker dropped read can be kept in the shared section as globals read by unemitted
+  static functions. `mbp.c` (overlay 181) keeps NitroSDK's demo tables of state and callback names this way, after
+  its heap ID and before their strings: a `static` table read only by an unemitted function is dropped with it, and a
+  global that nothing reads gets a section of its own among the strings. The string literals of such initializers
+  each get a section of their own, laid out by size after the shared section, and their equal sizes don't follow
+  `rodata_order.py`'s model: two pairs stay swapped in every order of the tables tried.
 - Static data is sorted by size. MWCC lists each object of a section when it is declared, a local struct initializer
   when its function is, and heapsorts the list by size starting from the last object declared. Equal sizes come out
   in no declared order: palanm.c's three 4-byte weights declared R, G, B lie G, R, B (`rodata_order.py --permute`

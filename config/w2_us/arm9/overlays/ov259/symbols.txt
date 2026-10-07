@@ -316,7 +316,7 @@ func_ov259_021a0368 kind:function(thumb,size=0x10) addr:0x021a03a8
 func_ov259_021a0378 kind:function(thumb,size=0x10) addr:0x021a03b8
 func_ov259_021a0388 kind:function(thumb,size=0x10) addr:0x021a03c8
 func_ov259_021a0398 kind:function(thumb,size=0x4) addr:0x021a03d8
-data_ov259_021a039c kind:data(any) addr:0x021a03dc ambiguous
+XTRANSCEIVER_PROC_FUNCTIONS kind:data(any) addr:0x021a03dc ambiguous
 data_ov259_021a03a8 kind:data(any) addr:0x021a03e8
 data_ov259_021a03a9 kind:data(any) addr:0x021a03e9
 data_ov259_021a03b0 kind:data(any) addr:0x021a03f0

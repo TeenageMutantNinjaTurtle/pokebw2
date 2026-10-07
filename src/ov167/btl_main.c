@@ -1532,8 +1532,8 @@ BOOL IsSwitchMode(BtlMainModule *mainModule) {
     return FALSE;
 }
 
-void func_ov167_0219bde0(BtlMainModule *mainModule) {
-    func_02017c50(mainModule->unk43C);
+s32 func_ov167_0219bde0(BtlMainModule *mainModule) {
+    return func_02017c50(mainModule->unk43C);
 }
 
 void func_ov167_0219bdf0(BtlMainModule *mainModule) {
