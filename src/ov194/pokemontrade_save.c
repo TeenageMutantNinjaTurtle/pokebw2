@@ -423,8 +423,8 @@ static void func_ov194_021bf278(PokemonTradeWork *wk) {
         }
     }
     {
-        u32 country = UnityTowerVisitor_GetCountry(wk->partnerInfo);
-        u32 province = UnityTowerVisitor_GetProvince(wk->partnerInfo);
+        u8 country = UnityTowerVisitor_GetCountry(wk->partnerInfo);
+        u8 province = UnityTowerVisitor_GetProvince(wk->partnerInfo);
         u32 validCountry = func_0202b57c(country, province, TrainerInfo_GetRegion(wk->partnerInfo));
         u32 validProvince = func_0202b590(country, province, TrainerInfo_GetRegion(wk->partnerInfo));
         if (country != validCountry || province != validProvince) {
@@ -451,8 +451,8 @@ static void func_ov194_021bf278(PokemonTradeWork *wk) {
         for (i = 0; i < 2; i++) {
             PlayerInfo *info = infos[i];
             if (info != NULL) {
-                u32 country = UnityTowerVisitor_GetCountry(info);
-                u32 province = UnityTowerVisitor_GetProvince(info);
+                u8 country = UnityTowerVisitor_GetCountry(info);
+                u8 province = UnityTowerVisitor_GetProvince(info);
                 // The region is read and left unused
                 TrainerInfo_GetRegion(info);
                 if (!func_02009ba4(survey, country, province)) {

@@ -69,6 +69,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - `FX_Mul`'s sign extensions move with statement order and with a `static inline` wrapper. (matching.md: "FX_Mul")
 - `x[n++].f = ...` against a separate `n++` changes scheduling.
 - Store order in initialization code is usually source order: try the stores in the asm's order first.
+- A field of a local struct loaded before a call that doesn't fill it was read into a local there, as `targetX = target.x;`.
+  (matching.md: "A field of a local struct")
+- Arguments loaded in order around a conditional one: that argument was a local set before the call.
+  (matching.md: "A conditional expression among a call's arguments")
 
 ## An instruction too many or too few
 
@@ -76,6 +80,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   arguments for narrow parameters, so an argument passed without them is for a wider one. (matching.md: "narrows an argument")
 - Extra `u16` narrowings come from `u32 x = (u16)...` passed through a `u16` inline parameter.
 - A sum truncated to `s16` before a comparison was stored in an `s16` local. (matching.md: "truncates to `s16`")
+- A narrowing again after a clamp is `MATH_CLAMP`, a conditional expression. (matching.md: "narrowed again after it is clamped")
 - A local reloaded from its stack slot before each use can be a `u8` flag, not `volatile`.
 - Masks written with `~` give `bic`; an `and` with `0xef` is `x &= (u8)~FLAG`. (matching.md: "Masks written with")
 - MWCC doesn't propagate constants into enum-typed variables: a loop that checks its bound before the first pass, or
@@ -84,6 +89,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "holds a constant, like")
 - An address computed before calls is reused after them only when the expression is the same, types included. An
   inline accessor recomputes it. (matching.md: "computed before calls is reused")
+- Stores whose base register is another element than the one written: index the array, or write through a pointer
+  to the element, whichever the original does. (matching.md: "pointer to an array element")
 - A value a loop uses and the code after it uses again is reused from the hoisted copy, unless it is a variable
   declared in the loop body. (matching.md: "reused from the copy hoisted")
 - An address passed to a `const` pointer parameter is converted, and not shared. (matching.md: "`const` pointer parameter is converted")
@@ -95,6 +102,11 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "keeps an argument register untouched")
 - A NULL that the original tests (`movs r7, #0` then `beq`) and MWCC folds away is open; see the `event_save.c` and
   `script_sys.c` rows of `docs/nonmatching-functions.md`.
+- Memory loaded again after stores to a local `u8` array, or stores through `add rN, sp, #off` for a local: the
+  local is initialized in its declaration (matching.md: "initialized in its declaration is stored through a base
+  register")
+- An array initializer stores at its declaration: open an inner block where the original clears the array.
+  (matching.md: "The initializer's stores happen")
 
 ## Branches and block layout
 
@@ -120,6 +132,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A `return` inside `for (;;)` leaves a dead `bx lr`, which the original counts as padding.
 - Literal pool placement: a pool dumped mid-function is placed after an unconditional branch. See the `event_make.c`
   row of the nonmatching doc for a case still open.
+- A wrapping decrement that reads the variable again in one branch: `if (x == 0) { x = 3; } else { x--; }`, not a
+  conditional expression (matching.md: "reads it again in the `else`")
 
 ## Loops
 
@@ -130,6 +144,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - An address or value an inner loop computes from the outer counter alone is hoisted into the inner preheader.
   (matching.md: "inner loop computes"), (matching.md: "preheader")
 - Enum counters keep their guard (see above).
+- `beq` before and `bne` after the loop is a `!=` bound. (matching.md: "A loop counted with `!=`")
 
 ## Switches
 
@@ -138,6 +153,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A case that ends in the same code as another is merged into it. (matching.md: "ends in the same code as another")
 - An `if`/`else if` chain whose tests come in a switch's order is a `switch` with a case falling into `default`.
   `case 0: default:` written first sets the case order.
+- `cmp; beq end; cmp; bne next` with each body after its test: an `if`/`else if` chain with an empty first body,
+  not a switch (matching.md: "A short chain of tests whose first value does nothing")
+- A value tested before the jump table, with its code after the cases, is an `if (x != v)` around the switch.
+  (matching.md: "value outside its jump table")
 
 ## Floats and runtime helpers
 
@@ -145,6 +164,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   fails to link. (matching.md: "MWCC's runtime helpers")
 - An arithmetic operation on a literal passes the literal first; a constant in a local keeps its source position.
   (matching.md: "passes the literal first")
+- A literal in a compound assignment (`y += 0.01f`) is passed second. (matching.md: "compound assignment keeps")
 - Float arithmetic on a local holding a constant isn't folded. (matching.md: "doesn't fold float arithmetic")
 - Division and modulo call `_s32_div_f` or `_u32_div_f` by signedness. A `u8`/`u16` promotes to signed `int`.
   (matching.md: "_s32_div_f")
@@ -159,7 +179,9 @@ text to `grep -n` there. Entries without a key come from later work and still be
   globals get their own sections. Predict with `tools/scripts/rodata_order.py`. (matching.md: "Static data is sorted by size")
 - The full model, checked by fuzzing MWCC: there is one list per file in declaration order, except tentative `.bss`
   statics, which join at the end in reverse order. Each kind (rodata, data, bss) gets its own shared section.
-  Unreferenced statics are dropped. `rodata_order.py` doesn't model the per-kind sections or the `.bss` rule yet.
+  Unreferenced statics are dropped. `rodata_order.py` doesn't model the per-kind sections or the `.bss` rule yet, but
+  given the `.data` tables with the `.rodata` objects it predicts the `.rodata` order. (matching.md: "The list that is
+  heapsorted")
 - `.bss` statics are ordered by size, then in an order that isn't the declaration order; try permutations.
 - A table that only one function reads can be a `static const` inside it, which moves it in the heapsort's list.
   (matching.md: "declared inside the one function")

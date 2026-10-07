@@ -672,7 +672,7 @@ static void func_ov194_021b7fa8(int netId, int size, void *data, void *work, Net
     TradeProfile profile;
     if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         UnityTowerSurveySave *survey = getUnityTower_SurveySaveBlkAddrress(GameData_GetSaveControl(wk->gameData));
-        u32 country, province, validCountry, validProvince;
+        u8 country, province, validCountry, validProvince;
         sys_memcpy(data, &profile, sizeof(TradeProfile));
         country = UnityTowerVisitor_GetCountry(&profile.info);
         province = UnityTowerVisitor_GetProvince(&profile.info);

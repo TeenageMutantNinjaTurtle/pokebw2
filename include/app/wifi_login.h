@@ -35,4 +35,8 @@ typedef struct {
 extern const GameProcFunctions WIFILOGIN_PROC_FUNCTIONS;
 extern const GameProcFunctions WIFILOGOUT_PROC_FUNCTIONS;
 
+// The login's messages, for the callbacks of WifiLoginParam: print one and wait for it
+void func_ov190_021b48a4(void *msgWork, MsgData *msgData, u32 msgNo);
+BOOL func_ov190_021b49b8(void *msgWork);
+
 #endif // POKEBW2_APP_WIFI_LOGIN_H

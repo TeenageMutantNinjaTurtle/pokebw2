@@ -57,4 +57,19 @@ extern const GameProcFunctions data_ov194_021c6400;
 // A trade that runs the GTS Negotiation's proc table with other values
 extern const GameProcFunctions data_ov194_021c640c;
 
+// The trade demo's parameter for the Global Trade Station
+typedef struct {
+    u8 unk0[0x30];
+    GameData *gameData;
+    PartyPkm *sendPkm;
+    PartyPkm *recvPkm;
+    PlayerInfo *myStatus;
+    PlayerInfo *partnerStatus;
+} PokemonTradeGtsParam;
+
+// For the Global Trade Station: a deposit, a received trade, and a trade made or picked up
+extern const GameProcFunctions data_ov194_021c6400;
+extern const GameProcFunctions data_ov194_021c63b8;
+extern const GameProcFunctions data_ov194_021c63d0;
+
 #endif // POKEBW2_APP_POKEMON_TRADE_H

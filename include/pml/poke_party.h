@@ -74,12 +74,18 @@ BOOL PokeParty_DecryptPkm(PartyPkm *pkm);
 void PokeParty_EncryptPkm(PartyPkm *pkm, BOOL wasEncrypted);
 u32 PML_PkmGetParam(BoxPkm *pkm, u32 param, void *buffer);
 BOOL PML_PkmDecrypt(BoxPkm *pkm);
+u32 PML_PkmGetLevel(BoxPkm *pkm);
+void PML_PkmChangeForme(BoxPkm *pkm, u32 forme);
+BOOL hasPokemonChangedForm(BoxPkm *pkm);
 void PML_PkmReEncrypt(BoxPkm *pkm, BOOL wasEncrypted);
 BOOL PML_PkmIsRare(BoxPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
 // The size of a Pokémon's data
 u32 PokeParty_GetPkmRawSize(void);
 void copyPartyPkm(const PartyPkm *src, PartyPkm *dest);
+// Resets the nickname to the species' name
+void setNicknameToNick(PartyPkm *pkm);
+u32 PML_UtilDerivePkmSex(u16 species, u16 form, u32 pid);
 void copyPkmIntoPartyBlk(PokeParty *party, u32 index, const PartyPkm *pkm);
 // Changes a Pokémon into another species, as evolution does
 void setChangedPkmSpecies(PartyPkm *pkm, u32 species);
@@ -108,10 +114,15 @@ u32 func_02021114(void);
 u32 func_02021154(void);
 u32 getOBJTileMapping_MainEng(void);
 u16 func_02021204(u32 species, u32 form, u32 sex);
+// A Pokémon icon's character file in its archive, and its palette
+u32 PokeParty_GetIconIndex(u32 species, u32 form, u32 sex, BOOL egg);
+u32 func_02021034(u32 species, u32 form, u32 sex, BOOL egg);
 // The level, 0 to 4, of a Pokémon's Pokéstar fame
 int func_0201f010(u8 fame);
 PartyPkm *PokeParty_GetPkm(PokeParty *party, u32 index);
 BoxPkm *func_0201d624(PartyPkm *pkm);
+// A new party Pokémon made from a box Pokémon, with its stats calculated
+PartyPkm *boxPkmRegenToPartyPkm(BoxPkm *pkm, HeapID heapId);
 int PokeParty_GetPkmCount(PokeParty *party);
 u32 PokeParty_GetFirstBattleReady(PokeParty *party);
 u32 isEggInParty(PokeParty *party);
@@ -124,6 +135,13 @@ BOOL PokeParty_AddPkm(PokeParty *party, PartyPkm *pkm);
 void PokeParty_SwapPkms(PokeParty *party, u32 indexA, u32 indexB, HeapID heapId);
 void PokeParty_RemovePkm(PokeParty *party, u32 index);
 void PokeParty_RecoverAll(PokeParty *party);
+// A Pokémon's icon in archive 7: its file, and the palette of the file func_02021114 returns that it uses. The cells
+// and animations depend on the sub engine's OBJ VRAM mapping: func_02021154 and getOBJTileMapping_SubEng return them
+u32 PokeParty_GetIconIndex(u32 species, u32 form, u32 sex, BOOL egg);
+u32 func_02021034(u32 species, u32 form, u32 sex, BOOL egg);
+u32 func_02021114(void);
+u32 func_02021154(void);
+u32 getOBJTileMapping_SubEng(void);
 void PokeParty_ChangeForme(PartyPkm *pkm, u32 forme);
 // The form of Arceus for a plate, and of Genesect for a drive
 u16 _getTypeForPlate(u16 item);

@@ -9,27 +9,29 @@
 
 u8 *GameData_GetUnityTowerSave(GameData *gameData);
 void *UnityTower_GetVisitor(UnityTowerSurveySave *save, u32 index);
-u32 UnityTowerVisitor_GetProvince(void *visitor);
-u32 UnityTowerVisitor_GetCountry(PlayerInfo *playerInfo);
+u8 UnityTowerVisitor_GetProvince(void *visitor);
+u8 UnityTowerVisitor_GetCountry(PlayerInfo *playerInfo);
 u32 UnityTower_GetVisitorParam(UnityTowerSurveySave *save, u32 index, u32 param);
 void func_02009db4(UnityTowerSurveySave *save, u32 index, u32 param, u32 value);
 void func_02009d18(UnityTowerSurveySave *save, u8 index);
 // The size of the survey's block
 u32 func_02009b5c(void);
-// Whether the survey has met a country and province, and recording it
-BOOL func_02009ba4(UnityTowerSurveySave *save, u32 country, u32 province);
-void func_02009be0(UnityTowerSurveySave *save, u32 country, u32 province, BOOL met);
 u8 func_02009ca0(UnityTowerSurveySave *save);
 u8 func_02009d28(UnityTowerSurveySave *save);
 u32 func_02009ce4(UnityTowerSurveySave *save);
 u32 func_02009cac(UnityTowerSurveySave *save, PlayerInfo *playerInfo, u32 index);
 u32 func_0202b5d4(u32 value);
-// The country and province if the region has them, else 0
-u32 func_0202b57c(u32 country, u32 province, u32 region);
-u32 func_0202b590(u32 country, u32 province, u32 region);
-// Records a visitor from another country
-void func_02035350(UnityTowerSurveySave *save, PlayerInfo *info);
+// A country and region checked for the language, or 0 when the country isn't known
+u8 func_0202b57c(u8 country, u8 region, u8 lang);
+u8 func_0202b590(u8 country, u8 region, u8 lang);
+// Whether a country and region were met, and records them
+BOOL func_02009ba4(UnityTowerSurveySave *save, u8 country, u8 region);
+void func_02009be0(UnityTowerSurveySave *save, u8 country, u8 region, u32 a3);
+// Records a visitor, a trainer followed by what they traded
+BOOL func_02035350(UnityTowerSurveySave *save, PlayerInfo *visitor);
 u8 getPlayerSurveys(UnityTowerSurveySave *save);
+u8 func_02009ca0(UnityTowerSurveySave *save);
+u8 func_02009d28(UnityTowerSurveySave *save);
 void setPlayerSurveys(UnityTowerSurveySave *save, u32 hobby);
 void func_ov033_0217aa1c(GameSystem *gsys, s32 floor, u32 value);
 void func_ov033_0217aa50(UnityTowerSurveySave *save, u8 *output, s32 floor, u32 value);

@@ -37,6 +37,11 @@ void MCSSSys_Draw(MCSSSystem *system);
 MCSS *MCSSSys_Add(MCSSSystem *system, fx32 x, fx32 y, fx32 z, const MCSSLoadInfo *info);
 void MCSSSys_Remove(MCSSSystem *system, MCSS *mcss);
 void func_0201aacc(MCSSSystem *system);
+// The archive of the sprites' files, which func_02019b98 opens and func_02019bb4 closes, and the task manager that
+// runs the sprites' fades, which an app clears while it adds sprites
+void func_02019b98(MCSSSystem *system, u32 arcId);
+void func_02019bb4(MCSSSystem *system);
+void func_02019bcc(MCSSSystem *system, TCBManager *tcbMgr);
 // Where the sprites' character and palette data go: each sprite's is at these offsets plus 0x4000 and 0x20 bytes per
 // slot
 void func_0201aefc(MCSSSystem *system, u32 characterOffset);
@@ -72,6 +77,12 @@ s16 func_0201adf8(MCSS *mcss);
 NNSG2dAnimController *func_0201adc4(MCSS *mcss);
 void func_020618c0(NNSG2dAnimController *controller);
 void func_0201c290(MCSS *mcss);
+// Called as a sprite's animation ends
+void func_0201b25c(MCSS *mcss);
+// The files of a Pokémon's sprite, with a5 and a6 as GetPokemonPaletteDataNo takes them
+void SetupPokemonLoaderFSTool(u32 species, u32 form, u32 sex, BOOL rare, u32 a6, MCSSLoadInfo *info, u32 a5);
+// Draws a Spinda's spots for its personality on the next sprite added
+void func_0201c188(MCSSSystem *system, u32 personality);
 // Adds the sprite of a party Pokémon
 MCSS *func_0201c14c(MCSSSystem *system, PartyPkm *pkm, u32 a2, fx32 x, fx32 y, fx32 z);
 
