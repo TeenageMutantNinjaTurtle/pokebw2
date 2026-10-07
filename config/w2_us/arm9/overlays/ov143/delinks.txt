@@ -8,3 +8,15 @@ src/ov143/monolith_main.c:
     complete
     .text       start:0x02199900 end:0x0219a1b0
     .rodata     start:0x0219feb0 end:0x0219ff5c
+
+src/ov143/monolith_tool.c:
+    complete
+    .text       start:0x0219a1b0 end:0x0219aab0
+    .rodata     start:0x0219ff5c end:0x0219ffa4
+    .data       start:0x021a0460 end:0x021a048c
+
+src/ov143/monolith_top.c:
+    complete
+    .text       start:0x0219aab0 end:0x0219afec
+    .rodata     start:0x0219ffa4 end:0x021a0028
+    .data       start:0x021a048c end:0x021a04ac

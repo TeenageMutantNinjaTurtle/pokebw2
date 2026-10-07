@@ -22,6 +22,12 @@ enum {
     MONOLITH_SCREEN_EXIT = MONOLITH_SCREEN_COUNT,
 };
 
+// The event work that holds the Entralink's part of the story: the scene that waits for the first pass power, and the
+// scene after it
+#define MONOLITH_SCENE_WORK 0x404d
+#define MONOLITH_SCENE_FIRST_POWER 4
+#define MONOLITH_SCENE_GOT_POWER 5
+
 // The BG of each screen
 #define MONOLITH_BG_MAIN 3
 #define MONOLITH_BG_SUB 7
@@ -123,7 +129,6 @@ struct MonolithWork {
 };
 
 // The procs of the screens, in their files
-extern const GameProcFunctions data_ov143_0219ffdc;
 extern const GameProcFunctions data_ov143_021a0008;
 extern const GameProcFunctions data_ov143_021a0054;
 extern const GameProcFunctions data_ov143_021a00b0;

@@ -5,6 +5,7 @@
 #include "types.h"
 #include "app/monolith.h"
 #include "app/monolith/monolith_main.h"
+#include "app/monolith/monolith_top.h"
 #include "constants/arc.h"
 #include "gfl/arc.h"
 #include "gfl/arc_util.h"
@@ -52,11 +53,6 @@ enum {
 // What GFL_ProcMgrUpdate returns while a proc runs
 #define PROCMGR_RUNNING 1
 
-// The scene of the Entralink's story that waits for the first pass power, and the scene after it
-#define MONOLITH_SCENE_WORK 0x404d
-#define MONOLITH_SCENE_FIRST_POWER 4
-#define MONOLITH_SCENE_GOT_POWER 5
-
 typedef struct {
     const GameProcFunctions *top;
     const GameProcFunctions *bottom;
@@ -84,7 +80,7 @@ static void Monolith_FreeActorResources(MonolithWork *wk);
 static void Monolith_VBlank(TCB *tcb, void *data);
 static void Monolith_UpdateScene(MonolithParam *param);
 
-const GameProcFunctions data_ov143_0219fe70 = { Monolith_Init, Monolith_Main, Monolith_Exit };
+const GameProcFunctions MONOLITH_PROC_FUNCTIONS = { Monolith_Init, Monolith_Main, Monolith_Exit };
 
 static const BGSysLCDConfig sMonolithLCDConfig = { GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BGMODE_0, GX_BG0_AS_2D };
 
@@ -96,7 +92,7 @@ static const BGSysVRAMConfig sMonolithVRAMConfig = {
 
 // The procs of each screen, by MONOLITH_SCREEN_*
 static const MonolithScreenProcs sMonolithScreens[MONOLITH_SCREEN_COUNT] = {
-    { &data_ov143_021a0054, &data_ov143_0219ffdc },
+    { &data_ov143_021a0054, &MONOLITH_TOP_PROC_FUNCTIONS },
     { &data_ov143_021a0134, &data_ov143_021a00b0 },
     { &data_ov143_021a0054, &data_ov143_021a0008 },
     { &data_ov143_021a0388, &data_ov143_021a01e4 },

@@ -25,6 +25,23 @@ u32 PassPower_ApplyLuckyEncProb(u32 row);
 // The steps between phenomena, and the chance of one, in tenths of a percent
 u16 PassPower_ApplyExploring(u16 steps);
 u32 PassPower_ApplyExploringChance(u32 chance);
+// A pass power of the table that PassPowerData_Create reads: the two levels it is unlocked by, White then Black,
+// and its name in message file 263
+typedef struct {
+    u8 level1;
+    u8 level2;
+    u8 unk02[2];
+    u16 name;
+    u8 unk06[6];
+} PassPowerData;
+
+// What func_02017208 returns: the Entralink's two levels, White then Black
+typedef struct {
+    u8 unk00[0xc];
+    u16 level1;
+    u16 level2;
+} PassPowerLevel;
+
 // The pass powers' table, read from its archive
 void *PassPowerData_Create(HeapID heapId);
 void PassPowerData_Free(void *data);
