@@ -37,6 +37,8 @@ BOOL CalculateRailCurves(FieldRailSystem *rail, const VecFx32 *start, const VecF
 BOOL func_ov036_021b068c(FieldRailSystem *rail, const RailPosition *railPos, u32 railDir, RailPosition *next);
 // The world position of the rail position
 void func_ov036_021b06ec(FieldRailSystem *rail, const RailPosition *railPos, VecFx32 *pos);
+// The length of a step on the rails
+fx32 func_ov036_021b05ec(FieldRailSystem *rail);
 void func_ov036_021b0774(RailUnit *unit, RailPosition *pos);
 s32 func_ov036_021b0704(FieldRailSystem *rail, const RailPosition *pos);
 void RailUnit_GetCalcPos(RailUnit *unit, VecFx32 *pos);

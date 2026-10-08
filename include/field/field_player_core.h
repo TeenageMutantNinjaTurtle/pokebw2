@@ -1,0 +1,42 @@
+#ifndef POKEBW2_FIELD_FIELD_PLAYER_CORE_H
+#define POKEBW2_FIELD_FIELD_PLAYER_CORE_H
+
+// The part of the field's player that grid and rail movement share, overlay 36's field_player_core.c. Function names
+// from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
+
+#include "types.h"
+#include "gfl/heap.h"
+#include "nitro/fx.h"
+#include "struct_decls.h"
+
+FieldPlayerCore *FieldPlayerCore_Create(PlayerState *state, Field *field, const VecFx32 *pos, u32 sex, HeapID heapId);
+void FieldPlayerCore_Free(FieldPlayerCore *core);
+void FieldPlayerCore_UpdateActionStatusObserver(FieldPlayerCore *core);
+void FieldPlayerCore_GetWPos(FieldPlayerCore *core, VecFx32 *pos);
+void FieldPlayerCore_SetWPos(FieldPlayerCore *core, const VecFx32 *pos);
+u32 FieldPlayerCore_GetFaceDir(FieldPlayerCore *core);
+void FieldPlayerCore_SetDirection(FieldPlayerCore *core, u32 dir);
+void FieldPlayerCore_ForceObjCode(FieldPlayerCore *core, u32 objCode);
+void FieldPlayerCore_ClearObjCode(FieldPlayerCore *core);
+Field *FieldPlayerCore_GetField(FieldPlayerCore *core);
+FieldActor *FieldPlayerCore_GetActor(FieldPlayerCore *core);
+u32 FieldPlayerCore_GetMoveStatus(FieldPlayerCore *core);
+void FieldPlayerCore_ForceMoveObserveStatus(FieldPlayerCore *core, u32 status);
+u32 func_ov036_0219afd8(FieldPlayerCore *core);
+u32 FieldPlayerCore_GetExState(FieldPlayerCore *core);
+void FieldPlayerCore_SetExState(FieldPlayerCore *core, u32 state);
+u32 FieldPlayerCore_GetSex(FieldPlayerCore *core);
+GameSystem *FieldPlayerCore_GetGameSystem(FieldPlayerCore *core);
+PlayerState *FieldPlayerCore_GetPlayerState(FieldPlayerCore *core);
+BOOL func_ov036_0219b04c(FieldPlayerCore *core);
+u32 FieldPlayerCore_DeriveExState(FieldPlayerCore *core);
+u32 func_ov036_0219b088(FieldPlayerCore *core);
+BOOL func_ov036_0219b0a4(FieldPlayerCore *core);
+u16 FieldPlayerCore_GetMoveDirByKey(FieldPlayerCore *core, u32 heldKeys);
+void func_ov036_0219b138(FieldPlayerCore *core, TCB *tcb);
+TCB *FieldPlayerCore_GetTerrainEffectTCB(FieldPlayerCore *core);
+void FieldPlayerCore_SetSpecialSeq(FieldPlayerCore *core, u32 seq);
+BOOL func_ov036_0219b328(FieldPlayerCore *core);
+void func_ov036_0219b350(FieldPlayerCore *core);
+
+#endif // POKEBW2_FIELD_FIELD_PLAYER_CORE_H
