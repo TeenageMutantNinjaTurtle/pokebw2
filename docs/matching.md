@@ -813,6 +813,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## When nothing moves it
 
+- An index into a flat array of actors that the source names by ranges is written with the range's enum base even
+  when that base is 0: `b_plist_obj.c`'s `BPlistObj_ShowList` matches only as `actors[BPLIST_ACTOR_ITEM + slot]`, since
+  the named 0 changes what the compiler reuses, and `u8` locals for its index bases fixed two swapped stack slots in
+  `BPlistObj_ShowMoveTypes`.
+
 - When the order of instructions differs and no source change moves it, try `tools/scripts/permuter_setup.py`, which
   prepares a function for [decomp-permuter](https://github.com/simonlindholm/decomp-permuter). Its result can point to
   a plain change: `GFL_BGSysAllocChar`'s registers only matched with its tile size, a `u8` from a call, in an `int`.

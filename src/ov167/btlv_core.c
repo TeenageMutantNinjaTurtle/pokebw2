@@ -1,6 +1,6 @@
 #include "types.h"
 #include "app/bag.h"
-#include "app/ov287.h"
+#include "battle/b_plist_main.h"
 #include "battle/btl_client.h"
 #include "battle/btl_main.h"
 #include "battle/btl_pokeparam.h"
@@ -106,7 +106,7 @@ struct BtlvCore {
     u32 monId;
     u32 result;
     BtlvOv286Param ov286;
-    Ov287Param ov287;
+    BPlistParam ov287;
     BtlvOv288Param ov288;
     BtlvOv289Param ov289;
     BtlvPokeSelectParam *selectParam;
@@ -695,7 +695,7 @@ BOOL func_ov167_021cf210(BtlvCore *core) {
     return TRUE;
 }
 
-void func_ov167_021cf234(BtlvCore *core, Ov287Param *param, u8 mode, u8 partyIndex, u32 move) {
+void func_ov167_021cf234(BtlvCore *core, BPlistParam *param, u8 mode, u8 partyIndex, u32 move) {
     u8 clientId;
     u8 unk1C;
     u8 index;
@@ -735,7 +735,7 @@ void func_ov167_021cf234(BtlvCore *core, Ov287Param *param, u8 mode, u8 partyInd
     param->unk14 = BtlSetup_GetBattleStyle(core->mainModule);
     param->usingKeys = func_ov169_0689b7c8(core->unk1C4);
     param->tcbManager = func_ov168_021e00ac();
-    param->unk2C = func_ov168_021e00b8();
+    param->paletteFade = func_ov168_021e00b8();
     param->gameData = func_ov167_0219bf98(core->mainModule);
     param->unk30 = 0;
     param->unk40 = func_ov167_021cf210(core);
