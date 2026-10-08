@@ -220,7 +220,7 @@ BOOL GFL_G3DActorGetAnmFrameCount(G3DActor *actor, u16 anmIdx, fx32 *count);
 BOOL GFL_G3DActorStepAnmFrame(G3DActor *actor, u16 anmIdx, fx32 addend);
 // The same, going back to the start at the end
 BOOL GFL_G3DActorStepAnmFrameLoop(G3DActor *actor, u16 anmIdx, fx32 addend);
-void GFL_G3DSysDrawObj(G3DActor *obj, SRTMatrix *mdlMtx);
+void GFL_G3DSysDrawObj(G3DActor *obj, const SRTMatrix *mdlMtx);
 // Draws the actor if its bounding box is in view, returning whether it was
 BOOL GFL_G3DSysDrawObjBBoxCull(G3DActor *obj, SRTMatrix *mdlMtx);
 void GFL_G3DSysDispatchDraw(NNSG3dRenderObj *renderObj);

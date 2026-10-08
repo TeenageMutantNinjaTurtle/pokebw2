@@ -190,6 +190,7 @@ typedef struct CalcCapsule CalcCapsule;
 typedef struct CalcHitResult CalcHitResult;
 typedef struct CalcSphere CalcSphere;
 typedef struct CameraSystem CameraSystem;
+typedef struct CasteliaRush CasteliaRush;
 typedef struct CGearShutdownData CGearShutdownData;
 typedef struct ChatotEventWork ChatotEventWork;
 typedef struct CircleGraph CircleGraph;

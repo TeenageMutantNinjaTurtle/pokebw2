@@ -3,6 +3,7 @@
 #include "field/field.h"
 #include "field/field_script.h"
 #include "field/resort.h"
+#include "field/scrcmd_resort.h"
 #include "gfl/heap.h"
 #include "gfl/overlay.h"
 #include "gfl/str.h"

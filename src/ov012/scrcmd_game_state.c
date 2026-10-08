@@ -7,6 +7,7 @@
 #include "field/field_map.h"
 #include "field/field_script.h"
 #include "field/player_state.h"
+#include "field/scrcmd_game_state.h"
 #include "field/trainer_script.h"
 #include "field/zone.h"
 #include "gfl/heap.h"

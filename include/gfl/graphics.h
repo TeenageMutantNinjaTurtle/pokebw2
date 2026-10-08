@@ -20,6 +20,7 @@ struct G3DTextDrawResource {
 
 BOOL G3DTextDraw_CreateResource(void *texture, const char *texName, u32 a2, const char *plName, const StrBuf *text, u16 a5,
                                 u16 a6, u16 color, HeapID heapId, G3DTextDrawResource *resource);
+u32 func_ov012_02169fb0(void);
 void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
 s32 gfxRegGetMasterBrightness(u32 reg);
 void gfxClearColor(GXRgb color, u8 alpha, s16 depth, u8 polygonId, BOOL fog);

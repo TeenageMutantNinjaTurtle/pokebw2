@@ -105,8 +105,8 @@ int WorldTrade_Demo_Main(WorldTradeWork *wk, int seq) {
             pkm = Demo_GetTradePokemon(wk, wk->subProcessMode);
             PokeParty_GetParam(pkm, PKM_PARAM_ITEM, NULL);
             species =
-                CheckEvolveSpecies(NULL, pkm, 1, wk->sentPokemon, GameData_GetSeason(GSYS_GetGameData(wk->param->gsys)),
-                                   &method, HEAPID_WORLDTRADE);
+                CheckEvolveSpecies(NULL, pkm, 1, (u32)wk->sentPokemon,
+                                   GameData_GetSeason(GSYS_GetGameData(wk->param->gsys)), &method, HEAPID_WORLDTRADE);
             if (species != 0) {
                 if (wk->subProcParam != NULL) {
                     GFL_HeapFree(wk->subProcParam);
@@ -146,9 +146,9 @@ int WorldTrade_Demo_Main(WorldTradeWork *wk, int seq) {
                 species = 0;
                 if (wk->checkEvolution) {
                     wk->checkEvolution = FALSE;
-                    species =
-                        CheckEvolveSpecies(NULL, pkm, 1, sent, GameData_GetSeason(GSYS_GetGameData(wk->param->gsys)),
-                                           &method, HEAPID_WORLDTRADE);
+                    species = CheckEvolveSpecies(NULL, pkm, 1, (u32)sent,
+                                                 GameData_GetSeason(GSYS_GetGameData(wk->param->gsys)), &method,
+                                                 HEAPID_WORLDTRADE);
                 }
                 if (species != 0) {
                     if (wk->subProcParam != NULL) {

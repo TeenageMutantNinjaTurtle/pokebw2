@@ -322,7 +322,11 @@ Same instructions, scheduled in another order.
   schedules early, such as an argument loaded before the stack arguments are stored, points to a `const` parameter.
   It has to be the parameter: `fld_scenearea_loader.c`'s camera-area callbacks scheduled their area's loads only
   once the callback typedefs took `const CameraArea *`, and a `const` local pointer to the member did nothing. The
-  same change fixed the register allocation of the loop in `fld_scenearea.c` that calls them.
+  same change fixed the register allocation of the loop in `fld_scenearea.c` that calls them. Since `const` shows in
+  the code, a caller and its callee can disagree, and then the call casts: `btl_server_flow.c`'s
+  `func_ov167_021a6c34` matches only with a `const` param and `func_ov167_021a6914`, which it passes it to, only
+  without, so it passes `(BtlFlowMoveParam *)param`. Before casting, check that dropping `const` along the caller's
+  chain doesn't match as well: `battle_rec_tool.c`'s party loaders took a non-`const` record with no change.
 - A dispatcher switch whose cases each end in their own `pop`, with `movs r0, #0` before the jump table, is a result
   local set to 0 after the last call before the switch, `case X: command = f(...); break;` and one `return command;`.
   `return f(...)` in each case with a final `return 0;` is 2 bytes longer and zeroes at the end:

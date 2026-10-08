@@ -48,8 +48,8 @@ void MusPokeDraw_DrawSystem(MusPokeDrawSys *sys);
 // Adds a Pokémon, and its back as well when withBack is set
 MusPokeDraw *MusPokeDraw_AddPoke(MusPokeDrawSys *sys, MusicalPoke *musPoke, BOOL withBack);
 void MusPokeDraw_DelPoke(MusPokeDrawSys *sys, MusPokeDraw *poke);
-void MusPokeDraw_SetPosition(MusPokeDraw *poke, const VecFx32 *pos);
-void MusPokeDraw_SetScale(MusPokeDraw *poke, const VecFx32 *scale);
+void MusPokeDraw_SetPosition(MusPokeDraw *poke, VecFx32 *pos);
+void MusPokeDraw_SetScale(MusPokeDraw *poke, VecFx32 *scale);
 void MusPokeDraw_SetRotation(MusPokeDraw *poke, u16 rotation);
 void MusPokeDraw_SetVisible(MusPokeDraw *poke, BOOL visible);
 BOOL MusPokeDraw_IsVisible(MusPokeDraw *poke);

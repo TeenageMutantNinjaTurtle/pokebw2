@@ -3352,7 +3352,7 @@ static void CtvtGamePlayer_Show(CommTvtWork *sys, CtvtGamePlayer *player) {
     font = player->font;
     queue = player->queue;
     y = (player->pos + 1) * 2 + 8;
-    textCopy(CtvtComm_GetMemberInfo(sys, CommTvt_GetComm(sys), player->netId)->playerInfo, player->name);
+    textCopy((const u16 *)CtvtComm_GetMemberInfo(sys, CommTvt_GetComm(sys), player->netId)->playerInfo, player->name);
     func_02021c7c(queue, BmpWin_GetBitmap(player->nameWindow), 0, y, player->name, font, 0x440);
     BmpWin_FlushChar(player->nameWindow);
     BmpWin_FlushMap(player->nameWindow);

@@ -864,7 +864,7 @@ void GFL_G3DSysMtxViewFlush(void) {
     g_G3DSystem.sys->flush();
 }
 
-void GFL_G3DSysDrawObj(G3DActor *obj, SRTMatrix *mdlMtx) {
+void GFL_G3DSysDrawObj(G3DActor *obj, const SRTMatrix *mdlMtx) {
     NNSG3dRenderObj *renderObj = GFL_G3DMdlGetEngineModel(GFL_G3DActorGetMdl(obj));
 
     NNS_G3dGlbSetBaseTrans(&mdlMtx->translation);

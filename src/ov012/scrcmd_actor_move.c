@@ -4,6 +4,7 @@
 #include "field/field.h"
 #include "field/field_actor.h"
 #include "field/field_script.h"
+#include "field/scrcmd_actor_move.h"
 #include "nitro/fx.h"
 #include "system/game_event.h"
 #include "system/game_system.h"

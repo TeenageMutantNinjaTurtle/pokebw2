@@ -5,7 +5,7 @@
 #include "field/field_actor.h"
 #include "field/field_camera.h"
 #include "field/field_script.h"
-#include "field/game_beacon_search.h"
+#include "field/game_beacon_set.h"
 #include "field/resort.h"
 #include "field/scrcmd_resort_shop.h"
 #include "gfl/arc.h"

@@ -2,6 +2,7 @@
 // the file's name is descriptive
 #include "types.h"
 #include "field/field_script.h"
+#include "field/scrcmd_pedometer.h"
 #include "save/save_control.h"
 #include "system/game_data.h"
 #include "system/game_system.h"

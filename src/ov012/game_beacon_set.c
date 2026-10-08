@@ -573,7 +573,7 @@ static void func_ov012_021603bc(GameBeacon *info, GameData *gameData, u16 value)
 
 void func_ov012_021603ec(StrBuf *name, u8 value) {
     if (func_0202cfac(0x2d, 0)) {
-        GameBeaconSendSlot_SetMissionEx(&GameBeaconSys->mine, 0x67, name, value);
+        GameBeaconSendSlot_SetMissionEx(&GameBeaconSys->mine, 0x67, (u32)name, value);
     } else if (GameBeaconSys_CanSendType(0x31)) {
         GameBeaconSendSlot_Reset(&GameBeaconSys->mine);
         func_ov012_02160438(&GameBeaconSys->mine.beacon, name, value);

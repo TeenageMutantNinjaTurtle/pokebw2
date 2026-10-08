@@ -83,7 +83,7 @@ struct Field {
     BOOL seasonBannerOverdrawFlag;
     void *nDemoData;
     void *dispControl;
-    BOOL casteliaRush;
+    CasteliaRush *casteliaRush;
     FieldLensFlare *lensFlare;
 };
 

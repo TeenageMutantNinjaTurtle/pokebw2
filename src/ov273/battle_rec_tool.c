@@ -14,13 +14,13 @@
 
 static void BattleRecTool_StorePkm(PartyPkm *pkm, BattleRecPkm *rec);
 static void BattleRecTool_StoreParty(PokeParty *party, BattleRecParty *rec);
-static void BattleRecTool_LoadParty(const BattleRecParty *rec, PokeParty *party, HeapID heapId);
+static void BattleRecTool_LoadParty(BattleRecParty *rec, PokeParty *party, HeapID heapId);
 static void BattleRecTool_StoreParties(const BtlSetup *setup, BattleRecBody *body);
-static void BattleRecTool_LoadParties(BtlSetup *setup, const BattleRecBody *body, HeapID heapId);
+static void BattleRecTool_LoadParties(BtlSetup *setup, BattleRecBody *body, HeapID heapId);
 static void BattleRecTool_StoreClients(const BtlSetup *setup, BattleRecClient *clients, u32 count);
 static void BattleRecTool_StorePokewoodClients(const BtlSetup *setup, BattleRecClient *clients, u32 count,
                                                u16 *trainerClass);
-static void BattleRecTool_LoadClients(BtlSetup *setup, const BattleRecClient *clients, u32 count);
+static void BattleRecTool_LoadClients(BtlSetup *setup, BattleRecClient *clients, u32 count);
 static void BattleRecTool_LoadPokewoodClients(BtlSetup *setup, const BattleRecClient *clients, u32 count,
                                               u16 trainerClass);
 static void BattleRecTool_StoreTrainer(const BtlSetupTrainer *trainer, BattleRecTrainer *rec);
@@ -30,11 +30,11 @@ static BOOL BattleRecTool_LoadRecData(BtlSetup *setup, const BattleRecBody *body
 static BOOL BattleRecTool_StoreSetupParams(const BtlSetup *setup, BattleRecSetup *rec);
 static BOOL BattleRecTool_LoadSetupParams(BtlSetup *setup, const BattleRecSetup *rec);
 static void BattleRecTool_StorePokewoodParty(const BtlSetup *setup, PokewoodBlock *block);
-static void BattleRecTool_LoadPokewoodParty(BtlSetup *setup, const PokewoodBlock *block, HeapID heapId);
+static void BattleRecTool_LoadPokewoodParty(BtlSetup *setup, PokewoodBlock *block, HeapID heapId);
 static BOOL BattleRecTool_StorePokewoodRecData(const BtlSetup *setup, PokewoodBlock *block);
 static BOOL BattleRecTool_LoadPokewoodRecData(BtlSetup *setup, const PokewoodBlock *block);
 static void BattleRecTool_StorePokewoodPartyCore(PokeParty *party, BattleRecParty *rec);
-static void BattleRecTool_LoadPokewoodPartyCore(const BattleRecParty *rec, PokeParty *party, HeapID heapId);
+static void BattleRecTool_LoadPokewoodPartyCore(BattleRecParty *rec, PokeParty *party, HeapID heapId);
 static void BattleRecTool_StorePokewoodInfo(const BtlSetup *setup, PokewoodBattleInfo *info);
 static void BattleRecTool_LoadPokewoodInfo(BtlSetup *setup, const PokewoodBattleInfo *info);
 static void BattleRecTool_StorePokewoodExtra(const BtlSetup *setup, PokewoodBlock *block);
@@ -267,7 +267,7 @@ static void BattleRecTool_StoreParty(PokeParty *party, BattleRecParty *rec) {
     }
 }
 
-static void BattleRecTool_LoadParty(const BattleRecParty *rec, PokeParty *party, HeapID heapId) {
+static void BattleRecTool_LoadParty(BattleRecParty *rec, PokeParty *party, HeapID heapId) {
     int i;
     PartyPkm *pkm = GFL_HeapAllocate(HEAPID_TAIL(heapId), PokeParty_GetPkmRawSize(), TRUE, "battle_rec_tool.c", 266);
 
@@ -291,7 +291,7 @@ static void BattleRecTool_StoreParties(const BtlSetup *setup, BattleRecBody *bod
     }
 }
 
-static void BattleRecTool_LoadParties(BtlSetup *setup, const BattleRecBody *body, HeapID heapId) {
+static void BattleRecTool_LoadParties(BtlSetup *setup, BattleRecBody *body, HeapID heapId) {
     u32 i;
 
     for (i = 0; i < 4; i++) {
@@ -344,7 +344,7 @@ static void BattleRecTool_StorePokewoodClients(const BtlSetup *setup, BattleRecC
     }
 }
 
-static void BattleRecTool_LoadClients(BtlSetup *setup, const BattleRecClient *clients, u32 count) {
+static void BattleRecTool_LoadClients(BtlSetup *setup, BattleRecClient *clients, u32 count) {
     u32 i;
     BattleRecClient *client;
 
@@ -471,7 +471,7 @@ static void BattleRecTool_StorePokewoodParty(const BtlSetup *setup, PokewoodBloc
     }
 }
 
-static void BattleRecTool_LoadPokewoodParty(BtlSetup *setup, const PokewoodBlock *block, HeapID heapId) {
+static void BattleRecTool_LoadPokewoodParty(BtlSetup *setup, PokewoodBlock *block, HeapID heapId) {
     if (setup->party[0] != NULL) {
         BattleRecTool_LoadPokewoodPartyCore(&block->party, setup->party[0], heapId);
     }
@@ -511,7 +511,7 @@ static void BattleRecTool_StorePokewoodPartyCore(PokeParty *party, BattleRecPart
     }
 }
 
-static void BattleRecTool_LoadPokewoodPartyCore(const BattleRecParty *rec, PokeParty *party, HeapID heapId) {
+static void BattleRecTool_LoadPokewoodPartyCore(BattleRecParty *rec, PokeParty *party, HeapID heapId) {
     int i;
     PartyPkm *pkm = GFL_HeapAllocate(HEAPID_TAIL(heapId), PokeParty_GetPkmRawSize(), TRUE, "battle_rec_tool.c", 742);
 

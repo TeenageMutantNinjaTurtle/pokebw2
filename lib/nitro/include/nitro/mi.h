@@ -16,6 +16,9 @@ typedef enum {
 void sys_memcpy16(const void *src, void *dest, u32 size);
 void sys_memset16(u16 value, void *dest, u32 size);
 void sys_memset32(u32 value, void *dest, u32 size);
+// Copy or fill size bytes a byte at a time: NitroSDK's MI_CpuCopy8 and MI_CpuFill8, under swan's names
+void sys_memcpy(const void *src, void *dest, u32 size);
+void sys_memset(void *dest, u32 value, u32 size);
 
 // NitroSDK's MI_CpuCopy16, an inline over sys_memcpy16 (MIi_CpuCopy16). MWCC evaluates an inline call's arguments
 // from the last, so the size is read before a destination that a call gives
