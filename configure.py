@@ -425,9 +425,11 @@ def main():
     n.rule("mwcc", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(mwcc))} {' '.join(CC_FLAGS)} $defines "
            "-gccdep -MD $includes -o $out $in && $python tools/scripts/fix_depfile.py $dep", "Compiling $in",
            depfile="$dep", deps="gcc")
+    # The older compilers (SPL's 1.2/base) warn when MWCIncludes, their system include path, isn't set. The code finds its
+    # headers through -i, so any value does
     for i, (compiler, flags) in enumerate(LIBRARIES.values()):
         lib_mwcc = tools_dir / "mwccarm" / compiler / "mwccarm.exe"
-        n.rule(f"mwcc_{i}", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(lib_mwcc))} {' '.join(flags)} "
+        n.rule(f"mwcc_{i}", f"mkdir -p $$(dirname $out) && MWCIncludes=. $wine {shlex.quote(str(lib_mwcc))} {' '.join(flags)} "
                "$defines -gccdep -MD $includes -o $out $in && $python tools/scripts/fix_depfile.py $dep",
                "Compiling $in", depfile="$dep", deps="gcc")
     n.rule("shift_lcf", "$python tools/scripts/shift_lcf.py $in $out $amount", "Shifting $in")
