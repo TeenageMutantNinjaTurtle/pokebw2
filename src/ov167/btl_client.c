@@ -13,6 +13,8 @@
 #include "battle/btl_setup.h"
 #include "battle/btl_string.h"
 #include "battle/btlv.h"
+#include "battle/btlv_effect.h"
+#include "battle/btlv_mcss.h"
 #include "battle/pokewood_cutin.h"
 #include "battle/tr_ai.h"
 #include "battle/trainer_data.h"
@@ -843,7 +845,7 @@ static BOOL BattleClient_MainProcRecPlay(BtlClient *client) {
                 GFL_SndPlayerSetMuteStateEx(1, 1);
                 func_ov167_021d09f8(client->viewCore);
                 GFL_SndBGMFadeIn(30);
-                func_ov168_021e02ac(0);
+                BtlvEffect_SetFlag26(0);
                 PokeVoice_ResetMasterVolume();
             }
             client->mainSeq = 4;
@@ -853,8 +855,8 @@ static BOOL BattleClient_MainProcRecPlay(BtlClient *client) {
         if (client->cmdProc(client, &client->cmdSeq)) {
             client->mainSeq = 3;
             client->cmdSeq = 0;
-            if (func_ov168_021e0050()) {
-                func_ov168_021e02ac(1);
+            if (BtlvEffect_GetWork()) {
+                BtlvEffect_SetFlag26(1);
             }
         }
         break;
@@ -904,7 +906,7 @@ void func_ov167_021b1d58(BtlClient *client, BtlClientIDList *list) {
 BOOL func_ov167_021b1d64(BtlClient *client) {
     if (client->clientType != 2) {
         if (client->gameLimitTime != 0) {
-            return func_ov168_021dfefc(0);
+            return BtlvEffect_IsTimeUp(0);
         }
         return FALSE;
     }
@@ -940,9 +942,9 @@ static BOOL func_ov167_021b1dcc(BtlClient *client, s32 *seq) {
             client->cmdLimitTime = func_ov167_0219defc(client->mainModule);
             client->gameLimitTime = func_ov167_0219df08(client->mainModule);
             if (client->cmdLimitTime != 0 || client->gameLimitTime != 0) {
-                func_ov168_021dfec0(client->gameLimitTime, client->cmdLimitTime);
+                BtlvEffect_CreateTimer(client->gameLimitTime, client->cmdLimitTime);
                 if (client->gameLimitTime != 0) {
-                    func_ov168_021dfedc(0, 1, 1);
+                    BtlvEffect_SetTimerVisible(0, 1, 1);
                 }
             }
             func_ov167_021b1ee4(client);
@@ -1078,14 +1080,14 @@ static BOOL func_ov167_021b205c(BtlClient *client, s32 *seq) {
 
 static void func_ov167_021b2080(BtlClient *client) {
     if (client->cmdLimitTime != 0) {
-        func_ov168_021dfedc(1, 1, 1);
+        BtlvEffect_SetTimerVisible(1, 1, 1);
         client->cmdLimitOver = FALSE;
     }
 }
 
 static BOOL CheckIfOverCmdLimit(BtlClient *client) {
     if (client->cmdLimitTime != 0) {
-        if (!client->cmdLimitOver && func_ov168_021dfefc(1)) {
+        if (!client->cmdLimitOver && BtlvEffect_IsTimeUp(1)) {
             client->cmdLimitOver = TRUE;
         }
         return client->cmdLimitOver;
@@ -1105,7 +1107,7 @@ static BOOL CheckActionSelectForceQuit(BtlClient *client, BOOL (*proc)(BtlClient
 
 static void func_ov167_021b20f8(BtlClient *client) {
     if (client->cmdLimitTime != 0) {
-        func_ov168_021dfedc(1, 0, 0);
+        BtlvEffect_SetTimerVisible(1, 0, 0);
     }
 }
 
@@ -1280,14 +1282,14 @@ static BOOL func_ov167_021b23e4(BtlClient *client) {
         }
         break;
     case 1:
-        func_ov168_021df88c(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 9, 0,
+        BtlvEffect_SetTrainer(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 9, 0,
                             0, 0);
-        func_ov168_021e81bc(func_ov168_021e006c(), 9, 1);
-        func_ov168_021df2c8(0x298);
+        BtlvMcss_SetAnimation(BtlvEffect_GetMcss(), 9, 1);
+        BtlvEffect_Start(0x298);
         Studio_SetSeq(&client->studio, 10, 2);
         break;
     case 2:
-        func_ov168_021df2c8(0x294);
+        BtlvEffect_Start(0x294);
         Studio_SetSeq(&client->studio, 10, 3);
         break;
     case 3:
@@ -1321,17 +1323,17 @@ static BOOL func_ov167_021b23e4(BtlClient *client) {
         }
         break;
     case 7:
-        func_ov168_021df2c8(0x299);
+        BtlvEffect_Start(0x299);
         Studio_SetSeq(&client->studio, 10, 8);
         break;
     case 8:
-        func_ov168_021df2c8(0x295);
+        BtlvEffect_Start(0x295);
         Studio_SetSeq(&client->studio, 10, 9);
         break;
     case 9:
         return TRUE;
     case 10:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             client->studio.seq = client->studio.nextSeq;
         }
         break;
@@ -1566,11 +1568,11 @@ static BOOL func_ov167_021b2864(BtlClient *client) {
         client->studio.unk04++;
         break;
     case 10:
-        func_ov168_021df2c8(0x299);
+        BtlvEffect_Start(0x299);
         Studio_SetSeq(&client->studio, 23, 12);
         break;
     case 12:
-        func_ov168_021df2c8(0x295);
+        BtlvEffect_Start(0x295);
         Studio_SetSeq(&client->studio, 23, 22);
         client->studio.unk2C = 0;
         break;
@@ -1632,7 +1634,7 @@ static BOOL func_ov167_021b2864(BtlClient *client) {
         func_ov167_021b2790(&client->studio);
         return TRUE;
     case 23:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             client->studio.seq = client->studio.nextSeq;
         }
         break;
@@ -1642,11 +1644,11 @@ static BOOL func_ov167_021b2864(BtlClient *client) {
         }
         break;
     case 25:
-        func_ov168_021df2c8(0x29e);
+        BtlvEffect_Start(0x29e);
         Studio_SetSeq(&client->studio, 23, 26);
         break;
     case 26:
-        func_ov168_021df2c8(0x29f);
+        BtlvEffect_Start(0x29f);
         Studio_SetSeq(&client->studio, 23, 27);
         break;
     case 27: {
@@ -1669,11 +1671,11 @@ static BOOL func_ov167_021b2864(BtlClient *client) {
         }
         break;
     case 29:
-        func_ov168_021df2c8(0x2a0);
+        BtlvEffect_Start(0x2a0);
         Studio_SetSeq(&client->studio, 23, 30);
         break;
     case 30:
-        func_ov168_021df2c8(0x2a1);
+        BtlvEffect_Start(0x2a1);
         Studio_SetSeq(&client->studio, 23, 22);
         break;
     }
@@ -1747,54 +1749,54 @@ static BOOL func_ov167_021b2dd8(const BtlScriptedRules *rules, BtlClient *client
         }
         break;
     case 1:
-        func_ov168_021df88c(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 9, 0,
+        BtlvEffect_SetTrainer(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 9, 0,
                             0, 0);
-        func_ov168_021e81bc(func_ov168_021e006c(), 9, 1);
-        func_ov168_021df2c8(0x298);
+        BtlvMcss_SetAnimation(BtlvEffect_GetMcss(), 9, 1);
+        BtlvEffect_Start(0x298);
         func_ov167_021b2dd0(&client->studio, 0);
         client->studio.unk2C = (client->studio.unk2C & 0xf) | 0x10;
         break;
     case 2:
-        func_ov168_021df2c8(0x294);
+        BtlvEffect_Start(0x294);
         func_ov167_021b2dd0(&client->studio, 0);
         client->studio.unk2C = (client->studio.unk2C & 0xf0) | 0x01;
         break;
     case 3:
-        func_ov168_021df2c8(0x299);
+        BtlvEffect_Start(0x299);
         func_ov167_021b2dd0(&client->studio, 0);
         client->studio.unk2C = client->studio.unk2C & 0xf;
         break;
     case 4:
-        func_ov168_021df2c8(0x295);
+        BtlvEffect_Start(0x295);
         func_ov167_021b2dd0(&client->studio, 0);
         client->studio.unk2C = client->studio.unk2C & 0xf0;
         break;
     case 5:
-        func_ov168_021df2c8(0x29a);
+        BtlvEffect_Start(0x29a);
         func_ov167_021b2dd0(&client->studio, 0);
         client->studio.unk2C = (client->studio.unk2C & 0xf) | 0x20;
         break;
     case 6:
-        func_ov168_021df2c8(0x29b);
+        BtlvEffect_Start(0x29b);
         func_ov167_021b2dd0(&client->studio, 0);
         client->studio.unk2C = (client->studio.unk2C & 0xf0) | 0x02;
         break;
     case 7:
-        func_ov168_021df88c(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 9, 0,
+        BtlvEffect_SetTrainer(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 9, 0,
                             0, 0);
-        func_ov168_021e81bc(func_ov168_021e006c(), 9, 1);
-        func_ov168_021df2c8(0x298);
-        func_ov168_021df2c8(0x29c);
+        BtlvMcss_SetAnimation(BtlvEffect_GetMcss(), 9, 1);
+        BtlvEffect_Start(0x298);
+        BtlvEffect_Start(0x29c);
         func_ov167_021b2dd0(&client->studio, 0);
         client->studio.unk2C = (client->studio.unk2C & 0xf) | 0x10;
         break;
     case 8:
-        func_ov168_021df2c8(0x29d);
+        BtlvEffect_Start(0x29d);
         func_ov167_021b2dd0(&client->studio, 0);
         client->studio.unk2C = (client->studio.unk2C & 0xf0) | 0x01;
         break;
     case 9:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             client->studio.unk02 = client->studio.unk03;
         }
         break;
@@ -1832,26 +1834,26 @@ static BOOL func_ov167_021b2fb8(BtlClient *client) {
             }
         }
         if (client->studio.unk0C > 0) {
-            func_ov168_021dfc70(1, 0, 0x10, 0, 0);
+            BtlvEffect_StartPaletteFade(1, 0, 0x10, 0, 0);
             client->studio.seq++;
         } else {
             return TRUE;
         }
         break;
     case 1:
-        if (!func_ov168_021dfcfc(1)) {
-            func_ov168_021dfd74(1, 1);
+        if (!BtlvEffect_IsPaletteFading(1)) {
+            BtlvEffect_SetVanish(1, 1);
             client->studio.seq++;
         }
         break;
     case 2:
-        func_ov168_021e0204(client->studio.unk0C);
-        func_ov168_021dfc70(1, 0x10, 0, 0, 0);
+        BtlvEffect_ReloadField(client->studio.unk0C);
+        BtlvEffect_StartPaletteFade(1, 0x10, 0, 0, 0);
         client->studio.seq++;
         break;
     case 3:
-        func_ov168_021dfd74(1, 0);
-        if (!func_ov168_021dfcfc(1)) {
+        BtlvEffect_SetVanish(1, 0);
+        if (!BtlvEffect_IsPaletteFading(1)) {
             client->studio.seq++;
         }
         break;
@@ -1895,18 +1897,18 @@ static BOOL func_ov167_021b3100(BtlClient *client) {
         client->studio.seq = 1;
         break;
     case 1:
-        func_ov168_021df2c8(0x2a2);
+        BtlvEffect_Start(0x2a2);
         Studio_SetSeq(&client->studio, 8, 3);
         break;
     case 3:
-        func_ov168_021df88c(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 9, 0,
+        BtlvEffect_SetTrainer(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 9, 0,
                             0, 0);
-        func_ov168_021e81bc(func_ov168_021e006c(), 9, 1);
-        func_ov168_021df2c8(0x298);
+        BtlvMcss_SetAnimation(BtlvEffect_GetMcss(), 9, 1);
+        BtlvEffect_Start(0x298);
         Studio_SetSeq(&client->studio, 8, 4);
         break;
     case 4:
-        func_ov168_021df2c8(0x294);
+        BtlvEffect_Start(0x294);
         Studio_SetSeq(&client->studio, 8, 5);
         break;
     case 5:
@@ -1933,7 +1935,7 @@ static BOOL func_ov167_021b3100(BtlClient *client) {
         }
         break;
     case 8:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             client->studio.seq = client->studio.nextSeq;
         }
         break;
@@ -2246,13 +2248,13 @@ static BOOL BattleClient_ActionTrainerHint(BtlClient *client, s32 *seq) {
     case 0: {
         u8 clientId = func_ov167_0219c8b8(client->mainModule, 0);
         u16 trainerId = func_ov167_0219d91c(client->mainModule, clientId);
-        func_ov168_021df88c(func_ov167_0219d938(client->mainModule, clientId), 9, 0, 0, 0);
-        func_ov168_021df2c8(0x270);
+        BtlvEffect_SetTrainer(func_ov167_0219d938(client->mainModule, clientId), 9, 0, 0, 0);
+        BtlvEffect_Start(0x270);
         func_ov167_021d0288(client->viewCore, trainerId, client->hintMsgId);
         if ((client->hintMsgId == 19 || client->hintMsgId == 20) &&
             func_ov167_021bd760(func_ov167_0219d938(client->mainModule, clientId)) && !client->unk1BA_0) {
-            func_ov168_021e01c4(0x47b);
-            if (!func_ov168_021e014c()) {
+            BtlvEffect_ReserveBgm(0x47b);
+            if (!BtlvEffect_IsPinchBgm()) {
                 GFL_SndBGMFadeOut(8);
                 *seq = 1;
                 break;
@@ -2269,13 +2271,13 @@ static BOOL BattleClient_ActionTrainerHint(BtlClient *client, s32 *seq) {
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8() && func_ov167_021d02e8(client->viewCore)) {
-            func_ov168_021df2c8(0x271);
+        if (!BtlvEffect_IsBusy() && func_ov167_021d02e8(client->viewCore)) {
+            BtlvEffect_Start(0x271);
             (*seq)++;
         }
         break;
     case 3:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             BattleClient_SetSelActProc(client, BattleClient_ActionSelectRoot);
         }
         break;
@@ -2799,7 +2801,7 @@ static BOOL BattleClient_ActionSelectFinish(BtlClient *client, s32 *seq) {
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021b20f8(client);
             (*seq)++;
             return TRUE;
@@ -4174,7 +4176,7 @@ static BOOL func_ov167_021b6680(BtlClient *client, s32 *seq) {
     case 0:
         if (func_ov167_0219c988(client->mainModule) == 0) {
             if (GetBattleResultForClient(client) == 1) {
-                func_ov168_021e0164(func_ov167_0219bf00(client->mainModule));
+                BtlvEffect_PlayBgm(func_ov167_0219bf00(client->mainModule));
                 name1 = func_ov167_0219c8b8(client->mainModule, 0);
                 name2 = func_ov167_0219c8b8(client->mainModule, 1);
                 if (name1 == name2) {
@@ -4217,15 +4219,15 @@ static BOOL func_ov167_021b6680(BtlClient *client, s32 *seq) {
         break;
     case 1:
         if (func_ov167_021d02e8(client->viewCore)) {
-            func_ov168_021df88c(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 0)), 9,
+            BtlvEffect_SetTrainer(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 0)), 9,
                                 0, 0, 0);
-            func_ov168_021e81bc(func_ov168_021e006c(), 9, 1);
-            func_ov168_021df2c8(0x270);
+            BtlvMcss_SetAnimation(BtlvEffect_GetMcss(), 9, 1);
+            BtlvEffect_Start(0x270);
             *seq = 2;
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d0288(client->viewCore,
                                 func_ov167_0219d91c(client->mainModule, func_ov167_0219c8b8(client->mainModule, 0)), 1);
             *seq = 3;
@@ -4235,7 +4237,7 @@ static BOOL func_ov167_021b6680(BtlClient *client, s32 *seq) {
         if (func_ov167_021d02e8(client->viewCore)) {
             name1 = func_ov167_0219c8b8(client->mainModule, 0);
             if (name1 != func_ov167_0219c8b8(client->mainModule, 1)) {
-                func_ov168_021df2c8(0x271);
+                BtlvEffect_Start(0x271);
                 *seq = 4;
             } else {
                 *seq = 7;
@@ -4243,16 +4245,16 @@ static BOOL func_ov167_021b6680(BtlClient *client, s32 *seq) {
         }
         break;
     case 4:
-        if (!func_ov168_021df7e8()) {
-            func_ov168_021df88c(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 9,
+        if (!BtlvEffect_IsBusy()) {
+            BtlvEffect_SetTrainer(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 9,
                                 0, 0, 0);
-            func_ov168_021e81bc(func_ov168_021e006c(), 9, 1);
-            func_ov168_021df2c8(0x270);
+            BtlvMcss_SetAnimation(BtlvEffect_GetMcss(), 9, 1);
+            BtlvEffect_Start(0x270);
             *seq = 5;
         }
         break;
     case 5:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d0288(client->viewCore,
                                 func_ov167_0219d91c(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 1);
             *seq = 6;
@@ -4359,20 +4361,20 @@ static BOOL func_ov167_021b6aac(BtlClient *client, s32 *seq) {
         result = GetBattleResultForClient(client);
         func_ov167_0219ca48(client->mainModule, result);
         if (result == 1) {
-            func_ov168_021e0164(func_ov167_0219bf00(client->mainModule));
+            BtlvEffect_PlayBgm(func_ov167_0219bf00(client->mainModule));
         }
         if (result <= 1) {
-            func_ov168_021df88c(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 0)), 9,
+            BtlvEffect_SetTrainer(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 0)), 9,
                                 0, 0, 0);
-            func_ov168_021e81bc(func_ov168_021e006c(), 9, 1);
-            func_ov168_021df2c8(0x270);
+            BtlvMcss_SetAnimation(BtlvEffect_GetMcss(), 9, 1);
+            BtlvEffect_Start(0x270);
             ShowTrainerWinLoseMsg(client, result, 0);
             *seq = 1;
             break;
         }
         return TRUE;
     case 1:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d01d8(client->viewCore);
             *seq = 2;
         }
@@ -4382,23 +4384,23 @@ static BOOL func_ov167_021b6aac(BtlClient *client, s32 *seq) {
             if (func_ov167_0219c8b8(client->mainModule, 0) == func_ov167_0219c8b8(client->mainModule, 1)) {
                 return TRUE;
             }
-            func_ov168_021df2c8(0x271);
+            BtlvEffect_Start(0x271);
             *seq = 3;
         }
         break;
     case 3:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             result = GetBattleResultForClient(client);
-            func_ov168_021df88c(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 9,
+            BtlvEffect_SetTrainer(func_ov167_0219d938(client->mainModule, func_ov167_0219c8b8(client->mainModule, 1)), 9,
                                 0, 0, 0);
-            func_ov168_021e81bc(func_ov168_021e006c(), 9, 1);
-            func_ov168_021df2c8(0x270);
+            BtlvMcss_SetAnimation(BtlvEffect_GetMcss(), 9, 1);
+            BtlvEffect_Start(0x270);
             ShowTrainerWinLoseMsg(client, result, 1);
             *seq = 4;
         }
         break;
     case 4:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d01d8(client->viewCore);
             *seq = 5;
         }
@@ -4950,7 +4952,7 @@ static BOOL func_ov167_021b7480(BtlClient *client, s32 *seq, const u32 *args) {
         break;
     }
     case 1:
-        return !func_ov168_021df7e8();
+        return !BtlvEffect_IsBusy();
     }
     return FALSE;
 }
@@ -5020,7 +5022,7 @@ static BOOL func_ov167_021b7598(BtlClient *client, s32 *seq, const u32 *args) {
 static BOOL func_ov167_021b75f8(BtlClient *client, s32 *seq, const u32 *args) {
     switch (*seq) {
     case 0:
-        func_ov168_021dfba8(
+        BtlvEffect_SetGaugeStatus(
             args[1],
             func_ov167_0219c6dc(client->mainModule, MonIDToBattlePos(client->mainModule, client->pokeCon, args[0])));
         (*seq)++;
@@ -5151,12 +5153,12 @@ static BOOL BattleClient_ScWeatherStart(BtlClient *client, s32 *seq, const u32 *
             return TRUE;
         }
         if (weather < NELEMS(sWeatherStartTable)) {
-            func_ov168_021df2c8(sWeatherStartTable[weather].se);
+            BtlvEffect_Start(sWeatherStartTable[weather].se);
         }
         (*seq)++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d0250(client->viewCore, sWeatherStartTable[weather].msg, NULL);
             (*seq)++;
         }
@@ -5289,11 +5291,11 @@ static BOOL func_ov167_021b7a60(BtlClient *client, s32 *seq, const u32 *args) {
 static BOOL func_ov167_021b7af4(BtlClient *client, s32 *seq, const u32 *args) {
     switch (*seq) {
     case 0:
-        func_ov168_021df2c8(0x281);
+        BtlvEffect_Start(0x281);
         (*seq)++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             u8 clientId = args[0];
             u8 slot = args[1];
             u8 pos1 = func_ov167_0219c458(client->mainModule, clientId, slot);
@@ -5332,11 +5334,11 @@ static BOOL func_ov167_021b7af4(BtlClient *client, s32 *seq, const u32 *args) {
 static BOOL func_ov167_021b7c08(BtlClient *client, s32 *seq, const u32 *args) {
     switch (*seq) {
     case 0:
-        func_ov168_021df7c8(func_ov167_0219c6dc(client->mainModule, args[0]));
+        BtlvEffect_StartEffect26E(func_ov167_0219c6dc(client->mainModule, args[0]));
         (*seq)++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             return TRUE;
         }
         break;
@@ -5350,16 +5352,16 @@ static BOOL func_ov167_021b7c40(BtlClient *client, s32 *seq, const u32 *args) {
         u8 viewPos = func_ov167_0219c6dc(client->mainModule, args[0]);
 
         if (func_ov167_021b1990(client)) {
-            func_ov168_021e02ac(TRUE);
+            BtlvEffect_SetFlag26(TRUE);
         }
-        func_ov168_021df7d8(viewPos);
+        BtlvEffect_StartEffect26F(viewPos);
         (*seq)++;
         break;
     }
     case 1:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             if (func_ov167_021b1990(client)) {
-                func_ov168_021e02ac(FALSE);
+                BtlvEffect_SetFlag26(FALSE);
             }
             return TRUE;
         }
@@ -5411,7 +5413,7 @@ static BOOL func_ov167_021b7d24(BtlClient *client, s32 *seq, const u32 *args) {
 }
 
 static BOOL func_ov167_021b7d84(BtlClient *client, s32 *seq, const u32 *args) {
-    func_ov168_021e0164(args[0]);
+    BtlvEffect_PlayBgm(args[0]);
     return TRUE;
 }
 
@@ -5454,7 +5456,7 @@ static BOOL BattleClient_ScExpGain(BtlClient *client, s32 *seq, const u32 *args)
     u8 pos = func_ov167_0219c62c(client->mainModule, client->pokeCon, monId);
     BOOL visible = FALSE;
 
-    if (pos != 0xff && func_ov168_021dfbdc(pos)) {
+    if (pos != 0xff && BtlvEffect_CheckGaugeExist(pos)) {
         visible = TRUE;
     }
 
@@ -5471,7 +5473,7 @@ static BOOL BattleClient_ScExpGain(BtlClient *client, s32 *seq, const u32 *args)
                 *seq = 3;
             } else {
                 if (visible) {
-                    func_ov168_021dfafc(pos, sExpLeft, mon);
+                    BtlvEffect_CalcGaugeExp(pos, sExpLeft, mon);
                     *seq = 2;
                 } else {
                     *seq = 13;
@@ -5484,7 +5486,7 @@ static BOOL BattleClient_ScExpGain(BtlClient *client, s32 *seq, const u32 *args)
         }
         break;
     case 2:
-        if (!func_ov168_021dfb58()) {
+        if (!BtlvEffect_CheckExecuteGauge()) {
             *seq = 13;
         }
         break;
@@ -5494,14 +5496,14 @@ static BOOL BattleClient_ScExpGain(BtlClient *client, s32 *seq, const u32 *args)
         func_ov167_021bc3fc(mon);
         func_ov167_021bc6ac(mon);
         if (visible) {
-            func_ov168_021dfb28(pos, mon);
+            BtlvEffect_CalcGaugeExpLevelUp(pos, mon);
             *seq = 4;
         } else {
             *seq = 6;
         }
         break;
     case 4:
-        if (!func_ov168_021dfb58() && !GFL_SndPlayerIsActiveAny()) {
+        if (!BtlvEffect_CheckExecuteGauge() && !GFL_SndPlayerIsActiveAny()) {
             func_ov167_021cff78(client->viewCore, pos, 0x25d);
             *seq = 5;
         }
@@ -5749,16 +5751,16 @@ static BOOL func_ov167_021b83dc(BtlClient *client, s32 *seq, const u32 *args) {
 
     switch (*seq) {
     case 0:
-        func_ov168_021df630(func_ov167_0219c6dc(client->mainModule, args[0]), args[5], args[1], args[2], args[4]);
+        BtlvEffect_StartEffect23A(func_ov167_0219c6dc(client->mainModule, args[0]), args[5], args[1], args[2], args[4]);
         (*seq)++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             if (args[2]) {
                 mon = func_ov167_0219d188(client->pokeCon, args[0]);
                 Btlv_StringParam_Setup(&client->strParam, 1, 0x41);
                 Btlv_StringParam_AddArg(&client->strParam, GetMonID(mon));
-                func_ov168_021e022c(0x518);
+                BtlvEffect_PlayBgmNoPinch(0x518);
             } else {
                 if (args[1] < 4) {
                     message = sEscapeMessages[args[1]];
@@ -5784,7 +5786,7 @@ static BOOL func_ov167_021b83dc(BtlClient *client, s32 *seq, const u32 *args) {
         break;
     case 3:
         if (!GFL_SndBGMIsPlaying()) {
-            func_ov168_021df540();
+            BtlvEffect_Resume();
             GFL_SndBGMPlay(0x47c, 0xffff);
             func_ov167_0219cb7c(client->mainModule);
             if (args[3]) {
@@ -5812,11 +5814,11 @@ static BOOL func_ov167_021b83dc(BtlClient *client, s32 *seq, const u32 *args) {
 static BOOL func_ov167_021b853c(BtlClient *client, s32 *seq, const u32 *args) {
     switch (*seq) {
     case 0:
-        func_ov168_021df678(func_ov167_0219c6dc(client->mainModule, args[0]), args[1]);
+        BtlvEffect_StartEffect23D(func_ov167_0219c6dc(client->mainModule, args[0]), args[1]);
         (*seq)++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             Btlv_StringParam_Setup(&client->strParam, 1, 0x43);
             func_ov167_021d01ec(client->viewCore, &client->strParam);
             (*seq)++;
@@ -6003,9 +6005,9 @@ static BOOL func_ov167_021b88b4(BtlClient *client, s32 *seq, const u32 *args) {
         if (func_ov167_021b1990(client)) {
             return TRUE;
         }
-        func_ov168_021df2c8(args[0]);
+        BtlvEffect_Start(args[0]);
         (*seq)++;
-    } else if (!func_ov168_021df7e8()) {
+    } else if (!BtlvEffect_IsBusy()) {
         return TRUE;
     }
     return FALSE;
@@ -6634,7 +6636,7 @@ static void RecPlayer_Update(BtlClient *client, BtlClientRecPlayer *recPlayer) {
                     GFL_SndBGMFadeOut(30);
                     GFL_SndPlayerSetMuteStateEx(0, 0x3e);
                     PokeVoice_SetMasterVolume(0);
-                    func_ov168_021e0500();
+                    BtlvEffect_ReleaseVoices();
                     func_ov167_0219cb7c(client->mainModule);
                     break;
                 case 0:
@@ -6665,7 +6667,7 @@ static void RecPlayer_Update(BtlClient *client, BtlClientRecPlayer *recPlayer) {
                         GFL_SndBGMFadeOut(30);
                         GFL_SndPlayerSetMuteStateEx(0, 0x3e);
                         PokeVoice_SetMasterVolume(0);
-                        func_ov168_021e0500();
+                        BtlvEffect_ReleaseVoices();
                     }
                 }
                 break;
@@ -6863,10 +6865,10 @@ static void func_ov167_021b9910(BtlMainModule *mainModule) {
     BtlSetup *setup = func_ov167_0219e310(mainModule);
 
     if (setup->unk124 == 0) {
-        func_ov168_021e0164(func_ov167_0219bf08(mainModule));
+        BtlvEffect_PlayBgm(func_ov167_0219bf08(mainModule));
     } else if (setup->unk124 == 1) {
-        func_ov168_021e0164(func_ov167_0219bf00(mainModule));
+        BtlvEffect_PlayBgm(func_ov167_0219bf00(mainModule));
     } else if (setup->unk124 == 2) {
-        func_ov168_021e0164(func_ov167_0219bf14(mainModule));
+        BtlvEffect_PlayBgm(func_ov167_0219bf14(mainModule));
     }
 }

@@ -199,8 +199,8 @@ GameEvent *EventWildBattleCall_CreateStatic(EncountSystem *system, u16 species, 
     setup = BtlSetup_Create(4);
     FieldEncount_SetupNormal(system, &manager, setup, 4, params);
     if (flags & 0x200) {
-        setup->fieldSituation.terrain = 5;
-        setup->fieldSituation.unk00 = 6;
+        setup->fieldSituation.env.terrain = 5;
+        setup->fieldSituation.env.bgType = 6;
     }
     if (flags & 1) {
         BtlSetup_SetFlag(setup, 4);
@@ -214,11 +214,11 @@ GameEvent *EventWildBattleCall_CreateStatic(EncountSystem *system, u16 species, 
         BtlSetup_SetFlag(setup, 0x8000);
     }
     if (flags & 0x800) {
-        setup->fieldSituation.unk00 = 0x14;
+        setup->fieldSituation.env.bgType = 0x14;
         BtlSetup_SetFlag(setup, 0x10000);
     }
     if (species == SPECIES_KYUREM) {
-        setup->fieldSituation.unk00 = 0x14;
+        setup->fieldSituation.env.bgType = 0x14;
     }
     return EventWildBattleCall_Create(system->gsys, system->field, setup, 1, 0);
 }
@@ -258,7 +258,7 @@ BtlSetup *BtlSetup_CreateFishing(EncountSystem *system, BOOL rare) {
     setup = BtlSetup_Create(4);
     FieldEncount_SetupNormal(system, &manager, setup, 4, params);
     BtlSetup_SetFlag(setup, 1);
-    setup->fieldSituation.terrain = 6;
+    setup->fieldSituation.env.terrain = 6;
     return setup;
 }
 

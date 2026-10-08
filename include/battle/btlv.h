@@ -4,6 +4,7 @@
 #include "types.h"
 #include "battle/b_plist_main.h"
 #include "battle/btl_action.h"
+#include "battle/btl_pokeparam.h"
 #include "gfl/bg_sys.h"
 #include "gfl/clact.h"
 #include "gfl/graphics.h"
@@ -33,11 +34,6 @@ void func_ov167_021ce748(void);
 void Btlv_StringParam_Setup(BtlvStringParam *param, u32 type, u16 message);
 void Btlv_StringParam_AddArg(BtlvStringParam *param, u32 arg);
 
-// The battle view, in overlay 168
-
-void func_ov168_021df138(void);
-u32 func_ov168_021e04ec(u8 pos);
-
 typedef BOOL (*BtlvMainProc)(BtlvCore *core, s32 *seq, void *work);
 
 // The party list command's parameters; only the mode is known
@@ -65,24 +61,6 @@ typedef struct BtlvSubProc {
     void *arg;
     s32 seq;
 } BtlvSubProc;
-
-// The move effect func_ov167_021d3094 starts, which func_ov168_021df460 reads
-typedef struct BtlvMoveEffectParam {
-    u16 move;        // 0x00
-    u32 attackerPos; // 0x04
-    u32 targetPos;   // 0x08
-    u8 unk0C;        // 0x0C arg5 of func_ov167_021d3094
-    u8 unk0D;        // 0x0D its arg6
-    s32 unk10;       // 0x10 its arg4, PML_MoveGetParam(move, 27); func_ov168_021df460 keeps a byte of it
-} BtlvMoveEffectParam; // size 0x14
-
-// What func_ov167_021d408c reports of the parties for func_ov168_021dfc14, the balls of the parties shown when a
-// trainer battle starts. The name is ours
-typedef struct BtlvScuPartyStatus {
-    s32 unk00;        // 0x00 the last argument of func_ov167_021d408c
-    u32 status[6];    // 0x04 three by side: 0 can't battle, 1 healthy, 2 fainted, 3 a status condition
-    u32 unk1C;        // 0x1C func_ov167_0219c988
-} BtlvScuPartyStatus; // size 0x20
 
 // The mons a target is chosen among, which the client fills, and the action the display fills in
 struct BtlvSelectTargetParam {
@@ -154,50 +132,9 @@ BOOL func_ov167_021d42ac(BtlvScu *scu);
 void func_ov167_021d4304(BtlvScu *scu);
 BOOL func_ov167_021d4324(BtlvScu *scu);
 
-// More of the battle view, in overlay 168
-void *func_ov168_021ded1c(BtlMainModule *mainModule, void *data, HeapID heapId);
-void func_ov168_021dee04(void *data, Font *font, HeapID heapId);
-void func_ov168_021df214(void);
-void func_ov168_021df35c(u32 arg0, u32 arg1);
-void func_ov168_021df3e0(u32 arg0, u32 arg1, u32 arg2);
-void func_ov168_021df540(void);
-void func_ov168_021df560(u32 arg0, u16 move);
-void func_ov168_021df630(u8 pos, u16 arg1, u8 arg2, u32 arg3, u32 arg4);
-void func_ov168_021df7a8(u8 pos);
-void func_ov168_021df7b8(u8 pos);
-BOOL func_ov168_021df7e8(void);
-BOOL func_ov168_021df850(u8 pos);
-void func_ov168_021dfac4(u32 arg0, s32 arg1);
-void func_ov168_021dfb40(void);
-void func_ov168_021dfdec(u8 arg0, u32 arg1, u32 arg2);
-void func_ov168_021dfe8c(u8 arg0, u8 arg1);
-u32 func_ov168_021dff14(u8 pos);
-void func_ov168_021dff2c(u32 pos, u32 mode, u32 arg2, u32 arg3, u32 arg4);
-void *func_ov168_021e008c(void);
-TCBManager *func_ov168_021e00ac(void);
-void *func_ov168_021e00b8(void);
-void *func_ov168_021e00c8(void);
-BtlMainModule *func_ov168_021e012c(void);
-void func_ov168_021e0274(u32 state);
-u32 func_ov168_021e0298(void);
-BOOL func_ov168_021e02e4(void);
-BOOL func_ov168_021e0304(void);
-void func_ov168_021e0430(u32 arg0);
-void func_ov168_021e0468(void);
-void func_ov168_021e04b0(u32 arg0);
-BOOL func_ov168_021e8364(void *data, u32 pos);
-void func_ov168_021e9c24(void *data, u32 arg1, u32 arg2);
-BOOL func_ov168_021e9e88(void *data);
-void func_ov168_021ea1cc(void *data, u32 arg1, Font *font);
-BOOL func_ov168_021f0b74(void *data, u32 pos);
-BtlvFingerCursor *BtlvFingerCursor_Create(PaletteFade *fade, u32 arg1, HeapID heapId);
-void func_ov168_021f2d9c(BtlvFingerCursor *cursor);
-BOOL func_ov168_021f2dcc(BtlvFingerCursor *cursor, s32 x, s32 y, u32 arg3, s32 arg4, u32 arg5);
-BOOL func_ov168_021f2e98(BtlvFingerCursor *cursor);
-
 // The battle view's touch screen, in overlay 169
-void *func_ov169_06899af0(BtlvCore *core, BtlMainModule *mainModule, BtlPokeCon *pokeCon, TCBExManager *tcbManager, Font *font,
-                          BtlClient *client, u32 arg6, HeapID heapId);
+void *func_ov169_06899af0(BtlvCore *core, BtlMainModule *mainModule, BtlPokeCon *pokeCon, TCBExManager *tcbManager,
+                          Font *font, BtlClient *client, u32 arg6, HeapID heapId);
 void func_ov169_06899c7c(void *data);
 void func_ov169_06899d9c(void *data, u32 arg1);
 void func_ov169_06899dd4(void *data);
@@ -283,7 +220,8 @@ void func_ov167_021cf1f0(BtlvCore *core);
 BOOL func_ov167_021cf200(BtlvCore *core);
 BOOL func_ov167_021cf210(BtlvCore *core);
 void func_ov167_021cf234(BtlvCore *core, BPlistParam *param, u8 mode, u8 partyIndex, u32 move);
-void BattleClientCmd_StartPokeList(BtlvCore *core, const BtlvPokeListCmd *cmd, s32 partyIndex, u16 move, BtlvPokeSelectParam *select);
+void BattleClientCmd_StartPokeList(BtlvCore *core, const BtlvPokeListCmd *cmd, s32 partyIndex, u16 move,
+                                   BtlvPokeSelectParam *select);
 void BattleClientCmd_QuitPokeSelect(BtlvCore *core);
 BOOL BattleClientCmd_WaitPokeSelect(BtlvCore *core);
 void BattleClientCmd_StartMoveInfoView(BtlvCore *core, u8 partyIndex, u8 slot);
@@ -404,50 +342,6 @@ void func_ov167_021d0bac(BtlvCore *core, u32 arg1, u32 arg2, u32 arg3);
 u32 func_ov167_021d0be4(BtlvCore *core);
 void func_ov167_021d0bf4(BtlvCore *core, u32 arg1);
 
-// Overlay 168's battle display, which the clients drive
-void func_ov168_021df2c8(u32 se);
-void func_ov168_021df460(const BtlvMoveEffectParam *param);
-void func_ov168_021df618(u8 viewPos);
-void func_ov168_021df678(u8 pos, u16 arg1);
-void func_ov168_021df6b4(PartyPkm *pkm, u32 viewPos);
-void func_ov168_021df76c(PartyPkm *pkm, u32 viewPos);
-void func_ov168_021df7c8(u8 pos);
-void func_ov168_021df7d8(u8 pos);
-void func_ov168_021df81c(PartyPkm *pkm, u32 viewPos);
-void func_ov168_021df838(u32 viewPos);
-void func_ov168_021df88c(u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4);
-void func_ov168_021df9e8(u8 viewPos, u32 arg1);
-void func_ov168_021dfa04(BtlMainModule *mainModule, BattleMon *mon, u32 viewPos);
-void func_ov168_021dfaac(u32 viewPos);
-void func_ov168_021dfae0(u32 viewPos, s32 hp);
-void func_ov168_021dfafc(u8 pos, u32 exp, BattleMon *mon);
-void func_ov168_021dfb28(u8 pos, BattleMon *mon);
-BOOL func_ov168_021dfb58(void);
-void func_ov168_021dfba8(u32 arg0, u8 pos);
-BOOL func_ov168_021dfbdc(u8 pos);
-void func_ov168_021dfc14(const BtlvScuPartyStatus *balls);
-void func_ov168_021dfc38(u32 side);
-BOOL func_ov168_021dfc54(u32 side);
-void func_ov168_021dfc70(u32 arg0, u32 arg1, u32 arg2, u32 arg3, u32 arg4);
-BOOL func_ov168_021dfcfc(u32 arg0);
-void func_ov168_021dfd74(u32 arg0, u32 arg1);
-void func_ov168_021dfec0(u16 gameLimitTime, u16 cmdLimitTime);
-void func_ov168_021dfedc(u32 arg0, u32 arg1, u32 arg2);
-BOOL func_ov168_021dfefc(u32 arg0);
-BOOL func_ov168_021e0050(void);
-void *func_ov168_021e006c(void);
-BOOL func_ov168_021e014c(void);
-void func_ov168_021e0164(u32 bgm);
-void func_ov168_021e01ac(u32 arg0);
-void func_ov168_021e01c4(u32 bgm);
-void func_ov168_021e0204(s32 arg0);
-void func_ov168_021e022c(u32 arg0);
-void func_ov168_021e02ac(u32 arg0);
-void func_ov168_021e04d8(u32 pos, u32 ability);
-void func_ov168_021e0500(void);
-void func_ov168_021e0518(void);
-u32 func_ov168_021e81bc(void *data, u32 arg1, u32 arg2);
-
 // Overlay 169's party list
 void func_ov169_0689cc20(BtlvPokeListCmd *cmd, BattleParty *party, u8 count, u8 mode);
 void func_ov169_0689cc38(BtlvPokeListCmd *cmd, u8 numCoverPos);
@@ -455,6 +349,5 @@ void func_ov169_0689cc68(BtlvPokeSelectParam *select, BtlvPokeListCmd *cmd);
 BOOL func_ov169_0689cc90(BtlvPokeSelectParam *select);
 BOOL func_ov169_0689cc9c(BtlvPokeSelectParam *select);
 u8 func_ov169_0689cca4(BtlvPokeSelectParam *select);
-
 
 #endif // POKEBW2_BATTLE_BTLV_H

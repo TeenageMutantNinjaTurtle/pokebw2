@@ -62,7 +62,8 @@ typedef u16 GXRgb;
 #define reg_G3_END_VTXS (*(vu32 *)0x04000504)
 #define reg_G3_SWAP_BUFFERS (*(vu32 *)0x04000540)
 #define reg_G3_VIEWPORT (*(vu32 *)0x04000580)
-// The count of vertices in vertex RAM
+// The counts of polygons in polygon list RAM and of vertices in vertex RAM
+#define reg_G3X_RAM_COUNT (*(vu16 *)0x04000604)
 #define reg_G3X_VTXRAM_COUNT (*(vu16 *)0x04000606)
 #define reg_GXS_DB_DISPCNT (*(vu32 *)0x04001000)
 #define reg_G2S_DB_WIN0H (*(vu16 *)0x04001040)

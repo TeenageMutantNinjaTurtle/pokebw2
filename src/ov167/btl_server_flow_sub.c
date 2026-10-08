@@ -981,7 +981,7 @@ static fx32 func_ov167_021af8c4(BtlServerFlow *flow, BattleMon *mon, BattleMon *
         if (BtlSetup_IsBattleType(flow->mainModule, 1)) {
             return FX32_CONST(3.5);
         }
-        if (GetFieldEffectData(flow->mainModule)->terrain == 6) {
+        if (GetFieldEffectData(flow->mainModule)->env.terrain == 6) {
             return FX32_CONST(3.5);
         }
         break;
@@ -1013,12 +1013,12 @@ static fx32 func_ov167_021af8c4(BtlServerFlow *flow, BattleMon *mon, BattleMon *
     }
     case ITEM_DUSK_BALL: {
         const BtlFieldSituation *field = GetFieldEffectData(flow->mainModule);
-        u8 period = GetDayPeriod(field->unk09, field->unk0c[0]);
+        u8 period = GetDayPeriod(field->env.season, field->env.hour);
 
-        if (field->unk00 == 4 || field->unk00 == 5) {
+        if (field->env.bgType == 4 || field->env.bgType == 5) {
             return FX32_CONST(3.5);
         }
-        if (func_ov169_0689cb28(field->unk00) && (period == 3 || period == 4)) {
+        if (func_ov169_0689cb28(field->env.bgType) && (period == 3 || period == 4)) {
             return FX32_CONST(3.5);
         }
         break;

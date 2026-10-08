@@ -7,6 +7,10 @@
 #include "battle/btl_main.h"
 #include "battle/btl_pokeparam.h"
 #include "battle/btlv.h"
+#include "battle/btlv_effect.h"
+#include "battle/btlv_finger_cursor.h"
+#include "battle/btlv_gauge.h"
+#include "battle/btlv_mcss.h"
 #include "constants/arc.h"
 #include "constants/moves.h"
 #include "constants/sound.h"
@@ -622,7 +626,7 @@ void BtlvInput_Delete(BtlvInput *work) {
         BtlvInput_FreeGraphics(work);
         GFL_MsgDataFree(work->msgData);
         if (work->fingerCursor != NULL) {
-            func_ov168_021f2d9c(work->fingerCursor);
+            BtlvFingerCursor_Delete(work->fingerCursor);
         }
         func_0203a610(work->tcbMgr);
         GFL_HeapFree(work->tcbMgrBuf);
@@ -675,7 +679,7 @@ static void BtlvInput_InitGraphics(BtlvInput *work) {
     PaletteFade_LoadFromVRAM(work->paletteFade, 3, 0xe0, 0x20);
     work->cursorRefresh = TRUE;
     if (work->inBattle == TRUE) {
-        work->coreTask = GFL_TCBMgrAddTask(func_ov168_021e00ac(), BtlvInput_CoreTask, work, 0);
+        work->coreTask = GFL_TCBMgrAddTask(BtlvEffect_GetTCBManager(), BtlvInput_CoreTask, work, 0);
     }
     BtlvInput_SetScreen(work, 0, NULL);
 }
@@ -861,7 +865,7 @@ void BtlvInput_SetScreen(BtlvInput *work, u32 screen, void *param) {
             work->busy = TRUE;
             task->work = work;
             if (work->inBattle == TRUE) {
-                func_ov168_021e0468();
+                BtlvEffect_StopIdleEffect();
             }
             BtlvInput_DeletePokeListIcons(work);
             BtlvInput_DeletePartyIcons(work);
@@ -891,7 +895,7 @@ void BtlvInput_SetScreen(BtlvInput *work, u32 screen, void *param) {
         task = GFL_HeapAllocate(HEAPID_TAIL(work->heapId), sizeof(BtlvInputScreenTask), TRUE, "btlv_input.c", 0x60e);
         work->pokePos = cmd->pokePos;
         BtlvInput_StartFingerCursor(work);
-        func_ov168_021e0430(2);
+        BtlvEffect_SetIdleEffectMode(2);
         if (cmd->pokePos >= 2) {
             cmd->pokePos = (cmd->pokePos - 2) / 2;
         }
@@ -910,7 +914,7 @@ void BtlvInput_SetScreen(BtlvInput *work, u32 screen, void *param) {
         for (i = 0; i < 4; i++) {
             work->buttonEnabled[i] = TRUE;
         }
-        work->buttonEnabled[1] = func_ov168_021e0304();
+        work->buttonEnabled[1] = BtlvEffect_GetUnk304();
         BtlvInput_DeletePartyIcons(work);
         BtlvInput_CreatePartyIcons(work, cmd);
         BtlvInput_CreateBallSlideActors(work, cmd->ballSlide);
@@ -950,8 +954,8 @@ void BtlvInput_SetScreen(BtlvInput *work, u32 screen, void *param) {
             work->moves[i] = mv->moves[i];
         }
         if (work->inBattle == TRUE && (work->rule == 1 || work->rule == 2)) {
-            func_ov168_021e04b0(2);
-            func_ov168_021df2c8(0x244);
+            BtlvEffect_RestartIdleEffect(2);
+            BtlvEffect_Start(0x244);
         }
         if (work->screen == 3) {
             BtlvInput_AddTask(work, GFL_TCBMgrAddTask(work->tcbMgr, BtlvInput_TargetToMovesTask, task, 1),
@@ -1037,7 +1041,7 @@ void BtlvInput_SetScreen(BtlvInput *work, u32 screen, void *param) {
         BOOL studioMode2 = FALSE;
         int i;
 
-        if (func_ov167_0219c988(func_ov168_021e012c()) == 2) {
+        if (func_ov167_0219c988(BtlvEffect_GetMainModule()) == 2) {
             studioMode2 = TRUE;
         }
         for (i = 0; i < 3; i++) {
@@ -1153,7 +1157,7 @@ s32 BtlvInput_CheckInput(BtlvInput *work, const BtlvInputButtonSet *set, const B
     }
     if ((GCTX_HIDGetPressedKeys() & PAD_BUTTON_START) &&
         (work->screen == 1 || work->screen == 2 || work->screen == 3)) {
-        func_ov168_021dfb40();
+        BtlvEffect_SetGaugeFlag();
     }
     if (work->screen == 6) {
         if (work->fileSet != 2) {
@@ -1233,14 +1237,15 @@ BOOL BtlvInput_FingerDemoMain(BtlvInput *work) {
         if (work->fingerCursor == NULL) {
             work->fingerCursor = BtlvFingerCursor_Create(work->paletteFade, 11, work->heapId);
         }
-        if (func_ov168_021f2dcc(work->fingerCursor, pos[work->fingerCount][0], pos[work->fingerCount][1], 2, 7, 16)) {
+        if (BtlvFingerCursor_Start(work->fingerCursor, pos[work->fingerCount][0], pos[work->fingerCount][1], 2, 7,
+                                   16)) {
             work->fingerSeq++;
             work->fingerCount++;
         }
         break;
     }
     case 1:
-        done = func_ov168_021f2e98(work->fingerCursor);
+        done = BtlvFingerCursor_IsTouched(work->fingerCursor);
         if (done == TRUE) {
             BtlvInput_PlayDecideSE(work);
         }
@@ -1261,7 +1266,7 @@ BOOL BtlvInput_MoveScreenMain(BtlvInput *work, u8 *outSlot, s32 *outButton) {
         return FALSE;
     }
     if (GCTX_HIDGetPressedKeys() & PAD_BUTTON_START) {
-        func_ov168_021dfb40();
+        BtlvEffect_SetGaugeFlag();
     }
     if (work->pressedButton != -1) {
         button = work->pressedButton & ~0x8000;
@@ -1376,7 +1381,7 @@ static void BtlvInput_LoadGraphics(BtlvInput *work) {
         loadBGScrToVramByFileNoReserveNegAlign(work->arc, BtlvInput_FileId(0x17e, work), 7, 0, 0, FALSE, work->heapId);
         PaletteFade_LoadArcNCLR(work->paletteFade, work->arc, palFile, work->heapId, 1, 0x1e0, 0);
         if (work->inBattle == TRUE) {
-            sys_memcpy16(PaletteFade_GetUnfadedBuffer(func_ov168_021e00b8(), 1) + 0x20, work->savedPalette, 0x20);
+            sys_memcpy16(PaletteFade_GetUnfadedBuffer(BtlvEffect_GetPaletteFade(), 1) + 0x20, work->savedPalette, 0x20);
         }
     }
     work->chars = func_0204b81c(work->arc, 0x1a4, FALSE, 1, work->heapId);
@@ -1770,7 +1775,7 @@ static void BtlvInput_StandbyToMessageTask(TCB *tcb, void *data) {
     BtlvInputScreenTask *param = data;
     BOOL studioMode2 = FALSE;
 
-    if (func_ov167_0219c988(func_ov168_021e012c()) == 2) {
+    if (func_ov167_0219c988(BtlvEffect_GetMainModule()) == 2) {
         studioMode2 = TRUE;
     }
     switch (param->seq) {
@@ -1802,7 +1807,7 @@ static void BtlvInput_StandbyToMessageTask(TCB *tcb, void *data) {
                 BtlvInput_StartSetLayers(param->work, 4, param->x, param->y, 1, 1, 2, 0);
             }
             BtlvInput_EndTask(param->work, tcb);
-            func_ov167_0219c988(func_ov168_021e012c());
+            func_ov167_0219c988(BtlvEffect_GetMainModule());
         }
         break;
     }
@@ -2034,7 +2039,7 @@ static void BtlvInput_RotationScreenTask(TCB *tcb, void *data) {
 
     switch (task->seq) {
     case 0:
-        if (func_ov168_021e0298() == 1) {
+        if (BtlvEffect_GetState() == 1) {
             loadBGScrToVramByFileNoReserveNegAlign(task->work->arc, BtlvInput_FileId(0x23b, task->work), 4, 0, 0, FALSE,
                                                    task->work->heapId);
         } else {
@@ -2399,16 +2404,16 @@ static void BtlvInput_StartRotationSwitch(BtlvInput *work, int screen) {
     task->work = work;
     BtlvInput_AddTask(work, GFL_TCBMgrAddTask(work->tcbMgr, BtlvInput_RotationSwitchTask, task, 1),
                       BtlvInput_ScreenTaskEnd);
-    func_ov168_021e04b0(2);
-    func_ov168_021df2c8(data_ov168_021f3658[slot][index]);
+    BtlvEffect_RestartIdleEffect(2);
+    BtlvEffect_Start(data_ov168_021f3658[slot][index]);
 }
 
 // Waits for the touch screen's work and sets its state
 static void BtlvInput_SetScdStateTask(TCB *tcb, void *data) {
     BtlvInputSimpleTask *param = data;
 
-    if (func_ov168_021e0050()) {
-        func_ov168_021e0274(param->value);
+    if (BtlvEffect_GetWork()) {
+        BtlvEffect_SetState(param->value);
         BtlvInput_EndTask(param->work, tcb);
     }
 }
@@ -2697,7 +2702,7 @@ static void BtlvInput_DrawRecorderCount(BtlvInput *work, const BtlvInputRecorder
     GFL_WordSetSystemFree(wordSet);
     GFL_StrBufFree(fmt);
     GFL_StrBufFree(buf);
-    PaletteFade_LoadData(work->paletteFade, PaletteFade_GetUnfadedBuffer(func_ov168_021e00b8(), 1) + 0x20, 1, 0x70,
+    PaletteFade_LoadData(work->paletteFade, PaletteFade_GetUnfadedBuffer(BtlvEffect_GetPaletteFade(), 1) + 0x20, 1, 0x70,
                          0x20);
 }
 
@@ -3325,7 +3330,7 @@ static void BtlvInput_PrintLauncherPoints(BtlvInput *work, BtlvInputCommandParam
     StrBuf *strbuf;
     StrBuf *src;
 
-    if (!func_ov168_021e02e4()) {
+    if (!BtlvEffect_GetUnk2E4()) {
         return;
     }
     wordSet = GFL_WordSetSystemCreateDefault(work->heapId);
@@ -3344,15 +3349,15 @@ static void BtlvInput_PrintLauncherPoints(BtlvInput *work, BtlvInputCommandParam
 }
 
 static void BtlvInput_StartFingerCursor(BtlvInput *work) {
-    func_ov168_021e04b0(2);
-    func_ov168_021dff2c(work->pokePos, 1, 10, 0, 8);
+    BtlvEffect_RestartIdleEffect(2);
+    BtlvEffect_ZoomCamera(work->pokePos, 1, 10, 0, 8);
 }
 
 // Forgets the Pokémon's cursor stops when it changed
 static void BtlvInput_ForgetCursorOnPokeChange(BtlvInput *work) {
-    BOOL changed = func_ov168_021f0b74(func_ov168_021e008c(), work->pokePos);
+    BOOL changed = BtlvGauge_CheckChanged(BtlvEffect_GetGauge(), work->pokePos);
 
-    if ((changed | func_ov168_021e8364(func_ov168_021e006c(), work->pokePos)) == TRUE) {
+    if ((changed | BtlvMcss_CheckChanged(BtlvEffect_GetMcss(), work->pokePos)) == TRUE) {
         int i;
 
         for (i = 0; i < 8; i++) {
@@ -3467,15 +3472,15 @@ static void BtlvInput_RestoreKeyCursor(BtlvInput *work) {
 static void BtlvInput_LoadDarkPalette(BtlvInput *work) {
     u16 colors[16];
 
-    if (BtlSetup_GetBattleType(func_ov168_021e012c()) != 4 && !func_ov168_021e0304()) {
+    if (BtlSetup_GetBattleType(BtlvEffect_GetMainModule()) != 4 && !BtlvEffect_GetUnk304()) {
         BlendColors(work->savedPalette, colors, 16, 8, 0);
-        PaletteFade_LoadData(func_ov168_021e00b8(), colors, 1, 0x20, 0x20);
+        PaletteFade_LoadData(BtlvEffect_GetPaletteFade(), colors, 1, 0x20, 0x20);
     }
 }
 
 static void BtlvInput_RestoreSavedPalette(BtlvInput *work) {
     if (work->inBattle == 1) {
-        PaletteFade_LoadData(func_ov168_021e00b8(), work->savedPalette, 1, 0x20, 0x20);
+        PaletteFade_LoadData(BtlvEffect_GetPaletteFade(), work->savedPalette, 1, 0x20, 0x20);
     }
 }
 
@@ -3484,7 +3489,7 @@ static void BtlvInput_RestoreSavedPalette(BtlvInput *work) {
 static u32 BtlvInput_ChooseButtonMap(BtlvInput *work) {
     if (!work->laterPoke) {
         if (work->rule == 2) {
-            if (func_ov168_021e0298() == 1) {
+            if (BtlvEffect_GetState() == 1) {
                 if (work->pokePos == 4) {
                     return BtlvInput_FileId(369, work);
                 }
@@ -3495,18 +3500,18 @@ static u32 BtlvInput_ChooseButtonMap(BtlvInput *work) {
             }
             return BtlvInput_FileId(362, work);
         }
-        if (func_ov168_021e0298() == 1) {
+        if (BtlvEffect_GetState() == 1) {
             return BtlvInput_FileId(369, work);
         }
         return BtlvInput_FileId(361, work);
     }
     if (work->rule == 2 && work->pokePos != 4) {
-        if (func_ov168_021e0298() == 1) {
+        if (BtlvEffect_GetState() == 1) {
             return BtlvInput_FileId(371, work);
         }
         return BtlvInput_FileId(365, work);
     }
-    if (func_ov168_021e0298() == 1) {
+    if (BtlvEffect_GetState() == 1) {
         return BtlvInput_FileId(370, work);
     }
     return BtlvInput_FileId(364, work);

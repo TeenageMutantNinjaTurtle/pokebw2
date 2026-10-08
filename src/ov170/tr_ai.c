@@ -3,7 +3,7 @@
 #include "battle/btl_main.h"
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_server_flow.h"
-#include "battle/btlv.h"
+#include "battle/btlv_effect.h"
 #include "battle/tr_ai.h"
 #include "constants/abilities.h"
 #include "constants/arc.h"
@@ -2243,7 +2243,7 @@ u32 GuessAbility(TrAIContext *wk, u32 side, u8 pos) {
         return 0;
     }
     if (side == AI_BATTLER_DEFENDER || side == AI_BATTLER_DEFENDER_PARTNER) {
-        wk->knownAbilities[pos] = func_ov168_021e04ec(pos);
+        wk->knownAbilities[pos] = BtlvEffect_GetAbility(pos);
         if (wk->knownAbilities[pos] != 0) {
             return wk->knownAbilities[pos];
         }
