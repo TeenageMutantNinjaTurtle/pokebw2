@@ -284,8 +284,8 @@ GameEventReturnCode func_ov010_0215033c(GameEvent *event, u32 *state, void *data
     case 0:
         param = &work->param;
         work->param.gameData = GSYS_GetGameData(gsys);
-        param->players = work->players;
         param->setup = work->setup;
+        param->players = work->players;
         param->rule = work->players->rule;
         param->unk10 = work->players->unk4C;
         param->unk14 = work->unk0C;

@@ -254,5 +254,7 @@ void func_0202d6a8(void);
 // In another file of ARM9 main
 // Whether a received beacon is invalid
 BOOL func_02013bd4(const GameBeacon *beacon);
+// The beacon's type, or 1 for a type of 0 or of GAME_BEACON_TYPE_MAX or more
+u16 func_02013eac(const GameBeacon *beacon);
 
 #endif // POKEBW2_SYSTEM_GAME_BEACON_H

@@ -2,6 +2,7 @@
 #define POKEBW2_BATTLE_B_PLIST_MAIN_H
 
 #include "types.h"
+#include "battle/b_app_tool.h"
 #include "gfl/clact.h"
 #include "gfl/heap.h"
 #include "gfl/overlay.h"
@@ -14,6 +15,7 @@
 // move to forget, which runs on the evolution demo's tasks with overlay 285 loaded. It sets done when it ends.
 // Every name here is ours; swan has none for this overlay.
 
+#define OVERLAY_OV285 OVERLAY_ID(285)
 #define OVERLAY_OV287 OVERLAY_ID(287)
 
 typedef struct {
@@ -156,7 +158,7 @@ struct BPlistWork {
     int nextSeq;             // 0x217c  taken once the button animation ends
     u8 page;                 // 0x2180
     CursorMove *cursorMove;  // 0x2184
-    void *cursor;            // 0x2188  overlay 285's cursor
+    BAppCursor *cursor;      // 0x2188
     BOOL cursorVisible;      // 0x218c
     u8 page1Pos;             // 0x2190
     u8 page6Pos;             // 0x2191

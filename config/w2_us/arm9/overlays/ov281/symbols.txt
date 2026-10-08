@@ -1,7 +1,7 @@
-func_ov281_021f59e0 kind:function(thumb,size=0x50) addr:0x021f5a20
-func_ov281_021f5a30 kind:function(thumb,size=0x1c) addr:0x021f5a70
-func_ov281_021f5a4c kind:function(thumb,size=0xfc) addr:0x021f5a8c
-func_ov281_021f5b48 kind:function(thumb,size=0x28) addr:0x021f5b88
-func_ov281_021f5b70 kind:function(thumb,size=0x38) addr:0x021f5bb0
-func_ov281_021f5ba8 kind:function(thumb,size=0x58) addr:0x021f5be8
+ProfWord_LoadLists kind:function(thumb,size=0x50) addr:0x021f5a20
+ProfWord_FreeLists kind:function(thumb,size=0x1c) addr:0x021f5a70
+ProfWord_Check kind:function(thumb,size=0xfc) addr:0x021f5a8c
+ProfWord_CheckList kind:function(thumb,size=0x28) addr:0x021f5b88
+ProfWord_Compare kind:function(thumb,size=0x38) addr:0x021f5bb0
+ProfWord_HasManyDigits kind:function(thumb,size=0x58) addr:0x021f5be8
 data_ov281_021f5c20 kind:data(any) addr:0x021f5c60

@@ -118,23 +118,23 @@ u16 GameData_GetDayPeriod(GameData *gameData) {
     return GetDayPeriod(GameData_GetSeason(gameData), adventureTime->time.hour);
 }
 
-u16 GameData_GetMonth(GameData *gameData) {
+u32 GameData_GetMonth(GameData *gameData) {
     return getSaveAdventureTimeBlock(GameData_GetSaveControl(gameData))->date.month;
 }
 
-u16 GameData_GetDay(GameData *gameData) {
+u32 GameData_GetDay(GameData *gameData) {
     return getSaveAdventureTimeBlock(GameData_GetSaveControl(gameData))->date.day;
 }
 
-u16 getCurrentDayOfWeek(GameData *gameData) {
+u32 getCurrentDayOfWeek(GameData *gameData) {
     return getSaveAdventureTimeBlock(GameData_GetSaveControl(gameData))->date.week;
 }
 
-u16 getCurrentHour(GameData *gameData) {
+u32 getCurrentHour(GameData *gameData) {
     return getSaveAdventureTimeBlock(GameData_GetSaveControl(gameData))->time.hour;
 }
 
-u16 getCurrentMinute(GameData *gameData) {
+u32 getCurrentMinute(GameData *gameData) {
     return getSaveAdventureTimeBlock(GameData_GetSaveControl(gameData))->time.minute;
 }
 

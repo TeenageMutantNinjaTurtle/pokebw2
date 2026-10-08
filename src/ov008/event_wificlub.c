@@ -4,6 +4,7 @@
 #include "app/wifi_login.h"
 #include "app/wificlub.h"
 #include "battle/battle_proc.h"
+#include "battle/battle_select.h"
 #include "battle/btl_net.h"
 #include "battle/btl_setup.h"
 #include "battle/regulation.h"
@@ -179,8 +180,8 @@ void EventWifiClub_SetupBattleSelect(EventWifiClub *wk, GameData *gameData, u32 
     select->unk18 = 0;
     PokeParty_Init(wk->party);
     select->unk1C = wk->party;
-    select->party0 = wk->club->parties[0];
-    select->party1 = wk->club->parties[1];
+    select->parties[0] = wk->club->parties[0];
+    select->parties[1] = wk->club->parties[1];
 }
 
 void EventWifiClub_SetBattleParty(EventWifiClub *wk, GameData *gameData, u32 unused) {
@@ -321,7 +322,7 @@ GameEventReturnCode EventWifiClub_Callback(GameEvent *event, u32 *state, void *d
         EventWifiClub_SetupBattleSelect(wk, GSYS_GetGameData(gsys), seq);
         wk->btlSetup = BtlSetup_Create(HEAPID_GAMEEVENT);
         EventWifiClub_SetupBattle(wk, wk->club->mode);
-        GSYS_QueueProcAsEvent(wk->event, OVERLAY_BATTLE_SELECT, &data_ov213_021bbb38, &wk->select);
+        GSYS_QueueProcAsEvent(wk->event, OVERLAY_BATTLE_SELECT, &BATTLE_SELECT_PROC_FUNCTIONS, &wk->select);
         (*state)++;
         break;
     case 14:

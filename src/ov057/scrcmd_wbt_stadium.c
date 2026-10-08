@@ -1,6 +1,6 @@
 #include "types.h"
+#include "field/event_wbt.h"
 #include "field/field_script.h"
-#include "field/ov022.h"
 #include "field/ov134.h"
 #include "field/scrcmd_wbt.h"
 #include "field/wbt.h"
@@ -62,7 +62,7 @@ BOOL func_ov057_021e76a8(VM *vm, FieldScriptEnv *env) {
 
     GameData_SetLastBtlResult(gameData, 1);
     func_ov055_021e5cd8(sys, var);
-    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(22), func_ov022_0216e854, sys));
+    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(22), EventWbtBattle_Create, sys));
     return TRUE;
 }
 

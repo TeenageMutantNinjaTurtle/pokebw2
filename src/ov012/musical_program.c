@@ -113,7 +113,7 @@ void func_ov012_0215241c(MusicalProgram *program) {
 
 // Shares out each kind's points among the props of that kind on the stage, and gives the Pokémon their points
 void func_ov012_02152424(HeapID heapId, MusicalProgram *program, MusicalStageParam *stage) {
-    void *items = func_ov210_021eef38(heapId);
+    void *items = MusItemData_Init(heapId);
     u8 i;
     u8 j;
     u8 kind;
@@ -149,7 +149,7 @@ void func_ov012_02152424(HeapID heapId, MusicalProgram *program, MusicalStagePar
             poke->unk4C[j] = value;
         }
     }
-    func_ov210_021eef64(items);
+    MusItemData_Free(items);
 }
 
 u8 func_ov012_0215250c(MusicalProgram *program, u8 kind) {

@@ -162,6 +162,7 @@ typedef struct BBagWork BBagWork;
 typedef struct BPlistMove BPlistMove;
 typedef struct BPlistPokemon BPlistPokemon;
 typedef struct BPlistWork BPlistWork;
+typedef struct FieldSoundEmitter FieldSoundEmitter;
 typedef struct BtlvCore BtlvCore;
 typedef struct BtlvFingerCursor BtlvFingerCursor;
 typedef struct BtlvScu BtlvScu;

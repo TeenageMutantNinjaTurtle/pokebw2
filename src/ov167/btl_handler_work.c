@@ -85,12 +85,12 @@ static const BtlHandlerWorkSize data_ov167_021d6dd8[59] = {
 // Allocates a handler command's work on the stack, zeroed and with its header set up
 void *func_ov167_021b0920(BtlActionState *state, u32 command, u32 monId) {
     u32 i;
-    u32 size = 0;
-    u32 pos;
     u8 *work;
+    u32 pos;
+    u32 size;
     BattleHandlerHeader *header;
 
-    for (i = 0; i < 59; i++) {
+    for (i = 0, size = 0; i < 59; i++) {
         if (command == data_ov167_021d6dd8[i].command) {
             size = data_ov167_021d6dd8[i].size;
             break;
@@ -124,8 +124,12 @@ void PopWork(BtlActionState *state, void *work) {
     BattleHandlerHeader *header = work;
     u32 pos = state->workPos;
 
-    if (header->size <= pos && (u8 *)work - state->work + header->size == pos) {
-        state->workPos = pos - header->size;
+    if (header->size <= pos) {
+        u32 start = (u8 *)work - state->work;
+        u32 end = start + header->size;
+        if (end == pos) {
+            state->workPos = pos - header->size;
+        }
     }
 }
 

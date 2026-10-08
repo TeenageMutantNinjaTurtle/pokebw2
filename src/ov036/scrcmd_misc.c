@@ -49,7 +49,7 @@ typedef struct {
 static ElevatorFloor *ElevatorTable_GetEntry(ElevatorFloor *table, u32 index);
 static void func_ov036_021afdd0(ElevatorFloor *floor);
 static u32 ElevatorTable_CountEntries(ElevatorFloor *table);
-static BOOL func_ov036_021b01b8(u16 month, u16 day);
+static BOOL func_ov036_021b01b8(u32 month, u32 day);
 
 // The file of archive 205 of each item collector's prices
 static const u8 ITEM_COLLECTOR_FILES[ITEM_COLLECTOR_GROUP_COUNT] = { 0, 4, 3, 1, 2, 0, 0, 0 };
@@ -295,7 +295,7 @@ BOOL func_ov036_021b018c(VM *vm, FieldScriptEnv *env) {
     return FALSE;
 }
 
-static BOOL func_ov036_021b01b8(u16 month, u16 day) {
+static BOOL func_ov036_021b01b8(u32 month, u32 day) {
     u32 i;
     u16 date = (month << 8) | day;
 
@@ -310,8 +310,8 @@ static BOOL func_ov036_021b01b8(u16 month, u16 day) {
 BOOL func_ov036_021b01e0(VM *vm, FieldScriptEnv *env) {
     u16 *result = ScriptReadVar(vm, env);
     GameData *gameData = FieldScriptEnv_GetGameData(env);
-    u16 month = GameData_GetMonth(gameData);
-    u16 day = GameData_GetDay(gameData);
+    u32 month = GameData_GetMonth(gameData);
+    u32 day = GameData_GetDay(gameData);
     u16 value;
 
     if (func_ov036_021b01b8(month, day) == TRUE) {

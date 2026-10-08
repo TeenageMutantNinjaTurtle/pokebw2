@@ -30,6 +30,7 @@
 #include "system/text_speed.h"
 #include "system/app_keycursor.h"
 #include "system/gf_font.h"
+#include "system/ir_check.h"
 #include "gfl/proc.h"
 #include "gfl/random.h"
 #include "gfl/sound.h"
@@ -116,9 +117,9 @@ const GameProcFunctions data_ov167_021d6ce0 = { func_ov167_021998c0, func_ov167_
 
 // Starts a step of the module
 static inline void BtlMainSeq_Set(BtlMainSeq *seq, BtlMainSeqFunc func, BtlMainModule *mainModule) {
-    seq->mainModule = mainModule;
     seq->func = func;
     seq->nextFunc = NULL;
+    seq->mainModule = mainModule;
     seq->state = 0;
 }
 
@@ -949,8 +950,9 @@ BOOL func_ov167_0219ada0(BtlMainModule *mainModule, s32 *state) {
         break;
     case 3:
         if (func_ov167_021b9c0c(&mainModule->syncData)) {
-            mainModule->setup->unkA2 = mainModule->syncData.unk18;
-            mainModule->setup->rand = mainModule->syncData.rand;
+            BtlSetup *setup = mainModule->setup;
+            setup->unkA2 = mainModule->syncData.unk18;
+            setup->rand = mainModule->syncData.rand;
             mainModule->rand = mainModule->syncData.rand;
             mainModule->unk473_2 = mainModule->syncData.unk1F_0;
             mainModule->unk43C = mainModule->syncData.unk1E;
@@ -1546,7 +1548,7 @@ BOOL func_ov167_0219bdfc(BtlMainModule *mainModule) {
 
     if (mainModule->setup->battleType <= 1) {
         GFL_OvlLoad(OVERLAY_ID(338));
-        result = func_ov338_0217caf8();
+        result = IrCheck_IsGenuineCard();
         GFL_OvlUnload(OVERLAY_ID(338));
         if (!result) {
             return FALSE;
@@ -2641,11 +2643,11 @@ BattleMon *func_ov167_0219d180(BtlPokeCon *pokeCon, u8 pos) {
 }
 
 BattleMon *func_ov167_0219d188(BtlPokeCon *pokeCon, u8 pos) {
-    BtlMainModule *mainModule = pokeCon->mainModule;
     u8 i = pos;
     u8 clientId;
     u8 index;
     BattleParty *parties;
+    BtlMainModule *mainModule = pokeCon->mainModule;
 
     clientId = BattlePosToClientID(mainModule, pos);
     index = 0;
@@ -2737,7 +2739,8 @@ BOOL IsAllyMonID(u8 monId1, u8 monId2) {
 }
 
 u8 GetSideFromMonID(u8 monId) {
-    return monId >= 12 ? 1 : 0;
+    BtlSide side = monId < 12 ? BTL_SIDE_1ST : BTL_SIDE_2ND;
+    return side;
 }
 
 // Public function name from swan.
@@ -3253,8 +3256,12 @@ void *func_ov167_0219db00(BtlMainModule *mainModule) {
 BOOL func_ov167_0219db08(BtlMainModule *mainModule) {
     BOOL result = FALSE;
 
-    if (func_ov167_0219a004(mainModule->setup) == 1 && mainModule->setup->unk97 != 0) {
-        result = TRUE;
+    switch (func_ov167_0219a004(mainModule->setup)) {
+    case 1:
+        if (mainModule->setup->unk97 != 0) {
+            result = TRUE;
+        }
+        break;
     }
     return result;
 }

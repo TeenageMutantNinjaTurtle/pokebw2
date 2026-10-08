@@ -230,7 +230,7 @@ void BPlistObj_Exit(BPlistWork *wk) {
     for (i = 0; i < NELEMS(wk->actors); i++) {
         func_0204c108(wk->actors[i]);
     }
-    func_ov285_021f42e4(wk->cursor);
+    BAppCursor_DeleteActors(wk->cursor);
     for (i = 0; i < NELEMS(wk->charRes); i++) {
         func_0204b98c(wk->charRes[i]);
     }
@@ -574,8 +574,8 @@ void BPlistObj_UpdatePokeIconAnims(BPlistWork *wk) {
 }
 
 static void BPlistObj_InitCursor(BPlistWork *wk) {
-    func_ov285_021f428c(wk->cursor, wk->actorUnit, wk->charRes[24], wk->plttRes[4], wk->cellRes[4]);
-    func_ov285_021f42fc(wk->cursor, FALSE);
+    BAppCursor_CreateActors(wk->cursor, wk->actorUnit, wk->charRes[24], wk->plttRes[4], wk->cellRes[4]);
+    BAppCursor_SetVisible(wk->cursor, FALSE);
 }
 
 void BPlistObj_MovePlate(BPlistWork *wk, int pos, s16 dx) {

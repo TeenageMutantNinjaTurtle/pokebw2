@@ -1,6 +1,7 @@
 #include "types.h"
 #include "app/ov174.h"
 #include "constants/version.h"
+#include "field/event_poke_status.h"
 #include "field/field.h"
 #include "field/field_script.h"
 #include "field/musical.h"
@@ -124,7 +125,7 @@ BOOL func_ov012_021581e4(VM *vm, FieldScriptEnv *env) {
     GSYS_GetField(gsys);
     slot = ScriptReadAny(vm, env);
     save = getMusicalInfoBlkAddress(gameData);
-    poke = func_ov210_021eecac(PokeParty_GetPkm(GameData_GetParty(gameData), slot), HEAPID_GAMEEVENT);
+    poke = MusicalSystem_InitPokeFromPkm(PokeParty_GetPkm(GameData_GetParty(gameData), slot), HEAPID_GAMEEVENT);
     event = GameEvent_Create(gsys, NULL, func_ov012_02158d24, sizeof(MusicalDressUpEvent));
     data = GameEvent_GetData(event);
     sys_memset(data, 0, sizeof(MusicalDressUpEvent));
@@ -268,14 +269,14 @@ BOOL func_ov012_02158280(VM *vm, FieldScriptEnv *env) {
         party = GameData_GetParty(gameData);
         value = PokeParty_GetPkmCount(party);
         for (i = 0; i < value; i++) {
-            if (func_ov210_021eec80(PokeParty_GetPkm(party, i)) == TRUE) {
+            if (MusicalSystem_CanJoin(PokeParty_GetPkm(party, i)) == TRUE) {
                 count++;
             }
         }
         *result = count;
         break;
     case 12:
-        if (func_ov210_021eec80(PokeParty_GetPkm(GameData_GetParty(gameData), arg)) == TRUE) {
+        if (MusicalSystem_CanJoin(PokeParty_GetPkm(GameData_GetParty(gameData), arg)) == TRUE) {
             *result = TRUE;
         } else {
             *result = FALSE;
@@ -516,7 +517,7 @@ BOOL func_ov012_0215887c(VM *vm, FieldScriptEnv *env) {
     sys_memset(&args, 0, sizeof(MusicalOv020Args));
     args.a0 = a0;
     args.a1 = a1;
-    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(20), func_ov020_0216e714, &args));
+    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_EVENT_POKE_STATUS, EventMusicalPokeSelect_Create, &args));
     return TRUE;
 }
 

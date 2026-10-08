@@ -18,6 +18,11 @@ void *func_02007454(SaveControl *save, u32 *size);
 u32 func_0200ce50(void);
 u32 func_0200f164(void);
 void func_0200f194(void *block, u32 valid);
+// Reads the downloaded musical's save block (6) into a new work, its archive and the archive's size, and frees it
+void *func_0200cca0(GameData *gameData, HeapID heapId);
+void func_0200cd10(void *work);
+void *func_0200ce44(void *work);
+u32 func_0200ce48(void *work);
 // Imports a downloaded musical, a step a frame until it returns TRUE
 void *func_0200cd34(GameData *gameData, void *data, u32 size, HeapID heapId);
 BOOL func_0200cd64(void *work);
@@ -258,19 +263,6 @@ BOOL func_020074ec(SaveControl *save, u32 block, HeapID heapId);
 void func_020076a4(SaveControl *save, u32 block, HeapID heapId);
 void freeIntermediateSaveExtraBlksAfterLoad(SaveControl *save, u32 block);
 void func_02011558(HeapID heapId);
-// In overlay 331, which has to be loaded
-void func_ov331_021bede0(HeapID heapId);
-void *func_ov331_021bea20(HeapID heapId);
-void func_ov331_021bec1c(void *a0);
-void *func_ov331_021bee80(void *a0);
-BOOL func_ov331_021bed54(void *a0);
-void func_ov331_021bed78(void *a0, SaveControl *save);
-void func_ov331_021bee24(HeapID heapId);
-BOOL func_ov331_021bee68(void *a0);
-void func_ov331_021bee88(void *a0, SaveControl *save);
-// Starts writing the save of ov331's work, and steps it until it returns TRUE
-void func_ov331_021bec24(void *a0);
-BOOL func_ov331_021bec98(void *a0);
 
 DreamRadarSave *GetDreamRadarSaveBlock(SaveControl *save);
 JoinAvenueSave *SaveControl_GetJoinAvenue(SaveControl *save);

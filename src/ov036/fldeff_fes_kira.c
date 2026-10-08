@@ -154,7 +154,7 @@ FieldEffectTask *func_ov036_021a5bb4(FieldEffects *effects) {
 }
 
 // Show sparkle idx at pos
-void func_ov036_021a5c04(FieldEffectTask *task, u32 idx, u16 value, const VecFx32 *pos) {
+void func_ov036_021a5c04(FieldEffectTask *task, u8 idx, u16 value, const VecFx32 *pos) {
     FesKiraTask *kiraTask = func_ov036_021a3afc(task);
 
     if (idx < FES_KIRA_MAX) {
@@ -165,7 +165,7 @@ void func_ov036_021a5c04(FieldEffectTask *task, u32 idx, u16 value, const VecFx3
 }
 
 // Hide sparkle idx, and every sparkle
-void func_ov036_021a5c2c(FieldEffectTask *task, u32 idx) {
+void func_ov036_021a5c2c(FieldEffectTask *task, u8 idx) {
     FesKiraTask *kiraTask = func_ov036_021a3afc(task);
 
     if (idx < FES_KIRA_MAX) {
@@ -183,7 +183,7 @@ void func_ov036_021a5c44(FieldEffectTask *task) {
 }
 
 // Whether sparkle idx shows, and its value
-u16 func_ov036_021a5c5c(FieldEffectTask *task, u32 idx) {
+u16 func_ov036_021a5c5c(FieldEffectTask *task, u8 idx) {
     FesKiraTask *kiraTask = func_ov036_021a3afc(task);
 
     if (idx >= FES_KIRA_MAX) {
@@ -192,7 +192,7 @@ u16 func_ov036_021a5c5c(FieldEffectTask *task, u32 idx) {
     return kiraTask->kiras[idx].active;
 }
 
-u16 func_ov036_021a5c74(FieldEffectTask *task, u32 idx) {
+u16 func_ov036_021a5c74(FieldEffectTask *task, u8 idx) {
     FesKiraTask *kiraTask = func_ov036_021a3afc(task);
 
     if (idx >= FES_KIRA_MAX) {

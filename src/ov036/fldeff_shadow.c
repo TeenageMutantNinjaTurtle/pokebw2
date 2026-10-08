@@ -85,7 +85,7 @@ static void func_ov036_021a3b9c(FieldEffectShadow *shadow) {
 }
 
 static void func_ov036_021a3bdc(FieldEffectShadow *shadow) {
-    BlActSys_FreeMaterials(shadow->blact, (u16)shadow->matIndex, 1);
+    BlActSys_FreeMaterials(shadow->blact, shadow->matIndex, 1);
 }
 
 // Give the actor a shadow

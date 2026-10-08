@@ -4,7 +4,7 @@
 // Names, layouts and constants from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0), except
 // ARCID_WINFRAME, ARCID_TITLE, ARCID_STARTMENU, ARCID_SEASON_BANNER, ARCID_COPYRIGHT, ARCID_ZUKAN_GRA, ARCID_INTRO,
 // ARCID_EGG_DEMO, ARCID_SHINKA_DEMO, ARCID_POKEICON, ARCID_BOX2, ARCID_TRAI_SCRIPT, ARCID_BMP_OAM, ARCID_INFOWIN,
-// ARCID_APP_MENU_COMMON, ARCID_TPOKE, ARCID_P_STATUS, ARCID_PMSI and ARCID_MYSTERY
+// ARCID_APP_MENU_COMMON, ARCID_TPOKE, ARCID_P_STATUS, ARCID_PMSI, ARCID_MYSTERY and ARCID_PROF_WORD
 
 #define ARCID_SYSTEM_MESSAGE 2
 #define ARCID_SCRIPT_MESSAGE 3
@@ -119,6 +119,8 @@
 #define ARCID_RESEARCH_RADAR 189
 // The graphics that many apps share, such as the touch bar, which getUINarcIdx returns. Our name, not swan's
 #define ARCID_APP_MENU_COMMON 82
+// The lists of words that names may not contain, compressed and encrypted
+#define ARCID_PROF_WORD 216
 #define ARCID_CDEMO_GFLOGO 220
 #define ARCID_CDEMO_OPENINGWB 221
 #define ARCID_CDEMO_OPENINGSW 222
@@ -134,6 +136,11 @@
 // The graphics of the Pokémon World Tournament's win record and downloaded tournaments, overlay 326 (not from swan)
 #define ARCID_WIN_RECORD 265
 #define ARCID_T_DOWNLOAD 266
+// The Pokémon World Tournament's touch screen (a/2/4/5), wbt_subscreen.c. Our name, not swan's
+#define ARCID_WBT_SUBSCREEN 245
+// The touch screen of no_gear.c (a/2/8/7): many palettes and screens that look like the C-Gear's. Our name and a
+// guess, not swan's
+#define ARCID_C_GEAR 287
 #define ARCID_GIMMICK_EXPOBJ_MARINETUBE 295
 
 #endif // POKEBW2_CONSTANTS_ARC_H

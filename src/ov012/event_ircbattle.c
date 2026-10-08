@@ -143,31 +143,35 @@ void func_ov012_021504a4(EventIRCWork *work, GameData *gameData) {
 
 // Puts each player's party and info in their place in the battle
 void func_ov012_02150588(EventIRCWork *work, GameSystem *gsys) {
-    s32 i;
-
     if (work->btlSetup->fieldSituation.unk1a) {
         if (work->ov174.order[func_02042a6c(func_02040440())] < 2) {
-            for (i = 0; i < 4; i++) {
+            s32 i = 0;
+
+            for (; i < 4; i++) {
                 work->players.players[work->ov174.order[i]].party = work->parties[i];
                 work->players.players[work->ov174.order[i]].info = func_02017378(GSYS_GetGameData(gsys), i);
             }
         } else {
+            s32 i = 0;
             u8 places[4] = { 2, 3, 0, 1 };
 
-            for (i = 0; i < 4; i++) {
+            for (; i < 4; i++) {
                 work->players.players[places[work->ov174.order[i]]].party = work->parties[i];
                 work->players.players[places[work->ov174.order[i]]].info = func_02017378(GSYS_GetGameData(gsys), i);
             }
         }
     } else if (func_02042a6c(func_02040440()) == 0) {
-        for (i = 0; i < 2; i++) {
+        s32 i = 0;
+
+        for (; i < 2; i++) {
             work->players.players[work->ov174.order[i]].party = work->parties[i];
             work->players.players[work->ov174.order[i]].info = func_02017378(GSYS_GetGameData(gsys), i);
         }
     } else {
+        s32 i = 0;
         u8 places[2] = { 1, 0 };
 
-        for (i = 0; i < 2; i++) {
+        for (; i < 2; i++) {
             work->players.players[places[work->ov174.order[i]]].party = work->parties[i];
             work->players.players[places[work->ov174.order[i]]].info = func_02017378(GSYS_GetGameData(gsys), i);
         }

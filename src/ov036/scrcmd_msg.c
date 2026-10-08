@@ -552,7 +552,7 @@ BOOL s0278_FunfestDispSalesmanMessage(VM *vm, FieldScriptEnv *env) {
     u16 step = ScriptReadAny(vm, env);
     u16 pos = ScriptReadAny(vm, env);
 
-    msgId += (u16)(step * count);
+    msgId += (u16)(count * step);
     return CallFieldActorMessageDisp(vm, env, SCRIPT_MSG_FILE, msgId, actorId, pos, 0);
 }
 

@@ -105,11 +105,11 @@ u8 func_02017a24(GameData *gameData);
 // Sets the area of the Entree Forest the player is in, which func_02017a24 returns
 void func_02017a18(GameData *gameData, u8 area);
 u16 GameData_GetDayPeriod(GameData *gameData);
-u16 GameData_GetMonth(GameData *gameData);
-u16 GameData_GetDay(GameData *gameData);
-u16 getCurrentDayOfWeek(GameData *gameData);
-u16 getCurrentHour(GameData *gameData);
-u16 getCurrentMinute(GameData *gameData);
+u32 GameData_GetMonth(GameData *gameData);
+u32 GameData_GetDay(GameData *gameData);
+u32 getCurrentDayOfWeek(GameData *gameData);
+u32 getCurrentHour(GameData *gameData);
+u32 getCurrentMinute(GameData *gameData);
 WifiList *GameData_GetWifiList(GameData *gameData);
 void GameData_InitEncountTerrain(GameData *gameData, Field *field);
 EncountState *GameData_GetEncountState(GameData *gameData);

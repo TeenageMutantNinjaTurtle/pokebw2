@@ -155,7 +155,7 @@ static void MBParent_FreeGameInfo(MBParentWork *wk);
 static BOOL MBParent_UpdateDistribution(MBParentWork *wk);
 static void MBParent_StartMBP(MBParentWork *wk);
 static void MBParent_UpdateEntry(MBParentWork *wk);
-static void MBParent_OnWirelessDone(BOOL success);
+static BOOL MBParent_OnWirelessDone(BOOL success);
 static void MBParent_SetPalParkResult(MBParentWork *wk, u8 result);
 static void MBParent_SoftResetCallback(void *work);
 static void MBParent_ReceivePokemon(MBParentWork *wk);
@@ -1058,8 +1058,9 @@ static void MBParent_UpdateEntry(MBParentWork *wk) {
     }
 }
 
-static void MBParent_OnWirelessDone(BOOL success) {
+static BOOL MBParent_OnWirelessDone(BOOL success) {
     sWirelessDone = TRUE;
+    return TRUE;
 }
 
 static void MBParent_SetPalParkResult(MBParentWork *wk, u8 result) {

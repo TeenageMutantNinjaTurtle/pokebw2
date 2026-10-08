@@ -236,7 +236,7 @@ BOOL func_02040504(void) {
     return FALSE;
 }
 
-void func_02040574(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_02040574(int netId, int size, const void *data, void *work, NetHandle *handle) {
     u16 timing = ((NetTimingData *)data)->timing;
     u8 netIds = ((NetTimingData *)data)->netIds;
     int i;
@@ -261,7 +261,7 @@ void func_02040574(int netId, int size, void *data, void *work, NetHandle *handl
     }
 }
 
-void func_020405ec(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_020405ec(int netId, int size, const void *data, void *work, NetHandle *handle) {
     handle->timingRecv = *(u16 *)data;
 }
 
@@ -505,7 +505,7 @@ void func_02040a9c(int netID) {
 }
 
 // Keeps data from a machine
-void func_02040ad0(int netID, int size, void *data, void *work, NetHandle *handle) {
+void func_02040ad0(int netID, int size, const void *data, void *work, NetHandle *handle) {
     GFLNetInitData *ini = func_02042e84();
 
     if (func_020401dc(handle) != GFL_NET_NETID_SERVER) {

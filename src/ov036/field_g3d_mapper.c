@@ -871,7 +871,7 @@ void FieldChunkLocator_GetPos(FieldChunkLocator *locator, VecFx32 *position) {
 }
 
 // Adds the terrain layers of the map's height areas at the position
-void func_ov036_0218543c(FieldG3DMapper *mapper, const VecFx32 *position, FieldG3DMapperTerrain *output) {
+void func_ov036_0218543c(const FieldG3DMapper *mapper, const VecFx32 *position, FieldG3DMapperTerrain *output) {
     VecFx16 normal = {0, FX16_ONE, 0};
     s32 added = 0;
     u32 count = output->layerCount;

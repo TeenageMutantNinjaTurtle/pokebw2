@@ -26,7 +26,7 @@ struct NetSyncCommand {
 extern const NetSyncCommand data_ov164_021999e8;
 
 void func_ov164_021998c0(NetSyncWork *work);
-void func_ov164_021998c8(void);
+void func_ov164_021998c8(NetSyncWork *work);
 void func_ov164_021998d4(NetSyncWork *work);
 u32 func_ov164_02199944(NetSyncWork *work, u8 kind, u16 value);
 void func_ov164_02199984(u32 a0, u32 a1, const NetSyncPacket *packet, NetSyncWork *work);

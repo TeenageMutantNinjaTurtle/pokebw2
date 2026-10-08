@@ -61,11 +61,11 @@ static const char *MBP_GetStateName(u16 state);
 static const char *MBP_GetCallbackName(u32 status);
 
 static HeapID sHeapId = 0xffff;
-// The library's work
-static void *sCWork;
 static u8 *sFilebuf;
 static MBPState mbpState;
 static MBPChildInfo childInfo[MBP_CHILD_MAX];
+// The library's work
+static void *sCWork;
 
 // The bitmaps of the children by state, and the names of the states and of the callback's statuses for debug output.
 // Only the demo's functions that the game doesn't call read them. The names of these and of the file's statics are

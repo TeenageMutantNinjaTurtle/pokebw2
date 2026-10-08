@@ -110,11 +110,11 @@ void BPlistCursor_ChangePage(BPlistWork *work, u8 page, int pos) {
 
 static void BPlistCursor_SetVisible(BPlistWork *work, BOOL visible) {
     work->cursorVisible = visible;
-    func_ov285_021f42fc(work->cursor, visible);
+    BAppCursor_SetVisible(work->cursor, visible);
 }
 
 static void BPlistCursor_Put(BPlistWork *work, int pos) {
-    func_ov285_021f4320(work->cursor, CursorMove_GetData(work->cursorMove, pos));
+    BAppCursor_SetPos(work->cursor, CursorMove_GetData(work->cursorMove, pos));
 }
 
 static void BPlistCursor_CallbackCursorOn(void *work, int pos, int prevPos) {

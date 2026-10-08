@@ -661,18 +661,14 @@ u8 func_ov167_021a00a4(BtlServerFlow *flow, BtlClientActions *clientActions, Act
 void func_ov167_021a0308(ActionOrderEntry *order, u32 count) {
     u32 i;
     u32 j;
-    ActionOrderEntry *a;
-    ActionOrderEntry *b;
     ActionOrderEntry tmp;
 
     for (i = 0; i < count; i++) {
-        a = &order[i];
         for (j = i + 1; j < count; j++) {
-            b = &order[j];
-            if (a->key <= b->key && (a->key != b->key || BattleRandom(2) != 0)) {
-                tmp = *a;
-                *a = *b;
-                *b = tmp;
+            if (order[i].key <= order[j].key && (order[i].key != order[j].key || BattleRandom(2) != 0)) {
+                tmp = order[i];
+                order[i] = order[j];
+                order[j] = tmp;
             }
         }
     }
@@ -2987,7 +2983,7 @@ void func_ov167_021a43c0(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon
     }
 }
 
-void func_ov167_021a44f0(BtlServerFlow *flow, BattleMon *attacker, void *targets, BtlFlowMoveParam *param,
+void func_ov167_021a44f0(BtlServerFlow *flow, BattleMon *attacker, void *targets, const BtlFlowMoveParam *param,
                          void *effectiveness, u32 arg5, BtlFlowDamageList *list) {
     u16 damage;
     u16 adjusted;
@@ -3115,7 +3111,6 @@ u32 func_ov167_021a4830(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon 
 }
 
 u32 func_ov167_021a49c4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, void *targets, void *data) {
-    BtlFlowDamageFlags flags = { 0 };
     u32 hit;
     u32 hits;
     u32 damage = 0;
@@ -3130,28 +3125,31 @@ u32 func_ov167_021a49c4(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon 
             func_ov167_021b1434(flow->queue, 0x4e, GetBattlePos(flow->unk1ab8, GetMonID(attacker)), targetPos, 0x27e);
         }
     }
-    for (hit = 0, hits = 0; hit < flow->unk4B4->count; hit++) {
-        BattleMoveEffectState *effect;
+    {
+        BtlFlowDamageFlags flags = { 0 };
+        for (hit = 0, hits = 0; hit < flow->unk4B4->count; hit++) {
+            BattleMoveEffectState *effect;
 
-        status = GetBattleMonStatus(attacker);
-        effect = flow->moveEffect;
-        if (!effect->enabled) {
-            effect->enabled = 1;
-            effect->unk05_1 = 1;
-        }
-        func_ov167_021b1434(flow->queue, 0x30, flow->moveEffect->pos1, flow->moveEffect->pos2, param->move, 0);
-        func_ov167_021a44f0(flow, attacker, targets, param, data, 0x1000, flow->unk870);
-        damage += func_ov167_021a4c44(flow, param, attacker, targets, flow->unk870, flow->unk4B4, 0x1000, flags);
-        hits++;
-        if (IsFainted(target) || IsFainted(attacker)) {
-            break;
-        }
-        ServerControl_CheckItemReaction(flow, target, 1);
-        if (GetBattleMonStatus(attacker) == 2 && status != 2) {
-            break;
-        }
-        if (flow->unk4B4->unk02 && !func_ov167_021a3504(flow, attacker, target, param)) {
-            break;
+            status = GetBattleMonStatus(attacker);
+            effect = flow->moveEffect;
+            if (!effect->enabled) {
+                effect->enabled = 1;
+                effect->unk05_1 = 1;
+            }
+            func_ov167_021b1434(flow->queue, 0x30, flow->moveEffect->pos1, flow->moveEffect->pos2, param->move, 0);
+            func_ov167_021a44f0(flow, attacker, targets, param, data, 0x1000, flow->unk870);
+            damage += func_ov167_021a4c44(flow, param, attacker, targets, flow->unk870, flow->unk4B4, 0x1000, flags);
+            hits++;
+            if (IsFainted(target) || IsFainted(attacker)) {
+                break;
+            }
+            ServerControl_CheckItemReaction(flow, target, 1);
+            if (GetBattleMonStatus(attacker) == 2 && status != 2) {
+                break;
+            }
+            if (flow->unk4B4->unk02 && !func_ov167_021a3504(flow, attacker, target, param)) {
+                break;
+            }
         }
     }
     if (hits != 0) {
@@ -3781,7 +3779,7 @@ void ServerControl_FaintPokemon(BtlServerFlow *flow, BattleMon *mon) {
     ServerControl_CheckFainted(flow, mon);
 }
 
-void ServerControl_DamageAddCondition(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker,
+void ServerControl_DamageAddCondition(BtlServerFlow *flow, const BtlFlowMoveParam *param, BattleMon *attacker,
                                       BattleMon *target) {
     BattleCondition value;
     u32 condition = ServerEvent_CheckMoveAddCondition(flow, param->move, attacker, target, &value);
@@ -4293,19 +4291,18 @@ BOOL func_ov167_021a6ab8(BtlServerFlow *flow, u8 monId, BattleMon *mon, u32 stat
 
 s32 ServerEvent_CheckSubstituteInteraction(BtlServerFlow *flow, BattleMon *mon, u32 stat, u8 attackerId, u16 context,
                                            s32 change) {
-    s32 result;
     BattleEventVar_Push(0x20d1);
     BattleEventVar_SetConstValue(2, GetMonID(mon));
     BattleEventVar_SetConstValue(3, attackerId);
     BattleEventVar_SetConstValue(0x1f, stat);
     BattleEventVar_SetRewriteOnceValue(0x20, change);
     BattleEvent_CallHandlers(flow, 0x5a);
-    result = BattleEventVar_GetValue(0x20);
+    change = BattleEventVar_GetValue(0x20);
     BattleEventVar_Pop(0x20d8);
-    return result;
+    return change;
 }
 
-void func_ov167_021a6c34(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets) {
+void func_ov167_021a6c34(BtlServerFlow *flow, const BtlFlowMoveParam *param, BattleMon *mon, void *targets) {
     u32 condition;
     MoveConditionParam conditionParam;
     BattleCondition value;

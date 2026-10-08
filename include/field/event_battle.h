@@ -8,8 +8,6 @@
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
-// Changes Burmy's form for the terrain it was caught on
-void burmyTransform(GameData *gameData, PartyPkm *pkm, u32 terrain);
 // A wild battle, and the same with the index of the special Pokémon met, 0xff for none
 GameEvent *EventWildBattleCall_CreateCore(GameSystem *gsys, Field *field, BtlSetup *setup, u8 a3, u32 a4,
                                           u8 specialIndex);

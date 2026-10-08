@@ -17,6 +17,7 @@
 #include "nitro/hw.h"
 #include "save/key_info.h"
 #include "save/save_control.h"
+#include "save/save_outside.h"
 #include "system/bmp_menulist.h"
 #include "system/bmp_oam.h"
 #include "system/dsi.h"
@@ -1045,7 +1046,7 @@ static void KeySystemFlow_SeqSave(KeySystemSeq *seq, int *state, void *work) {
             if (SaveControl_IsDataAlreadyPresent(GameData_GetSaveControl(wk->param->gameData))) {
                 func_0201782c(wk->param->gameData);
             } else {
-                func_ov331_021bec24(wk->ov331Work);
+                SaveOutside_StartSave(wk->ov331Work);
             }
             wk->timer = 0;
             (*state)++;
@@ -1057,7 +1058,7 @@ static void KeySystemFlow_SeqSave(KeySystemSeq *seq, int *state, void *work) {
             if (func_02017850(wk->param->gameData) == 2) {
                 (*state)++;
             }
-        } else if (func_ov331_021bec98(wk->ov331Work)) {
+        } else if (SaveOutside_Save(wk->ov331Work)) {
             (*state)++;
         }
         break;

@@ -252,6 +252,16 @@ static void BrSidebarWork_SetEndPos(BrSidebarWork *p_wk) {
     func_0204c288(p_wk->clwk, p_wk->scale, 0);
 }
 
+// The sign of a sidebar's sway: 1 when its data's dir is set, otherwise -1
+static inline int BrSidebar_GetDir(BOOL dir) {
+    int ret = -1;
+
+    if (dir) {
+        ret = 1;
+    }
+    return ret;
+}
+
 // Shakes in place, then slides to its end and shrinks
 static void BrSidebarWork_Move_Open(BrSidebarWork *p_wk) {
     p_wk->wait = (p_wk->wait + 1) % 2;
@@ -276,7 +286,7 @@ static void BrSidebarWork_Move_Open(BrSidebarWork *p_wk) {
         }
         break;
     case 2: {
-        s8 dir = p_wk->data.dir ? 1 : -1;
+        s8 dir = BrSidebar_GetDir(p_wk->data.dir);
 
         if (p_wk->cnt == 4) {
             p_wk->seq = 3;
@@ -285,7 +295,8 @@ static void BrSidebarWork_Move_Open(BrSidebarWork *p_wk) {
             u16 rot = 0xffff * p_wk->theta / 360;
 
             p_wk->now_x += -dir * func_02044360(rot);
-            p_wk->theta = (p_wk->theta + 32) % 360;
+            p_wk->theta += 32;
+            p_wk->theta %= 360;
             func_0204c1a8(p_wk->clwk, p_wk->now_x >> FX32_SHIFT, p_wk->data.display, 0);
             p_wk->cnt++;
         }
@@ -335,13 +346,10 @@ static void BrSidebarWork_Move_Bound(BrSidebarWork *p_wk) {
         p_wk->seq = 1;
         break;
     case 1: {
-        s8 dir = -1;
+        s8 dir = BrSidebar_GetDir(p_wk->data.dir);
         u16 rot;
         fx32 x;
 
-        if (p_wk->data.dir) {
-            dir = 1;
-        }
         rot = 0xffff * p_wk->theta / 360;
         x = p_wk->now_x + -dir * (func_02044360(rot) * 3);
         p_wk->theta += p_wk->data.theta_add;
@@ -386,8 +394,8 @@ static void BrSidebarWork_Move_Close(BrSidebarWork *p_wk) {
             p_wk->seq = 2;
         } else {
             x += (s16)p_wk->dx;
-            p_wk->cnt++;
             scale += p_wk->dscale;
+            p_wk->cnt++;
         }
         func_0204c1a8(p_wk->clwk, x, p_wk->data.display, 0);
         func_0204c288(p_wk->clwk, scale, 0);
