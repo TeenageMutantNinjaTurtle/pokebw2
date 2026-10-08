@@ -8,3 +8,8 @@ src/ov286/b_bag_bmp.c:
     complete
     .text       start:0x021f4440 end:0x021f4cc4
     .rodata     start:0x021f6d54 end:0x021f6e88
+
+src/ov286/b_bag_item.c:
+    complete
+    .text       start:0x021f4cc4 end:0x021f4f04
+    .rodata     start:0x021f6e88 end:0x021f6e90

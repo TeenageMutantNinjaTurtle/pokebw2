@@ -6251,6 +6251,13 @@ overlays/ov286 0x021f4c24 BBagBmp_OpenMessage
 overlays/ov286 0x021f4c48 BBagBmp_StartMessageStream
 overlays/ov286 0x021f4ca0 BBagBmp_FlushWindows
 overlays/ov286 0x021f4cb0 BBagBmp_TransferPage
+overlays/ov286 0x021f4cc4 BBagItem_CheckLastItem
+overlays/ov286 0x021f4cf8 BBagItem_SetCursorToLastItem
+overlays/ov286 0x021f4d4c BBagItem_MakePocketLists
+overlays/ov286 0x021f4e3c BBagItem_MakeShooterList
+overlays/ov286 0x021f4e98 BBagItem_MakeDemoList
+overlays/ov286 0x021f4eb8 BBagItem_GetSlotItem
+overlays/ov286 0x021f4ef8 BBagItem_GetShooterCost
 overlays/ov287 0x021f4440 BPlistAnm_CutButtonScrn
 overlays/ov287 0x021f46d4 BPlistAnm_CutPageScrn
 overlays/ov287 0x021f4780 BPlistAnm_CopyScrnRect
