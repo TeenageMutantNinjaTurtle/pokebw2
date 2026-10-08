@@ -399,9 +399,15 @@ src/ov012/event_field_open_lcd.c:
     complete
     .text       start:0x0216ad3c end:0x0216adcc
 
+src/ov012/burmy_form.c:
+    complete
+    .text       start:0x02168468 end:0x021684bc
+    .rodata     start:0x0216dc90 end:0x0216dd1c
+
 src/ov012/event_battle.c:
-    .text       start:0x02168468 end:0x0216919c
-    .rodata     start:0x0216dc90 end:0x0216dd60
+    complete
+    .text       start:0x021684bc end:0x0216919c
+    .rodata     start:0x0216dd1c end:0x0216dd60
     .data       start:0x0216e5cc end:0x0216e5ec
 
 src/ov012/pair_sys.c:
