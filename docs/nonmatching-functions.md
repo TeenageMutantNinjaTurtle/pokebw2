@@ -288,9 +288,17 @@ the original code is linked until they match. The differences are the same in bo
 - `GetHPRatio` (`src/ov167/btl_pokeparam.c`) matches, but its file can only be completed once linking it doesn't need the
   `_dadd`, `_ddiv`, `_dfix`, `_dflt`, `_dfltu`, `_dgr`, `_dmul` and `_dsub` runtime helpers, which the ROM doesn't have;
   the original calls the AEABI double helpers directly.
-- All of `src/ov167/ability_handlers.c` matches in both versions, but it links only once overlay 169 is analyzed:
-  its calls to `func_ov169_0689ca54` and four other functions there go through linker veneers to code that dsd
-  takes for data, so the symbols are undefined.
+- All of `src/ov167/ability_handlers.c`'s functions match in both versions, but its `.rodata` (`0x021d7624` to
+  `0x021d83e8`, the event handler tables) isn't written yet: the functions still name the tables through `extern`s
+  in `battle/btl_ability.h`, as `item_handlers.c` and `move_handlers.c` no longer do. It also calls overlay 169,
+  like them (below).
+- Overlay 169 runs from VRAM (`0x06898020`) and dsd has all of it as `.rodata`. Its 16-byte Thumb stubs, such as
+  `func_ov169_0689ca54` and `func_ov169_0689ca74` (`ldr r1, =table; ldr r3, =func; movs r2, #n; bx r3`), can be
+  declared with `config_fixes.py add-function` and their `+1` data symbols removed, which lets `item_handlers.c`
+  link. But the build then misses 32 bytes of overlay 167: the original has two identical ARM/Thumb veneers to
+  `0x06898cf5` at `0x021cb35c`, one for each original object that calls it, where the linker makes one for the
+  merged asm object of the incomplete files around it. The overlay can't take a completed file in this region
+  until those veneers come out per original file.
 - `src/ov167/btl_client.c`'s `.rodata` has the original's sections and sizes, but in its shared section the two 8-byte
   message tables (`sEscapeMessages` and `sTrainerHintMsgs`) and the two 20-byte ones (`sAudienceLeave` and
   `sWeatherStartTable`) come out swapped. Moving the top-level tables doesn't change it, so the size sort also sees the
