@@ -42,6 +42,7 @@
 #include "save/save_control.h"
 #include "save/trainer_card.h"
 #include "struct_decls.h"
+#include "system/area_data.h"
 #include "system/game_beacon.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"

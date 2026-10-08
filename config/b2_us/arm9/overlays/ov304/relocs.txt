@@ -472,7 +472,7 @@ from:0x021a1afc kind:load to:0x0219cc35 module:overlays(139,167)
 from:0x021a1b0a kind:thumb_call to:0x0219cc44 module:overlay(139)
 from:0x021a1b14 kind:thumb_call to:0x021a1af0 module:overlay(304)
 from:0x021a1b38 kind:load to:0x0219cc3d module:overlay(139)
-from:0x021a1b48 kind:load to:0x0219cc59 module:overlays(36,139,167,180)
+from:0x021a1b48 kind:load to:0x0219cc59 module:overlay(139)
 from:0x021a1b58 kind:thumb_call to:0x0219cc34 module:overlays(139,167)
 from:0x021a1b66 kind:thumb_call to:0x0219cad8 module:overlays(139,259)
 from:0x021a1b6c kind:thumb_call to:0x02045b7c module:main

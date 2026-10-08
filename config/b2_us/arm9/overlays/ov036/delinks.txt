@@ -250,3 +250,15 @@ src/ov036/scrcmd_shop.c:
     .text       start:0x021abb70 end:0x021adc6c
     .rodata     start:0x021d0918 end:0x021d0f58
     .data       start:0x021d5160 end:0x021d51dc
+
+src/ov036/field_player.c:
+    complete
+    .text       start:0x0219a47c end:0x0219ad4c
+    .rodata     start:0x021cfc10 end:0x021cfc60
+    .data       start:0x021d4e88 end:0x021d4e98
+
+src/ov036/field_player_grid.c:
+    complete
+    .text       start:0x0219b7a8 end:0x0219cea0
+    .rodata     start:0x021cfcf0 end:0x021cfdcc
+    .data       start:0x021d4eac end:0x021d4ec0

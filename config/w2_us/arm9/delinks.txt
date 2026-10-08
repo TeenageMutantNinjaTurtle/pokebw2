@@ -924,3 +924,7 @@ lib/nnsys/src/g2d/g2di_BitReader.c:
 lib/nnsys/src/g2d/g2di_SplitChar.c:
     complete
     .text       start:0x02064fac end:0x02064fb8
+
+src/system/area_data.c:
+    complete
+    .text       start:0x02018f10 end:0x02018fe8

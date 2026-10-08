@@ -19,6 +19,7 @@ void GymElec_SetBrightness(Field *field, u32 brightness);
 // Overlay 91: the Castelia City gym
 void GymInsect_PlayObject(Field *field, u8 object);
 void GymInsect_ShowEffect(Field *field);
+BOOL GymInsect_IsRideAhead(GameSystem *gsys, u8 dir);
 
 // Overlays 94, 96 and 98 to 102: the other gyms' puzzles (overlay 97's are in gym_driftveil_lift.h)
 GameEvent *func_ov094_021eeef8(GameSystem *gsys, u16 a1);

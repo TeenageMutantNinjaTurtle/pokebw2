@@ -29,7 +29,7 @@ BOOL s00C5_CallSurf(VM *vm, FieldScriptEnv *env) {
     Field *field;
     FieldPlayer *player;
     FieldG3DMapper *mapper;
-    u32 direction;
+    u16 direction;
     HeapID heapId;
     u32 tileType;
     void *tcb;

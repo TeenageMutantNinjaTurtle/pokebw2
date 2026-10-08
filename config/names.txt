@@ -1603,6 +1603,18 @@ overlays/ov035 0x0217ee00 ElScoreboard_Free
 overlays/ov035 0x0217ee08 ElScoreboard_Update
 overlays/ov035 0x0217ee2c ElScoreboard_UploadPalette
 overlays/ov036 0x0219a6dc FieldPlayer_GetSex
+overlays/ov036 0x0219b7a8 FieldPlayerGrid_Create
+overlays/ov036 0x0219b80c FieldPlayerGrid_Free
+overlays/ov036 0x0219bf80 FieldPlayerGrid_DecideCommandBikeIdle
+overlays/ov036 0x0219c000 FieldPlayerGrid_DecideCommandBikeMoving
+overlays/ov036 0x0219c0e0 FieldPlayerGrid_DecideCommandBikeTurning
+overlays/ov036 0x0219c114 FieldPlayerGrid_DecideCommandBikeBraking
+overlays/ov036 0x0219c1c0 FieldPlayerGrid_DecideCommandSurfIdle
+overlays/ov036 0x0219c204 FieldPlayerGrid_DecideCommandSurfMoving
+overlays/ov036 0x0219c288 FieldPlayerGrid_DecideCommandSurfTurning
+overlays/ov036 0x0219c2bc FieldPlayerGrid_DecideCommandSurfBraking
+overlays/ov036 0x0219cd90 FieldPlayerGrid_SetVerticalMoveOnlyFlag
+overlays/ov036 0x0219cd98 FieldPlayerGrid_IsBraking
 overlays/ov036 0x0219fa10 FieldMenu_Create
 overlays/ov036 0x0219fb68 FieldMenu_Free
 overlays/ov036 0x0219fc60 FieldMenu_Update
@@ -1617,6 +1629,8 @@ overlays/ov036 0x021c2168 PleasureBoat_AdvanceClock
 overlays/ov036 0x021c21b8 PleasureBoat_GetInfo
 overlays/ov036 0x021c2254 PleasureBoat_SetTrainerDefeated
 overlays/ov036 0x021c2290 PleasureBoat_StopClock
+overlays/ov036 0x021cfcf8 TILE_CLASS_SFX_LAY0
+overlays/ov036 0x021cfd30 TILE_CLASS_SFX_LAY1
 overlays/ov036 0x021d0924 sConfirmDialogSetup
 overlays/ov036 0x021d0948 sWindowShards
 overlays/ov036 0x021d0954 sWindowTitle

@@ -84,14 +84,6 @@ extern const MapReplaceEvent EVENT_MAP_REPLACE_TABLE[];
 extern const char data_ov012_0216e1c4[];
 extern const char data_ov012_0216e1d4[];
 
-AreaData *AreaData_Create(HeapID heapId, u16 areaId, u32 a2);
-void AreaData_Free(AreaData *areaData);
-BOOL AreaData_IsExterior(AreaData *areaData);
-// The area's props, a file of ARCID_AREA_BMDATA_EXT or ARCID_AREA_BMDATA_INT
-u16 AreaData_GetPropBundleID(AreaData *areaData);
-u32 AreaData_GetTexSetID(AreaData *areaData);
-u32 AreaData_GetSRTAnmID(AreaData *areaData);
-u32 AreaData_GetPatAnmID(AreaData *areaData);
 void GimmickState_Reset(GimmickState *gimmick);
 void GimmickState_SetID(GimmickState *gimmick, u16 gimmickId);
 u32 GimmickState_GetID(GimmickState *gimmick);
@@ -129,6 +121,7 @@ u16 GetTileClass(u32 tileType);
 BOOL MapTile_IsValid(u32 tileType);
 BOOL MapTile_BlocksCollision(u32 tileType);
 BOOL MapTile_IsBlocksCycling(u16 tileClass);
+BOOL MapTile_IsReallyTallGrass(u16 tileClass);
 BOOL MapTile_IsNormalTallGrassDoubleBtl(u32 tileClass);
 BOOL MapTile_IsTallGrassDoubleBtl(u32 tileClass);
 // The battle terrain of the tile class
@@ -202,12 +195,5 @@ void func_ov036_021c2d04(LandDataPatch *patch, void *map, u32 srcX, u32 srcY, u3
                          u32 height);
 // Adds the patch's buildings at x and y, after the count already added, and returns the new count
 u32 LoadLandDataPatchBuildings(LandDataPatch *patch, void *a1, void *a2, u32 count, u32 x, u32 y);
-u8 AreaData_GetLightsID(AreaData *areaData);
-u8 AreaData_GetEdgeColorTableID(AreaData *areaData);
-u8 AreaData_GetActorMatColorID(AreaData *areaData);
-BOOL AreaData_HasSeasons(u16 areaId);
-BOOL func_02018f60(u16 areaId);
-BOOL func_02018f78(u16 areaId);
-BOOL func_02018f90(u16 areaId);
 
 #endif // POKEBW2_FIELD_FIELD_MAP_H
