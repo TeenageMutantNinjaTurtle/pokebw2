@@ -431,7 +431,6 @@ data_ov209_021c3109 kind:data(any) addr:0x021c3109 ambiguous
 data_ov209_021c3114 kind:data(any) addr:0x021c3114
 data_ov209_021c3128 kind:data(any) addr:0x021c3128
 data_ov209_021c313c kind:data(any) addr:0x021c313c
-data_ov209_021c3150 kind:data(any) addr:0x021c3150
-data_ov209_021c315d kind:data(any) addr:0x021c315d ambiguous
+sFile kind:data(any) addr:0x021c3150
 STA_SCRIPT_COMMANDS kind:data(any) addr:0x021c3164
 sStaActingPause kind:bss addr:0x021c3240

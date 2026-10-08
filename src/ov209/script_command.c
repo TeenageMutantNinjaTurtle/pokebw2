@@ -25,6 +25,10 @@
 // Frames of each hop of the Pokémon as they line up at the end
 #define STA_SCRIPT_LINE_UP_JUMP_PERIOD 15
 
+// The file name of the allocations, which the original has in .data ahead of the command table rather than as
+// string literals after it
+static char sFile[] = "script_command.c";
+
 // A value that goes from start to end over frames
 typedef struct {
     StaActing *stage;
@@ -219,8 +223,7 @@ static BOOL StaScriptCmd_CurtainOpen(VM *vm, void *work) {
     StaActScript *script = work;
     StaActScriptSys *sys = script->sys;
     BOOL wait = VM_Read32(script->vm);
-    StaScriptValueWork *curtain =
-        GFL_HeapAllocate(sys->heapId, sizeof(StaScriptValueWork), FALSE, "script_command.c", 424);
+    StaScriptValueWork *curtain = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptValueWork), FALSE, sFile, 424);
 
     curtain->sys = sys;
     curtain->move.stage = sys->stage;
@@ -240,8 +243,7 @@ static BOOL StaScriptCmd_CurtainClose(VM *vm, void *work) {
     StaActScript *script = work;
     StaActScriptSys *sys = script->sys;
     BOOL wait = VM_Read32(script->vm);
-    StaScriptValueWork *curtain =
-        GFL_HeapAllocate(sys->heapId, sizeof(StaScriptValueWork), FALSE, "script_command.c", 453);
+    StaScriptValueWork *curtain = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptValueWork), FALSE, sFile, 453);
 
     curtain->sys = sys;
     curtain->move.stage = sys->stage;
@@ -268,8 +270,7 @@ static BOOL StaScriptCmd_CurtainMove(VM *vm, void *work) {
     if (frames == 0) {
         StaActing_SetCurtainOffset(sys->stage, offset);
     } else {
-        StaScriptValueWork *curtain =
-            GFL_HeapAllocate(sys->heapId, sizeof(StaScriptValueWork), FALSE, "script_command.c", 493);
+        StaScriptValueWork *curtain = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptValueWork), FALSE, sFile, 493);
 
         curtain->sys = sys;
         curtain->move.stage = sys->stage;
@@ -307,8 +308,7 @@ static BOOL StaScriptCmd_Scroll(VM *vm, void *work) {
     if (frames == 0) {
         StaActing_SetScrollTarget(sys->stage, offset);
     } else {
-        StaScriptValueWork *scroll =
-            GFL_HeapAllocate(sys->heapId, sizeof(StaScriptValueWork), FALSE, "script_command.c", 553);
+        StaScriptValueWork *scroll = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptValueWork), FALSE, sFile, 553);
 
         scroll->sys = sys;
         scroll->move.stage = sys->stage;
@@ -443,8 +443,7 @@ static BOOL StaScriptCmd_PokeMove(VM *vm, void *work) {
                 StaActPoke_SetPosition(pokeSys, poke, &pos);
             } else {
                 VecFx32 diff;
-                StaScriptMoveWork *move =
-                    GFL_HeapAllocate(sys->heapId, sizeof(StaScriptMoveWork), FALSE, "script_command.c", 734);
+                StaScriptMoveWork *move = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptMoveWork), FALSE, sFile, 734);
 
                 move->sys = sys;
                 move->target = poke;
@@ -495,8 +494,7 @@ static BOOL StaScriptCmd_PokeMoveBy(VM *vm, void *work) {
                 pos.z += z;
                 StaActPoke_SetPosition(pokeSys, poke, &pos);
             } else {
-                StaScriptMoveWork *move =
-                    GFL_HeapAllocate(sys->heapId, sizeof(StaScriptMoveWork), FALSE, "script_command.c", 799);
+                StaScriptMoveWork *move = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptMoveWork), FALSE, sFile, 799);
 
                 move->sys = sys;
                 move->target = poke;
@@ -692,8 +690,7 @@ static BOOL StaScriptCmd_PokeJump(VM *vm, void *work) {
 
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            StaScriptJumpWork *jump =
-                GFL_HeapAllocate(sys->heapId, sizeof(StaScriptJumpWork), FALSE, "script_command.c", 1095);
+            StaScriptJumpWork *jump = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptJumpWork), FALSE, sFile, 1095);
 
             jump->sys = sys;
             jump->poke = StaActing_GetPoke(sys->stage, i);
@@ -745,7 +742,7 @@ static BOOL StaScriptCmd_PokeRotate(VM *vm, void *work) {
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
             StaScriptRotateWork *rotate =
-                GFL_HeapAllocate(sys->heapId, sizeof(StaScriptRotateWork), FALSE, "script_command.c", 1175);
+                GFL_HeapAllocate(sys->heapId, sizeof(StaScriptRotateWork), FALSE, sFile, 1175);
 
             rotate->sys = sys;
             rotate->poke = StaActing_GetPoke(sys->stage, i);
@@ -782,7 +779,7 @@ static void StaScript_PokeRotateTask(TCB *tcb, void *data) {
 static BOOL StaScriptCmd_LineUp(VM *vm, void *work) {
     StaActScript *script = work;
     StaActScriptSys *sys = script->sys;
-    u32 frames = VM_Read32(script->vm);
+    int frames = VM_Read32(script->vm);
     BOOL wait = VM_Read32(script->vm);
     StaActPokeSys *pokeSys = StaActing_GetPokeSys(sys->stage);
     u8 maxRank = 0;
@@ -839,8 +836,7 @@ static BOOL StaScriptCmd_LineUp(VM *vm, void *work) {
 
     totalX = 0;
     for (i = 0; i < 4; i++) {
-        StaScriptMoveWork *move =
-            GFL_HeapAllocate(sys->heapId, sizeof(StaScriptMoveWork), FALSE, "script_command.c", 1332);
+        StaScriptMoveWork *move = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptMoveWork), FALSE, sFile, 1332);
 
         move->sys = sys;
         move->target = StaActing_GetPoke(sys->stage, i);
@@ -856,8 +852,7 @@ static BOOL StaScriptCmd_LineUp(VM *vm, void *work) {
         move->move.step.z = (move->move.end.z - move->move.start.z) / move->move.frames;
         move->task = StaActScript_AddTask(sys, StaScript_PokeMoveTask, move, 10);
         if (move->move.frames != 0) {
-            StaScriptJumpWork *jump =
-                GFL_HeapAllocate(sys->heapId, sizeof(StaScriptJumpWork), FALSE, "script_command.c", 1359);
+            StaScriptJumpWork *jump = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptJumpWork), FALSE, sFile, 1359);
             u16 jumpFrames = move->move.frames;
             u8 rest = jumpFrames % STA_SCRIPT_LINE_UP_JUMP_PERIOD;
             int extra = rest != 0 ? 1 : 0;
@@ -875,8 +870,7 @@ static BOOL StaScriptCmd_LineUp(VM *vm, void *work) {
     }
 
     {
-        StaScriptValueWork *scroll =
-            GFL_HeapAllocate(sys->heapId, sizeof(StaScriptValueWork), FALSE, "script_command.c", 1383);
+        StaScriptValueWork *scroll = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptValueWork), FALSE, sFile, 1383);
 
         scroll->sys = sys;
         scroll->move.stage = sys->stage;
@@ -979,8 +973,7 @@ static BOOL StaScriptCmd_ObjMove(VM *vm, void *work) {
         StaActObj_SetPosition(objSys, obj, &pos);
     } else {
         VecFx32 diff;
-        StaScriptMoveWork *move =
-            GFL_HeapAllocate(sys->heapId, sizeof(StaScriptMoveWork), FALSE, "script_command.c", 1541);
+        StaScriptMoveWork *move = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptMoveWork), FALSE, sFile, 1541);
 
         move->sys = sys;
         move->target = obj;
@@ -1076,8 +1069,7 @@ static BOOL StaScriptCmd_EmitterRandom(VM *vm, void *work) {
     fx32 maxY = VM_Read32(script->vm);
     fx32 maxZ = VM_Read32(script->vm);
     StaActEffect *effect = StaActing_GetEffect(sys->stage, index);
-    StaScriptEmitterWork *emitter =
-        GFL_HeapAllocate(sys->heapId, sizeof(StaScriptEmitterWork), FALSE, "script_command.c", 1685);
+    StaScriptEmitterWork *emitter = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptEmitterWork), FALSE, sFile, 1685);
 
     emitter->sys = sys;
     emitter->effect = effect;
@@ -1159,8 +1151,7 @@ static BOOL StaScriptCmd_LightMove(VM *vm, void *work) {
         StaActLight_SetPosition(lightSys, light, &pos);
     } else {
         VecFx32 diff;
-        StaScriptMoveWork *move =
-            GFL_HeapAllocate(sys->heapId, sizeof(StaScriptMoveWork), FALSE, "script_command.c", 1800);
+        StaScriptMoveWork *move = GFL_HeapAllocate(sys->heapId, sizeof(StaScriptMoveWork), FALSE, sFile, 1800);
 
         move->sys = sys;
         move->target = light;
@@ -1233,7 +1224,7 @@ static BOOL StaScriptCmd_LightFollow(VM *vm, void *work) {
             } else {
                 StaActAudience *audience = StaActing_GetAudience(sys->stage);
                 StaScriptLightFollowWork *follow =
-                    GFL_HeapAllocate(sys->heapId, sizeof(StaScriptLightFollowWork), FALSE, "script_command.c", 1873);
+                    GFL_HeapAllocate(sys->heapId, sizeof(StaScriptLightFollowWork), FALSE, sFile, 1873);
 
                 follow->sys = sys;
                 follow->pokePos = i;

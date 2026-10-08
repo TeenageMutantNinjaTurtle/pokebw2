@@ -897,6 +897,14 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `GFL_ASSERT(a < (B*C))` needs the game's spacing (`delivery_beacon.c` turns clang-format off for it). In
   `delivery_beacon.c` the game has the asserts' `""` before the file name of an earlier allocation, which no source
   order tried reproduces: a folded assert or an unused inline creates no literal.
+- String literals are created during code generation, for the references that survive optimization, so they come
+  after all of a file's file-scope data, and dead code, unused locals and folded asserts create none. A literal
+  laid out earlier than any surviving reference to it points to code the original linker dead-stripped. A file name
+  ahead of a table in `.data` is a file-scope array: `script_command.c` declares `static char sFile[] =
+  "script_command.c";` and passes `sFile` to its allocations, as `event_research_radar.c` does.
+- A global that no code refers to can be declared anywhere in the file, after functions too, and where it sits in
+  the heapsort's list moves the local initializers around it: `mus_shot_photo.c` declares `MUS_SHOT_PHOTO_UNUSED`
+  just before its last function, which gives the original's `.rodata` with no code change.
 - Small objects that come after a larger one in the same file, out of size order, may be rows of one array: the PC
   box's `box2_ui.c` has seven cursor tables after a 540-byte one, and they are `sTrayCursorData[3][47]`, three rows
   of equal length that each end in a `TOUCH_RECT_END` entry, with other tables pointing into the rows. Once the sizes
