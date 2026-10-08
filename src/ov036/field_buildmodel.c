@@ -12,6 +12,7 @@
 #include "gfl/sound.h"
 #include "gfl/std.h"
 #include "nitro/fx.h"
+#include "system/area_data.h"
 #include "system/rtc.h"
 
 struct FieldPropDoorResInfo {

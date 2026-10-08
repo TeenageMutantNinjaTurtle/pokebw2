@@ -12,6 +12,7 @@
 #include "gfl/std.h"
 #include "gfl/tcb.h"
 #include "nnsys/g3d.h"
+#include "system/area_data.h"
 #include "system/palanm.h"
 #include "system/season.h"
 
