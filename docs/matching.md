@@ -10,6 +10,11 @@ tools that show the differences.
 
 - A loop that walks on from a parameter reuses the parameter as its cursor, with the start kept in a local
   (`int start = pos;`), as `b_plist_main.c`'s `BPlistMain_GetNextPos` does; a separate counter swaps the registers.
+- A `const` pointer parameter lets MWCC keep a value loaded through it across a store through another pointer; the
+  original reloads it, so `btlv_effect.c`'s `BtlvEffTool_Step` takes its step pointer non-const. The same decided
+  several vector copies in `btlv_mcss.c` and `btlv_effvm.c`: field-by-field copies from non-const sources.
+- Clearing one bit with `flags &= ~(1 << i)` gives `mvns`; the original's `eors` with -1 is `flags &= (1 << i) ^ 0xffffffff`,
+  as `btlv_clact.c`'s move and scale task ends do, and `btlv_stage.c`'s vanish flags use `(1 << side) ^ 3`.
 - One swap temporary declared first and shared by two swaps gets other registers than one in each swap's block:
   `clact.c`'s `func_0204ca1c`. A pointer local to a copy loop's source array, `const u16 *name = src->nickname;`,
   moves which values get registers around the loop: `fld_btl_inst_tool.c`'s `genSubwayBtlInstitutePoke`, which
@@ -644,6 +649,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   value on the condition, and the else-value last, so the condition's direction decides which constant comes first:
   `b_bag_anm.c`'s button animation needs `if (button >= 10) palette = 2; else palette = 5;`, and `< 10`, a ternary
   or a default followed by an `if` all fail.
+- `if ((a | b | c) != 0)` keeps the ORs in one test where `if (a | b | c)` is split into branches, as
+  `btlv_effect.c`'s rotate task shows.
 - A one-case `switch` keeps a result variable that `if (f() == 1 && x)` folds into two returns: `btl_main.c`'s
   `func_ov167_0219db08` zeroes `result` before the call, as the original does, only as
   `switch (f()) { case 1: if (x) { result = TRUE; } break; }`.
@@ -773,6 +780,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Loops
 
+- A `for` loop with a constant bound keeps its test before the first pass only with a counter of an enum type, as the
+  position loops of `btlv_mcss.c`, `btlv_effvm.c` and `btlv_gauge.c` do with `BtlvMcssPos` and `BtlvGaugePos`.
 - A loop counted with `!=` tests with `beq` before the loop and `bne` at its end, where `<` gives `bls` and `blo`:
   the forms page walks its form-name table with `for (i = 0; i != form; i++)`.
 - `while (cond)` is rotated, with a copy of its test before the loop. A loop that tests once, at its top, is
@@ -846,6 +855,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Floats and runtime helpers
 
+- A random pick in a variable range with no zero check is `u64 value = GFL_RandomMT(); value *= n; value >>= 32;`, as
+  `btlv_mcss.c`'s idle task does.
 - Float arithmetic calls MWCC's runtime helpers, such as `_fadd` and `_ffix`, which swan names `__aeabi_*`. When a
   complete file fails to link on one of them, rename it to the MWCC name with `rename_symbol.py`.
 - Float arithmetic on a literal passes the literal first, as in `_fmul(4096.0f, x)` for `x * FX32_ONE`, whatever the
@@ -876,6 +887,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Data and sections
 
+- The file's `.data` objects take part in MWCC's size sort that orders `.rodata`: `btlv_mcss.c`'s 3-byte idle-wait
+  array had to be counted before `rodata_order.py` predicted the layout.
 - A function-local static of a function MWCC doesn't emit is dropped, while a global read only by an unemitted
   static function stays in the shared section. Data that outlived code the original link dead-stripped can't be
   reproduced under `-nodead`: wipe_sub.c's `.data` and `.rodata` hold the parameters of about 31 handlers the ROM

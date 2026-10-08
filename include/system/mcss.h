@@ -29,6 +29,10 @@ typedef struct {
 // Called with the callback's parameter and the animation's frame
 typedef void (*MCSSAnimationCallback)(u32 param, fx32 frame);
 
+// The colors of a zone's light at a time of day and in a weather and season: the four lights' and then four of the
+// materials'. From the code before mcss.c, whose file is unknown
+void func_02019804(u32 zoneId, u32 hour, u32 minute, u32 weather, u32 season, GXRgb *colors, HeapID heapId);
+
 MCSSSystem *MCSSSys_Create(u32 capacity, HeapID heapId);
 void MCSSSys_Free(MCSSSystem *system);
 // Steps the animation of every sprite that is not paused
@@ -37,11 +41,13 @@ void MCSSSys_Draw(MCSSSystem *system);
 MCSS *MCSSSys_Add(MCSSSystem *system, fx32 x, fx32 y, fx32 z, const MCSSLoadInfo *info);
 void MCSSSys_Remove(MCSSSystem *system, MCSS *mcss);
 void func_0201aacc(MCSSSystem *system);
+void func_0201aadc(MCSSSystem *system);
 // The archive of the sprites' files, which func_02019b98 opens and func_02019bb4 closes, and the task manager that
 // runs the sprites' fades, which an app clears while it adds sprites
 void func_02019b98(MCSSSystem *system, u32 arcId);
 void func_02019bb4(MCSSSystem *system);
 void func_02019bcc(MCSSSystem *system, TCBManager *tcbMgr);
+void func_02019bd8(MCSSSystem *system, MCSS *mcss, const MCSSLoadInfo *info);
 // Where the sprites' character and palette data go: each sprite's is at these offsets plus 0x4000 and 0x20 bytes per
 // slot
 void func_0201aefc(MCSSSystem *system, u32 characterOffset);
@@ -70,7 +76,7 @@ void MCSS_RestartAnimation(MCSS *mcss);
 // Alpha from 0 to 31
 u8 func_0201ae88(MCSS *mcss);
 // Fades the palette between two levels of a color, and whether the fade is running
-void func_0201ae2c(MCSS *mcss, u8 startLevel, u8 endLevel, s32 wait, GXRgb color);
+void func_0201ae2c(MCSS *mcss, u8 startLevel, u8 endLevel, s32 wait, u32 color);
 BOOL func_0201aee8(MCSS *mcss);
 void func_0201aecc(MCSS *mcss, u32 a1);
 void func_0201aeb0(MCSS *mcss, u32 a1);
@@ -85,8 +91,44 @@ void func_020618c0(NNSG2dAnimController *controller);
 void func_0201c290(MCSS *mcss);
 // Called as a sprite's animation ends
 void func_0201b25c(MCSS *mcss);
+
+// More of a sprite's state, which the battle view's sprites use
+void func_0201aae8(MCSS *mcss);
+void func_0201aaf8(MCSS *mcss);
+void func_0201ab3c(MCSS *mcss, VecFx32 *out);
+void func_0201ab70(MCSS *mcss, VecFx32 *out);
+void func_0201aba0(MCSS *mcss, VecFx32 *out);
+void func_0201abd4(MCSS *mcss, VecFx32 *out);
+void func_0201abf0(MCSS *mcss, const VecFx32 *in);
+void func_0201ac28(MCSS *mcss, VecFx32 *out);
+void func_0201ac40(MCSS *mcss, const VecFx32 *in);
+void func_0201ac64(MCSS *mcss, u16 value);
+void func_0201acb0(MCSS *mcss);
+BOOL func_0201acd4(MCSS *mcss);
+void func_0201ad04(MCSS *mcss);
+void func_0201ad4c(MCSS *mcss);
+BOOL func_0201ad70(MCSS *mcss);
+void func_0201ada0(MCSS *mcss);
+u16 func_0201adc8(MCSS *mcss);
+u8 func_0201add0(MCSS *mcss);
+u16 func_0201add8(MCSS *mcss, u8 index);
+u8 func_0201ae00(MCSS *mcss);
+void func_0201ae1c(MCSS *mcss, u32 param,
+                   BOOL (*func)(u32 param, const NNSG2dMultiCellHierarchyData *node, NNSG2dCellAnimation *cellAnim,
+                                u16 nodeIdx));
+u8 func_0201af44(MCSS *mcss);
+void func_0201af54(MCSSSystem *system, MCSS *mcss, int level);
+void func_0201afa0(MCSS *mcss, fx32 speed);
+u16 func_0201afa8(MCSS *mcss);
+void func_0201afb0(MCSSSystem *system, MCSS *mcss, u8 evy, GXRgb color);
+void func_0201b128(MCSSSystem *system, MCSS *mcss);
+void func_0201b270(MCSS *mcss, BOOL flag);
+void func_0201b28c(MCSSSystem *system, u32 value);
+void func_0201b290(MCSSSystem *system, BOOL flag);
 // The files of a Pokémon's sprite, with a5 and a6 as GetPokemonPaletteDataNo takes them
 void SetupPokemonLoaderFSTool(u32 species, u32 form, u32 sex, BOOL rare, u32 a6, MCSSLoadInfo *info, u32 a5);
+// The files of a trainer's sprite, from the front or the back
+void GetTrainerSpriteResIDs(u32 trainerType, MCSSLoadInfo *info, BOOL back);
 // Draws a Spinda's spots for its personality on the next sprite added
 void func_0201c188(MCSSSystem *system, u32 personality);
 // Draws a Spinda's spots for its personality on a sprite's characters

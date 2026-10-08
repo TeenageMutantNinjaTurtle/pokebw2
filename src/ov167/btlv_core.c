@@ -7,6 +7,8 @@
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_string.h"
 #include "battle/btlv.h"
+#include "battle/btlv_clact.h"
+#include "battle/btlv_effect.h"
 #include "battle/tr_ai.h"
 #include "battle/trainer_data.h"
 #include "gfl/bmpwin.h"
@@ -223,7 +225,7 @@ void func_ov167_021ce678(HeapID heapId) {
 }
 
 void func_ov167_021ce748(void) {
-    func_ov168_021df138();
+    BtlvEffect_Exit();
     func_0204b758();
     BmpWin_FreeAllocator();
     GFL_BGSysFree();
@@ -268,7 +270,7 @@ void func_ov167_021ce870(BtlvCore *core) {
 
 void func_ov167_021ce8c8(BtlvCore *core) {
     GFL_TCBExMgrUpdate(core->tcbManager);
-    func_ov168_021df214();
+    BtlvEffect_Main();
 }
 
 void func_ov167_021ce8dc(BtlvCore *core, u32 cmd) {
@@ -305,8 +307,8 @@ BOOL func_ov167_021ce940(BtlvCore *core, s32 *seq, void *work) {
 
     switch (*seq) {
     case 0:
-        data = func_ov168_021ded1c(core->mainModule, core->scu, core->heapId);
-        func_ov168_021dee04(data, core->font2, core->heapId);
+        data = BtlvEffect_CreateSetup(core->mainModule, core->scu, core->heapId);
+        BtlvEffect_Init(data, core->font2, core->heapId);
         GFL_HeapFree(data);
         func_ov167_021d0cd4(core->scu);
         func_ov169_06899c7c(core->unk1C4);
@@ -342,8 +344,8 @@ BOOL func_ov167_021cea24(BtlvCore *core, s32 *seq, void *work) {
 
     switch (*seq) {
     case 0:
-        data = func_ov168_021ded1c(core->mainModule, core->scu, core->heapId);
-        func_ov168_021dee04(data, core->font2, core->heapId);
+        data = BtlvEffect_CreateSetup(core->mainModule, core->scu, core->heapId);
+        BtlvEffect_Init(data, core->font2, core->heapId);
         GFL_HeapFree(data);
         keys = func_ov169_0689b7c8(core->unk1C4);
         wk->savedKeys = *keys;
@@ -401,8 +403,8 @@ BOOL func_ov167_021cea24(BtlvCore *core, s32 *seq, void *work) {
     case 7:
         if (func_ov167_021d3130(core->scu)) {
             mon = func_ov167_021ceec0(core, 1);
-            func_ov168_021dfac4(1, (s32)GetBattleMonStat(mon, 0xe) / 6);
-            func_ov168_021df560(1, 0x21);
+            BtlvEffect_CalcGaugeHP(1, (s32)GetBattleMonStat(mon, 0xe) / 6);
+            BtlvEffect_StartDamage(1, 0x21);
             func_ov167_021d0ad4(core, 0x564);
             (*seq)++;
         }
@@ -468,13 +470,13 @@ BOOL func_ov167_021cea24(BtlvCore *core, s32 *seq, void *work) {
         }
         break;
     case 16:
-        if (func_ov167_021d02e8(core) && !func_ov168_021df7e8()) {
-            func_ov168_021df630(1, 4, 3, 1, 0);
+        if (func_ov167_021d02e8(core) && !BtlvEffect_IsBusy()) {
+            BtlvEffect_StartEffect23A(1, 4, 3, 1, 0);
             (*seq)++;
         }
         break;
     case 17:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             BtlvStringParam param;
 
             mon = func_ov167_021ceec0(core, 1);
@@ -494,7 +496,7 @@ BOOL func_ov167_021cea24(BtlvCore *core, s32 *seq, void *work) {
         break;
     case 19:
         if (!GFL_SndBGMIsPlaying()) {
-            func_ov168_021df540();
+            BtlvEffect_Resume();
             GFL_MsgDataFree(wk->msgData);
             (*seq)++;
         }
@@ -644,7 +646,7 @@ void func_ov167_021cf1ac(BtlvCore *core) {
 }
 
 void func_ov167_021cf1b4(BtlvCore *core) {
-    func_ov168_021e0468();
+    BtlvEffect_StopIdleEffect();
     func_ov169_0689a160(core->unk1C4);
     func_ov167_021cefbc(core);
 }
@@ -710,8 +712,8 @@ void func_ov167_021cf234(BtlvCore *core, BPlistParam *param, u8 mode, u8 partyIn
     param->font = core->font;
     param->unk14 = BtlSetup_GetBattleStyle(core->mainModule);
     param->usingKeys = func_ov169_0689b7c8(core->unk1C4);
-    param->tcbManager = func_ov168_021e00ac();
-    param->paletteFade = func_ov168_021e00b8();
+    param->tcbManager = BtlvEffect_GetTCBManager();
+    param->paletteFade = BtlvEffect_GetPaletteFade();
     param->gameData = func_ov167_0219bf98(core->mainModule);
     param->unk30 = 0;
     param->unk40 = func_ov167_021cf210(core);
@@ -1222,11 +1224,11 @@ void func_ov167_021cfeec(BtlvCore *core, u32 type) {
 }
 
 void func_ov167_021cff14(BtlvCore *core, u8 pos, u32 visible) {
-    if (func_ov168_021df850(pos) && visible != func_ov168_021dff14(pos)) {
+    if (BtlvEffect_CheckExist(pos) && visible != BtlvEffect_CheckExistPokemon(pos)) {
         if (visible == 1) {
-            func_ov168_021df7a8(pos);
+            BtlvEffect_StartEffect285(pos);
         } else {
-            func_ov168_021df7b8(pos);
+            BtlvEffect_StartEffect286(pos);
         }
     }
 }
@@ -1244,23 +1246,23 @@ BOOL func_ov167_021cff60(BtlvCore *core) {
 
 void func_ov167_021cff78(BtlvCore *core, u32 arg1, u16 arg2) {
     if (!func_ov167_021b1990(core->client)) {
-        func_ov168_021df35c(arg1, arg2);
+        BtlvEffect_StartPos(arg1, arg2);
     }
 }
 
 BOOL func_ov167_021cff94(BtlvCore *core) {
-    if (!func_ov168_021df7e8()) {
+    if (!BtlvEffect_IsBusy()) {
         return TRUE;
     }
     return FALSE;
 }
 
 void func_ov167_021cffa8(BtlvCore *core, u32 arg1, u32 arg2, u16 arg3) {
-    func_ov168_021df3e0(arg1, arg2, arg3);
+    BtlvEffect_StartAtkDef(arg1, arg2, arg3);
 }
 
 BOOL func_ov167_021cffb8(BtlvCore *core) {
-    if (!func_ov168_021df7e8()) {
+    if (!BtlvEffect_IsBusy()) {
         return TRUE;
     }
     return FALSE;
@@ -1453,22 +1455,22 @@ BOOL func_ov167_021d0390(BtlvCore *core, u8 pos) {
 }
 
 void func_ov167_021d03a0(BtlvCore *core, u32 arg1) {
-    func_ov168_021df35c(arg1, 0x262);
+    BtlvEffect_StartPos(arg1, 0x262);
 }
 
 void func_ov167_021d03b0(BtlvCore *core, u32 arg1) {
-    func_ov168_021df35c(arg1, 0x261);
+    BtlvEffect_StartPos(arg1, 0x261);
 }
 
 BOOL func_ov167_021d03c0(BtlvCore *core, u32 arg1) {
-    if (!func_ov168_021df7e8()) {
+    if (!BtlvEffect_IsBusy()) {
         return TRUE;
     }
     return FALSE;
 }
 
 void func_ov167_021d03d4(BtlvCore *core) {
-    func_ov168_021e0430(3);
+    BtlvEffect_SetIdleEffectMode(3);
     func_ov167_021d4194(core->scu);
 }
 
@@ -1477,7 +1479,7 @@ BOOL func_ov167_021d03ec(BtlvCore *core) {
 }
 
 void func_ov167_021d03fc(BtlvCore *core) {
-    func_ov168_021e0468();
+    BtlvEffect_StopIdleEffect();
     func_ov167_021d41b8(core->scu);
 }
 
@@ -1546,12 +1548,12 @@ BOOL func_ov167_021d0568(s32 *seq, void *arg) {
     work = func_ov167_021ce93c(core, sizeof(BtlvSwapWork));
     switch (*seq) {
     case 0:
-        func_ov168_021dfe8c(work->unk01, work->unk02);
+        BtlvEffect_SwapPokemon(work->unk01, work->unk02);
         func_ov167_021d0ad4(core, 0x57b);
         (*seq)++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d3464(core->scu, work->pos1, work->pos2);
             (*seq)++;
         }
@@ -1613,11 +1615,11 @@ BOOL func_ov167_021d06ec(s32 *seq, void *arg) {
     work = func_ov167_021ce93c(core, sizeof(BtlvRotateWork));
     switch (*seq) {
     case 0:
-        func_ov168_021dfdec(work->unk01, work->viewPos[0] & 1, !func_ov167_021b1990(core->client));
+        BtlvEffect_StartRotation(work->unk01, work->viewPos[0] & 1, !func_ov167_021b1990(core->client));
         (*seq)++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d34bc(core->scu, work->pos[0]);
             func_ov167_021d34bc(core->scu, work->pos[1]);
             func_ov167_021d34bc(core->scu, work->pos[2]);
@@ -1811,19 +1813,19 @@ void func_ov167_021d0b4c(BtlvStringParam *param, u8 mode) {
 
 void func_ov167_021d0b50(BtlvCore *core, u32 arg1, u32 arg2) {
     if (func_ov167_0219c988(core->mainModule) == 1) {
-        func_ov168_021e9c24(func_ov168_021e00c8(), arg1, arg2);
+        BtlvClact_SetGauge(BtlvEffect_GetClact(), arg1, arg2);
     }
 }
 
 void func_ov167_021d0b70(BtlvCore *core, u32 arg1) {
     if (func_ov167_0219c988(core->mainModule) == 1) {
-        func_ov168_021ea1cc(func_ov168_021e00c8(), arg1, core->font);
+        BtlvClact_ShowPopup(BtlvEffect_GetClact(), arg1, core->font);
     }
 }
 
 BOOL func_ov167_021d0b90(BtlvCore *core) {
     if (func_ov167_0219c988(core->mainModule) == 1) {
-        return func_ov168_021e9e88(func_ov168_021e00c8());
+        return BtlvClact_IsPopupShowing(BtlvEffect_GetClact());
     }
     return FALSE;
 }

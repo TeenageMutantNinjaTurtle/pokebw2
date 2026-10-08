@@ -132,11 +132,11 @@ BtlSetup *func_ov012_02162068(GameSystem *gsys, PokeParty *party, int partyCount
     level = minLevel + func_ov012_021627d4(rand) % (maxLevel - minLevel + 1);
     LoadTrialHouseParty(trainer, setup->party[client], level, count, 4);
     if (a11 == 0x17) {
-        setup->fieldSituation.unk00 = a12;
-        setup->fieldSituation.terrain = 0x12;
+        setup->fieldSituation.env.bgType = a12;
+        setup->fieldSituation.env.terrain = 0x12;
     } else {
-        setup->fieldSituation.unk00 = a12;
-        setup->fieldSituation.terrain = 0x13;
+        setup->fieldSituation.env.bgType = a12;
+        setup->fieldSituation.env.terrain = 0x13;
     }
     adjustPkmLvForChallengeKeys(setup, gameData, Field_GetPlayerStateZoneID(field));
     return setup;

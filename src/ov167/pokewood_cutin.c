@@ -1,6 +1,7 @@
 #include "types.h"
 #include "battle/btl_main.h"
 #include "battle/btlv.h"
+#include "battle/btlv_effect.h"
 #include "battle/pokewood_cutin.h"
 #include "constants/arc.h"
 #include "gfl/arc.h"
@@ -352,7 +353,7 @@ static void Cutin_LoadResources(PokewoodCutin *cutin, u32 paletteFile, u32 charF
 
     cutin->chars = func_0204b81c(arc, charFile, TRUE, CLACT_VRAM_MAIN, cutin->heapId);
     cutin->palette = func_0204bba0(arc, paletteFile, CLACT_VRAM_MAIN, 0, cutin->heapId);
-    PaletteFade_LoadFromVRAM(func_ov168_021e00b8(), PALFADE_VRAM_MAIN_OBJ, 0, 0x1e0);
+    PaletteFade_LoadFromVRAM(BtlvEffect_GetPaletteFade(), PALFADE_VRAM_MAIN_OBJ, 0, 0x1e0);
     cutin->cellAnims = func_0204bde0(arc, cellFile, animFile, cutin->heapId);
     cutin->cellData = GFL_G2DIOReadNCERArc(arc, cellFile, FALSE, &cutin->cells, cutin->heapId);
     GFL_ArcToolFree(arc);
