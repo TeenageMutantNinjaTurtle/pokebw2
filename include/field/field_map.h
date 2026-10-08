@@ -129,6 +129,7 @@ u16 GetTileClass(u32 tileType);
 BOOL MapTile_IsValid(u32 tileType);
 BOOL MapTile_BlocksCollision(u32 tileType);
 BOOL MapTile_IsBlocksCycling(u16 tileClass);
+BOOL MapTile_IsReallyTallGrass(u16 tileClass);
 BOOL MapTile_IsNormalTallGrassDoubleBtl(u32 tileClass);
 BOOL MapTile_IsTallGrassDoubleBtl(u32 tileClass);
 // The battle terrain of the tile class

@@ -58,7 +58,7 @@ s32 CheckProxyEntityEvent(EventData *data, EventWork *eventWork, const void *pos
 s32 CheckProxyEntityEventGrid(EventData *data, EventWork *eventWork, const VecFx32 *position, u16 direction);
 s32 CheckProxyEntityEventRail(EventData *data, EventWork *eventWork, const RailPosition *position, u16 direction);
 s32 GetWarpAtPosition(EventData *data, const VecFx32 *position);
-s32 GetWarpIDByPlayerPos(EventData *data, const VecFx32 *position, u16 direction);
+s32 GetWarpIDByPlayerPos(EventData *data, const VecFx32 *position, u8 direction);
 s32 GetWarpIDByPlayerPosRail(EventData *data, const RailPosition *position);
 
 #endif // POKEBW2_FIELD_EVENT_DATA_H

@@ -14,7 +14,7 @@ void FieldPlayerCore_Free(FieldPlayerCore *core);
 void FieldPlayerCore_UpdateActionStatusObserver(FieldPlayerCore *core);
 void FieldPlayerCore_GetWPos(FieldPlayerCore *core, VecFx32 *pos);
 void FieldPlayerCore_SetWPos(FieldPlayerCore *core, const VecFx32 *pos);
-u32 FieldPlayerCore_GetFaceDir(FieldPlayerCore *core);
+u16 FieldPlayerCore_GetFaceDir(FieldPlayerCore *core);
 void FieldPlayerCore_SetDirection(FieldPlayerCore *core, u32 dir);
 void FieldPlayerCore_ForceObjCode(FieldPlayerCore *core, u32 objCode);
 void FieldPlayerCore_ClearObjCode(FieldPlayerCore *core);
@@ -38,5 +38,11 @@ TCB *FieldPlayerCore_GetTerrainEffectTCB(FieldPlayerCore *core);
 void FieldPlayerCore_SetSpecialSeq(FieldPlayerCore *core, u32 seq);
 BOOL func_ov036_0219b328(FieldPlayerCore *core);
 void func_ov036_0219b350(FieldPlayerCore *core);
+void FieldPlayerCore_SetMoveStatus(FieldPlayerCore *core, u32 status);
+void FieldPlayerCore_InitModel(FieldPlayerCore *core);
+// Changes the player's model to a form's
+void func_ov036_0219b014(FieldPlayerCore *core, u32 forme);
+BOOL FieldPlayerCore_IsAcmdFinished(FieldPlayerCore *core);
+void FieldPlayerCore_CalcSeparateKeyDirs(FieldPlayerCore *core, u32 heldKeys);
 
 #endif // POKEBW2_FIELD_FIELD_PLAYER_CORE_H

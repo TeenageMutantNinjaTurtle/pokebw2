@@ -157,6 +157,8 @@ u16 GetActorMotionDir(FieldActor *actor);
 BOOL func_ov012_0216773c(FieldActor *actor);
 void func_ov036_0219634c(FieldActor *actor, u16 *a1, u16 *a2);
 void func_ov036_021963a4(FieldActor *actor, u16 a1, u16 a2);
+// Sets the frame of the model's animation for a time. FALSE if the actor has no model
+BOOL func_ov036_02196b10(FieldActor *actor, u16 time);
 // The unit vector of a direction along the actor's rail
 void func_ov036_02195a78(FieldActor *actor, u32 dir, VecFx16 *dest);
 void func_ov036_02195a58(FieldActor *actor, VecFx16 *dest);
@@ -468,6 +470,7 @@ void SetActorFlag8000(FieldActor *actor, BOOL value);
 BOOL func_ov012_021675b4(FieldActor *actor);
 void SetActorFlag256(FieldActor *actor, BOOL value);
 void SetActorFlag32(FieldActor *actor, BOOL value);
+void func_ov012_0216763c(FieldActor *actor, BOOL a1);
 void func_ov012_02167754(FieldActor *actor, BOOL value);
 void func_ov012_02167788(FieldActor *actor, BOOL value);
 void func_ov012_021677bc(FieldActor *actor, BOOL value);

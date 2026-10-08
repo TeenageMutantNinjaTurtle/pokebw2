@@ -320,6 +320,15 @@ Same instructions, scheduled in another order.
   It has to be the parameter: `fld_scenearea_loader.c`'s camera-area callbacks scheduled their area's loads only
   once the callback typedefs took `const CameraArea *`, and a `const` local pointer to the member did nothing. The
   same change fixed the register allocation of the loop in `fld_scenearea.c` that calls them.
+- A dispatcher switch whose cases each end in their own `pop`, with `movs r0, #0` before the jump table, is a result
+  local set to 0 after the last call before the switch, `case X: command = f(...); break;` and one `return command;`.
+  `return f(...)` in each case with a final `return 0;` is 2 bytes longer and zeroes at the end:
+  `field_player_grid.c`'s `FieldPlayerGrid_DecideCommandBike`.
+- The order of a switch's cases in the source is the order of their bodies, while the compares stay sorted by value:
+  `FieldPlayerGrid_UpdateNormalMove` compares 0xc, 0x10, 0x58 and lays the bodies out 0x10, 0x58, 0xc.
+- Two separate `if`s that return the same constant share one return, and share the constant with a mask of the same
+  value: `if (!(flags & 2)) return 2; if (force == TRUE) return 2;` gives `movs r0, #2; tst r1, r0; beq` in
+  `FieldPlayerGrid_DecideCommandNormalMoving`, where the `||` form returned twice.
 - A local assigned once and used once is moved to its use when nothing between them writes memory, and the 64-bit
   multiply helper of `FX_Mul` doesn't count as a write. To keep a value computed where the original computes it,
   build it in steps: `RECT_PitchYawTZ` writes `pitch = rect.pitch2 - rect.pitch1; pitch = pitch * progress /
