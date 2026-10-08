@@ -674,7 +674,7 @@ from:0x021ee114 kind:thumb_call to:0x021eca40 module:overlay(84)
 from:0x021ee124 kind:load to:0x021ee129 module:overlay(84)
 from:0x021ee14c kind:thumb_call to:0x021ed190 module:overlay(84)
 from:0x021ee164 kind:thumb_call to:0x021eada0 module:overlay(83)
-from:0x021ee176 kind:thumb_call to:0x021eaadc module:overlays(83,88)
+from:0x021ee176 kind:thumb_call to:0x021eaadc module:overlay(83)
 from:0x021ee18a kind:thumb_call to:0x021eada0 module:overlay(83)
 from:0x021ee19e kind:thumb_call to:0x0203a870 module:main
 from:0x021ee1b0 kind:thumb_call to:0x02013f44 module:main
