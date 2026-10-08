@@ -177,6 +177,9 @@ void *func_ov168_021e008c(void);
 TCBManager *func_ov168_021e00ac(void);
 void *func_ov168_021e00b8(void);
 BtlvClact *func_ov168_021e00c8(void);
+u32 func_ov168_021e00e8(void);  // the battle style
+u32 func_ov168_021e00f8(void);  // the battle type
+BOOL func_ov168_021e021c(void); // whether the BGM was changed
 BtlMainModule *func_ov168_021e012c(void);
 void func_ov168_021e0274(u32 state);
 u32 func_ov168_021e0298(void);
@@ -186,7 +189,6 @@ void func_ov168_021e0430(u32 arg0);
 void func_ov168_021e0468(void);
 void func_ov168_021e04b0(u32 arg0);
 BOOL func_ov168_021e8364(void *data, u32 pos);
-BOOL func_ov168_021f0b74(void *data, u32 pos);
 
 // The battle view's touch screen, in overlay 169
 void *func_ov169_06899af0(BtlvCore *core, BtlMainModule *mainModule, BtlPokeCon *pokeCon, TCBExManager *tcbManager,

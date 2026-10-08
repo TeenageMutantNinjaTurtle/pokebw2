@@ -230,13 +230,14 @@ BOOL func_02042bd8(NetHandle *handle);
 BOOL func_02042be8(NetHandle *handle, int command, u16 size, const void *data);
 BOOL func_02042c18(NetHandle *handle, u32 sendID, u16 command, u32 size, const void *data, u32 a5, BOOL a6,
                    BOOL noCopy);
-BOOL func_02042c9c(NetHandle *handle, int dest, u16 command, int size, const void *data, u32 a5, BOOL a6,
-                   BOOL noCopy);
+BOOL func_02042c9c(NetHandle *handle, int dest, u16 command, int size, const void *data, u32 a5, BOOL a6, BOOL noCopy);
 BOOL func_02042cfc(void);
 void func_02042d04(NetHandle *handle, u16 timing);
 BOOL func_02042d0c(NetHandle *handle, u16 timing);
 void func_02042d14(u8 gameCommandBase);
 u8 func_02042d34(void);
+// Whether the net game command base is one of the battle kinds
+BOOL func_02011844(void);
 int func_02042d48(void);
 int func_02042d64(void);
 u8 func_02042d80(void);

@@ -49,3 +49,14 @@ src/ov168/btlv_clact.c:
     .text       start:0x021e986c end:0x021ea2e8
     .rodata     start:0x021f35d4 end:0x021f360c
     .data       start:0x021f41d4 end:0x021f41e4
+
+src/ov168/btlv_gauge.c:
+    complete
+    .text       start:0x021ef7d4 end:0x021f1cc4
+    .rodata     start:0x021f3dc0 end:0x021f3e90
+    .data       start:0x021f4218 end:0x021f4228
+
+src/ov168/btlv_timer.c:
+    .text       start:0x021f21b4 end:0x021f26f8
+    .rodata     start:0x021f3edc end:0x021f3f34
+    .data       start:0x021f4238 end:0x021f4248

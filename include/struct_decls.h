@@ -165,6 +165,7 @@ typedef struct BtlvClact BtlvClact;
 typedef struct BtlvCore BtlvCore;
 typedef struct BtlvField BtlvField;
 typedef struct BtlvFingerCursor BtlvFingerCursor;
+typedef struct BtlvGauge BtlvGauge;
 typedef struct BtlvInput BtlvInput;
 typedef struct BtlvInputKeyStop BtlvInputKeyStop;
 typedef struct BtlvScu BtlvScu;

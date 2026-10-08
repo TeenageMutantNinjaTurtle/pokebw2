@@ -8,6 +8,7 @@
 #include "battle/btl_pokeparam.h"
 #include "battle/btlv.h"
 #include "battle/btlv_finger_cursor.h"
+#include "battle/btlv_gauge.h"
 #include "constants/arc.h"
 #include "constants/moves.h"
 #include "constants/sound.h"
@@ -1234,7 +1235,8 @@ BOOL BtlvInput_FingerDemoMain(BtlvInput *work) {
         if (work->fingerCursor == NULL) {
             work->fingerCursor = BtlvFingerCursor_Create(work->paletteFade, 11, work->heapId);
         }
-        if (BtlvFingerCursor_Start(work->fingerCursor, pos[work->fingerCount][0], pos[work->fingerCount][1], 2, 7, 16)) {
+        if (BtlvFingerCursor_Start(work->fingerCursor, pos[work->fingerCount][0], pos[work->fingerCount][1], 2, 7,
+                                   16)) {
             work->fingerSeq++;
             work->fingerCount++;
         }
@@ -3351,7 +3353,7 @@ static void BtlvInput_StartFingerCursor(BtlvInput *work) {
 
 // Forgets the Pokémon's cursor stops when it changed
 static void BtlvInput_ForgetCursorOnPokeChange(BtlvInput *work) {
-    BOOL changed = func_ov168_021f0b74(func_ov168_021e008c(), work->pokePos);
+    BOOL changed = BtlvGauge_CheckChanged(func_ov168_021e008c(), work->pokePos);
 
     if ((changed | func_ov168_021e8364(func_ov168_021e006c(), work->pokePos)) == TRUE) {
         int i;
