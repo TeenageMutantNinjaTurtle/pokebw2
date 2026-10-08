@@ -93,6 +93,6 @@ struct BBagWork {
     BOOL initialized;                     // 0x5a0
 }; // 0x5a4
 
-void func_ov286_021f5b64(BBagParam *param);
+void BBagMain_Start(BBagParam *param);
 
 #endif // POKEBW2_BATTLE_B_BAG_MAIN_H

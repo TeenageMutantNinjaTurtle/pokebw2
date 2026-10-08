@@ -887,7 +887,7 @@ BOOL func_ov167_021cf73c(BtlvCore *core) {
         if (func_ov169_06899dfc(core->unk1C4)) {
             func_ov169_06899e24(core->unk1C4);
             GFL_OvlLoad(OVERLAY_ID(286));
-            func_ov286_021f5b64(&core->ov286);
+            BBagMain_Start(&core->ov286);
             core->subSeq = 3;
         }
         break;
