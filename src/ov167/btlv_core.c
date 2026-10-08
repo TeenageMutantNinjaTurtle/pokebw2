@@ -1,5 +1,6 @@
 #include "types.h"
 #include "app/bag.h"
+#include "battle/b_bag_main.h"
 #include "battle/b_plist_main.h"
 #include "battle/btl_client.h"
 #include "battle/btl_main.h"
@@ -29,32 +30,6 @@ typedef struct BtlvCmdEntry {
     u32 cmd;
     BtlvMainProc proc;
 } BtlvCmdEntry;
-
-// Overlay 286's parameters
-typedef struct BtlvOv286Param {
-    BagSave *unk00;
-    Font *font;
-    u32 mode;
-    HeapID heapId;
-    void *unk10;
-    u8 unk14;
-    u8 unk15;
-    u16 item;
-    u8 unk18;
-    u8 done;
-    u8 unk1A[2];
-    void *unk1C;
-    u32 unk20;
-    u32 unk24;
-    u8 unk28;
-    u8 unk29;
-    u8 unk2A;
-    u8 unk2B;
-    u8 *usingKeys;
-    u8 unk30[8];
-    u8 unk38[8];
-    u32 unk40;
-} BtlvOv286Param;
 
 // Overlay 288's parameters
 typedef struct BtlvOv288Param {
@@ -105,7 +80,7 @@ struct BtlvCore {
     BattleMon *mon;
     u32 monId;
     u32 result;
-    BtlvOv286Param ov286;
+    BBagParam ov286;
     BPlistParam ov287;
     BtlvOv288Param ov288;
     BtlvOv289Param ov289;
@@ -271,8 +246,8 @@ BtlvCore *BtlvCore_Create(BtlMainModule *mainModule, BtlClient *client, BtlPokeC
     core->tcbManager = GFL_TCBExMgrCreate(heapId, heapId, 0x40, 0x80);
     core->scu = func_ov167_021d0c24(core, core->mainModule, pokeCon, core->tcbManager, core->font, core->font2,
                                     core->clientId, heapId);
-    core->unk1C4 = func_ov169_06899af0(core, core->mainModule, pokeCon, core->tcbManager, core->font, core->client,
-                                     arg3, heapId);
+    core->unk1C4 =
+        func_ov169_06899af0(core, core->mainModule, pokeCon, core->tcbManager, core->font, core->client, arg3, heapId);
     core->mainProc = NULL;
     core->seq = 0;
     core->subSeq = 0;
@@ -538,7 +513,8 @@ BattleMon *func_ov167_021ceec0(BtlvCore *core, u32 index) {
 BOOL func_ov167_021ceed8(BtlvCore *core, s32 *seq, void *work) {
     switch (*seq) {
     case 0:
-        func_ov169_0689a008(core->unk1C4, core->mon, core->unk1B5, BattleClient_GetShooterEnergy(core->client), core->unkB8);
+        func_ov169_0689a008(core->unk1C4, core->mon, core->unk1B5, BattleClient_GetShooterEnergy(core->client),
+                            core->unkB8);
         (*seq)++;
     case 1:
         core->result = func_ov169_0689a060(core->unk1C4);
@@ -743,7 +719,8 @@ void func_ov167_021cf234(BtlvCore *core, BPlistParam *param, u8 mode, u8 partyIn
     param->done = FALSE;
 }
 
-void BattleClientCmd_StartPokeList(BtlvCore *core, const BtlvPokeListCmd *cmd, s32 partyIndex, u16 move, BtlvPokeSelectParam *select) {
+void BattleClientCmd_StartPokeList(BtlvCore *core, const BtlvPokeListCmd *cmd, s32 partyIndex, u16 move,
+                                   BtlvPokeSelectParam *select) {
     u32 count;
     u32 i;
 
@@ -855,30 +832,30 @@ void BattleClientCmd_StartItemSelect(BtlvCore *core, u32 mode, u8 arg2, u8 arg3,
     u32 i;
 
     if (core->subSeq == 0) {
-        core->ov286.unk00 = func_ov167_0219c954(core->mainModule);
-        core->ov286.unk1C = func_ov167_0219c95c(core->mainModule);
+        core->ov286.bag = func_ov167_0219c954(core->mainModule);
+        core->ov286.bagCursor = func_ov167_0219c95c(core->mainModule);
         core->ov286.mode = mode;
         core->ov286.font = core->font;
         core->ov286.heapId = core->heapId;
-        core->ov286.unk14 = arg2;
-        core->ov286.unk15 = arg3;
+        core->ov286.shooterEnergy = arg2;
+        core->ov286.shooterSpent = arg3;
         core->ov286.item = 0;
         core->ov286.usingKeys = func_ov169_0689b7c8(core->unk1C4);
-        core->ov286.unk20 = 0;
-        core->ov286.unk10 = func_ov167_0219db00(core->mainModule);
+        core->ov286.quit = 0;
+        core->ov286.shooterDisabled = func_ov167_0219db00(core->mainModule);
         kind = 0;
         if (BtlSetup_GetBattleType(core->mainModule) != 3) {
             kind = 1;
         }
-        core->ov286.unk40 = kind;
+        core->ov286.playSound = kind;
         kind = 0;
-        core->ov286.unk24 = 0;
+        core->ov286.abort = 0;
         if (BtlSetup_GetBattleType(core->mainModule) == 0) {
             kind = 1;
         }
-        core->ov286.unk29 = kind;
+        core->ov286.isWild = kind;
         core->ov286.done = FALSE;
-        core->ov286.unk28 = BtlvCore_GetBagKind(core, canUseItems, arg5);
+        core->ov286.ballError = BtlvCore_GetBagKind(core, canUseItems, arg5);
         func_ov167_021cf234(core, &core->ov287, 3, 0, 0);
         party = BattleClient_GetParty(core->client);
         count = GetNumMonsInParty(party);
@@ -893,7 +870,7 @@ void BattleClientCmd_StartItemSelect(BtlvCore *core, u32 mode, u8 arg2, u8 arg3,
 }
 
 void func_ov167_021cf72c(BtlvCore *core) {
-    core->ov286.unk20 = 1;
+    core->ov286.quit = 1;
     core->ov287.unk30 = 1;
 }
 
@@ -917,7 +894,7 @@ BOOL func_ov167_021cf73c(BtlvCore *core) {
     case 3:
         if (core->ov286.done) {
             GFL_OvlUnload(OVERLAY_ID(286));
-            if (core->ov286.unk20 == 0) {
+            if (core->ov286.quit == 0) {
                 core->subSeq = 4;
             } else {
                 core->subSeq = 6;
@@ -925,7 +902,7 @@ BOOL func_ov167_021cf73c(BtlvCore *core) {
         }
         break;
     case 4:
-        if (core->ov286.item != 0 && core->ov286.unk2A != 2 && !func_ov169_0689ca94(core->ov286.item)) {
+        if (core->ov286.item != 0 && core->ov286.pocket != 2 && !func_ov169_0689ca94(core->ov286.item)) {
             core->ov287.item = core->ov286.item;
             GFL_OvlLoad(OVERLAY_ID(287));
             BPlistMain_Start(&core->ov287);
@@ -965,7 +942,7 @@ u16 func_ov167_021cf8d8(BtlvCore *core) {
 
 u8 func_ov167_021cf8ec(BtlvCore *core) {
     if (core->ov286.done) {
-        return core->ov286.unk18;
+        return core->ov286.cost;
     }
     return 0;
 }
@@ -980,8 +957,8 @@ u8 func_ov167_021cf908(BtlvCore *core) {
 
 void func_ov167_021cf914(BtlvCore *core) {
     if (core->ov286.item != 0 && core->ov287.partyIndex != 6 && core->ov286.mode != 1) {
-        func_020088c4(core->ov286.unk1C, core->ov286.unk30, core->ov286.unk38);
-        func_020088e0(core->ov286.unk1C, core->ov286.item, core->ov286.unk2A);
+        func_020088c4(core->ov286.bagCursor, core->ov286.rows, core->ov286.pages);
+        func_020088e0(core->ov286.bagCursor, core->ov286.item, core->ov286.pocket);
     }
 }
 

@@ -4,6 +4,7 @@
 #include "types.h"
 #include "battle/b_plist_main.h"
 #include "battle/btl_action.h"
+#include "battle/btl_pokeparam.h"
 #include "gfl/bg_sys.h"
 #include "gfl/clact.h"
 #include "gfl/graphics.h"
@@ -68,12 +69,12 @@ typedef struct BtlvSubProc {
 
 // The move effect func_ov167_021d3094 starts, which func_ov168_021df460 reads
 typedef struct BtlvMoveEffectParam {
-    u16 move;        // 0x00
-    u32 attackerPos; // 0x04
-    u32 targetPos;   // 0x08
-    u8 unk0C;        // 0x0C arg5 of func_ov167_021d3094
-    u8 unk0D;        // 0x0D its arg6
-    s32 unk10;       // 0x10 its arg4, PML_MoveGetParam(move, 27); func_ov168_021df460 keeps a byte of it
+    u16 move;          // 0x00
+    u32 attackerPos;   // 0x04
+    u32 targetPos;     // 0x08
+    u8 unk0C;          // 0x0C arg5 of func_ov167_021d3094
+    u8 unk0D;          // 0x0D its arg6
+    s32 unk10;         // 0x10 its arg4, PML_MoveGetParam(move, 27); func_ov168_021df460 keeps a byte of it
 } BtlvMoveEffectParam; // size 0x14
 
 // What func_ov167_021d408c reports of the parties for func_ov168_021dfc14, the balls of the parties shown when a
@@ -181,8 +182,8 @@ BOOL func_ov168_021e9e88(void *data);
 void func_ov168_021ea1cc(void *data, u32 arg1, Font *font);
 
 // The battle view's touch screen, in overlay 169
-void *func_ov169_06899af0(BtlvCore *core, BtlMainModule *mainModule, BtlPokeCon *pokeCon, TCBExManager *tcbManager, Font *font,
-                          BtlClient *client, u32 arg6, HeapID heapId);
+void *func_ov169_06899af0(BtlvCore *core, BtlMainModule *mainModule, BtlPokeCon *pokeCon, TCBExManager *tcbManager,
+                          Font *font, BtlClient *client, u32 arg6, HeapID heapId);
 void func_ov169_06899c7c(void *data);
 void func_ov169_06899d9c(void *data, u32 arg1);
 void func_ov169_06899dd4(void *data);
@@ -223,8 +224,14 @@ void func_ov169_0689cc74(BtlvPokeSelectParam *param, u8 index, u8 slot);
 u32 func_ov169_0689cca0(BtlvPokeSelectParam *param);
 u8 func_ov169_0689ccb4(BtlvPokeSelectParam *param, u8 index);
 
-// The battle's bag and selection screens, which share an address range
-void func_ov286_021f5b64(void *param);
+// The finger cursor of btlv_finger_cursor.c in overlay 168
+BtlvFingerCursor *BtlvFingerCursor_Create(PaletteFade *paletteFade, u32 arg1, HeapID heapId);
+void func_ov168_021f2d9c(BtlvFingerCursor *cursor);
+BOOL func_ov168_021f2dcc(BtlvFingerCursor *cursor, s32 x, s32 y, u32 arg3, s32 arg4, u32 arg5);
+void func_ov168_021f2e84(BtlvFingerCursor *cursor);
+BOOL func_ov168_021f2e98(BtlvFingerCursor *cursor);
+
+// The battle's selection screens, which share an address range with the bag
 void func_ov288_021f4440(void *param);
 void func_ov289_021f4440(void *param);
 
@@ -263,7 +270,8 @@ void func_ov167_021cf1f0(BtlvCore *core);
 BOOL func_ov167_021cf200(BtlvCore *core);
 BOOL func_ov167_021cf210(BtlvCore *core);
 void func_ov167_021cf234(BtlvCore *core, BPlistParam *param, u8 mode, u8 partyIndex, u32 move);
-void BattleClientCmd_StartPokeList(BtlvCore *core, const BtlvPokeListCmd *cmd, s32 partyIndex, u16 move, BtlvPokeSelectParam *select);
+void BattleClientCmd_StartPokeList(BtlvCore *core, const BtlvPokeListCmd *cmd, s32 partyIndex, u16 move,
+                                   BtlvPokeSelectParam *select);
 void BattleClientCmd_QuitPokeSelect(BtlvCore *core);
 BOOL BattleClientCmd_WaitPokeSelect(BtlvCore *core);
 void BattleClientCmd_StartMoveInfoView(BtlvCore *core, u8 partyIndex, u8 slot);
@@ -435,6 +443,5 @@ void func_ov169_0689cc68(BtlvPokeSelectParam *select, BtlvPokeListCmd *cmd);
 BOOL func_ov169_0689cc90(BtlvPokeSelectParam *select);
 BOOL func_ov169_0689cc9c(BtlvPokeSelectParam *select);
 u8 func_ov169_0689cca4(BtlvPokeSelectParam *select);
-
 
 #endif // POKEBW2_BATTLE_BTLV_H
