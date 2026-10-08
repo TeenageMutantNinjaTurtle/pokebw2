@@ -2820,6 +2820,14 @@ overlays/ov168 0x021f1d5c BtlvBGauge_LoadResources
 overlays/ov168 0x021f1fb8 BtlvBGauge_FreeResources
 overlays/ov168 0x021f1ff4 BtlvBGauge_SlideTask
 overlays/ov168 0x021f2164 BtlvBGauge_SlideTaskEnd
+overlays/ov168 0x021f2174 BtlvTimer_Create
+overlays/ov168 0x021f2244 BtlvTimer_Delete
+overlays/ov168 0x021f2274 BtlvTimer_Start
+overlays/ov168 0x021f23b4 BtlvTimer_DeleteActors
+overlays/ov168 0x021f2418 BtlvTimer_SetVisible
+overlays/ov168 0x021f245c BtlvTimer_IsTimeUp
+overlays/ov168 0x021f249c BtlvTimer_Draw
+overlays/ov168 0x021f26a0 BtlvTimer_Task
 overlays/ov168 0x021f26b8 BtlvBg_Create
 overlays/ov168 0x021f26d8 BtlvBg_Delete
 overlays/ov168 0x021f26e0 BtlvBg_SetOffsetReq
