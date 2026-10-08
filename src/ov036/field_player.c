@@ -79,7 +79,7 @@ FieldPlayer *FieldPlayer_Create(PlayerState *state, Field *field, const VecFx32 
 
 void FieldPlayer_Free(FieldPlayer *player) {
     if (player->grid != NULL) {
-        func_ov036_0219b80c(player->grid);
+        FieldPlayerGrid_Free(player->grid);
     }
     if (player->nogrid != NULL) {
         func_ov036_0219cf40(player->nogrid);
@@ -149,7 +149,7 @@ u16 FieldPlayer_GetMoveDirByKey(FieldPlayer *player, u32 heldKeys) {
 
 BOOL func_ov036_0219a5dc(FieldPlayer *player) {
     if (Field_GetResolvedControllerTypeID(player->field) == CONTROLLER_GRID) {
-        return func_ov036_0219cd98(player->grid);
+        return FieldPlayerGrid_IsBraking(player->grid);
     }
     return func_ov036_0219d008(player->nogrid);
 }
@@ -472,7 +472,7 @@ BOOL FieldPlayer_GetVerticalMoveOnlyFlag(FieldPlayer *player) {
 
 void func_ov036_0219ac0c(FieldPlayer *player) {
     if (Field_GetResolvedControllerTypeID(player->field) == CONTROLLER_GRID) {
-        func_ov036_0219cd90(player->grid);
+        FieldPlayerGrid_SetVerticalMoveOnlyFlag(player->grid);
     }
 }
 
@@ -486,7 +486,7 @@ BOOL FieldPlayer_CheckRunningShoesFlag(FieldPlayer *player) {
 }
 
 void FieldPlayer_InitGrid(FieldPlayer *player, HeapID heapId) {
-    player->grid = FieldPlayerCore_InitGridCtl(player->core, heapId);
+    player->grid = FieldPlayerGrid_Create(player->core, heapId);
 }
 
 void FieldPlayer_UpdateGridMovement(FieldPlayer *player, u32 pressedKeys, u32 heldKeys, u32 flags) {

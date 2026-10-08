@@ -196,7 +196,6 @@ GameEvent *func_ov012_02166118(BSubwayScrWork *bsw, GameSystem *gsys, u16 index,
 GameEvent *func_ov012_02166294(GameSystem *gsys);
 // The message of a saved leader in a balloon over the actor
 GameEvent *func_ov012_0216657c(GameSystem *gsys, u16 index, u16 actorId);
-void func_ov012_0216763c(FieldActor *actor, BOOL a1);
 
 // Overlay 33's bsubway_scr.c
 extern const u8 data_ov033_0217c564[12];

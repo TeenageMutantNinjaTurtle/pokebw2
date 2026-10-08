@@ -299,6 +299,7 @@ void func_ov036_021b5064(PlaceName *placeName);
 void Field_InitGimmick(Field *field);
 void Field_TerminateGimmick(Field *field);
 void Field_UpdateGimmick(Field *field);
+BOOL Field_CheckGimmickID(Field *field, u32 id);
 void *CreateFieldMsgBGSystem(HeapID heapId, G3DCamera *camera);
 void func_ov036_021877ac(void *msgBGSys);
 void func_ov036_021878d0(void *msgBGSys);
