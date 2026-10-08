@@ -209,10 +209,6 @@ typedef struct {
     GXOamAttr oam;
 } ClActDrawState;
 
-// The OBJ heights and widths, by shape and size
-extern const u16 data_02094298[3][4];
-extern const u16 data_020942b0[3][4];
-
 // The renderers in ITCM, by unk5 and unk6 of the unit
 void mainRenderer(ClActUnit *unit);
 void func_01ff8318(ClActUnit *unit);
@@ -1342,7 +1338,7 @@ static void func_0204c800(ClActRenderer *renderer, const ClActSurfaceSetup *setu
     u32 i;
 
     NNS_G2dInitRenderer(&renderer->renderer);
-    renderer->renderer.unk80 = 1;
+    renderer->renderer.spriteZoffsetStep = 1;
     renderer->surfaces = GFL_HeapAllocate(heapId, count * sizeof(NNSG2dRenderSurface), FALSE, "clact.c", 4124);
     renderer->surfaceCount = count;
     for (i = 0; i < count; i++) {
@@ -1366,10 +1362,10 @@ static void func_0204c890(ClActRenderer *renderer, BOOL cull) {
         callback = func_0204cb8c;
     } else {
         callback = NULL;
-        renderer->renderer.unk30 = TRUE;
+        renderer->renderer.rendererCore.bDrawEnable = TRUE;
     }
     for (i = 0; i < renderer->surfaceCount; i++) {
-        renderer->surfaces[i].unk40 = callback;
+        renderer->surfaces[i].pBeforeDrawOamBackFunc = callback;
     }
 }
 
@@ -1557,9 +1553,9 @@ static void func_0204cb8c(ClActDrawState *state, const NNSG2dViewRect *view, u32
         y |= ~0xff;
     }
     left = x << FX32_SHIFT;
-    right = (x + data_020942b0[shapeIdx][sizeIdx]) << FX32_SHIFT;
+    right = (x + NNSi_objSizeWTbl[shapeIdx][sizeIdx]) << FX32_SHIFT;
     top = y << FX32_SHIFT;
-    bottom = (y + data_02094298[shapeIdx][sizeIdx]) << FX32_SHIFT;
+    bottom = (y + NNSi_objSizeHTbl[shapeIdx][sizeIdx]) << FX32_SHIFT;
     if (func_0204cc54(mtx->_20 - view->posTopLeft.x, mtx->_21 - view->posTopLeft.y, left, right, top, bottom, mtx,
                       view)) {
         state->skip = TRUE;

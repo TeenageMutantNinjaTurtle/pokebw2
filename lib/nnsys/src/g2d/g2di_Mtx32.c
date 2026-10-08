@@ -1,7 +1,10 @@
 #include "nnsys/g2d.h"
 
-// NitroSystem's 2D affine matrix product, called by the renderer's matrix stack. MAT32_Mul is swan's name: the code
+// NitroSystem's 2D affine matrix product, called by the renderer's matrix stack, and the renderer's multi-cell state,
+// which g2d_Renderer.c reaches through its symbol as an object of another file. MAT32_Mul is swan's name: the code
 // shows no SDK name, and the file name is a guess, as the ROM has no string for it
+
+NNSiG2dMCRenderState NNSi_G2dMCRenderState;
 
 // Sets ab to a * b, where the matrices are 3x2 with the translation in the last row. ab may be b
 void MAT32_Mul(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab) {

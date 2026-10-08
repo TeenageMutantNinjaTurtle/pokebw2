@@ -518,13 +518,14 @@ void NNSi_G2dInitializeVRamLocation(NNSG2dVRamLocation *location);
 void NNSi_G2dSetVramLocation(NNSG2dVRamLocation *location, NNSG2dVRamType type, u32 addr);
 u32 NNSi_G2dGetVramLocation(const NNSG2dVRamLocation *location, NNSG2dVRamType type);
 
+// The SDK's enums: the renderer core shifts the mapping type's fields as signed
 typedef struct {
-    u32 sizeS;
-    u32 sizeT;
-    u32 fmt;
+    GXTexSizeS sizeS;
+    GXTexSizeT sizeT;
+    GXTexFmt fmt;
     BOOL bExtendedPlt;
-    u32 plttUse;
-    u32 mappingType;
+    GXTexPlttColor0 plttUse;
+    GXOBJVRamModeChar mappingType;
 } NNSG2dImageAttr;
 
 typedef struct {
@@ -601,6 +602,7 @@ enum {
     NNS_G2D_SURFACETYPE_MAIN3D,
     NNS_G2D_SURFACETYPE_MAIN2D,
     NNS_G2D_SURFACETYPE_SUB2D,
+    NNS_G2D_SURFACETYPE_MAX,
 };
 
 typedef BOOL (*NNSG2dOamRegisterFunction)(const GXOamAttr *oam, u16 affineIdx, BOOL doubleAffine);
@@ -608,31 +610,216 @@ typedef u16 (*NNSG2dAffineRegisterFunction)(const MtxFx22 *mtx);
 typedef BOOL (*NNSG2dRndCellCullingFunction)(const NNSG2dCellData *cell, const MtxFx32 *mtx,
                                              const NNSG2dViewRect *view);
 
+// The renderer core, which draws a cell's OAMs to one surface (g2d_RendererCore.c), with the current matrix: its
+// translation and a matrix cache for 2D surfaces, or a 4x3 matrix for the 3D surface. The callbacks before a cell or an
+// OAM may clear bDrawEnable to skip it
+enum {
+    NNS_G2D_RND_AFFINE_OVERWRITE_NONE,
+    NNS_G2D_RND_AFFINE_OVERWRITE_NORMAL,
+    NNS_G2D_RND_AFFINE_OVERWRITE_DOUBLE,
+};
+
+#define NNS_G2D_RENDERERFLIP_NONE 0
+#define NNS_G2D_RENDERERFLIP_H 0x1
+#define NNS_G2D_RENDERERFLIP_V 0x2
+
+struct NNSG2dRenderSurface;
+struct NNSG2dRndCore2DMtxCache;
+
+typedef struct NNSG2dRndCoreInstance {
+    struct NNSG2dRenderSurface *pCurrentTargetSurface;
+    u32 affineOverwriteMode;
+    const NNSG2dImageProxy *pImageProxy;
+    const NNSG2dImagePaletteProxy *pPaletteProxy;
+    u32 base2DCharOffset;
+    u32 baseTexAddr3D;
+    u32 basePltAddr3D;
+    NNSG2dOamRegisterFunction pFuncOamRegister;
+    NNSG2dAffineRegisterFunction pFuncOamAffineRegister;
+    u32 flipFlag;
+    const struct NNSG2dRndCore2DMtxCache *pCurrentMxtCacheFor2D;
+    const MtxFx32 *pCurrentMtx;
+    BOOL bDrawEnable;
+    fx32 zFor3DSoftwareSprite;
+    // The OAM being drawn, which the callbacks before an OAM may change
+    GXOamAttr currentOam;
+    MtxFx43 mtx3D;
+} NNSG2dRndCoreInstance;
+
+// A 2D affine matrix that the renderer shares among the cells drawn with it, with its affine parameter index per surface
+// affineIndex[flip][type - NNS_G2D_SURFACETYPE_MAIN2D], by OAM flip (H in bit 0, V in bit 1) and 2D surface type, is NNS_G2D_OAM_AFFINE_IDX_NOT_CACHED until the core registers the flipped matrix for it
+typedef struct NNSG2dRndCore2DMtxCache {
+    MtxFx22 m22;
+    u16 affineIndex[4][NNS_G2D_SURFACETYPE_MAX - NNS_G2D_SURFACETYPE_MAIN2D];
+} NNSG2dRndCore2DMtxCache;
+
+#define NNS_G2D_OAM_AFFINE_IDX_NOT_CACHED 0xffff
+
+typedef void (*NNSG2dRndCoreDrawCellCallBack)(NNSG2dRndCoreInstance *core, const NNSG2dCellData *cell);
+typedef void (*NNSG2dRndCoreDrawOamCallBack)(NNSG2dRndCoreInstance *core, const NNSG2dCellData *cell, u16 oamIdx);
+
+struct NNSG2dRendererInstance;
+struct NNSG2dRenderSurface;
+typedef void (*NNSG2dRndDrawCellCallBack)(struct NNSG2dRendererInstance *rend, struct NNSG2dRenderSurface *surface,
+                                          const NNSG2dCellData *cell, const MtxFx32 *mtx);
+typedef void (*NNSG2dRndDrawOamCallBack)(struct NNSG2dRendererInstance *rend, struct NNSG2dRenderSurface *surface,
+                                         const NNSG2dCellData *cell, u16 oamIdx, const MtxFx32 *mtx);
+
+// The first six fields are the core's surface (NNSG2dRndCoreSurface in the SDK, flattened here); the renderer sets
+// the core's callbacks to its own, which call the surface's
 typedef struct NNSG2dRenderSurface {
     NNSG2dViewRect viewRect;
     BOOL bActive;
     u32 type;
-    u8 unk18[0x10];
+    NNSG2dRndCoreDrawCellCallBack pBeforeDrawCellBackFuncCore;
+    NNSG2dRndCoreDrawCellCallBack pAfterDrawCellBackFuncCore;
+    NNSG2dRndCoreDrawOamCallBack pBeforeDrawOamBackFuncCore;
+    NNSG2dRndCoreDrawOamCallBack pAfterDrawOamBackFuncCore;
     NNSG2dOamRegisterFunction pFuncOamRegister;
     NNSG2dAffineRegisterFunction pFuncOamAffineRegister;
-    void *unk30;
-    NNSG2dRndCellCullingFunction pFuncVisibilityCulling;
-    u8 unk38[8];
-    void *unk40;
     struct NNSG2dRenderSurface *pNextSurface;
+    NNSG2dRndCellCullingFunction pFuncVisibilityCulling;
+    NNSG2dRndDrawCellCallBack pBeforeDrawCellBackFunc;
+    NNSG2dRndDrawCellCallBack pAfterDrawCellBackFunc;
+    NNSG2dRndDrawOamCallBack pBeforeDrawOamBackFunc;
+    NNSG2dRndDrawOamCallBack pAfterDrawOamBackFunc;
 } NNSG2dRenderSurface;
 
+// The palette swap table: the palette each of an OAM's 16 palettes is drawn with
 typedef struct {
-    u8 unk0[0x30];
-    BOOL unk30;
-    u8 unk34[0x4c];
-    u32 unk80;
-    u8 unk84[0x14];
+    u16 paletteIndex[16];
+} NNSG2dPaletteSwapTable;
+
+u16 NNS_G2dGetPaletteTableValue(const NNSG2dPaletteSwapTable *tbl, u16 beforeIdx);
+
+// Hints to NNS_G2dBeginRenderingEx: the cells drawn are only translated, or are drawn to the first surface only
+enum {
+    NNS_G2D_RDR_OPZHINT_NONE = 0,
+    NNS_G2D_RDR_OPZHINT_NOT_SR = 1 << 0,
+    NNS_G2D_RDR_OPZHINT_LOCK_PARAMS = 1 << 1,
+};
+
+// Which of an OAM's attributes the renderer overwrites
+enum {
+    NNS_G2D_RND_OVERWRITE_NONE = 0,
+    NNS_G2D_RND_OVERWRITE_PRIORITY = 1 << 0,
+    NNS_G2D_RND_OVERWRITE_PLTTNO = 1 << 1,
+    NNS_G2D_RND_OVERWRITE_MOSAIC = 1 << 2,
+    NNS_G2D_RND_OVERWRITE_OBJMODE = 1 << 3,
+    NNS_G2D_RND_OVERWRITE_PLTTNO_OFFS = 1 << 4,
+};
+
+typedef struct NNSG2dRendererInstance {
+    NNSG2dRndCoreInstance rendererCore;
+    NNSG2dRenderSurface *pTargetSurfaceList;
+    NNSG2dRenderSurface *pCurrentSurface;
+    const NNSG2dPaletteSwapTable *pPaletteSwapTbl;
+    u32 opzHint;
+    fx32 spriteZoffsetStep;
+    u32 overwriteEnableFlag;
+    u16 overwritePriority;
+    u16 overwritePlttNo;
+    u32 overwriteObjMode;
+    BOOL overwriteMosaicFlag;
+    u16 overwritePlttNoOffset;
 } NNSG2dRendererInstance;
 
 void NNS_G2dInitRenderer(NNSG2dRendererInstance *rend);
 void NNS_G2dAddRendererTargetSurface(NNSG2dRendererInstance *rend, NNSG2dRenderSurface *surface);
 void NNS_G2dInitRenderSurface(NNSG2dRenderSurface *surface);
+
+// The width and height in pixels of each OAM shape and size, by [shape][size]. The names are guesses: the tables are
+// defined by a file before g2d_CellTransferManager.c
+extern const u16 NNSi_objSizeWTbl[3][4];
+extern const u16 NNSi_objSizeHTbl[3][4];
+
+static inline u16 NNS_G2dGetOamSizeX(const GXOamShape *shape) {
+    return NNSi_objSizeWTbl[(*shape & GX_OAM_ATTR0_SHAPE_MASK) >> GX_OAM_ATTR01_SHAPE_SHIFT]
+                           [(*shape & GX_OAM_ATTR01_SIZE_MASK) >> GX_OAM_ATTR01_SIZE_SHIFT];
+}
+
+static inline u16 NNS_G2dGetOamSizeY(const GXOamShape *shape) {
+    return NNSi_objSizeHTbl[(*shape & GX_OAM_ATTR0_SHAPE_MASK) >> GX_OAM_ATTR01_SHAPE_SHIFT]
+                           [(*shape & GX_OAM_ATTR01_SIZE_MASK) >> GX_OAM_ATTR01_SIZE_SHIFT];
+}
+
+// A cell's OAM, its first three attributes, and copying one to an OAM
+typedef struct {
+    u16 attr0;
+    u16 attr1;
+    u16 attr2;
+} NNSG2dCellOAMAttrData;
+
+static inline void NNS_G2dCopyCellAsOamAttr(const NNSG2dCellData *cell, u16 idx, GXOamAttr *dst) {
+    const NNSG2dCellOAMAttrData *src = (const NNSG2dCellOAMAttrData *)cell->pOamAttrArray + idx;
+
+    dst->attr0 = src->attr0;
+    dst->attr1 = src->attr1;
+    dst->attr2 = src->attr2;
+}
+
+// Drawing an OAM as a textured quad with the 3D engine (g2d_OamSoftwareSpriteDraw.c). The correction function may
+// change the texture coordinates of a flipped OAM; the Z offset, when on, is added to each sprite's Z and moved by the
+// step after each one
+typedef void (*NNSG2dOamSoftEmuUVFlipCorrectFunc)(fx32 *u0, fx32 *v0, fx32 *u1, fx32 *v1, BOOL flipH, BOOL flipV);
+
+void NNS_G2dDrawOneOam3DDirectWithPosFast(s16 posX, s16 posY, s16 posZ, const GXOamAttr *oam,
+                                          const NNSG2dImageAttr *texImageAttr, u32 texBaseAddr, u32 pltBaseAddr);
+void NNS_G2dBeginRendering(NNSG2dRendererInstance *rend);
+void NNS_G2dBeginRenderingEx(NNSG2dRendererInstance *rend, u32 opzHint);
+void NNS_G2dEndRendering(void);
+void NNS_G2dDrawCell(const NNSG2dCellData *cell);
+void NNS_G2dDrawCellAnimation(const NNSG2dCellAnimation *cellAnim);
+void NNS_G2dDrawMultiCellAnimation(const NNSG2dMultiCellAnimation *mcAnim);
+// The matrix stack that cells are drawn with. NNS_G2dPopMtx ignores its count and pops one
+void NNS_G2dPushMtx(void);
+void NNS_G2dPopMtx(u16 num);
+// swan calls these three CellMatrixTranslate, CellMatrixScale and CellMatrixRotate
+void NNS_G2dTranslate(fx32 x, fx32 y, fx32 z);
+void NNS_G2dScale(fx32 x, fx32 y, fx32 z);
+void NNS_G2dRotZ(fx32 sin, fx32 cos);
+const NNSG2dPaletteSwapTable *NNS_G2dGetRendererPaletteTbl(const NNSG2dRendererInstance *rend);
+void NNS_G2dSetRendererImageProxy(NNSG2dRendererInstance *rend, const NNSG2dImageProxy *imgProxy,
+                                  const NNSG2dImagePaletteProxy *pltProxy);
+
+// While the renderer draws a multi-cell animation that shares its cell animations: the cell animation being drawn,
+// and the matrix cache each one was drawn with. The renderer addresses it by its own symbol, as it does only what
+// another file defines, and it lies in the .bss after the renderer's (0x021435d8 in Black 2), so the file after
+// g2d_Renderer.c defines it. The names are guesses
+#define NNSi_G2D_MC_CELLANIM_MAX 256
+
+typedef struct {
+    u16 currentCellAnimIdx;
+    NNSG2dRndCore2DMtxCache *cellAnimMtxCache[NNSi_G2D_MC_CELLANIM_MAX];
+    BOOL bDrawMC;
+} NNSiG2dMCRenderState;
+
+extern NNSiG2dMCRenderState NNSi_G2dMCRenderState;
+
+// The renderer core (g2d_RendererCore.c), as the renderer uses it
+void NNS_G2dInitRndCore(NNSG2dRndCoreInstance *core);
+void NNS_G2dSetRndCoreImageProxy(NNSG2dRndCoreInstance *core, const NNSG2dImageProxy *imgProxy,
+                                 const NNSG2dImagePaletteProxy *pltProxy);
+void NNS_G2dSetRndCoreOamRegisterFunc(NNSG2dRndCoreInstance *core, NNSG2dOamRegisterFunction oamRegister,
+                                      NNSG2dAffineRegisterFunction affineRegister);
+void NNS_G2dSetRndCoreAffineOverwriteMode(NNSG2dRndCoreInstance *core, u32 mode);
+void NNS_G2dSetRndCoreCurrentMtx3D(const MtxFx32 *mtx);
+void NNS_G2dSetRndCoreCurrentMtx2D(const MtxFx32 *mtx, const NNSG2dRndCore2DMtxCache *cache);
+void NNS_G2dSetRndCore3DSoftSpriteZvalue(NNSG2dRndCoreInstance *core, fx32 z);
+void NNS_G2dSetRndCoreSurface(NNSG2dRndCoreInstance *core, NNSG2dRenderSurface *surface);
+BOOL NNS_G2dIsRndCoreFlipH(const NNSG2dRndCoreInstance *core);
+BOOL NNS_G2dIsRndCoreFlipV(const NNSG2dRndCoreInstance *core);
+void NNS_G2dSetRndCoreFlipMode(NNSG2dRndCoreInstance *core, BOOL flipH, BOOL flipV);
+void NNS_G2dRndCoreBeginRendering(NNSG2dRndCoreInstance *core);
+void NNS_G2dRndCoreEndRendering(void);
+void NNS_G2dRndCoreDrawCell(const NNSG2dCellData *cell);
+void NNS_G2dRndCoreDrawCellVramTransfer(const NNSG2dCellData *cell, u32 cellVramTransferHandle);
+
+// The software sprites' automatic z offset (g2d_OamSoftwareSpriteDraw.c), which the renderer turns on around cells
+void NNSi_G2dSetOamSoftEmuAutoZOffsetFlag(BOOL flag);
+void NNSi_G2dResetOamSoftEmuAutoZOffset(void);
+void NNSi_G2dSetOamSoftEmuAutoZOffsetStep(fx32 step);
+fx32 NNSi_G2dGetOamSoftEmuAutoZOffsetStep(void);
 
 // ab = a * b for 2D affine matrices; ab may be b. swan's name: the code shows no SDK name
 void MAT32_Mul(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
@@ -780,6 +967,12 @@ static inline int NNS_G2dFontGetLineFeed(const NNSG2dFont *pFont) {
 int NNSi_G2dFontGetStringWidth(const NNSG2dFont *pFont, int hSpace, const void *str, const void **pPos);
 int NNSi_G2dFontGetTextHeight(const NNSG2dFont *pFont, int vSpace, const void *txt);
 NNSG2dTextRect NNSi_G2dFontGetTextRect(const NNSG2dFont *pFont, int hSpace, int vSpace, const void *txt);
+
+// The rect's copy makes the two copies that NNSi_G2dTextCanvasDrawText's stack shows
+static inline NNSG2dTextRect NNS_G2dFontGetTextRect(const NNSG2dFont *pFont, int hSpace, int vSpace, const void *txt) {
+    NNSG2dTextRect rect = NNSi_G2dFontGetTextRect(pFont, hSpace, vSpace, txt);
+    return rect;
+}
 
 // Character canvases: text drawn into characters in VRAM or memory, laid out as a BG's characters or a 1D OBJ's. param
 // is the canvas's width in characters for a BG, and the log2 sizes of its largest OBJ for a 1D OBJ

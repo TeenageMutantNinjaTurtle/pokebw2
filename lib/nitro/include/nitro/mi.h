@@ -27,12 +27,28 @@ static inline void MI_CpuFill16(void *dest, u16 data, u32 size) {
     sys_memset16(data, dest, size);
 }
 
+static inline void MI_CpuClear16(void *dest, u32 size) {
+    sys_memset16(0, dest, size);
+}
+
 static inline void MI_CpuFill32(void *dest, u32 data, u32 size) {
     sys_memset32(data, dest, size);
 }
 
 static inline void MI_CpuClear32(void *dest, u32 size) {
     sys_memset32(0, dest, size);
+}
+
+// Fills size bytes, a multiple of 4, 32 bytes at a time where it can: NitroSDK's MIi_CpuClearFast and its inline
+// MI_CpuFillFast
+void sys_memset32_fast(u32 value, void *dest, u32 size);
+
+static inline void MI_CpuFillFast(void *dest, u32 data, u32 size) {
+    sys_memset32_fast(data, dest, size);
+}
+
+static inline void MI_CpuClearFast(void *dest, u32 size) {
+    sys_memset32_fast(0, dest, size);
 }
 
 // Copies 36 bytes, a 3x3 matrix
