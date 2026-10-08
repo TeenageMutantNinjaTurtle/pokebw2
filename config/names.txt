@@ -2583,6 +2583,16 @@ overlays/ov168 0x021de004 BtlvStage_IsPaletteFading
 overlays/ov168 0x021de014 BtlvStage_SetVanish
 overlays/ov168 0x021de094 BtlvStage_StartAnimation
 overlays/ov168 0x021de0bc BtlvStage_IsAnimating
+overlays/ov168 0x021de320 BtlvField_FreeAnms
+overlays/ov168 0x021de364 BtlvField_Reload
+overlays/ov168 0x021de55c BtlvField_UploadTexTask
+overlays/ov168 0x021de570 BtlvField_FreeResources
+overlays/ov168 0x021de5a4 BtlvField_Delete
+overlays/ov168 0x021de5d4 BtlvField_Main
+overlays/ov168 0x021de64c BtlvField_Draw
+overlays/ov168 0x021de664 BtlvField_StartPaletteFade
+overlays/ov168 0x021de694 BtlvField_IsPaletteFading
+overlays/ov168 0x021de6a4 BtlvField_SetHidden
 overlays/ov168 0x021ea2a8 BtlvInput_CreateSimple
 overlays/ov168 0x021ea2d4 BtlvInput_CreateForBattle
 overlays/ov168 0x021ea30c BtlvInput_Create
