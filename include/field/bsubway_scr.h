@@ -14,10 +14,6 @@
 // The Battle Subway's work while the player is on the subway, which func_0201794c returns. Overlay 33's
 // bsubway_scr.c and overlay 12 keep it, and script plugin 1 (overlay 50) drives it
 
-// Overlay 273
-void func_ov273_021e9818(BtlSetup *setup);
-void func_ov273_021e98a8(BtlSetup *setup, u32 a1, HeapID heapId);
-
 // A Pokémon of a Battle Subway Trainer, which genSubwayBtlInstitutePoke makes a party Pokémon of. The fields are
 // the PokeParty fields func_ov033_0217bf04 copies into it
 struct BSubwayPokemon {

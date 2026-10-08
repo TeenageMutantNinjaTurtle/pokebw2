@@ -5,6 +5,7 @@
 #include "app/battle_recorder.h"
 #include "app/battle_recorder/br_core.h"
 #include "battle/battle_proc.h"
+#include "battle/battle_rec_tool.h"
 #include "battle/btl_setup.h"
 #include "constants/sound.h"
 #include "field/bsubway_scr.h"
@@ -221,7 +222,7 @@ static void *BrMain_BattleCreateParam(HeapID heapId, void *work, u32 preID) {
 
     func_02018540(setup, wk->param->gameData, heapId);
     func_0200c1f0();
-    func_ov273_021e98a8(setup, 0, heapId);
+    BattleRecTool_LoadSetup(setup, 0, heapId);
     func_0200c200();
     GFL_SndBGMSetPaused(TRUE);
     GFL_SndBGMPush();

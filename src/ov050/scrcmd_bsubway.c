@@ -1,4 +1,5 @@
 #include "types.h"
+#include "battle/battle_rec_tool.h"
 #include "battle/btl_setup.h"
 #include "battle/regulation.h"
 #include "field/bsubway_scr.h"
@@ -720,7 +721,7 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         break;
     case 345:
         func_0200c1f0();
-        func_ov273_021e9818(bsw->btlSetup);
+        BattleRecTool_StoreSetup(bsw->btlSetup);
         func_0200c200();
         break;
     case 346:

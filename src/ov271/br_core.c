@@ -87,7 +87,7 @@ static const BrProcData sBrProcTable[BR_PROCID_MAX] = {
                               BrCore_BvDeleteBefore, BrCore_BvDeleteAfter },
     [BR_PROCID_BV_SAVE] = { &data_ov268_021c27b8, sizeof(BrBvSaveProcParam), OVERLAY_ID(268), BrCore_BvSaveBefore,
                             BrCore_BvSaveAfter },
-    [BR_PROCID_MUSICAL_LOOK] = { &data_ov270_021efe00, sizeof(BrMusicalLookProcParam), OVERLAY_ID(270),
+    [BR_PROCID_MUSICAL_LOOK] = { &BR_MUSICAL_LOOK_PROC_FUNCTIONS, sizeof(BrMusicalLookProcParam), OVERLAY_ID(270),
                                  BrCore_MusicalLookBefore, BrCore_MusicalLookAfter },
     [BR_PROCID_MUSICAL_SEND] = { &BR_MUSICAL_SEND_PROC_FUNCTIONS, sizeof(BrMusicalSendProcParam), OVERLAY_ID(269),
                                  BrCore_MusicalSendBefore, BrCore_MusicalSendAfter },

@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "save/save_control.h"
 #include "struct_decls.h"
 
 // The Battle Recorder's connection to the Global Link (br_net.c), used by its online modes
@@ -11,11 +12,23 @@ BrNet *func_ov271_021f6224(GameData *gameData, u32 a1, HeapID heapId);
 void func_ov271_021f6300(BrNet *net);
 void func_ov271_021f6348(BrNet *net);
 
-// The data of a request to the Global Link. The musical photo upload, request 0, sends the photo in data
+// The data of a request to the Global Link
 typedef struct {
-    void *data;
+    union {
+        // The musical photo upload, request 0, sends the photo
+        void *data;
+        // The species whose musical photos request 1 downloads
+        u16 species;
+    };
     u32 unk4;
 } BrNetRequestParam;
+
+// A musical photo downloaded from the Global Link, after the profile of the player who sent it
+typedef struct {
+    // A GdsProfile, whose layout isn't recovered yet
+    u8 profile[0x80];
+    MusicalShot shot;
+} BrMusicalShotRecv;
 
 // Starts a request, 0 to 8
 void BrNet_StartRequest(BrNet *net, u32 type, const BrNetRequestParam *param);
@@ -27,5 +40,7 @@ BOOL BrNet_GetResultMsg(BrNet *net, u32 *msgID);
 u32 BrNet_CheckError(BrNet *net);
 // TRUE once the connection has failed
 BOOL func_ov271_021f66f8(BrNet *net);
+// TRUE once the photos are downloaded, then giving up to tblMax of them in tbl and their number in recvNum
+BOOL BrNet_GetDownloadMusicalShot(BrNet *net, BrMusicalShotRecv **tbl, int tblMax, int *recvNum);
 
 #endif // POKEBW2_APP_BATTLE_RECORDER_BR_NET_H

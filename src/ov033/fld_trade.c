@@ -1,5 +1,4 @@
 #include "types.h"
-#include "app/funfest_mission.h"
 #include "demo/shinka_demo.h"
 #include "field/event_field_trade.h"
 #include "field/field_event.h"

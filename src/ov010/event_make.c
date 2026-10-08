@@ -1,5 +1,6 @@
 #include "types.h"
 #include "battle/battle_proc.h"
+#include "battle/battle_rec_tool.h"
 #include "battle/btl_net.h"
 #include "battle/btl_setup.h"
 #include "field/bsubway_scr.h"
@@ -153,7 +154,7 @@ BOOL func_ov010_0214ff58(GameProc *proc, u32 *state, void *param, void *work) {
         GFL_OvlUnload(OVERLAY_ID(167));
         procWork->ov167Loaded = FALSE;
         func_0200c1f0();
-        func_ov273_021e9818(battle->setup);
+        BattleRecTool_StoreSetup(battle->setup);
         func_0200c200();
         *state = 13;
         break;

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "app/funfest_mission.h"
 #include "app/name_entry.h"
 #include "field/event_phrase_input.h"
 #include "field/field_event.h"

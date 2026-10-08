@@ -105,8 +105,8 @@ GameEventReturnCode func_ov021_0216e660(GameEvent *event, u32 *state, void *data
     return GAMEEVENT_CONTINUE;
 }
 
-GameEvent *func_ov021_0216e80c(GameSystem *gsys, const u32 *args) {
-    u32 mode = args[0];
+GameEvent *func_ov021_0216e80c(GameSystem *gsys, void *args) {
+    u32 mode = *(u32 *)args;
     GameEvent *event = GameEvent_Create(gsys, NULL, func_ov021_0216e660, sizeof(FestivalEventWork));
     FestivalEventWork *work = GameEvent_GetData(event);
 
