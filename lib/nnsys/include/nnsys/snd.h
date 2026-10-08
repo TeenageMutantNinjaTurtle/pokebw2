@@ -7,9 +7,9 @@
 
 // Sets a sound player's volume, 0 to 127. That it is NitroSystem's NNS_SndPlayerSetPlayerVolume is a guess from its
 // code
-void func_0206bd3c(int playerNo, int volume);
+void NNS_SndPlayerSetPlayerVolume(int playerNo, int volume);
 // Sets the master volume, 0 to 127, through sndSetMasterVolume; NitroSystem's NNS_SndSetMasterVolume by its code
-void func_0206b954(int volume);
+void NNS_SndSetMasterVolume(int volume);
 
 // A handle to a sound player, which plays one sequence
 typedef struct NNSSndHandle NNSSndHandle;
@@ -18,18 +18,18 @@ typedef struct NNSSndHandle NNSSndHandle;
 typedef struct NNSSndHeap *NNSSndHeapHandle;
 
 // Sets a sound player's volume, 0 to 127
-void func_0206be44(NNSSndHandle *handle, int volume);
+void NNS_SndPlayerSetVolume(NNSSndHandle *handle, int volume);
 // Sets the pitch of the tracks in trackBitMask, in 64ths of a semitone; NitroSystem's NNS_SndPlayerSetTrackPitch by
 // its code
-void func_0206bee0(NNSSndHandle *handle, u32 trackBitMask, int pitch);
-// Set a value of the tracks in trackBitMask, as func_0206bee0 does the pitch
-void func_0206bf08(NNSSndHandle *handle, u32 trackBitMask, int value);
-void func_0206bf1c(NNSSndHandle *handle, u32 trackBitMask, int value);
+void NNS_SndPlayerSetTrackPitch(NNSSndHandle *handle, u32 trackBitMask, int pitch);
+// Set a value of the tracks in trackBitMask, as NNS_SndPlayerSetTrackPitch does the pitch
+void NNS_SndPlayerSetTrackModDepth(NNSSndHandle *handle, u32 trackBitMask, int value);
+void NNS_SndPlayerSetTrackModSpeed(NNSSndHandle *handle, u32 trackBitMask, int value);
 
-// The library's setup and its work each frame (snd_main.c): NNS_SndInit, which swan names sndInit, sets up the driver
-// once; NNS_SndMain, swan's sndSync, runs the players, the capture and the streams and sends the commands queued.
-// NNS_SndSetMonoFlag puts every channel in the center. NNS_SndUpdateDriverInfo asks the ARM7 for a copy of its state,
-// and returns whether a copy asked for earlier has arrived
+// The library's setup and its work each frame (snd_main.c): NNS_SndInit, which swan names NNS_SndInit, sets up the
+// driver once; NNS_SndMain, swan's NNS_SndMain, runs the players, the capture and the streams and sends the commands
+// queued. NNS_SndSetMonoFlag puts every channel in the center. NNS_SndUpdateDriverInfo asks the ARM7 for a copy of its
+// state, and returns whether a copy asked for earlier has arrived
 void NNS_SndInit(void);
 void NNS_SndMain(void);
 void NNS_SndSetMonoFlag(BOOL flag);
@@ -72,26 +72,26 @@ typedef void *NNSSndWaveOutHandle;
 
 #define NNS_SND_WAVE_FORMAT_PCM16 1
 
-NNSSndWaveOutHandle sndLockChannel(int channel);
-void sndReleaseChannel(NNSSndWaveOutHandle handle);
-BOOL sndPlaySamples(NNSSndWaveOutHandle handle, int format, const void *data, BOOL loop, int loopStart, int samples,
-                    int rate, int volume, int speed, int pan);
-void sndStopChannel(NNSSndWaveOutHandle handle);
-BOOL sndIsChannelPlaying(NNSSndWaveOutHandle handle);
-// NNS_SndWaveOutSetVolume and NNS_SndWaveOutSetSpeed, which swan names sndSetChannelVolume and sndSetChannelSpeed,
-// change what plays; speed is a ratio to the sample rate, 0x8000 for 1. NNS_SndWaveOutWaitForChannelStop waits until
-// the channel is silent
+NNSSndWaveOutHandle NNS_SndWaveOutAllocChannel(int channel);
+void NNS_SndWaveOutFreeChannel(NNSSndWaveOutHandle handle);
+BOOL NNS_SndWaveOutStart(NNSSndWaveOutHandle handle, int format, const void *data, BOOL loop, int loopStart,
+                         int samples, int rate, int volume, int speed, int pan);
+void NNS_SndWaveOutStop(NNSSndWaveOutHandle handle);
+BOOL NNS_SndWaveOutIsPlaying(NNSSndWaveOutHandle handle);
+// NNS_SndWaveOutSetVolume and NNS_SndWaveOutSetSpeed, which swan names NNS_SndWaveOutSetVolume and
+// NNS_SndWaveOutSetSpeed, change what plays; speed is a ratio to the sample rate, 0x8000 for 1.
+// NNS_SndWaveOutWaitForChannelStop waits until the channel is silent
 void NNS_SndWaveOutSetVolume(NNSSndWaveOutHandle handle, int volume);
 void NNS_SndWaveOutSetSpeed(NNSSndWaveOutHandle handle, int speed);
 void NNS_SndWaveOutWaitForChannelStop(NNSSndWaveOutHandle handle);
 
-// NitroSystem's resource manager (snd_resource_mgr.c): NNS_SndLockChannel, which fails when a channel is locked already,
-// and NNS_SndUnlockChannel under swan's names, and NNS_SndAllocAlarm, which returns -1 when no alarm is free, and
-// NNS_SndFreeAlarm by their code
-BOOL sndEnableChannels(u32 chBitMask);
-void sndDisableChannels(u32 chBitMask);
-int func_0206bacc(void);
-void func_0206baf8(int alarmNo);
+// NitroSystem's resource manager (snd_resource_mgr.c): NNS_SndLockChannel, which fails when a channel is locked
+// already, and NNS_SndUnlockChannel under swan's names, and NNS_SndAllocAlarm, which returns -1 when no alarm is free,
+// and NNS_SndFreeAlarm by their code
+BOOL NNS_SndLockChannel(u32 chBitMask);
+void NNS_SndUnlockChannel(u32 chBitMask);
+int NNSi_SndAllocAlarm(void);
+void NNSi_SndFreeAlarm(int alarmNo);
 // Frees capture channels locked for the capture, by its code
 void NNS_SndUnlockCapture(u32 capBitFlag);
 
@@ -143,7 +143,7 @@ typedef struct NNSSndArcStrmInfo {
     u8 volume;
     u8 playerPrio;
     u8 playerNo;
-    // NNS_SND_ARC_STRM_FLAG_STEREO plays a mono stream on two channels (sndarc_stream.c)
+    // NNS_SND_ARC_STRM_FLAG_STEREO plays a mono stream on two channels (snd_arc_stream.c)
     u8 flags;
     u8 reserved[4];
 } NNSSndArcStrmInfo;
@@ -198,9 +198,8 @@ typedef struct NNSSndArc NNSSndArc;
 
 // NitroSystem's sound heap (snd_heap.c), a frame heap for sound data: NNS_SndHeapSaveState returns the level saved,
 // NNS_SndHeapLoadState frees what was loaded after a level, calling each block's dispose callback first. swan names
-// NNS_SndHeapCreate NNS_FrmHeapCreate
+// NNS_SndHeapCreate NNS_SndHeapCreate
 #define NNS_SND_HEAP_INVALID_HANDLE NULL
-
 
 // Called with a block's memory and size and the two values it was allocated with, before the block is freed
 typedef void (*NNSSndHeapDisposeCallback)(void *mem, u32 size, u32 data1, u32 data2);
@@ -212,13 +211,6 @@ void *NNS_SndHeapAlloc(NNSSndHeapHandle heap, u32 size, NNSSndHeapDisposeCallbac
 int NNS_SndHeapSaveState(NNSSndHeapHandle heap);
 void NNS_SndHeapLoadState(NNSSndHeapHandle heap, int level);
 int NNS_SndHeapGetCurrentLevel(NNSSndHeapHandle heap);
-
-// The same functions under the symbols that callers in src/ still use, until the renames: NNS_SndHeapSaveState,
-// NNS_SndHeapLoadState, NNS_SndHeapGetCurrentLevel and NNS_SndArcLoadGroup
-int func_0206d120(NNSSndHeapHandle heap);
-void func_0206d154(NNSSndHeapHandle heap, int level);
-int func_0206d1e8(NNSSndHeapHandle heap);
-BOOL func_0206d260(int groupNo, NNSSndHeapHandle heap);
 
 // The current sound archive (snd_arc.c, declared here for the heap handle)
 BOOL NNS_SndArcInit(NNSSndArc *arc, const char *filePath, NNSSndHeapHandle heap, BOOL symbolLoadFlag);
@@ -274,11 +266,11 @@ BOOL NNS_SndArcPlayerStartSeq(NNSSndHandle *handle, int seqNo);
 BOOL NNS_SndArcPlayerStartSeqEx(NNSSndHandle *handle, int playerNo, int bankNo, int playerPrio, int seqNo);
 BOOL NNS_SndArcPlayerStartSeqArc(NNSSndHandle *handle, int seqArcNo, int index);
 
-// The sound archive's stream players (sndarc_stream.c): a stream of the archive played on the stream player its info
+// The sound archive's stream players (snd_arc_stream.c): a stream of the archive played on the stream player its info
 // gives, read and decoded by a thread at threadPrio. NNS_SndArcStrmPrepare reads the first block, from offset
 // milliseconds in, and NNS_SndArcStrmPreparedStart starts it once read; NNS_SndArcStrmStart does both.
 // NNS_SndArcStrmStop fades out over fadeFrames frames, stopping at once with 0. NNSi_SndArcStrmMain runs once a frame
-// from NNS_SndMain. swan names NNS_SndArcStrmInit NNS_SndStreamInit
+// from NNS_SndMain. swan names NNS_SndArcStrmInit NNS_SndArcStrmInit
 typedef struct NNSSndArcStrmPlayer NNSSndArcStrmPlayer;
 
 typedef struct NNSSndStrmHandle {
@@ -316,6 +308,5 @@ u32 NNS_SndArcStrmGetCurrentPlayingPos(NNSSndStrmHandle *handle);
 // Locks or frees a stream player's channels while it doesn't play
 BOOL NNS_SndArcStrmAllocChannel(int playerNo);
 void NNS_SndArcStrmFreeChannel(int playerNo);
-void NNSi_SndArcStrmMain(void);
 
 #endif // POKEBW2_NNSYS_SND_H

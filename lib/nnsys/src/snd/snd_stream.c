@@ -1,5 +1,5 @@
-#include "snd_internal.h"
 #include "nitro/os.h"
+#include "snd_internal.h"
 
 // NitroSystem's streams (NNS_SndStrm): PCM played in a loop from a buffer on locked channels, with an alarm per stream
 // that calls back for each block of the buffer as it is played, to fill it again. Streams stop timers before the
@@ -15,8 +15,8 @@ static void ForceStop(NNSSndStrm *stream);
 static void Shutdown(NNSSndStrm *stream);
 static void AlarmCallback(void *arg);
 static void StrmCallback(NNSSndStrm *stream, NNSSndStrmCallbackStatus status);
-static void BeginSleep(void *arg);
-static void EndSleep(void *arg);
+static void StrmBeginSleep(void *arg);
+static void StrmEndSleep(void *arg);
 
 static BOOL sInitialized;
 static NNSFndList sStrmList;
@@ -29,8 +29,8 @@ void NNS_SndStrmInit(NNSSndStrm *stream) {
         sInitialized = TRUE;
     }
 
-    PM_SetSleepCallbackInfo(&stream->preSleepInfo, BeginSleep, stream);
-    PM_SetSleepCallbackInfo(&stream->postSleepInfo, EndSleep, stream);
+    PM_SetSleepCallbackInfo(&stream->preSleepInfo, StrmBeginSleep, stream);
+    PM_SetSleepCallbackInfo(&stream->postSleepInfo, StrmEndSleep, stream);
     stream->chBitMask = 0;
     stream->numChannels = 0;
     stream->active = FALSE;
@@ -46,7 +46,7 @@ BOOL NNS_SndStrmAllocChannel(NNSSndStrm *stream, int numChannels, const u8 chNoL
         chBitMask |= 1 << chNoList[i];
     }
 
-    if (!sndEnableChannels(chBitMask)) {
+    if (!NNS_SndLockChannel(chBitMask)) {
         return FALSE;
     }
 
@@ -57,7 +57,7 @@ BOOL NNS_SndStrmAllocChannel(NNSSndStrm *stream, int numChannels, const u8 chNoL
 
 void NNS_SndStrmFreeChannel(NNSSndStrm *stream) {
     if (stream->chBitMask != 0) {
-        sndDisableChannels(stream->chBitMask);
+        NNS_SndUnlockChannel(stream->chBitMask);
         stream->chBitMask = 0;
         stream->numChannels = 0;
     }
@@ -83,7 +83,7 @@ BOOL NNS_SndStrmSetup(NNSSndStrm *stream, NNSSndStrmFormat format, void *buffer,
     }
     alarmPeriod = timer * samples / interval;
 
-    stream->alarmNo = func_0206bacc();
+    stream->alarmNo = NNSi_SndAllocAlarm();
     if (stream->alarmNo < 0) {
         return FALSE;
     }
@@ -172,7 +172,7 @@ static void ForceStop(NNSSndStrm *stream) {
 }
 
 static void Shutdown(NNSSndStrm *stream) {
-    func_0206baf8(stream->alarmNo);
+    NNSi_SndFreeAlarm(stream->alarmNo);
     NNS_FndRemoveListObject(&sStrmList, stream);
     stream->active = FALSE;
 }
@@ -197,7 +197,7 @@ static void StrmCallback(NNSSndStrm *stream, NNSSndStrmCallbackStatus status) {
     }
 }
 
-static void BeginSleep(void *arg) {
+static void StrmBeginSleep(void *arg) {
     NNSSndStrm *stream = arg;
     u32 tag;
 
@@ -210,7 +210,7 @@ static void BeginSleep(void *arg) {
 }
 
 // The buffer is filled up to its end again before the channels start over from its start
-static void EndSleep(void *arg) {
+static void StrmEndSleep(void *arg) {
     NNSSndStrm *stream = arg;
 
     if (stream->started) {

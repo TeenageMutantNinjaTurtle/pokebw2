@@ -2,9 +2,10 @@
 
 // NitroSystem's wave output (NNS_SndWaveOut), which plays raw samples on a channel locked for it. The file name is a
 // guess, from NitroSystem's names for its sound files. swan names NNS_SndWaveOutAllocChannel,
-// NNS_SndWaveOutFreeChannel, NNS_SndWaveOutStart, NNS_SndWaveOutStop and NNS_SndWaveOutIsPlaying sndLockChannel,
-// sndReleaseChannel, sndPlaySamples, sndStopChannel and sndIsChannelPlaying, and NNS_SndWaveOutSetVolume and
-// NNS_SndWaveOutSetSpeed sndSetChannelVolume and sndSetChannelSpeed
+// NNS_SndWaveOutFreeChannel, NNS_SndWaveOutStart, NNS_SndWaveOutStop and NNS_SndWaveOutIsPlaying
+// NNS_SndWaveOutAllocChannel, NNS_SndWaveOutFreeChannel, NNS_SndWaveOutStart, NNS_SndWaveOutStop and
+// NNS_SndWaveOutIsPlaying, and NNS_SndWaveOutSetVolume and NNS_SndWaveOutSetSpeed NNS_SndWaveOutSetVolume and
+// NNS_SndWaveOutSetSpeed
 
 #define SND_CHANNEL_NUM 16
 
@@ -34,10 +35,10 @@ static inline int CalcTimer(int sampleRate, int speed) {
     return timer;
 }
 
-NNSSndWaveOutHandle sndLockChannel(int chNo) {
+NNSSndWaveOutHandle NNS_SndWaveOutAllocChannel(int chNo) {
     NNSSndWaveOut *waveOut;
 
-    if (!sndEnableChannels(1 << chNo)) {
+    if (!NNS_SndLockChannel(1 << chNo)) {
         return NULL;
     }
     waveOut = &sWaveOut[chNo];
@@ -46,14 +47,14 @@ NNSSndWaveOutHandle sndLockChannel(int chNo) {
     return waveOut;
 }
 
-void sndReleaseChannel(NNSSndWaveOutHandle handle) {
+void NNS_SndWaveOutFreeChannel(NNSSndWaveOutHandle handle) {
     NNSSndWaveOut *waveOut = handle;
 
-    sndDisableChannels(1 << waveOut->chNo);
+    NNS_SndUnlockChannel(1 << waveOut->chNo);
 }
 
-BOOL sndPlaySamples(NNSSndWaveOutHandle handle, int format, const void *data, BOOL loop, int loopStartSample,
-                    int samples, int sampleRate, int volume, int speed, int pan) {
+BOOL NNS_SndWaveOutStart(NNSSndWaveOutHandle handle, int format, const void *data, BOOL loop, int loopStartSample,
+                         int samples, int sampleRate, int volume, int speed, int pan) {
     NNSSndWaveOut *waveOut = handle;
     int loopStart;
     int loopLen;
@@ -86,7 +87,7 @@ BOOL sndPlaySamples(NNSSndWaveOutHandle handle, int format, const void *data, BO
     return TRUE;
 }
 
-void sndStopChannel(NNSSndWaveOutHandle handle) {
+void NNS_SndWaveOutStop(NNSSndWaveOutHandle handle) {
     NNSSndWaveOut *waveOut = handle;
 
     if (waveOut->playFlag) {
@@ -111,7 +112,7 @@ void NNS_SndWaveOutSetSpeed(NNSSndWaveOutHandle handle, int speed) {
     }
 }
 
-BOOL sndIsChannelPlaying(NNSSndWaveOutHandle handle) {
+BOOL NNS_SndWaveOutIsPlaying(NNSSndWaveOutHandle handle) {
     NNSSndWaveOut *waveOut = handle;
 
     if (!waveOut->playFlag) {

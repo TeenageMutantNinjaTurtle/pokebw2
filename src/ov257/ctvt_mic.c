@@ -86,7 +86,7 @@ void CtvtMic_Update(CtvtMic *work) {
             }
         }
     }
-    if (work->playing == TRUE && !sndIsChannelPlaying(work->channel)) {
+    if (work->playing == TRUE && !NNS_SndWaveOutIsPlaying(work->channel)) {
         work->playing = FALSE;
     }
     CtvtMic_Debug(work);
@@ -174,7 +174,7 @@ u32 CtvtMic_Decode(CtvtMic *work, const s8 *src, s16 *dst, u32 size) {
 }
 
 static void CtvtMic_AllocChannel(CtvtMic *work, HeapID heapId) {
-    work->channel = sndLockChannel(CTVT_MIC_WAVE_CHANNEL);
+    work->channel = NNS_SndWaveOutAllocChannel(CTVT_MIC_WAVE_CHANNEL);
     // "Failed to get a wave handle!!"
     GFL_ASSERT_MSG(
         work->channel != NULL,
@@ -183,7 +183,7 @@ static void CtvtMic_AllocChannel(CtvtMic *work, HeapID heapId) {
 }
 
 static void CtvtMic_FreeChannel(CtvtMic *work) {
-    sndReleaseChannel(work->channel);
+    NNS_SndWaveOutFreeChannel(work->channel);
 }
 
 void CtvtMic_Debug(CtvtMic *work) {
@@ -191,8 +191,8 @@ void CtvtMic_Debug(CtvtMic *work) {
 
 BOOL CtvtMic_Play(CtvtMic *work, const void *data, u32 size, int volume, int speed) {
     if (size > 32) {
-        work->playing = sndPlaySamples(work->channel, NNS_SND_WAVE_FORMAT_PCM16, (const u8 *)data + 0x800, FALSE, 0,
-                                       size / 2, CTVT_MIC_RATE, volume, speed, 64);
+        work->playing = NNS_SndWaveOutStart(work->channel, NNS_SND_WAVE_FORMAT_PCM16, (const u8 *)data + 0x800, FALSE,
+                                            0, size / 2, CTVT_MIC_RATE, volume, speed, 64);
         work->playFrames = 0;
         work->playSize = size;
         work->playSpeed = speed;
@@ -203,7 +203,7 @@ BOOL CtvtMic_Play(CtvtMic *work, const void *data, u32 size, int volume, int spe
 
 void CtvtMic_StopPlaying(CtvtMic *work) {
     work->playing = FALSE;
-    sndStopChannel(work->channel);
+    NNS_SndWaveOutStop(work->channel);
 }
 
 BOOL CtvtMic_IsPlaying(CtvtMic *work) {

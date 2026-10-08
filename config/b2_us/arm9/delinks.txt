@@ -929,7 +929,7 @@ src/system/area_data.c:
     complete
     .text       start:0x02018ee4 end:0x02018fbc
 
-lib/nnsys/src/snd/sndarc_stream.c:
+lib/nnsys/src/snd/snd_arc_stream.c:
     .text       start:0x0206db40 end:0x0206ed04
     .rodata     start:0x0209447c end:0x02094540
     .bss        start:0x02149950 end:0x0214b3dc
@@ -943,9 +943,11 @@ lib/nnsys/src/snd/snd_arc.c:
     .bss        start:0x02149910 end:0x02149914
 
 lib/nnsys/src/snd/snd_seqdata.c:
+    complete
     .text       start:0x0206ed04 end:0x0206ed30
 
 lib/nnsys/src/snd/snd_heap.c:
+    complete
     .text       start:0x0206d010 end:0x0206d260
 
 lib/nnsys/src/snd/snd_arc_loader.c:
@@ -953,27 +955,35 @@ lib/nnsys/src/snd/snd_arc_loader.c:
     .bss        start:0x02149914 end:0x02149950
 
 lib/nnsys/src/snd/snd_arc_player.c:
+    complete
     .text       start:0x0206d918 end:0x0206db40
 
 lib/nnsys/src/snd/snd_main.c:
+    complete
     .text       start:0x0206b8d4 end:0x0206ba74
     .bss        start:0x02146980 end:0x02148d80
 
 lib/nnsys/src/snd/snd_resource_mgr.c:
+    complete
     .text       start:0x0206ba74 end:0x0206bb1c
     .bss        start:0x02148d80 end:0x02148d8c
 
 lib/nnsys/src/snd/snd_waveout.c:
+    complete
     .text       start:0x0206bb1c end:0x0206bd3c
     .bss        start:0x02148d8c end:0x02148ecc
 
 lib/nnsys/src/snd/snd_player.c:
+    complete
     .text       start:0x0206bd3c end:0x0206c480
     .bss        start:0x02148ecc end:0x021497a4
 
-lib/nnsys/src/snd/snd_capture.c:
-    .text       start:0x0206c838 end:0x0206c9bc
-    .bss        start:0x02149874 end:0x021498bc
 
 lib/nnsys/src/snd/snd_fader.c:
+    complete
     .text       start:0x0206ed30 end:0x0206ed94
+
+lib/nnsys/src/snd/snd_capture.c:
+    complete
+    .text       start:0x0206c838 end:0x0206c9bc
+    .bss        start:0x02149874 end:0x02149910

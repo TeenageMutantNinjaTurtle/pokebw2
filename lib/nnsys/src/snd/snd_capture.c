@@ -1,6 +1,6 @@
-#include "snd_internal.h"
 #include "nitro/mi.h"
 #include "nitro/os.h"
+#include "snd_internal.h"
 
 // NitroSystem's capture (NNSi_SndCapture), which records the mixer's output into a buffer and plays it back on
 // channels of its own, for reverb and effects. Only what the sound library's main loop and sleep callbacks call is
@@ -10,27 +10,23 @@
 #define CAPTURE_MSG_NUM 8
 
 static void StopCapture(void);
-static void InitMessageQueue(void);
 
-static BOOL sCaptureThreadFlag;
-// Read only by code the linker dropped, in a function of it that MWCC doesn't emit, to keep them in the file's .bss
-u32 sCaptureReserved;
+// MWCC lays these out in reverse order of declaration: the flag first and the capture last. sCaptureReserved and
+// sCaptureMsgBuf were used only by the functions that start a capture, which the linker dropped, so their names
+// are guesses
+static NNSiSndCaptureInfo sCaptureInfo;
+static OSMessage sCaptureMsgBuf[CAPTURE_MSG_NUM];
 static OSMessageQueue sMsgQ;
-OSMessage sCaptureMsgBuf[CAPTURE_MSG_NUM];
-
-// A stand-in for the code the linker dropped that set the message queue up
-static void InitMessageQueue(void) {
-    OS_InitMessageQueue(&sMsgQ, sCaptureMsgBuf, CAPTURE_MSG_NUM);
-    sCaptureReserved = 0;
-}
+static u32 sCaptureReserved;
+static BOOL sCaptureThreadFlag;
 
 void NNSi_SndCaptureInit(void) {
     sCaptureThreadFlag = FALSE;
-    NNSi_SndCaptureInfo.active = FALSE;
+    sCaptureInfo.active = FALSE;
 }
 
 void NNSi_SndCaptureMain(void) {
-    NNSiSndCaptureInfo *info = &NNSi_SndCaptureInfo;
+    NNSiSndCaptureInfo *info = &sCaptureInfo;
     NNSSndFader *fader;
     int volume;
 
@@ -56,7 +52,7 @@ void NNSi_SndCaptureMain(void) {
 }
 
 static void StopCapture(void) {
-    NNSiSndCaptureInfo *info = &NNSi_SndCaptureInfo;
+    NNSiSndCaptureInfo *info = &sCaptureInfo;
     BOOL alarmFlag;
     u32 tag;
 
@@ -78,10 +74,10 @@ static void StopCapture(void) {
         NNS_SndUnlockCapture(info->capBitMask);
     }
     if (info->lockChBitFlag) {
-        sndDisableChannels(info->lockChBitFlag);
+        NNS_SndUnlockChannel(info->lockChBitFlag);
     }
     if (alarmFlag) {
-        func_0206baf8(info->alarmNo);
+        NNSi_SndFreeAlarm(info->alarmNo);
     }
     if (info->type == NNSi_SND_CAPTURE_TYPE_EFFECT) {
         func_0207d5b4(0, 0, 0, 0);
@@ -90,7 +86,7 @@ static void StopCapture(void) {
 }
 
 void NNSi_SndCaptureBeginSleep(void) {
-    NNSiSndCaptureInfo *info = &NNSi_SndCaptureInfo;
+    NNSiSndCaptureInfo *info = &sCaptureInfo;
     u32 tag;
 
     if (!info->active) {
@@ -104,7 +100,7 @@ void NNSi_SndCaptureBeginSleep(void) {
 }
 
 void NNSi_SndCaptureEndSleep(void) {
-    NNSiSndCaptureInfo *info = &NNSi_SndCaptureInfo;
+    NNSiSndCaptureInfo *info = &sCaptureInfo;
 
     if (!info->active) {
         return;

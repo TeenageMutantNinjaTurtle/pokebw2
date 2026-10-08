@@ -421,6 +421,12 @@ Same instructions, scheduled in another order.
 
 ## An instruction too many or too few
 
+- On NitroSystem's `2.0/sp2p2`, an address passed straight to a static inline that reads `p[k]` folds `k` into the
+  load's offset from the shared base, where the same address in a named local, or the element written `a[n + k]`,
+  is computed again. `snd_arc_loader.c`'s `LoadSingleWave` reads a wave's file offset and the next one's as
+  `ldr [r1, #0x3c]` and `ldr [r1, #0x40]` off one `waveArc + n * 4` only with
+  `GetNextWaveOffset(&waveArc->offsetTable[n])`, an inline returning `fileOffset[1]`; `offsetTable[n + 1]` is 8 bytes
+  longer, and a local pointer 4.
 - A narrowing the original does where nothing calls for it can be an inline returning a wider type into a narrow
   local: `br_sidebar.c`'s moves set their `s8 dir` from `static inline int BrSidebar_GetDir(BOOL dir)`, which
   narrows right after the choice in one function and at the use in the other, as the original does.
@@ -916,6 +922,15 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Data and sections
 
+- `-ipa file` and `-ipa function` address statics differently, which tells a library file's setting. With
+  `-ipa file`, a file's `.bss` and `.data` objects share one section, are reached from its base (one literal, then
+  `[r0, #off]`, shared by every object a function touches) and are dropped when no code reads them. With
+  `-ipa function`, each object has a literal of its own, objects no code reads stay, and they are laid out in reverse
+  order of declaration. NitroSystem's sound capture (`lib/nnsys/src/snd/snd_capture.c`) loads its flag, queue and
+  capture struct each from its own literal and keeps a word and a message buffer that only stripped code used, so it is
+  built with `-ipa function` (`file_flags` in `lib/nnsys/library.toml`), while the other sound files are reached from
+  one base and need `-ipa file`. A struct that looks like another file's extern, or a gap in `.bss` that seems to need
+  a stand-in function, is the first thing to try this on.
 - The file's `.data` objects take part in MWCC's size sort that orders `.rodata`: `btlv_mcss.c`'s 3-byte idle-wait
   array had to be counted before `rodata_order.py` predicted the layout.
 - A function-local static of a function MWCC doesn't emit is dropped, while a global read only by an unemitted

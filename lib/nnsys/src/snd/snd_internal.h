@@ -1,16 +1,17 @@
 #ifndef POKEBW2_NNSYS_SND_INTERNAL_H
 #define POKEBW2_NNSYS_SND_INTERNAL_H
 
-#include "nnsys/snd.h"
-#include "nitro/snd.h"
 #include "nitro/fs.h"
 #include "nitro/pm.h"
+#include "nitro/snd.h"
 #include "nnsys/fnd.h"
+#include "nnsys/snd.h"
 
 // What NitroSystem's sound files share among themselves and don't export: the sequence player, sound archive and sound
 // heap internals. The header's name is ours
 
-// The sound heap (snd_heap.c): a frame heap whose levels each keep the list of blocks allocated since the level was saved
+// The sound heap (snd_heap.c): a frame heap whose levels each keep the list of blocks allocated since the level was
+// saved
 typedef struct NNSSndHeap {
     NNSFndHeapHandle handle;
     NNSFndList levelList;
@@ -84,7 +85,7 @@ typedef struct NNSSndArcFat {
 
 typedef struct NNSSndArcSymbol NNSSndArcSymbol;
 
-// filePath is read by sndarc_stream.c to open a stream's file again by path; nothing in snd_arc.c sets it
+// filePath is read by snd_arc_stream.c to open a stream's file again by path; nothing in snd_arc.c sets it
 typedef struct NNSSndArc {
     NNSSndArcHeader header;
     BOOL file_open;
@@ -101,7 +102,8 @@ typedef struct NNSSndArc {
 FSFileID NNSi_SndArcGetFileID(void);
 const char *NNSi_SndArcGetFilePath(void);
 
-// A sequence archive (snd_seqdata.c): its sequences, each at an offset from baseOffset, or NNS_SND_SEQ_ARC_INVALID_OFFSET
+// A sequence archive (snd_seqdata.c): its sequences, each at an offset from baseOffset, or
+// NNS_SND_SEQ_ARC_INVALID_OFFSET
 #define NNS_SND_SEQ_ARC_INVALID_OFFSET 0xffffffff
 
 typedef struct NNSSndSeqArcSeqInfo {
@@ -160,9 +162,9 @@ BOOL NNSi_SndReadDriverTrackInfo(int playerNo, int trackNo, SNDTrackInfo *trackI
 // The resource manager (snd_resource_mgr.c): sets every channel, capture and alarm free
 void NNSi_SndInitResourceMgr(void);
 
-// The sequence players (snd_player.c). A player number has a list of the sequence players playing on it, by priority, up
-// to playableSeqCount of them, and a list of free heaps that its sequences load into. Every sequence player in use is
-// also in one list of all of them by priority
+// The sequence players (snd_player.c). A player number has a list of the sequence players playing on it, by priority,
+// up to playableSeqCount of them, and a list of free heaps that its sequences load into. Every sequence player in use
+// is also in one list of all of them by priority
 typedef enum NNSSndSeqPlayerStatus {
     NNS_SND_SEQ_PLAYER_STATUS_NONE,
     NNS_SND_SEQ_PLAYER_STATUS_PLAY,
@@ -221,8 +223,6 @@ void NNSi_SndPlayerSetSeqArcNo(NNSSndHandle *handle, int seqArcNo, int index);
 // and bufR and plays them back on the channels of chBitMask, with an alarm when alarmNo isn't negative. A reverb's
 // volume follows the fader, and with fadeStopFlag the capture stops when the fader is done. format, sampleRate,
 // callback, arg and interval are only used by functions the linker dropped, so their names are guesses.
-// snd_capture.c reaches NNSi_SndCaptureInfo through its own symbol, as an object defined in another file; which one
-// is unknown
 typedef enum NNSiSndCaptureType {
     NNSi_SND_CAPTURE_TYPE_REVERB,
     NNSi_SND_CAPTURE_TYPE_EFFECT,
@@ -250,14 +250,12 @@ typedef struct NNSiSndCaptureInfo {
     int volume;
 } NNSiSndCaptureInfo;
 
-extern NNSiSndCaptureInfo NNSi_SndCaptureInfo;
-
 void NNSi_SndCaptureInit(void);
 void NNSi_SndCaptureMain(void);
 void NNSi_SndCaptureBeginSleep(void);
 void NNSi_SndCaptureEndSleep(void);
 
-// The sound archive's streams (sndarc_stream.c), run by NNS_SndMain: NitroSystem's NNSi_SndArcStrmMain by its code
-void func_0206ddac(void);
+// The sound archive's streams (snd_arc_stream.c), run by NNS_SndMain: NitroSystem's NNSi_SndArcStrmMain by its code
+void NNSi_SndArcStrmMain(void);
 
 #endif // POKEBW2_NNSYS_SND_INTERNAL_H

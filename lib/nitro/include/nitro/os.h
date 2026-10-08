@@ -78,8 +78,6 @@ u32 CPU_SetIRQMask(u32 mask);
 u32 CPU_EnableInterrupts(u32 mask);
 // NitroSDK's OS_Sleep: waits for some milliseconds, letting other threads run
 void func_0207aa04(u32 msec);
-// Waits for one of the interrupts, clearing their flags first if clear is TRUE
-void CPU_WaitIntrBit(BOOL clear, u32 interrupts);
 void exit(int status);
 
 // Fills 32 bytes with values that differ from run to run
@@ -177,8 +175,6 @@ typedef struct OSMessageQueue {
     s32 usedCount;
 } OSMessageQueue;
 
-// OS_InitMessageQueue isn't in the game; only code the linker dropped calls it
-void OS_InitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount);
 BOOL OS_ReceiveMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags);
 
 // NitroSDK's threads, under swan's names: OS_CreateThread, whose stack is its top, OS_SleepThread, which sleeps on

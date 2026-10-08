@@ -7,8 +7,8 @@
 #include "system/player_volume_fader.h"
 #include "system/ringtone_sys.h"
 
-// The field sound system's ringtone. RingtoneSys_Create is swan's (https://github.com/ds-pokemon-hacking/swan, GPL-3.0);
-// the other names are ours
+// The field sound system's ringtone. RingtoneSys_Create is swan's (https://github.com/ds-pokemon-hacking/swan,
+// GPL-3.0); the other names are ours
 
 // The sound player the ringtone plays on
 #define RINGTONE_PLAYER 4
@@ -133,15 +133,15 @@ static void RingtoneSys_StopTone(RingtoneSys *sys) {
 // Silences sound players 1 to 4 and the field's BGM fader, or gives them their volume back
 static void RingtoneSys_SetMuted(RingtoneSys *sys, u8 muted) {
     if (muted == TRUE) {
-        func_0206bd3c(1, 0);
-        func_0206bd3c(2, 0);
-        func_0206bd3c(3, 0);
-        func_0206bd3c(4, 0);
+        NNS_SndPlayerSetPlayerVolume(1, 0);
+        NNS_SndPlayerSetPlayerVolume(2, 0);
+        NNS_SndPlayerSetPlayerVolume(3, 0);
+        NNS_SndPlayerSetPlayerVolume(4, 0);
     } else {
-        func_0206bd3c(1, SND_VOLUME_MAX);
-        func_0206bd3c(2, SND_VOLUME_MAX);
-        func_0206bd3c(3, SND_VOLUME_MAX);
-        func_0206bd3c(4, SND_VOLUME_MAX);
+        NNS_SndPlayerSetPlayerVolume(1, SND_VOLUME_MAX);
+        NNS_SndPlayerSetPlayerVolume(2, SND_VOLUME_MAX);
+        NNS_SndPlayerSetPlayerVolume(3, SND_VOLUME_MAX);
+        NNS_SndPlayerSetPlayerVolume(4, SND_VOLUME_MAX);
     }
     PlayerVolumeFader_SetMuted(sys->fader, muted);
 }
@@ -151,21 +151,21 @@ static void RingtoneSys_SendEvent(RingtoneSys *sys, u8 event) {
 
     switch (state) {
     case RINGTONE_STATE_IDLE:
-        func_0206b954(SND_VOLUME_MAX);
+        NNS_SndSetMasterVolume(SND_VOLUME_MAX);
         RingtoneSys_SetMuted(sys, FALSE);
         RingtoneSys_StopTone(sys);
         break;
     case RINGTONE_STATE_RINGING:
-        func_0206b954(SND_VOLUME_MAX);
+        NNS_SndSetMasterVolume(SND_VOLUME_MAX);
         RingtoneSys_SetMuted(sys, TRUE);
         RingtoneSys_StartTone(sys);
         break;
     case RINGTONE_STATE_LID_CLOSED:
-        func_0206b954(0);
+        NNS_SndSetMasterVolume(0);
         RingtoneSys_StopTone(sys);
         break;
     case RINGTONE_STATE_RINGING_LID_CLOSED:
-        func_0206b954(SND_VOLUME_MAX);
+        NNS_SndSetMasterVolume(SND_VOLUME_MAX);
         RingtoneSys_SetMuted(sys, TRUE);
         RingtoneSys_StartTone(sys);
         break;

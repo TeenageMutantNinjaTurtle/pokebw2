@@ -1,11 +1,11 @@
-#include <stddef.h>
-#include "snd_internal.h"
 #include "nitro/snd.h"
 #include "nnsys/fnd.h"
+#include "snd_internal.h"
+#include <stddef.h>
 
 // NitroSystem's sound heap (NNS_SndHeap): a frame heap for sound data. Each saved state opens a level of the heap,
 // which lists the blocks allocated since, so that loading a state can call their dispose callbacks before freeing
-// them. swan names NNS_SndHeapCreate NNS_FrmHeapCreate. The file name is a guess, and so are the statics' names
+// them. swan names NNS_SndHeapCreate NNS_SndHeapCreate. The file name is a guess, and so are the statics' names
 
 // Every block starts with its head, rounded up to the cache line
 #define HEAP_ALIGN 32

@@ -1,11 +1,12 @@
-#include <stddef.h>
 #include "snd_internal.h"
+#include <stddef.h>
 
 // NitroSystem's sequence players (NNS_SndPlayer), which share the driver's 16 players among the sequences of 32
 // player numbers by priority, and the handles that sequences are controlled through. The file name is a guess, from
-// NitroSystem's names for its sound files. func_0206bd3c, func_0206be44, func_0206bee0, func_0206bf08 and
-// func_0206bf1c are NNS_SndPlayerSetPlayerVolume, NNS_SndPlayerSetVolume, NNS_SndPlayerSetTrackPitch,
-// NNS_SndPlayerSetTrackModDepth and NNS_SndPlayerSetTrackModSpeed by their code
+// NitroSystem's names for its sound files. NNS_SndPlayerSetPlayerVolume, NNS_SndPlayerSetVolume,
+// NNS_SndPlayerSetTrackPitch, NNS_SndPlayerSetTrackModDepth and NNS_SndPlayerSetTrackModSpeed are
+// NNS_SndPlayerSetPlayerVolume, NNS_SndPlayerSetVolume, NNS_SndPlayerSetTrackPitch, NNS_SndPlayerSetTrackModDepth and
+// NNS_SndPlayerSetTrackModSpeed by their code
 
 #define NNS_SND_PLAYER_NUM 32
 #define SND_PLAYER_NUM 16
@@ -57,7 +58,7 @@ static inline BOOL NNS_SndHandleIsValid(const NNSSndHandle *handle) {
     return handle->player != NULL;
 }
 
-void func_0206bd3c(int playerNo, int volume) {
+void NNS_SndPlayerSetPlayerVolume(int playerNo, int volume) {
     sPlayer[playerNo].volume = volume;
 }
 
@@ -127,7 +128,7 @@ int NNS_SndPlayerCountPlayingSeqBySeqNo(int seqNo) {
     return count;
 }
 
-void func_0206be44(NNSSndHandle *handle, int volume) {
+void NNS_SndPlayerSetVolume(NNSSndHandle *handle, int volume) {
     if (!NNS_SndHandleIsValid(handle)) {
         return;
     }
@@ -178,7 +179,7 @@ void NNS_SndPlayerSetTrackVolume(NNSSndHandle *handle, u32 trackBitMask, int vol
     func_0207d38c(handle->player->playerNo, trackBitMask, CalcDecibel(volume));
 }
 
-void func_0206bee0(NNSSndHandle *handle, u32 trackBitMask, int pitch) {
+void NNS_SndPlayerSetTrackPitch(NNSSndHandle *handle, u32 trackBitMask, int pitch) {
     if (!NNS_SndHandleIsValid(handle)) {
         return;
     }
@@ -192,14 +193,14 @@ void NNS_SndPlayerSetTrackPan(NNSSndHandle *handle, u32 trackBitMask, int pan) {
     func_0207d3ac(handle->player->playerNo, trackBitMask, pan);
 }
 
-void func_0206bf08(NNSSndHandle *handle, u32 trackBitMask, int depth) {
+void NNS_SndPlayerSetTrackModDepth(NNSSndHandle *handle, u32 trackBitMask, int depth) {
     if (!NNS_SndHandleIsValid(handle)) {
         return;
     }
     func_0207d3bc(handle->player->playerNo, trackBitMask, depth);
 }
 
-void func_0206bf1c(NNSSndHandle *handle, u32 trackBitMask, int speed) {
+void NNS_SndPlayerSetTrackModSpeed(NNSSndHandle *handle, u32 trackBitMask, int speed) {
     if (!NNS_SndHandleIsValid(handle)) {
         return;
     }

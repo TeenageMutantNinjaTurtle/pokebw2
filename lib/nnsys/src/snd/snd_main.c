@@ -1,9 +1,9 @@
-#include "snd_internal.h"
 #include "nitro/os.h"
+#include "snd_internal.h"
 
 // NitroSystem's sound library setup and its work each frame (NNS_Snd), and the copy of the ARM7 driver's state that
 // it reads the driver's info from. The file name is a guess, from NitroSystem's names for its sound files. swan names
-// NNS_SndInit and NNS_SndMain sndInit and sndSync
+// NNS_SndInit and NNS_SndMain NNS_SndInit and NNS_SndMain
 
 // Two copies of the driver's state: one the library reads, the other the ARM7 writes. sCurDriverInfo is the one to
 // read, or -1 before the first copy has arrived
@@ -53,12 +53,12 @@ void NNS_SndMain(void) {
 
     NNSi_SndPlayerMain();
     NNSi_SndCaptureMain();
-    func_0206ddac();
+    NNSi_SndArcStrmMain();
 
     func_0207d864(SND_COMMAND_NOBLOCK);
 }
 
-void func_0206b954(int volume) {
+void NNS_SndSetMasterVolume(int volume) {
     sndSetMasterVolume(volume);
 }
 

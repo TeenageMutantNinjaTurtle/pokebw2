@@ -103,5 +103,5 @@ static void PlayerVolumeFader_Commit(PlayerVolumeFader *fader) {
     if (fader->muted) {
         volume = 0;
     }
-    func_0206bd3c(fader->player, volume);
+    NNS_SndPlayerSetPlayerVolume(fader->player, volume);
 }

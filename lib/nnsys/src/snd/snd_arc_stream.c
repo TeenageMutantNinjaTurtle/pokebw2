@@ -1,15 +1,15 @@
-#include "snd_internal.h"
-#include "nitro/os.h"
 #include "nitro/fs.h"
 #include "nitro/mi.h"
+#include "nitro/os.h"
 #include "nitro/snd.h"
 #include "nnsys/fnd.h"
+#include "snd_internal.h"
 
 // NitroSystem's sound archive stream players (NNS_SndArcStrm): a stream of the archive played on one of its stream
 // players, its file read and, for IMA-ADPCM, decoded by a thread of its own as the stream asks for each block. The
 // file's name is a guess, NitroSystem's sndarc_stream.c from memory with the snd_ prefix the other sound files take.
-// swan names NNS_SndArcStrmInit NNS_SndStreamInit and CreateThread and ThreadProc NNS_SndStreamThreadInit and
-// NNS_SndStreamThreadProc; the rest swan doesn't name
+// swan names NNS_SndArcStrmInit NNS_SndArcStrmInit and CreateThread and ThreadProc CreateThread and
+// ThreadProc; the rest swan doesn't name
 
 #define STRM_PLAYER_NUM 4
 #define STRM_COMMAND_NUM 8
@@ -141,7 +141,7 @@ static BOOL PreparePlayer(NNSSndStrmHandle *handle, const NNSSndArcStrmInfo *inf
                           u32 offset, NNSSndStrmCallback strmCallback, void *strmCallbackArg,
                           NNSSndArcStrmCallback callback, void *callbackArg);
 static void StopPlayer(NNSSndArcStrmPlayer *player, int fadeFrames);
-static void ShutdownPlayer(NNSSndArcStrmPlayer *player);
+static void ShutdownStrmPlayer(NNSSndArcStrmPlayer *player);
 static void ClosePlayer(NNSSndArcStrmPlayer *player);
 static BOOL AllocChannel(NNSSndArcStrmPlayer *player, int numChannels, const u8 chNoList[]);
 static void FreeChannel(NNSSndArcStrmPlayer *player);
@@ -151,8 +151,8 @@ static StrmCommand *PopCommand(NNSFndList *list);
 static StrmCommand *AllocCommand(void);
 static void FreeCommand(StrmCommand *command);
 static void HeapDisposeCallback(void *mem, u32 size, u32 data1, u32 data2);
-static void StrmCallback(NNSSndStrmCallbackStatus status, int numChannels, void *buffer[], u32 len,
-                         NNSSndStrmFormat format, void *arg);
+static void ArcStrmCallback(NNSSndStrmCallbackStatus status, int numChannels, void *buffer[], u32 len,
+                            NNSSndStrmFormat format, void *arg);
 static void StartNextStrm(NNSSndArcStrmPlayer *player);
 static void ProcessCommand(StrmCommand *command);
 static void SetFileFuncs(NNSSndArcStrmPlayer *player, u32 fileId);
@@ -188,7 +188,7 @@ static struct {
 } sArcStrm;
 static NNSFndList sFreeCommandList;
 static OSMutex sDecodeMutex;
-static StrmCommand sCommands[STRM_COMMAND_NUM];
+static StrmCommand sStrmCommands[STRM_COMMAND_NUM];
 static u32 sDecodeBuffer[STRM_ADPCM_BUFFER_SIZE / sizeof(u32)];
 static NNSSndArcStrmPlayer sPlayers[STRM_PLAYER_NUM];
 static StrmThread sThread;
@@ -204,7 +204,7 @@ void NNS_SndArcStrmInit(u32 threadPrio, NNSSndHeapHandle heap) {
 
     NNS_FndInitList(&sFreeCommandList, 0);
     for (i = 0; i < STRM_COMMAND_NUM; i++) {
-        NNS_FndAppendListObject(&sFreeCommandList, &sCommands[i]);
+        NNS_FndAppendListObject(&sFreeCommandList, &sStrmCommands[i]);
     }
     OS_InitMutex(&sDecodeMutex);
     sArcStrm.decodeBuffer = sDecodeBuffer;
@@ -250,7 +250,7 @@ static BOOL SetupPlayers(NNSSndHeapHandle heap) {
             if (buffer == NULL) {
                 return FALSE;
             }
-            ShutdownPlayer(player);
+            ShutdownStrmPlayer(player);
             player->buffer = buffer;
             player->bufSize = size;
         }
@@ -340,7 +340,7 @@ void NNSi_SndArcStrmMain(void) {
             continue;
         }
         if (player->endWait == 0) {
-            ShutdownPlayer(player);
+            ShutdownStrmPlayer(player);
             continue;
         }
 
@@ -360,7 +360,7 @@ void NNSi_SndArcStrmMain(void) {
             }
 
             if (player->flags.autoStop && NNSi_SndFaderIsFinished(&player->fader)) {
-                ShutdownPlayer(player);
+                ShutdownStrmPlayer(player);
             }
         }
     }
@@ -382,7 +382,7 @@ static NNSSndArcStrmPlayer *AllocPlayer(NNSSndStrmHandle *handle, int playerNo, 
         if (prio < player->prio) {
             return NULL;
         }
-        ShutdownPlayer(player);
+        ShutdownStrmPlayer(player);
     }
 
     player->prio = prio;
@@ -471,7 +471,7 @@ static BOOL PreparePlayer(NNSSndStrmHandle *handle, const NNSSndArcStrmInfo *inf
         return FALSE;
     }
     if (!NNS_SndStrmSetup(&player->stream, format, player->buffer, player->bufSize * numChannels / player->numChannels,
-                          player->header.head.timer, STRM_INTERVAL, StrmCallback, player)) {
+                          player->header.head.timer, STRM_INTERVAL, ArcStrmCallback, player)) {
         FreeChannel(player);
         player->close(player);
         DeactivatePlayer(player);
@@ -488,11 +488,11 @@ static BOOL PreparePlayer(NNSSndStrmHandle *handle, const NNSSndArcStrmInfo *inf
 // Fades the player out over fadeFrames, then stops it
 static void StopPlayer(NNSSndArcStrmPlayer *player, int fadeFrames) {
     if (!player->flags.playing) {
-        ShutdownPlayer(player);
+        ShutdownStrmPlayer(player);
         return;
     }
     if (fadeFrames == 0) {
-        ShutdownPlayer(player);
+        ShutdownStrmPlayer(player);
         return;
     }
     NNSi_SndFaderSet(&player->fader, 0, fadeFrames);
@@ -500,7 +500,7 @@ static void StopPlayer(NNSSndArcStrmPlayer *player, int fadeFrames) {
     player->prio = 0;
 }
 
-static void ShutdownPlayer(NNSSndArcStrmPlayer *player) {
+static void ShutdownStrmPlayer(NNSSndArcStrmPlayer *player) {
     OS_LockMutex(&sThread.mutex);
     if (sArcStrm.prepareThread != NULL) {
         OS_LockMutex(&sArcStrm.prepareThread->mutex);
@@ -620,7 +620,7 @@ static void HeapDisposeCallback(void *mem, u32 size, u32 data1, u32 data2) {
         OS_LockMutex(&sArcStrm.prepareThread->mutex);
     }
 
-    ShutdownPlayer(player);
+    ShutdownStrmPlayer(player);
     player->buffer = NULL;
     player->bufSize = 0;
     player->numChannels = 0;
@@ -636,8 +636,8 @@ static void HeapDisposeCallback(void *mem, u32 size, u32 data1, u32 data2) {
 }
 
 // The stream asks for a block: queue it for a thread, dropping the oldest of the player's when two are waiting
-static void StrmCallback(NNSSndStrmCallbackStatus status, int numChannels, void *buffer[], u32 len,
-                         NNSSndStrmFormat format, void *arg) {
+static void ArcStrmCallback(NNSSndStrmCallbackStatus status, int numChannels, void *buffer[], u32 len,
+                            NNSSndStrmFormat format, void *arg) {
     NNSSndArcStrmPlayer *player = arg;
     StrmCommand *command;
     StrmThread *thread;

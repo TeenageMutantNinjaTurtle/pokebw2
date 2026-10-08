@@ -2,8 +2,8 @@
 
 // NitroSystem's sound resource manager (NNS_Snd), which keeps the bit masks of the channels, capture channels and
 // alarms that the library has taken from the driver. The file name is a guess, from NitroSystem's names for its sound
-// files. sndEnableChannels and sndDisableChannels are swan's names for NNS_SndLockChannel and NNS_SndUnlockChannel,
-// and func_0206bacc and func_0206baf8 are NNSi_SndAllocAlarm and NNSi_SndFreeAlarm by their code
+// files. NNS_SndLockChannel and NNS_SndUnlockChannel are swan's names for NNS_SndLockChannel and NNS_SndUnlockChannel,
+// and NNSi_SndAllocAlarm and NNSi_SndFreeAlarm are NNSi_SndAllocAlarm and NNSi_SndFreeAlarm by their code
 
 #define SND_ALARM_NUM 8
 
@@ -11,7 +11,7 @@ static u32 sLockChannel;
 static u32 sLockCapture;
 static u32 sAllocatedAlarm;
 
-BOOL sndEnableChannels(u32 chBitMask) {
+BOOL NNS_SndLockChannel(u32 chBitMask) {
     if (chBitMask == 0) {
         return TRUE;
     }
@@ -23,7 +23,7 @@ BOOL sndEnableChannels(u32 chBitMask) {
     return TRUE;
 }
 
-void sndDisableChannels(u32 chBitMask) {
+void NNS_SndUnlockChannel(u32 chBitMask) {
     if (chBitMask == 0) {
         return;
     }
@@ -35,7 +35,7 @@ void NNS_SndUnlockCapture(u32 capBitFlag) {
     sLockCapture &= ~capBitFlag;
 }
 
-int func_0206bacc(void) {
+int NNSi_SndAllocAlarm(void) {
     int alarmNo;
     u32 bitMask = 1;
 
@@ -49,7 +49,7 @@ int func_0206bacc(void) {
     return -1;
 }
 
-void func_0206baf8(int alarmNo) {
+void NNSi_SndFreeAlarm(int alarmNo) {
     sAllocatedAlarm &= ~(1 << alarmNo);
 }
 

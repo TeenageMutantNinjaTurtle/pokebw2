@@ -1,7 +1,7 @@
-#include "snd_internal.h"
 #include "gfl/std.h"
 #include "nitro/os.h"
 #include "nitro/snd.h"
+#include "snd_internal.h"
 
 // NitroSystem's loading of the sound archive's files into a sound heap (NNS_SndArcLoad): a group, a sequence with its
 // bank and the bank's wave archives, a sequence archive or a wave archive. Each file is loaded once, then found again
@@ -374,6 +374,11 @@ static void SingleWaveDisposeCallback(void *mem, u32 size, u32 data1, u32 data2)
     func_0207d588(mem, (u8 *)mem + size);
 }
 
+// The offset of the wave after the one at fileOffset, where that wave ends
+static inline u32 GetNextWaveOffset(const u32 *fileOffset) {
+    return fileOffset[1];
+}
+
 static BOOL LoadSingleWave(SNDWaveArc *waveArc, int index, u32 fileId, NNSSndHeapHandle heap) {
     u32 waveCount;
     u32 offset;
@@ -383,11 +388,12 @@ static BOOL LoadSingleWave(SNDWaveArc *waveArc, int index, u32 fileId, NNSSndHea
     if (func_0207dfa4(waveArc, index) != NULL) {
         return TRUE;
     }
-    // The wave runs to the next one's offset, the last to the end of the file
+    // The wave runs to the next one's offset, the last to the end of the file. The table's second half keeps the
+    // waves' offsets in the file, since the first half is overwritten with the loaded waves
     waveCount = func_0207df80(waveArc);
     offset = waveArc->offsetTable[waveArc->waveCount + index];
     if (index < waveCount - 1) {
-        size = (&waveArc->offsetTable[waveArc->waveCount + index])[1] - offset;
+        size = GetNextWaveOffset(&waveArc->offsetTable[waveArc->waveCount + index]) - offset;
     } else {
         size = waveArc->fileHeader.fileSize - offset;
     }
