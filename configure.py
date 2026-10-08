@@ -28,7 +28,7 @@ WIBO_VERSION = "1.2.0"
 OBJDIFF_VERSION = "v3.8.1"
 # decomp.me name of the dsi/1.1p1 compiler (build 1024), for objdiff's scratch button
 DECOMP_ME_COMPILER = "mwcc_40_1024"
-MWCCARM_URL = "http://decomp.aetias.com/files/mwccarm.zip"
+MWCCARM_URL = "https://decomp.aetias.com/files/mwccarm.zip"
 # dsd with DSi hybrid ROM support comes from a fork of ds-decomp (and of ds-rom, which its Cargo.toml pins) until the
 # changes are upstreamed. Its dsi-hybrid branch is released as DSD_VERSION; after a new release, bump it and
 # configure.py replaces tools/dsd.

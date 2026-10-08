@@ -154,12 +154,22 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
         lines = path.read_text().splitlines()
         at = [i for i, line in enumerate(lines) if (m := SYMBOL_ADDR_RE.search(line)) and int(m.group(1), 16) == addr]
         if any(lines[i].split()[0] == argument for i in at):
+            # Added before local labels were replaced: drop the local label left beside it
+            kept = [line for i, line in enumerate(lines)
+                    if not (i in at and line.startswith(".L_") and "kind:label" in line)]
+            if len(kept) != len(lines):
+                path.write_text("\n".join(kept) + "\n")
             return
         mode = next((m.group(1) for i in at
                      if (m := re.search(r"kind:(?:function|label)\((arm|thumb)", lines[i]))), None)
         if mode is None:
             sys.exit(f"{version}: no function or label at {module} {addr:#010x}")
-        lines.insert(at[-1] + 1, f"{argument} kind:label({mode}) addr:{addr:#010x}")
+        # A local label dsd made there takes the name: dsd dis refuses a .L_ label that shares its address
+        local = next((i for i in at if lines[i].startswith(".L_") and "kind:label" in lines[i]), None)
+        if local is not None:
+            lines[local] = f"{argument} kind:label({mode}) addr:{addr:#010x}"
+        else:
+            lines.insert(at[-1] + 1, f"{argument} kind:label({mode}) addr:{addr:#010x}")
         path.write_text("\n".join(lines) + "\n")
         return
 
