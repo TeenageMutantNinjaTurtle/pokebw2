@@ -254,3 +254,7 @@ src/ov036/scrcmd_shop.c:
 src/ov036/field_map_chunk_wb.c:
     complete
     .text       start:0x0218a838 end:0x0218a938
+
+src/ov036/field_map_chunk_gc.c:
+    complete
+    .text       start:0x0218a938 end:0x0218aabc
