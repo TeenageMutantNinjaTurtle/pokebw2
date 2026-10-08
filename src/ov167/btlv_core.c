@@ -6,6 +6,7 @@
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_string.h"
 #include "battle/btlv.h"
+#include "battle/btlv_clact.h"
 #include "battle/tr_ai.h"
 #include "battle/trainer_data.h"
 #include "gfl/bmpwin.h"
@@ -271,8 +272,8 @@ BtlvCore *BtlvCore_Create(BtlMainModule *mainModule, BtlClient *client, BtlPokeC
     core->tcbManager = GFL_TCBExMgrCreate(heapId, heapId, 0x40, 0x80);
     core->scu = func_ov167_021d0c24(core, core->mainModule, pokeCon, core->tcbManager, core->font, core->font2,
                                     core->clientId, heapId);
-    core->unk1C4 = func_ov169_06899af0(core, core->mainModule, pokeCon, core->tcbManager, core->font, core->client,
-                                     arg3, heapId);
+    core->unk1C4 =
+        func_ov169_06899af0(core, core->mainModule, pokeCon, core->tcbManager, core->font, core->client, arg3, heapId);
     core->mainProc = NULL;
     core->seq = 0;
     core->subSeq = 0;
@@ -538,7 +539,8 @@ BattleMon *func_ov167_021ceec0(BtlvCore *core, u32 index) {
 BOOL func_ov167_021ceed8(BtlvCore *core, s32 *seq, void *work) {
     switch (*seq) {
     case 0:
-        func_ov169_0689a008(core->unk1C4, core->mon, core->unk1B5, BattleClient_GetShooterEnergy(core->client), core->unkB8);
+        func_ov169_0689a008(core->unk1C4, core->mon, core->unk1B5, BattleClient_GetShooterEnergy(core->client),
+                            core->unkB8);
         (*seq)++;
     case 1:
         core->result = func_ov169_0689a060(core->unk1C4);
@@ -743,7 +745,8 @@ void func_ov167_021cf234(BtlvCore *core, Ov287Param *param, u8 mode, u8 partyInd
     param->done = FALSE;
 }
 
-void BattleClientCmd_StartPokeList(BtlvCore *core, const BtlvPokeListCmd *cmd, s32 partyIndex, u16 move, BtlvPokeSelectParam *select) {
+void BattleClientCmd_StartPokeList(BtlvCore *core, const BtlvPokeListCmd *cmd, s32 partyIndex, u16 move,
+                                   BtlvPokeSelectParam *select) {
     u32 count;
     u32 i;
 
@@ -1834,19 +1837,19 @@ void func_ov167_021d0b4c(BtlvStringParam *param, u8 mode) {
 
 void func_ov167_021d0b50(BtlvCore *core, u32 arg1, u32 arg2) {
     if (func_ov167_0219c988(core->mainModule) == 1) {
-        func_ov168_021e9c24(func_ov168_021e00c8(), arg1, arg2);
+        BtlvClact_SetGauge(func_ov168_021e00c8(), arg1, arg2);
     }
 }
 
 void func_ov167_021d0b70(BtlvCore *core, u32 arg1) {
     if (func_ov167_0219c988(core->mainModule) == 1) {
-        func_ov168_021ea1cc(func_ov168_021e00c8(), arg1, core->font);
+        BtlvClact_ShowPopup(func_ov168_021e00c8(), arg1, core->font);
     }
 }
 
 BOOL func_ov167_021d0b90(BtlvCore *core) {
     if (func_ov167_0219c988(core->mainModule) == 1) {
-        return func_ov168_021e9e88(func_ov168_021e00c8());
+        return BtlvClact_IsPopupShowing(func_ov168_021e00c8());
     }
     return FALSE;
 }

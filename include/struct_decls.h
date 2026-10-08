@@ -161,6 +161,7 @@ typedef struct FieldMenu FieldMenu;
 typedef struct BtlvBGauge BtlvBGauge;
 typedef struct BtlvBg BtlvBg;
 typedef struct BtlvCamera BtlvCamera;
+typedef struct BtlvClact BtlvClact;
 typedef struct BtlvCore BtlvCore;
 typedef struct BtlvField BtlvField;
 typedef struct BtlvFingerCursor BtlvFingerCursor;

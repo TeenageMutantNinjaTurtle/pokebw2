@@ -43,3 +43,9 @@ src/ov168/btlv_bg.c:
     complete
     .text       start:0x021f26b8 end:0x021f2cdc
     .data       start:0x021f4208 end:0x021f4214
+
+src/ov168/btlv_clact.c:
+    complete
+    .text       start:0x021e982c end:0x021ea2a8
+    .rodata     start:0x021f3594 end:0x021f35cc
+    .data       start:0x021f4194 end:0x021f41a4

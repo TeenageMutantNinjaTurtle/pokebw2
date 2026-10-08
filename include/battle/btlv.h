@@ -176,7 +176,7 @@ void func_ov168_021dff2c(u32 pos, u32 mode, u32 arg2, u32 arg3, u32 arg4);
 void *func_ov168_021e008c(void);
 TCBManager *func_ov168_021e00ac(void);
 void *func_ov168_021e00b8(void);
-void *func_ov168_021e00c8(void);
+BtlvClact *func_ov168_021e00c8(void);
 BtlMainModule *func_ov168_021e012c(void);
 void func_ov168_021e0274(u32 state);
 u32 func_ov168_021e0298(void);
@@ -186,9 +186,6 @@ void func_ov168_021e0430(u32 arg0);
 void func_ov168_021e0468(void);
 void func_ov168_021e04b0(u32 arg0);
 BOOL func_ov168_021e8364(void *data, u32 pos);
-void func_ov168_021e9c24(void *data, u32 arg1, u32 arg2);
-BOOL func_ov168_021e9e88(void *data);
-void func_ov168_021ea1cc(void *data, u32 arg1, Font *font);
 BOOL func_ov168_021f0b74(void *data, u32 pos);
 
 // The battle view's touch screen, in overlay 169

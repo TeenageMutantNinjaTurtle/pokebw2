@@ -8,6 +8,8 @@ tools that show the differences.
 
 ## Registers
 
+- Clearing one bit with `flags &= ~(1 << i)` gives `mvns`; the original's `eors` with -1 is `flags &= (1 << i) ^ 0xffffffff`,
+  as `btlv_clact.c`'s move and scale task ends do, and `btlv_stage.c`'s vanish flags use `(1 << side) ^ 3`.
 Same instructions, registers swapped.
 
 - Register allocation follows the declaration order of locals, so try reordering declarations when registers are
