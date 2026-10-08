@@ -40,7 +40,7 @@
 #define BATTLE_RESULT_WIN 1
 #define BATTLE_RESULT_CAPTURE 5
 
-// The battle backgrounds, by BtlFieldSituation's unk00, with the terrain Burmy takes its form from for each of its
+// The battle backgrounds, by BtlFieldEnv's bgType, with the terrain Burmy takes its form from for each of its
 // terrains
 #define ARCID_BATTLE_BG_DATA 0x97
 
@@ -307,7 +307,7 @@ static BOOL EventBattleReturn_Main(GameProc *proc, u32 *state, void *param, void
             while (wk->evolveMask != 0) {
                 if (wk->evolveMask & 1) {
                     pkm = PokeParty_GetPkm(party, wk->evolveSlot);
-                    species = CheckEvolveSpecies(party, pkm, 0, prm->setup->fieldSituation.zoneId,
+                    species = CheckEvolveSpecies(party, pkm, 0, prm->setup->fieldSituation.env.zoneId,
                                                  GameData_GetSeason(prm->gameData), &method, wk->heapId);
                     evolveSlot = wk->evolveSlot;
                 }
@@ -467,7 +467,7 @@ static void EventBattleReturn_BurmyForms(EventBattleReturnParam *prm, PokeParty 
 // The terrain Burmy changes its form for, from the battle's background
 static u8 EventBattleReturn_GetBurmyTerrain(BtlFieldSituation *situation, HeapID heapId) {
     BattleBgData *data = GFL_ArcSysReadHeapNew(ARCID_BATTLE_BG_DATA, 0, heapId);
-    u8 terrain = data[situation->unk00].burmyTerrain[situation->terrain];
+    u8 terrain = data[situation->env.bgType].burmyTerrain[situation->env.terrain];
 
     GFL_HeapFree(data);
     return terrain;

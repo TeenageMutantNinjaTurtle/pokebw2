@@ -181,6 +181,8 @@ void GFL_NetErrAbort(void);
 // The device table for a GFL_NET_TYPE_*, from outside the library
 const GFLNetDevTable *func_020116c0(int type);
 void func_02011778(int type);
+// GFL_SndBGMSetVolume, unless a connection is up and overlay 11's func_ov011_02151dec returns TRUE
+void func_02011bdc(u16 trackMask, s32 volume);
 
 // net.c: starts and ends the network, and passes calls to the device and the other parts of the library
 void func_020425a0(int a0, int a1, HeapID parentHeapId, HeapID heapId);
@@ -230,13 +232,14 @@ BOOL func_02042bd8(NetHandle *handle);
 BOOL func_02042be8(NetHandle *handle, int command, u16 size, const void *data);
 BOOL func_02042c18(NetHandle *handle, u32 sendID, u16 command, u32 size, const void *data, u32 a5, BOOL a6,
                    BOOL noCopy);
-BOOL func_02042c9c(NetHandle *handle, int dest, u16 command, int size, const void *data, u32 a5, BOOL a6,
-                   BOOL noCopy);
+BOOL func_02042c9c(NetHandle *handle, int dest, u16 command, int size, const void *data, u32 a5, BOOL a6, BOOL noCopy);
 BOOL func_02042cfc(void);
 void func_02042d04(NetHandle *handle, u16 timing);
 BOOL func_02042d0c(NetHandle *handle, u16 timing);
 void func_02042d14(u8 gameCommandBase);
 u8 func_02042d34(void);
+// Whether the net game command base is one of the battle kinds
+BOOL func_02011844(void);
 int func_02042d48(void);
 int func_02042d64(void);
 u8 func_02042d80(void);
