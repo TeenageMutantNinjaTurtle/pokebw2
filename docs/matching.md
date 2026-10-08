@@ -536,6 +536,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Branches and block layout
 
+- When both branches of an `if`/`else` give a local a constant, MWCC emits the then-value, branches over the else
+  value on the condition, and the else-value last, so the condition's direction decides which constant comes first:
+  `b_bag_anm.c`'s button animation needs `if (button >= 10) palette = 2; else palette = 5;`, and `< 10`, a ternary
+  or a default followed by an `if` all fail.
 - Blocks are laid out in source order. A switch whose default code comes right after its comparisons or jump table
   had `default:` written first, and `if (f()) { n++; } else { return FALSE; }` puts the return after the code that goes
   on, where `if (!f()) { return FALSE; } n++;` puts it before.

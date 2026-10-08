@@ -6258,6 +6258,11 @@ overlays/ov286 0x021f4e3c BBagItem_MakeShooterList
 overlays/ov286 0x021f4e98 BBagItem_MakeDemoList
 overlays/ov286 0x021f4eb8 BBagItem_GetSlotItem
 overlays/ov286 0x021f4ef8 BBagItem_GetShooterCost
+overlays/ov286 0x021f4f04 BBagAnm_CreateButtons
+overlays/ov286 0x021f5034 BBagAnm_DeleteButtons
+overlays/ov286 0x021f5044 BBagAnm_PutPageButtons
+overlays/ov286 0x021f5240 BBagAnm_StartButtonAnm
+overlays/ov286 0x021f5260 BBagAnm_MainButtonAnm
 overlays/ov287 0x021f4440 BPlistAnm_CutButtonScrn
 overlays/ov287 0x021f46d4 BPlistAnm_CutPageScrn
 overlays/ov287 0x021f4780 BPlistAnm_CopyScrnRect
