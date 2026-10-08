@@ -8,6 +8,13 @@ tools that show the differences.
 
 ## Registers
 
+- One swap temporary declared first and shared by two swaps gets other registers than one in each swap's block:
+  `clact.c`'s `func_0204ca1c`. A pointer local to a copy loop's source array, `const u16 *name = src->nickname;`,
+  moves which values get registers around the loop: `fld_btl_inst_tool.c`'s `genSubwayBtlInstitutePoke`, which
+  also passes a call's result to a setter through a `u8 pp` local rather than a `(u8)` cast.
+- Compound assignments add in another order than one expression: `mystery_net.c`'s `Mystery_ParseHex` adds the
+  shifted value first, as the original does, only as `value <<= 4; value += digit;`, not as
+  `value = value * 16 + digit`.
 - An array element's address kept as `base + i * size` and read as `[base, offset]`, where ours keeps `&p[i]`, comes
   from a pointer to `const`: `pdw_postman.c`'s `FindMysteryGiftDeliveryManNPCID` and `scrcmd_medal.c`'s
   `GetMrMedalActorUID` declare `const ZoneNPC *npcs;`.
@@ -256,6 +263,16 @@ Same code, other `sp` offsets or frame size.
 
 ## Instruction order
 
+- `x = a; x -= b;` loads `a` first, where `x = a - b` loads `b` first: `arc_tool.c`'s `GFL_ArcSysInitArcHandle` reads
+  the file's end before its start as `size = end; size -= start;`.
+- The stores of a struct-filling function can come out in the reverse of the source's order: `tcb.c`'s
+  `GFL_TCBMgrCreate` stores its computed pointers last only when the source sets them first. Sweep the orders.
+- A pointer field read twice through a struct is reloaded after a store between; a block-local copy is read once
+  before the first field read: `btl_main.c`'s `func_ov167_0219ada0` writes
+  `BtlSetup *setup = mainModule->setup;` before its two stores.
+- The order of unrelated statements in a branch decides when a value is loaded: `br_sidebar.c`'s
+  `BrSidebarWork_Move_Close` loads the scale step before storing the count only with `cnt++` after
+  `scale += dscale`.
 - `const` can be wrong as well as missing: through a `const` pointer MWCC loads a call's field arguments before its
   constant ones. `musical_mcss.c`'s `MusicalMcss_Load` builds the `compressed` argument first, as the original does,
   only with its `info` not `const`. And a `const` parameter is what counts: a `const` local copy of a plain pointer
@@ -344,6 +361,9 @@ Same instructions, scheduled in another order.
 - A parameter passed on the stack is loaded at the function's entry, along with the register parameters, unless it is
   an `int` or `s32`, which is loaded where it is first used. `StartMenu_DrawFrame` takes its BG as a `u8`, as
   `GFL_BGSysFillScrArea` does.
+  This isn't the whole rule: `fld_btl_inst_tool.c`'s `SetupTrialHouseBattle` loads its count at entry, as the
+  original does, only as an `int`, the type its callees take, and at its uses as a `u32`. Whether the parameter's
+  type matches its uses' seems to count too.
 - A `u16` stack parameter reloaded with `ldrh` at some uses, with one `ldrh` into a register that feeds others, has
   few uses of its own: the shared load is its conversion to a wider type, so the callees there take a `u32`. In
   bmp_menu.c's `BmpMenu_AddEx`, `BmpCursor_Create` and `BmpCursor_LoadBitmap` narrow their heap ID with shifts, so they take
@@ -369,6 +389,9 @@ Same instructions, scheduled in another order.
 
 ## An instruction too many or too few
 
+- A narrowing the original does where nothing calls for it can be an inline returning a wider type into a narrow
+  local: `br_sidebar.c`'s moves set their `s8 dir` from `static inline int BrSidebar_GetDir(BOOL dir)`, which
+  narrows right after the choice in one function and at the use in the other, as the original does.
 - `&p[i].field` computes `p + i * size + offset`, and `&p->array[i].field` computes `(p + offset) + i * size` with
   an extra `mov`, so the order shows where an array starts: `event_bsubway.c`'s `func_ov012_0216657c` reads a
   leader's message at 0x18 of each 0x22-byte entry of an array at offset 0, not in entries of an array at 0x18.
@@ -606,6 +629,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Branches and block layout
 
+- A one-case `switch` keeps a result variable that `if (f() == 1 && x)` folds into two returns: `btl_main.c`'s
+  `func_ov167_0219db08` zeroes `result` before the call, as the original does, only as
+  `switch (f()) { case 1: if (x) { result = TRUE; } break; }`.
 - `if (x == TRUE) { return 0; } return 1;` and its other spellings build 1 first (`movs r0, #1`, `bne`); the
   original's `movs r0, #0`, `beq`, `movs r0, #1` is a result variable,
   `ret = 0; if (x != TRUE) { ret = 1; } return ret;`.

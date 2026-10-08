@@ -1225,7 +1225,7 @@ static BOOL BrBtnWork_Move_TargetSlow(BrBtnWork *p_wk) {
     return FALSE;
 }
 
-BrBtn *BrBtn_InitEx(const ClActorSetup *setup, u32 msgID, u32 width, u32 display, ClActUnit *unit, BmpOamSys *bmpoam,
+BrBtn *BrBtn_InitEx(const ClActorSetup *setup, u32 msgID, u16 width, u32 display, ClActUnit *unit, BmpOamSys *bmpoam,
                     Font *font, MsgData *msg, const BrResObjData *obj, HeapID heapId) {
     StrBuf *str = GFL_MsgDataLoadStrbufNew(msg, msgID);
     BrBtn *p_wk = BrBtn_Init(setup, str, width, display, unit, bmpoam, font, obj, heapId);
@@ -1234,7 +1234,7 @@ BrBtn *BrBtn_InitEx(const ClActorSetup *setup, u32 msgID, u32 width, u32 display
     return p_wk;
 }
 
-BrBtn *BrBtn_Init(const ClActorSetup *setup, const StrBuf *str, u32 width, u32 display, ClActUnit *unit,
+BrBtn *BrBtn_Init(const ClActorSetup *setup, const StrBuf *str, u16 width, u32 display, ClActUnit *unit,
                   BmpOamSys *bmpoam, Font *font, const BrResObjData *obj, HeapID heapId) {
     BrBtn *p_wk = GFL_HeapAllocate(heapId, sizeof(BrBtn), FALSE, "br_btn.c", 2618);
     BmpOamActorSetup actorSetup;

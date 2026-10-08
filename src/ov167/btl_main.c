@@ -949,8 +949,9 @@ BOOL func_ov167_0219ada0(BtlMainModule *mainModule, s32 *state) {
         break;
     case 3:
         if (func_ov167_021b9c0c(&mainModule->syncData)) {
-            mainModule->setup->unkA2 = mainModule->syncData.unk18;
-            mainModule->setup->rand = mainModule->syncData.rand;
+            BtlSetup *setup = mainModule->setup;
+            setup->unkA2 = mainModule->syncData.unk18;
+            setup->rand = mainModule->syncData.rand;
             mainModule->rand = mainModule->syncData.rand;
             mainModule->unk473_2 = mainModule->syncData.unk1F_0;
             mainModule->unk43C = mainModule->syncData.unk1E;
@@ -2641,11 +2642,11 @@ BattleMon *func_ov167_0219d180(BtlPokeCon *pokeCon, u8 pos) {
 }
 
 BattleMon *func_ov167_0219d188(BtlPokeCon *pokeCon, u8 pos) {
-    BtlMainModule *mainModule = pokeCon->mainModule;
     u8 i = pos;
     u8 clientId;
     u8 index;
     BattleParty *parties;
+    BtlMainModule *mainModule = pokeCon->mainModule;
 
     clientId = BattlePosToClientID(mainModule, pos);
     index = 0;
@@ -3254,8 +3255,12 @@ void *func_ov167_0219db00(BtlMainModule *mainModule) {
 BOOL func_ov167_0219db08(BtlMainModule *mainModule) {
     BOOL result = FALSE;
 
-    if (func_ov167_0219a004(mainModule->setup) == 1 && mainModule->setup->unk97 != 0) {
-        result = TRUE;
+    switch (func_ov167_0219a004(mainModule->setup)) {
+    case 1:
+        if (mainModule->setup->unk97 != 0) {
+            result = TRUE;
+        }
+        break;
     }
     return result;
 }

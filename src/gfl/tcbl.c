@@ -105,7 +105,6 @@ static void GFL_TCBExMgrInitTasks(TCBExManager *manager) {
 }
 
 TCBExManager *GFL_TCBExMgrCreate(HeapID heapId, HeapID dataHeapId, u32 count, u32 dataSize) {
-    u32 taskSize;
     TCBExManager *manager = GFL_HeapAllocate(heapId, sizeof(TCBExManager), FALSE, "tcbl.c", 199);
 
     manager->count = count;
@@ -113,8 +112,8 @@ TCBExManager *GFL_TCBExMgrCreate(HeapID heapId, HeapID dataHeapId, u32 count, u3
     manager->dataHeapId = dataHeapId;
     manager->unkC = 0;
     manager->removeRequested = FALSE;
-    taskSize = ((dataSize + 3) & ~3) + sizeof(TCBEx);
-    manager->tasks = GFL_HeapAllocate(heapId, taskSize * count, FALSE, "tcbl.c", 207);
+    dataSize = (dataSize + 3) & ~3;
+    manager->tasks = GFL_HeapAllocate(heapId, (dataSize + sizeof(TCBEx)) * count, FALSE, "tcbl.c", 207);
     manager->ready = NULL;
     GFL_TCBExMgrInitTasks(manager);
     GFL_TCBExMgrInitTask(manager, &manager->head);

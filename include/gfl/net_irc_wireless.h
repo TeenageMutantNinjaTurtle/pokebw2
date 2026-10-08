@@ -9,7 +9,7 @@
 // find each other's wireless beacons by them
 
 // Starts it in place of a GFL_NET_TYPE 4 network, returning the init data to start the infrared network with
-GFLNetInitData *func_02042f74(GFLNetInitData *pNetInit, void *work);
+const GFLNetInitData *func_02042f74(const GFLNetInitData *pNetInit, void *work);
 void func_02043028(void);
 void func_02043048(void);
 // Whether it is running

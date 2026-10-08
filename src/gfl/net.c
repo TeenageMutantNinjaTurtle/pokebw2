@@ -43,7 +43,7 @@ void func_020425a0(int a0, int a1, HeapID parentHeapId, HeapID heapId) {
     func_0203e7dc();
 }
 
-void func_020425ec(GFLNetInitData *pNetInit, void (*callback)(void *work), void *work) {
+void func_020425ec(const GFLNetInitData *pNetInit, void (*callback)(void *work), void *work) {
     GFLNetSys *pNet;
 
     if (sNet.parentHeapId != 0) {

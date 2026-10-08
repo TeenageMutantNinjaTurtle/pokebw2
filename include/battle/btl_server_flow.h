@@ -338,7 +338,7 @@ BOOL func_ov167_021a3cf0(BtlServerFlow *flow, BattleMon *mon, u16 move);
 void func_ov167_021a3ef4(BtlServerFlow *flow, BattleMon *mon, u16 move, s32 cause);
 void func_ov167_021a4250(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 moveSlot, void *targets);
 u32 func_ov167_021a4278(BtlServerFlow *flow, BattleMon *mon, u8 moveSlot, u16 move, void *targets);
-void func_ov167_021a44f0(BtlServerFlow *flow, BattleMon *attacker, void *targets, BtlFlowMoveParam *param,
+void func_ov167_021a44f0(BtlServerFlow *flow, BattleMon *attacker, void *targets, const BtlFlowMoveParam *param,
                          void *effectiveness, u32 arg5, BtlFlowDamageList *list);
 u32 func_ov167_021a46d4(BtlFlowDamageList *list);
 u32 func_ov167_021a4754(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon **mons);

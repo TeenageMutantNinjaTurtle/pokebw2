@@ -54,9 +54,9 @@ BOOL BrBtnSys_IsBusy(const BrBtnSys *cp_wk);
 u32 BrBtnSys_GetUnk54(const BrBtnSys *cp_wk);
 
 // A button labelled with the message msgID of msg
-BrBtn *BrBtn_InitEx(const ClActorSetup *setup, u32 msgID, u32 width, u32 display, ClActUnit *unit, BmpOamSys *bmpoam,
+BrBtn *BrBtn_InitEx(const ClActorSetup *setup, u32 msgID, u16 width, u32 display, ClActUnit *unit, BmpOamSys *bmpoam,
                     Font *font, MsgData *msg, const BrResObjData *obj, HeapID heapId);
-BrBtn *BrBtn_Init(const ClActorSetup *setup, const StrBuf *str, u32 width, u32 display, ClActUnit *unit,
+BrBtn *BrBtn_Init(const ClActorSetup *setup, const StrBuf *str, u16 width, u32 display, ClActUnit *unit,
                   BmpOamSys *bmpoam, Font *font, const BrResObjData *obj, HeapID heapId);
 void BrBtn_Exit(BrBtn *p_wk);
 // Whether the touch is on the button, playing the press sound if it is

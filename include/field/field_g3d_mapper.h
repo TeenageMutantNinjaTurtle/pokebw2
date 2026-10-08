@@ -145,7 +145,7 @@ BOOL FieldChunkLocator_IsActive(FieldChunkLocator *locator);
 u32 FieldChunkLocator_GetChunkID(FieldChunkLocator *locator);
 void FieldChunkLocator_SetPos(FieldChunkLocator *locator, fx32 x, fx32 y, fx32 z);
 void FieldChunkLocator_GetPos(FieldChunkLocator *locator, VecFx32 *position);
-void func_ov036_0218543c(FieldG3DMapper *mapper, const VecFx32 *position, FieldG3DMapperTerrain *output);
+void func_ov036_0218543c(const FieldG3DMapper *mapper, const VecFx32 *position, FieldG3DMapperTerrain *output);
 void FieldG3DMapper_ResetDrawCalcState(FieldG3DMapper *mapper);
 void func_ov036_02185578(FieldG3DMapper *mapper);
 void FieldG3DMapper_AddDrawableChunk(FieldG3DMapper *mapper, FieldChunk *chunk, u32 index);

@@ -57,7 +57,7 @@ static void func_020431c0(NetIrcWireless *sys, int state);
 static void *func_02043720(void *work);
 static int func_02043748(void *work);
 
-GFLNetInitData *func_02042f74(GFLNetInitData *pNetInit, void *work) {
+const GFLNetInitData *func_02042f74(const GFLNetInitData *pNetInit, void *work) {
     NetIrcWireless *sys;
 
     if (NetIwSys != NULL && NetIwSys->unk101 == TRUE) {

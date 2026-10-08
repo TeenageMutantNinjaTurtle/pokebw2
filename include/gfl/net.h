@@ -184,7 +184,7 @@ void func_02011778(int type);
 
 // net.c: starts and ends the network, and passes calls to the device and the other parts of the library
 void func_020425a0(int a0, int a1, HeapID parentHeapId, HeapID heapId);
-void func_020425ec(GFLNetInitData *pNetInit, void (*callback)(void *work), void *work);
+void func_020425ec(const GFLNetInitData *pNetInit, void (*callback)(void *work), void *work);
 BOOL func_02042788(void);
 // Whether the network has ended
 BOOL func_020427a4(void);

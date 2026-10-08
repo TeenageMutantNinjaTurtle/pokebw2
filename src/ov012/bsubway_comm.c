@@ -82,7 +82,7 @@ static const GFLNetInitData data_ov012_0216d93c = {
 };
 
 void func_ov012_02161844(BSubwayScrWork *bsw) {
-    func_020425ec((GFLNetInitData *)&data_ov012_0216d93c, NULL, bsw);
+    func_020425ec(&data_ov012_0216d93c, NULL, bsw);
 }
 
 static void *func_ov012_02161858(void *work) {
