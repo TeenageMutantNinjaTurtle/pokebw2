@@ -40,7 +40,10 @@ src/ov167/btl_pokeparam.c:
     .data       start:0x021daf7c end:0x021daf8c
 
 src/ov167/battle_event.c:
+    complete
     .text       start:0x021bc6bc end:0x021bd054
+    .data       start:0x021daf8c end:0x021daf94
+    .bss        start:0x021db194 end:0x021dd844
 
 src/ov167/btl_calc.c:
     .text       start:0x021bd054 end:0x021bdaf8
