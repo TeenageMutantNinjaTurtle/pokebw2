@@ -1360,6 +1360,9 @@ overlays/ov022 0x0216e878 EventWbtWinRecord_Create
 overlays/ov022 0x0216e8b0 EventWbtWinRecord_Callback
 overlays/ov022 0x0216e8f8 EventWbtDownload_Create
 overlays/ov022 0x0216e930 EventWbtDownload_Callback
+overlays/ov026 0x0216f900 FesMissionHollow_Setup
+overlays/ov026 0x0216f9dc FesMissionHollow_Shuffle
+overlays/ov026 0x0216fa30 FesMissionHollow_IsActive
 overlays/ov032 0x021998c0 WFCUserInfoWarning_Show
 overlays/ov032 0x021999b8 WFCUserInfoWarning_Init
 overlays/ov032 0x02199a58 WFCUserInfoWarning_LoadWindow
@@ -2838,6 +2841,7 @@ overlays/ov181 0x021a47c8 sMBCommBeaconData
 overlays/ov181 0x021a47cc sMBDataConvWirelessDone
 overlays/ov182 0x021bd2cc DWC_UTILITY_RESET_PROC_FUNCTIONS
 overlays/ov182 0x021bd2d8 DWC_UTILITY_PROC_FUNCTIONS
+overlays/ov184 0x0219f340 ErrorWindowScreen_Show
 overlays/ov185 0x0219ce80 PMSIData_Create
 overlays/ov185 0x0219ced4 PMSIData_Delete
 overlays/ov185 0x0219cee8 SetupCategoryWords

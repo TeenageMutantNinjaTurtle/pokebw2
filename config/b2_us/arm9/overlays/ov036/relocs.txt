@@ -13539,7 +13539,7 @@ from:0x021b65f8 kind:thumb_call to:0x02014864 module:main
 from:0x021b6600 kind:thumb_call_arm to:0x020787a8 module:main
 from:0x021b6618 kind:thumb_call to:0x021b6640 module:overlay(36)
 from:0x021b6620 kind:thumb_call to:0x0216fa30 module:overlay(26)
-from:0x021b662a kind:thumb_call to:0x0216f900 module:overlays(24,25,26)
+from:0x021b662a kind:thumb_call to:0x0216f900 module:overlay(26)
 from:0x021b6634 kind:thumb_call to:0x0216f98c module:overlay(25)
 from:0x021b6650 kind:thumb_call to:0x02019200 module:main
 from:0x021b6666 kind:thumb_call to:0x02014580 module:main
