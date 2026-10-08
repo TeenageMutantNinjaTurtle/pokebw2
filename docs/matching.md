@@ -666,6 +666,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A range check that adds the 16-bit negated constant (`adds r0, #0xc004`, narrowing, `cmp r0, #3`, `bhi`) is an
   `||` chain of `==` tests of consecutive constants; a written `(u16)(x - C) <= n` subtracts instead.
   `billboard_act.c`'s `func_0204f768` tests the last animation command this way.
+- An inline that returns a condition, `return a && b;`, builds the flag ahead of the tests (`movs r1, #0`, the
+  tests, `movs r1, #1`) where the original's `movs r0, #1`, `b`, `movs r0, #0` after the tests is
+  `if (a && b) { return TRUE; } return FALSE;` (2.0/sp2p2): `g2d_Animation.c`'s `IsFrameEnd_`, the test of
+  `NNS_G2dTickAnimCtrl`'s loop.
 - A 0/1 choice laid out first value first (`bhs`, `movs r0, #0`, `b`, `movs r0, #1`) is held in an enum type: every
   plain 0/1 spelling (ternary, `if`/`else`, `!`, `== FALSE`, an int local) gives `blo`, `movs r0, #1` first.
   `btl_main.c`'s `GetSideFromMonID` matches as `BtlSide side = monId < 12 ? BTL_SIDE_1ST : BTL_SIDE_2ND;`, with the

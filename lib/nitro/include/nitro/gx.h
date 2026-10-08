@@ -4,6 +4,7 @@
 #include "types.h"
 #include "nitro/fx.h"
 #include "nitro/hw.h"
+#include "nitro/mi.h"
 
 // The parts of NitroSDK's graphics registers and inline functions that the game's code uses
 
@@ -1216,6 +1217,28 @@ void gfxUploadStdPaletteObjA(const void *src, u32 offset, u32 size);
 void gfxUploadStdPaletteObjB(const void *src, u32 offset, u32 size);
 void gfxUploadObjCharA(const void *src, u32 offset, u32 size);
 void gfxUploadObjCharB(const void *src, u32 offset, u32 size);
+// The DMA channel that GX loads and fills with, or GX_DMA_NOT_USE for the CPU. swan calls it g_GfxDMANo
+extern u32 GXi_DmaId;
+
+#define GX_DMA_NOT_USE 0xffffffff
+#define MI_DMA_MAX_NUM 3
+
+// NitroSDK's MIi_DmaFill32, which fills size bytes with a word by DMA, starting it at once if dmaEnable. swan calls it
+// dma_fill
+void dma_fill(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable);
+
+// Fills by DMA on GX's channel, or with the CPU when it has none
+static inline void GXi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size) {
+    if (dmaNo > MI_DMA_MAX_NUM) {
+        dmaNo = GX_DMA_NOT_USE;
+    }
+    if (dmaNo != GX_DMA_NOT_USE) {
+        dma_fill(dmaNo, dest, data, size, TRUE);
+    } else {
+        sys_memset32(data, dest, size);
+    }
+}
+
 // NitroSDK's GX_LoadOAM and GXS_LoadOAM
 void gfxUploadOAMA(const void *src, u32 offset, u32 size);
 void gfxUploadOAMB(const void *src, u32 offset, u32 size);

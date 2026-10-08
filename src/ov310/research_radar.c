@@ -364,23 +364,23 @@ static void ResearchRadar_LoadSubBG(HeapID heapId) {
     NNSG2dScreenData *patternScreen;
 
     file = GFL_ArcToolReadHeapNew(handle, 9, heapId);
-    RelocatePaletteResGetDataPtr(file, &palette);
+    NNS_G2dGetUnpackedPaletteData(file, &palette);
     GFL_BGSysUploadStdPalette(RESEARCH_BG_SUB_BACK, palette->rawData, 0x200, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcToolReadHeapNew(handle, 10, heapId);
-    NNS_G2DPrepareBGChar(file, &character);
+    NNS_G2dGetUnpackedBGCharacterData(file, &character);
     GFL_BGSysLoadChar(RESEARCH_BG_SUB_BACK, character->rawData, character->size, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcToolReadHeapNew(handle, 11, heapId);
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     GFL_BGSysLoadScrAreaAll(RESEARCH_BG_SUB_BACK, screen->rawData, 0, 0, 32, 24);
     GFL_BGSysLoadScr(RESEARCH_BG_SUB_BACK);
     GFL_HeapFree(file);
 
     file = GFL_ArcToolReadHeapNew(handle, 12, heapId);
-    NNS_G2DPrepareScreen(file, &patternScreen);
+    NNS_G2dGetUnpackedScreenData(file, &patternScreen);
     GFL_BGSysLoadScrAreaAll(RESEARCH_BG_SUB_PATTERN, patternScreen->rawData, 0, 0, 32, 24);
     GFL_BGSysLoadScr(RESEARCH_BG_SUB_PATTERN);
     GFL_HeapFree(file);
@@ -402,17 +402,17 @@ static void ResearchRadar_LoadMainBG(HeapID heapId) {
     NNSG2dScreenData *screen;
 
     file = GFL_ArcToolReadHeapNew(handle, 0, heapId);
-    RelocatePaletteResGetDataPtr(file, &palette);
+    NNS_G2dGetUnpackedPaletteData(file, &palette);
     GFL_BGSysUploadStdPalette(RESEARCH_BG_MAIN_FRAME, palette->rawData, 0x200, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcToolReadHeapNew(handle, 1, heapId);
-    NNS_G2DPrepareBGChar(file, &character);
+    NNS_G2dGetUnpackedBGCharacterData(file, &character);
     GFL_BGSysLoadChar(RESEARCH_BG_MAIN_FRAME, character->rawData, character->size, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcToolReadHeapNew(handle, 2, heapId);
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     GFL_BGSysLoadScrAreaAll(RESEARCH_BG_MAIN_FRAME, screen->rawData, 0, 0, 32, 24);
     GFL_BGSysLoadScr(RESEARCH_BG_MAIN_FRAME);
     GFL_HeapFree(file);

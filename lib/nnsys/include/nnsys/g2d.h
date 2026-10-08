@@ -44,6 +44,30 @@ typedef struct {
     u32 blkSize;
 } NNSG2dUserExDataBlock;
 
+// A G2D file: its header, then numBlocks blocks, each starting with its kind and its size with this header. These are
+// the SDK's own types, though G3D's resource files have the same layout
+typedef struct {
+    u32 signature;
+    u16 byteOrder;
+    u16 version;
+    u32 fileSize;
+    u16 headerSize;
+    u16 numBlocks;
+} NNSG2dBinaryFileHeader;
+
+typedef struct {
+    u32 kind;
+    u32 size;
+} NNSG2dBinaryBlockHeader;
+
+#define NNS_G2D_BINBLK_SIG_CHARDATA 0x43484152 // 'CHAR'
+#define NNS_G2D_BINBLK_SIG_PALETTEDATA 0x504C5454 // 'PLTT'
+#define NNS_G2D_BINBLK_SIG_PALETTECOMPRESSINFO 0x50434D50 // 'PCMP'
+#define NNS_G2D_BINBLK_SIG_SCREENDATA 0x5343524E // 'SCRN'
+#define NNS_G2D_BINBLK_SIG_MULTICELLBANK 0x4D43424B // 'MCBK'
+#define NNS_G2D_BINBLK_SIG_CELLBANK 0x4345424B // 'CEBK'
+#define NNS_G2D_BINBLK_SIG_ANIMBANK 0x41424E4B // 'ABNK'
+
 #define NNS_G2D_USEREXDATA_CELLATTR 0x55434154
 #define NNS_G2D_USEREXDATA_ANMATTR 0x55414154
 
@@ -72,9 +96,13 @@ typedef struct {
     u16 numOAMAttrs;
     u16 cellAttr;
     void *pOamAttrArray;
-    // Present when the cell bank has bounding rects
-    NNSG2dCellBoundingRectS16 boundingRect;
 } NNSG2dCellData;
+
+// A cell of a bank whose cells have bounding rects
+typedef struct {
+    NNSG2dCellData cellData;
+    NNSG2dCellBoundingRectS16 boundingRect;
+} NNSG2dCellDataWithBR;
 
 static inline u8 NNSi_G2dGetCellBoundingSphereR(const NNSG2dCellData *cell) {
     u8 r = cell->cellAttr & NNSi_G2D_CELLATTR_BOUNDINGSPHERE_MASK;
@@ -86,6 +114,9 @@ typedef struct {
     u32 szByteMax;
     void *pCellTransferDataArray;
 } NNSG2dVramTransferData;
+
+// A cell bank's attributes: whether its cells are NNSG2dCellDataWithBR
+#define NNS_G2D_CELLBK_ATTR_CELLWITHBR 0x1
 
 typedef struct NNSG2dCellDataBank {
     u16 numCells;
@@ -124,11 +155,15 @@ typedef struct NNSG2dMultiCellDataBank {
     NNSG2dUserExDataBlock *pExtendedData;
 } NNSG2dMultiCellDataBank;
 
-// The user extended attributes of cells
+// The user extended attributes of cells, numAttribute words each
+typedef struct {
+    u32 *pAttr;
+} NNSG2dUserExCellAttr;
+
 typedef struct {
     u16 numCells;
     u16 numAttribute;
-    void *pCellAttrArray;
+    NNSG2dUserExCellAttr *pCellAttrArray;
 } NNSG2dUserExCellAttrBank;
 
 static inline const NNSG2dUserExCellAttrBank *NNS_G2dGetUserExCellAttrBankFromCellBank(const NNSG2dCellDataBank *bank) {
@@ -180,6 +215,15 @@ typedef struct {
     u16 pad;
 } NNSG2dAnimFrameData;
 
+// How a sequence plays: once or looping, forward or forward and then back
+enum {
+    NNS_G2D_ANIMATIONPLAYMODE_INVALID,
+    NNS_G2D_ANIMATIONPLAYMODE_FORWARD,
+    NNS_G2D_ANIMATIONPLAYMODE_FORWARD_LOOP,
+    NNS_G2D_ANIMATIONPLAYMODE_REVERSE,
+    NNS_G2D_ANIMATIONPLAYMODE_REVERSE_LOOP,
+};
+
 typedef struct {
     u16 numFrames;
     u16 loopStartFrameIdx;
@@ -198,12 +242,16 @@ typedef struct NNSG2dAnimBankData {
     NNSG2dUserExDataBlock *pExtendedData;
 } NNSG2dAnimBankData;
 
-// The user extended attributes of animation sequences
+// The user extended attributes of animation sequences and their frames, numAttribute words each
+typedef struct {
+    u32 *pAttr;
+} NNSG2dUserExAnimFrameAttr;
+
 typedef struct {
     u16 numFrames;
     u16 pad;
-    u32 attr;
-    u32 *pAnmFrmAttrArray;
+    u32 *pAttr;
+    NNSG2dUserExAnimFrameAttr *pAnmFrmAttrArray;
 } NNSG2dUserExAnimSequenceAttr;
 
 typedef struct {
@@ -293,25 +341,56 @@ typedef struct {
     u32 unk58;
 } NNSG2dMCCellAnimation;
 
-// Prepare the contents of a loaded graphics file in place: NNS_G2dGetUnpackedBGCharacterData,
-// NNS_G2dGetUnpackedCharacterData, NNS_G2dGetUnpackedScreenData and NNS_G2dGetUnpackedPaletteData, and the rest. Each
-// returns FALSE if the file is not of its kind
-BOOL NNS_G2DPrepareBGChar(void *file, NNSG2dCharacterData **character);
-BOOL NNS_G2DPrepareObjChar(void *file, NNSG2dCharacterData **character);
-BOOL NNS_G2DPrepareScreen(void *file, NNSG2dScreenData **screen);
-BOOL RelocatePaletteResGetDataPtr(void *file, NNSG2dPaletteData **palette);
+// Find the block of their kind in a loaded graphics file and turn its offsets into pointers in place, returning FALSE
+// if the file has none. swan calls the first four NNS_G2DPrepareBGChar, NNS_G2DPrepareObjChar, NNS_G2DPrepareScreen
+// and RelocatePaletteResGetDataPtr
+BOOL NNS_G2dGetUnpackedBGCharacterData(void *file, NNSG2dCharacterData **character);
+BOOL NNS_G2dGetUnpackedCharacterData(void *file, NNSG2dCharacterData **character);
+BOOL NNS_G2dGetUnpackedScreenData(void *file, NNSG2dScreenData **screen);
+BOOL NNS_G2dGetUnpackedPaletteData(void *file, NNSG2dPaletteData **palette);
 BOOL NNS_G2dGetUnpackedPaletteCompressInfo(void *file, NNSG2dPaletteCompressInfo **info);
 BOOL NNS_G2dGetUnpackedCellBank(void *file, NNSG2dCellDataBank **cells);
 BOOL NNS_G2dGetUnpackedAnimBank(void *file, NNSG2dAnimBankData **anims);
 BOOL NNS_G2dGetUnpackedMultiCellBank(void *file, NNSG2dMultiCellDataBank **cells);
 BOOL NNS_G2dGetUnpackedMCAnimBank(void *file, NNSG2dAnimBankData **anims);
 
+// The block of the given kind in a loaded G2D file, or NULL. swan calls it NNS_G2DFindDataBlock
+NNSG2dBinaryBlockHeader *NNS_G2dFindBinaryBlock(NNSG2dBinaryFileHeader *file, u32 kind);
+
+// Turn the offsets in a character, BG character or palette block into pointers, as the functions above do. swan calls
+// them NNS_G2DRelocateObjChar, NNS_G2DRelocateBGChar and NNS_G2DRelocatePLTTHeader, and doesn't name
+// NNSi_G2dUnpackNCLCmpInfo
+void NNS_G2dUnpackNCG(NNSG2dCharacterData *character);
+void NNS_G2dUnpackBGNCG(NNSG2dCharacterData *character);
+void NNS_G2dUnpackNCL(NNSG2dPaletteData *palette);
+void NNSi_G2dUnpackNCLCmpInfo(NNSG2dPaletteCompressInfo *info);
+
+// Turn a cell or multi-cell bank's offsets into pointers, as NNS_G2dGetUnpackedCellBank and
+// NNS_G2dGetUnpackedMultiCellBank do after finding it, and those of either's user extended cell attributes, which swan
+// doesn't name
+void NNS_G2dUnpackNCE(NNSG2dCellDataBank *bank);
+void NNS_G2dUnpackNMC(NNSG2dMultiCellDataBank *bank);
+void NNSi_G2dUnpackUserExCellAttrBank(NNSG2dUserExCellAttrBank *attrBank);
+const NNSG2dCellData *NNS_G2dGetCellDataByIdx(const NNSG2dCellDataBank *bank, u16 idx);
+const NNSG2dMultiCellData *NNS_G2dGetMultiCellDataByIdx(const NNSG2dMultiCellDataBank *bank, u16 idx);
+
+// Turns an animation bank's offsets into pointers, as NNS_G2dGetUnpackedAnimBank does after finding it
+void NNS_G2dUnpackNAN(NNSG2dAnimBankData *bank);
+
 // NNS_G2dGetAnimSequenceByIdx, and controlling an animation
 const NNSG2dAnimSequence *NNS_G2dGetAnimSequenceByIdx(const NNSG2dAnimBankData *bank, u16 idx);
+void *NNS_G2dGetAnimCtrlCurrentElement(const NNSG2dAnimController *animCtrl);
+BOOL NNS_G2dTickAnimCtrl(NNSG2dAnimController *animCtrl, fx32 frames);
+BOOL NNS_G2dSetAnimCtrlCurrentFrame(NNSG2dAnimController *animCtrl, u16 frameIdx);
 u16 NNS_G2dGetAnimCtrlCurrentFrame(const NNSG2dAnimController *animCtrl);
+void NNS_G2dInitAnimCtrl(NNSG2dAnimController *animCtrl);
+void NNS_G2dInitAnimCallBackFunctor(NNSG2dCallBackFunctor *functor);
+void NNS_G2dResetAnimCtrlState(NNSG2dAnimController *animCtrl);
+void NNS_G2dBindAnimCtrl(NNSG2dAnimController *animCtrl, const NNSG2dAnimSequence *seq);
 void NNS_G2dSetAnimCtrlCallBackFunctor(NNSG2dAnimController *animCtrl, u32 type, u32 param, NNSG2dAnmCallBackPtr pFunc);
 void NNS_G2dSetAnimCtrlCallBackFunctorAtAnimFrame(NNSG2dAnimController *animCtrl, u32 param, NNSG2dAnmCallBackPtr pFunc,
                                                   u16 frameIdx);
+BOOL NNSi_G2dIsAnimCtrlLoopAnim(const NNSG2dAnimController *animCtrl);
 
 // Cell animations: NNS_G2dInitCellAnimationVramTransfered transfers each cell's characters to VRAM as it is shown
 void NNS_G2dInitCellAnimation(NNSG2dCellAnimation *cellAnim, const NNSG2dAnimSequence *seq,
@@ -392,17 +471,35 @@ void NNS_G2dLoadPaletteEx(const NNSG2dPaletteData *data, const NNSG2dPaletteComp
 enum {
     NNS_G2D_OAMTYPE_MAIN,
     NNS_G2D_OAMTYPE_SUB,
+    NNS_G2D_OAMTYPE_SOFTWAREEMULATION,
+    NNS_G2D_OAMTYPE_MAX,
 };
 
+// The affine index of an OAM that uses no affine parameters, and what NNS_G2dEntryOamManagerAffine returns when full
+#define NNS_G2D_OAM_AFFINE_IDX_NONE 0xfffe
+
+// A range of OAMs or affine parameters that a manager owns, and the next one free
 typedef struct {
-    u8 data[0x1c];
+    u16 fromIdx;
+    u16 toIdx;
+    u16 currentIdx;
+} NNSG2dOamManagedRegion;
+
+typedef struct {
+    u32 type;
+    NNSG2dOamManagedRegion managedAttrRegion;
+    NNSG2dOamManagedRegion managedAffineRegion;
+    u16 managerID;
+    BOOL bFastTransferMode;
+    fx32 spriteZoffsetStep;
 } NNSG2dOamManagerInstance;
 
 void NNS_G2dInitOamManagerModule(void);
 BOOL NNS_G2dGetNewOamManagerInstanceAsFastTransferMode(NNSG2dOamManagerInstance *man, u16 from, u16 num, u32 type);
 BOOL NNS_G2dEntryOamManagerOamWithAffineIdx(NNSG2dOamManagerInstance *man, const GXOamAttr *oam, u16 affineIdx);
 u16 NNS_G2dEntryOamManagerAffine(NNSG2dOamManagerInstance *man, const MtxFx22 *mtx);
-void NNS_G2dApplyAndResetOamManagerBuffer(NNSG2dOamManagerInstance *man);
+// Sends the manager's OAMs and affine parameters to the hardware. swan calls it NNS_G2dApplyAndResetOamManagerBuffer
+void NNS_G2dApplyOamManagerToHW(NNSG2dOamManagerInstance *man);
 void NNS_G2dResetOamManagerBuffer(NNSG2dOamManagerInstance *man);
 
 // The renderer, which draws cells to the surfaces of the screens

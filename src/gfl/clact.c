@@ -1328,7 +1328,7 @@ static void func_0204c7c8(ClActOamMan *man, u8 from, u8 num, u32 type) {
 
 static void func_0204c7e0(ClActOamMan *man) {
     if (man->active) {
-        NNS_G2dApplyAndResetOamManagerBuffer(&man->man);
+        NNS_G2dApplyOamManagerToHW(&man->man);
     }
 }
 
@@ -1422,7 +1422,7 @@ static u16 func_0204ca08(const MtxFx22 *mtx) {
 // Whether a cell's bounding rect, or circle, is in view, its corners transformed by the matrix
 static BOOL func_0204ca1c(const NNSG2dCellData *cell, const MtxFx32 *mtx, const NNSG2dViewRect *view) {
     fx32 tmp;
-    const NNSG2dCellBoundingRectS16 *rect = &cell->boundingRect;
+    const NNSG2dCellBoundingRectS16 *rect = &((const NNSG2dCellDataWithBR *)cell)->boundingRect;
     u32 r = NNSi_G2dGetCellBoundingSphereR(cell);
     fx32 posX = mtx->_20 - view->posTopLeft.x;
     fx32 posY = mtx->_21 - view->posTopLeft.y;
@@ -1468,7 +1468,7 @@ static BOOL func_0204ca1c(const NNSG2dCellData *cell, const MtxFx32 *mtx, const 
 
 // The same, untransformed
 static BOOL func_0204cb14(const NNSG2dCellData *cell, const MtxFx32 *mtx, const NNSG2dViewRect *view) {
-    const NNSG2dCellBoundingRectS16 *rect = &cell->boundingRect;
+    const NNSG2dCellBoundingRectS16 *rect = &((const NNSG2dCellDataWithBR *)cell)->boundingRect;
     u32 r = NNSi_G2dGetCellBoundingSphereR(cell);
     fx32 posX = mtx->_20 - view->posTopLeft.x;
     fx32 posY = mtx->_21 - view->posTopLeft.y;
@@ -2244,7 +2244,7 @@ static void func_0204d9f4(ClActResMan *man, u32 idx, void *file, u32 vramType, u
         limit = 0x2000;
     }
     NNS_G2dGetUnpackedPaletteCompressInfo(file, &cmpInfo);
-    if (RelocatePaletteResGetDataPtr(file, &pltt)) {
+    if (NNS_G2dGetUnpackedPaletteData(file, &pltt)) {
         u32 banks;
 
         NNS_G2dInitImagePaletteProxy(&res->proxy);
@@ -2296,7 +2296,7 @@ static void func_0204db2c(ClActResMan *man, u32 idx, void *file, u32 vramType, u
         offset -= 0x200;
     }
     NNS_G2dGetUnpackedPaletteCompressInfo(file, &cmpInfo);
-    if (RelocatePaletteResGetDataPtr(file, &pltt)) {
+    if (NNS_G2dGetUnpackedPaletteData(file, &pltt)) {
         NNS_G2dInitImagePaletteProxy(&res->proxy);
         if (func_0204d798(vramType, CLACT_VRAM_MAIN)) {
             u32 banks = gfxGetObjExtPltBanksA();
@@ -2355,7 +2355,7 @@ static void func_0204dc60(ClActCellAnimRes *cellAnims) {
 static void func_0204dc68(ClActResMan *man, u32 idx, void *file, u32 vramType, NNSG2dCellDataBank *transferCells) {
     NNSG2dCharacterData *charData;
 
-    if (NNS_G2DPrepareObjChar(file, &charData)) {
+    if (NNS_G2dGetUnpackedCharacterData(file, &charData)) {
         func_0204d868(man, idx, charData, transferCells, vramType);
         man->chars[idx].free = FALSE;
     }

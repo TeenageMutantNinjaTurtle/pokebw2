@@ -819,11 +819,11 @@ void GSyncDisp_LoadFloatGraphics(GSyncDisp *disp) {
 
         if (item != ITEM_NONE) {
             file = GFL_ArcToolReadHeapNew(itemArc, GetItemGraphicsDatID(item, ITEM_FILE_ICON_PLTT), disp->heapId);
-            RelocatePaletteResGetDataPtr(file, &palette);
+            NNS_G2dGetUnpackedPaletteData(file, &palette);
             sys_memcpy(palette->rawData, disp->floatGraphics[i].palette, sizeof(disp->floatGraphics[i].palette));
             GFL_HeapFree(file);
             file = GFL_ArcToolReadHeapNew(itemArc, GetItemGraphicsDatID(item, ITEM_FILE_ICON_CHAR), disp->heapId);
-            NNS_G2DPrepareBGChar(file, &chars);
+            NNS_G2dGetUnpackedBGCharacterData(file, &chars);
             sys_memcpy(chars->rawData, disp->floatGraphics[i].chars, sizeof(disp->floatGraphics[i].chars));
             GFL_HeapFree(file);
         }
@@ -842,7 +842,7 @@ void GSyncDisp_LoadFloatGraphics(GSyncDisp *disp) {
             u16 icon = PokeParty_GetIconIndex(species, form, sex, FALSE);
 
             file = GFL_ArcToolReadHeapNew(iconArc, icon, disp->heapId);
-            NNS_G2DPrepareBGChar(file, &chars);
+            NNS_G2dGetUnpackedBGCharacterData(file, &chars);
             sys_memcpy(chars->rawData, disp->floatGraphics[index].chars, sizeof(disp->floatGraphics[index].chars));
             GFL_HeapFree(file);
             disp->floatGraphics[index].paletteNum = paletteNum;

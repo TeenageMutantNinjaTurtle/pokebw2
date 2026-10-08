@@ -171,6 +171,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Returns of `-1` and `0` folded into one computed result (`rsbs`, `mvns`) where the original keeps two returns: the
   function returns an enum. (matching.md: "returns an enum")
 - `bne` over a `b` to the end at the top: the body is in an `if`, not after an early return. (matching.md: "An early `return`")
+- A flag built before its tests (`movs rX, #0` first) from an inline's `return a && b;`: write `if (a && b) { return TRUE; } return FALSE;`. (matching.md: "An inline that returns a condition")
 - A final boolean returned from a register shared with a `NULL` argument: `return f() == TRUE ? FALSE : TRUE;`.
   (matching.md: "ends in `return f(...) == TRUE")
 - Blocks are laid out in source order. A switch whose `default` code comes first had `default:` written first, and

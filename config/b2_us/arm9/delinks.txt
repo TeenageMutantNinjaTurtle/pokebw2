@@ -813,3 +813,32 @@ lib/nnsys/src/gfd/gfd_LinkedListPlttVramMan.c:
     complete
     .text       start:0x0205fef8 end:0x02060024
     .bss        start:0x02141a70 end:0x02141a84
+
+lib/nnsys/src/g2d/g2d_NAN_load.c:
+    .text       start:0x02060024 end:0x02060128
+
+lib/nnsys/src/g2d/g2d_NCE_load.c:
+    complete
+    .text       start:0x02060128 end:0x020601ec
+
+lib/nnsys/src/g2d/g2d_NMC_load.c:
+    complete
+    .text       start:0x020601ec end:0x02060278
+
+lib/nnsys/src/g2d/g2d_NCG_load.c:
+    complete
+    .text       start:0x02060278 end:0x020602d8
+
+lib/nnsys/src/g2d/g2d_NCL_load.c:
+    complete
+    .text       start:0x020602d8 end:0x02060338
+
+lib/nnsys/src/g2d/g2d_NSC_load.c:
+    complete
+    .text       start:0x02060338 end:0x02060358
+
+lib/nnsys/src/g2d/g2d_Load.c:
+    .text       start:0x02060358 end:0x020603b4
+
+lib/nnsys/src/g2d/g2d_Animation.c:
+    .text       start:0x020603b4 end:0x02060650

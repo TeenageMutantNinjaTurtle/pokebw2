@@ -1986,7 +1986,7 @@ static void ResearchGraph_LoadGraphBG(ResearchGraph *wk) {
         fileId = 7;
     }
     file = GFL_ArcToolReadHeapNew(handle, fileId, wk->heapId);
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     GFL_BGSysLoadScrAreaAll(BG_MAIN_GRAPH, screen->rawData, 0, 0, 32, 32);
     GFL_BGSysLoadScr(BG_MAIN_GRAPH);
     GFL_HeapFree(file);
@@ -2795,7 +2795,7 @@ static void ResearchGraph_LoadSubBG(ResearchGraph *wk) {
     void *file = GFL_ArcToolReadHeapNew(handle, 13, wk->heapId);
     NNSG2dScreenData *screen;
 
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     GFL_BGSysLoadScrAreaAll(BG_SUB_TITLE, screen->rawData, 0, 0, 32, 24);
     GFL_BGSysLoadScr(BG_SUB_TITLE);
     GFL_HeapFree(file);
@@ -2819,7 +2819,7 @@ static void ResearchGraph_LoadMainBG(ResearchGraph *wk) {
     void *file = GFL_ArcToolReadHeapNew(handle, 7, wk->heapId);
     NNSG2dScreenData *screen;
 
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     GFL_BGSysLoadScrAreaAll(BG_MAIN_GRAPH, screen->rawData, 0, 0, 32, 32);
     GFL_BGSysLoadScr(BG_MAIN_GRAPH);
     GFL_HeapFree(file);

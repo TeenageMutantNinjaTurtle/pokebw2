@@ -112,14 +112,14 @@ static void displayLightBlueErrorWindow(void) {
     sys_memset32(0, gfxGetCharAddrBG1A(), 0x4000);
 
     file = GFL_ArcSysReadHeapNewLZ(ARCID_SAVE_ERROR_GRA, SAVE_ERROR_GRA_CHAR, FALSE, HEAPID_SAVEDATA);
-    if (NNS_G2DPrepareBGChar(file, &chars)) {
+    if (NNS_G2dGetUnpackedBGCharacterData(file, &chars)) {
         cp15_flushDC(chars->rawData, chars->size);
         MI_CpuCopy16(chars->rawData, gfxGetCharAddrBG1A(), chars->size);
     }
     GFL_HeapFree(file);
 
     file = GFL_ArcSysReadHeapNewLZ(ARCID_SAVE_ERROR_GRA, SAVE_ERROR_GRA_SCRN, FALSE, HEAPID_SAVEDATA);
-    if (NNS_G2DPrepareScreen(file, &screen)) {
+    if (NNS_G2dGetUnpackedScreenData(file, &screen)) {
         cp15_flushDC(screen->rawData, screen->size);
         MI_CpuCopy16(screen->rawData, gfxGetScreenAddrBG1A(), screen->size);
     }
@@ -127,7 +127,7 @@ static void displayLightBlueErrorWindow(void) {
 
     file = GFL_ArcSysReadHeapNewLZ(ARCID_SAVE_ERROR_GRA, SAVE_ERROR_GRA_PLTT, FALSE, HEAPID_SAVEDATA);
     NNS_G2dGetUnpackedPaletteCompressInfo(file, &compressInfo);
-    if (RelocatePaletteResGetDataPtr(file, &palette)) {
+    if (NNS_G2dGetUnpackedPaletteData(file, &palette)) {
         cp15_flushDC(palette->rawData, 0x20);
         MI_CpuCopy16(palette->rawData, (void *)HW_BG_PLTT, 0x20);
     }

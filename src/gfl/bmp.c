@@ -105,7 +105,7 @@ GFLBitmap *GFL_G2DIOLoadBitmap(u32 arcId, u32 fileId, BOOL compressed, HeapID he
     GFLBitmap *bitmap = GFL_HeapAllocate(heapId, sizeof(GFLBitmap), FALSE, "bmp.c", 266);
     void *file = GFL_ArcSysReadHeapNewLZ(arcId, fileId, compressed, HEAPID_TAIL(heapId));
 
-    if (!NNS_G2DPrepareBGChar(file, &chars)) {
+    if (!NNS_G2dGetUnpackedBGCharacterData(file, &chars)) {
         sys_exit();
         return NULL;
     }

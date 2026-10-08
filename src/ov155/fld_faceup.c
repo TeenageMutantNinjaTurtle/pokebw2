@@ -222,27 +222,27 @@ static void FaceUp_LoadGraphics(FaceUpWork *work, Field *field) {
     }
 
     file = GFL_ArcSysReadHeapNew(ARCID_FLD_FACEUP, charFile, HEAPID_TAIL(HEAPID_FIELDMAP));
-    NNS_G2DPrepareBGChar(file, &character);
+    NNS_G2dGetUnpackedBGCharacterData(file, &character);
     GFL_BGSysLoadChar(FACEUP_BG_FACE, character->rawData, character->size, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcSysReadHeapNew(ARCID_FLD_FACEUP, scrFile, HEAPID_TAIL(HEAPID_FIELDMAP));
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     GFL_BGSysLoadScrCore(FACEUP_BG_FACE, screen->rawData, screen->size, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcSysReadHeapNew(ARCID_FLD_FACEUP, palFile, HEAPID_TAIL(HEAPID_FIELDMAP));
-    RelocatePaletteResGetDataPtr(file, &palette);
+    NNS_G2dGetUnpackedPaletteData(file, &palette);
     GFL_BGSysUploadStdPalette(FACEUP_BG_FACE, palette->rawData, 0x140, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcSysReadHeapNew(ARCID_FLD_FACEUP, 7, HEAPID_TAIL(HEAPID_FIELDMAP));
-    NNS_G2DPrepareBGChar(file, &partsCharacter);
+    NNS_G2dGetUnpackedBGCharacterData(file, &partsCharacter);
     GFL_BGSysLoadChar(FACEUP_BG_PARTS, partsCharacter->rawData, partsCharacter->size, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcSysReadHeapNew(ARCID_FLD_FACEUP, 11, HEAPID_TAIL(HEAPID_FIELDMAP));
-    NNS_G2DPrepareScreen(file, &partsScreen);
+    NNS_G2dGetUnpackedScreenData(file, &partsScreen);
     GFL_BGSysLoadScrCore(FACEUP_BG_PARTS, partsScreen->rawData, partsScreen->size, 0);
     GFL_HeapFree(file);
 

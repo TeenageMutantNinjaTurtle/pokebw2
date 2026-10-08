@@ -9,20 +9,12 @@
 void sys_memcpy(const void *src, void *dest, u32 size);
 void sys_memcpy32_fast(const void *src, void *dest, u32 size);
 void sys_memcpy_fast(const void *src, void *dest, u32 size);
-void sys_memcpy16(const void *src, void *dest, u32 size);
 // Copies size bytes even when the ranges overlap
 void sys_memcpy_ex(const void *src, void *dest, u32 size);
 void sys_memset(void *dest, u32 value, u32 size);
 void sys_memset_fast(void *dest, u32 value, u32 size);
-void sys_memset16(u16 value, void *dest, u32 size);
-void sys_memset32(u32 value, void *dest, u32 size);
 void sys_memset32_fast(u32 value, void *dest, u32 size);
 void *sys_memcpy32(const void *src, void *dest, u32 size);
-// NitroSDK's MI_CpuCopy16, an inline over sys_memcpy16 (MIi_CpuCopy16). MWCC evaluates an inline call's arguments
-// from the last, so the size is read before a destination that a call gives
-static inline void MI_CpuCopy16(const void *src, void *dest, u32 size) {
-    sys_memcpy16(src, dest, size);
-}
 // Game Freak's standard library (gf_standard.c): its tables are allocated once, from a heap
 void initTableArea(HeapID heapId);
 // Compares size bytes, returning the difference of the first that differ

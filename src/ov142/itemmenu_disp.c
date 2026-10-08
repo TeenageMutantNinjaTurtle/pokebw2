@@ -1215,7 +1215,7 @@ void ItemMenuDisp_DrawQuantityFrame(ItemMenuWork *work) {
     NNSG2dScreenData *screen;
     s32 i = 0;
 
-    if (NNS_G2DPrepareScreen(file, &screen)) {
+    if (NNS_G2dGetUnpackedScreenData(file, &screen)) {
         u16 *tiles = (u16 *)screen->rawData;
         s32 count = (screen->width / 8) * (screen->height / 8);
 
