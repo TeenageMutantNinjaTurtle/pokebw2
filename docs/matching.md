@@ -263,6 +263,9 @@ Same code, other `sp` offsets or frame size.
 
 ## Instruction order
 
+- A statement between a call and an SDK inline that uses its result is scheduled inside the inline's code only when
+  the result has its own variable: `ctvt_game.c`'s `CtvtGame_InitResults` keeps the texture key in a local, so
+  `picture = 0` lands between the inline's shifts, as in the original.
 - `x = a; x -= b;` loads `a` first, where `x = a - b` loads `b` first: `arc_tool.c`'s `GFL_ArcSysInitArcHandle` reads
   the file's end before its start as `size = end; size -= start;`.
 - The stores of a struct-filling function can come out in the reverse of the source's order: `tcb.c`'s

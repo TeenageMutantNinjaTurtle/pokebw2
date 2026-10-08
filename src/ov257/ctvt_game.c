@@ -2328,8 +2328,10 @@ static void CtvtGame_InitResults(CommTvtWork *sys, CtvtGame *game) {
             u16 count = GFL_G3DMgrGetSceneResCount(game->g3d, game->scenes[netId]);
             void *resource = GFL_G3DMgrGetResource(game->g3d, j + count * netId);
 
-            dest = NNS_GfdGetTexKeyAddr(GFL_G3DResGetTexVRAMHandle(resource)) + 0x2000 / 32;
+            NNSGfdTexKey key = GFL_G3DResGetTexVRAMHandle(resource);
+
             picture = 0;
+            dest = NNS_GfdGetTexKeyAddr(key) + 0x2000 / 32;
             if (j == 0) {
                 picture = 0;
             } else if (j == 1) {
@@ -2999,7 +3001,7 @@ static AppTaskMenu *CtvtGame_CreateCancelMenu(CommTvtWork *sys, CtvtGame *game) 
 }
 
 static void CtvtGame_LaunchTarget(CtvtGame *game, CtvtGameTarget *target, u16 scene) {
-    u16 x;
+    fx32 x;
     fx32 speed;
     u16 angle;
     VecFx32 dir;
@@ -3011,9 +3013,9 @@ static void CtvtGame_LaunchTarget(CtvtGame *game, CtvtGameTarget *target, u16 sc
     target->alpha = 31;
     target->scene = scene;
     target->frame = game->frame;
-    x = game->lastColumn * 64 + CtvtGame_Rand(64);
+    x = (u16)(game->lastColumn * 64 + CtvtGame_Rand(64)) * FX32_ONE;
     target->srt.translation.z = FX32_CONST(-5) * (4 - target->depth);
-    target->srt.translation.x = x * FX32_ONE - FX32_CONST(128);
+    target->srt.translation.x = x - FX32_CONST(128);
     target->srt.translation.y = FX32_CONST(-15);
     target->srt.scale.z = target->srt.scale.y = target->srt.scale.x = (target->depth << 9) + 0x700;
     speed = (CtvtGame_Rand(2) + 1) * 0xa00;
