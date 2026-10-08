@@ -306,12 +306,6 @@ the original code is linked until they match. The differences are the same in bo
   `.rodata` is the original's size, with the lookup tables in sections of their own, but the many handler tables of
   equal size come out in another order; `rodata_order.py` can look for the declaration order once these files can be
   completed.
-- `src/ov181/mbp.c` matches in both versions, but two pairs of strings of equal size in its `.data` come out swapped:
-  `"MBP_STATE_ENTRY"`/`"MBP_STATE_ERROR"` and `"MBP_STATE_COMPLETE"`/`"MB_COMM_PSTATE_END"`. They are the names in the
-  NitroSDK demo's tables of states and callback statuses, which only uncalled functions read, so the tables share the
-  file's section and each string gets a section of its own, laid out by size. All 24 orders of the heap ID and the three
-  tables, the `.bss` statics around them, and the name tables as function-local statics of `MBP_ChangeState` and
-  `MBP_ParentStateCallback` were tried; the closest leave those two swaps. `rodata_order.py` doesn't model the strings.
 - `src/ov207/p_sta_sub.c`'s `.rodata` can't be completed yet, for two reasons. It starts with an 8-byte object at
   `0x021bafc0` / `0x021bb000` (`7f 00 00 18 00 90 01 00`, perhaps a touch rectangle) that nothing references and the C
   doesn't define. And no declaration order found by a `rodata_order.py` hill climb over its 24 objects (the

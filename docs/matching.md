@@ -905,6 +905,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A global that no code refers to can be declared anywhere in the file, after functions too, and where it sits in
   the heapsort's list moves the local initializers around it: `mus_shot_photo.c` declares `MUS_SHOT_PHOTO_UNUSED`
   just before its last function, which gives the original's `.rodata` with no code change.
+- Uninitialized statics take part in the same heapsort as string literals and the other data, and seem to join
+  the list after everything else, so their position among the tables doesn't matter but their order among
+  themselves can swap strings of equal size: `mbp.c`'s state names come out in the original's order only with
+  `sCWork` declared after `childInfo`.
 - Small objects that come after a larger one in the same file, out of size order, may be rows of one array: the PC
   box's `box2_ui.c` has seven cursor tables after a 540-byte one, and they are `sTrayCursorData[3][47]`, three rows
   of equal length that each end in a `TOUCH_RECT_END` entry, with other tables pointing into the rows. Once the sizes
