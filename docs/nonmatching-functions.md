@@ -327,7 +327,9 @@ the original code is linked until they match. The differences are the same in bo
 
 - `src/ov257/camera_system.c` matches in both versions, but it links only once the DSi module's NDMA functions are
   known to dsd: `func_02768234` (`MI_IsNDmaBusy`), `func_02768270`, `func_02768378` and `func_02769080` have no symbols
-  in `ltd_autoload_0`, and the calls to them from overlay 257 have no relocations.
+  in `ltd_autoload_0`. The original reaches them through linker veneers in the middle of the file, which dsd took
+  for functions (`func_ov257_02199c9c`, ARM `ldr pc, [pc, #-4]`, and `func_ov257_02199ca4`, Thumb `bx pc`), so the
+  veneers' placement has to come out as the original's too.
 
 ## Keeping this list current
 
