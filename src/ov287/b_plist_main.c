@@ -215,7 +215,7 @@ static int BPlistMain_StateInit(BPlistWork *work) {
     } else {
         work->page = 0;
     }
-    work->cursor = func_ov285_021f4260(work->param->heapId);
+    work->cursor = BAppCursor_Create(work->param->heapId);
     BPlistMain_InitOrder(work);
     BPlistMain_InitPokemon(work);
     BPlistMain_InitBG(work);
@@ -237,7 +237,7 @@ static int BPlistMain_StateInit(BPlistWork *work) {
     } else {
         work->cursorVisible = FALSE;
     }
-    func_ov285_021f42fc(work->cursor, work->cursorVisible);
+    BAppCursor_SetVisible(work->cursor, work->cursorVisible);
     if (work->page == 0) {
         if (BPlistMain_IsPartnerSlot(work, BPlistMain_GetPartySlot(work, 0)) == TRUE) {
             work->param->partyIndex = 1;
@@ -936,7 +936,7 @@ static BOOL BPlistMain_Exit(TCB *tcb, BPlistWork *work) {
         BPlistMain_ExitBG();
         GFL_TCBExMgrFree(work->tcbExMgr);
         BPlistCursor_Delete(work);
-        func_ov285_021f4284(work->cursor);
+        BAppCursor_Delete(work->cursor);
         if (work->cursorVisible == TRUE) {
             *work->param->usingKeys = TRUE;
         } else {

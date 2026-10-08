@@ -1137,19 +1137,19 @@ void BPlistBmp_SetEmbargoMessage(BPlistWork *work) {
 }
 
 void BPlistBmp_FlushWindows(BPlistWork *work) {
-    func_ov285_021f43d0(work->msgWins, work->printQueue, 2);
-    func_ov285_021f43d0(work->windows, work->printQueue, work->windowCount);
+    BAppTool_FlushPrintWindows(work->msgWins, work->printQueue, 2);
+    BAppTool_FlushPrintWindows(work->windows, work->printQueue, work->windowCount);
 }
 
 void BPlistBmp_TransferPage(BPlistWork *work) {
-    func_ov285_021f43b4(work->windows, work->flushList);
+    BAppTool_QueueWindowScreens(work->windows, work->flushList);
     BPlistBmp_DrawInfoFrame(work);
 }
 
 void BPlistBmp_DrawInfoFrame(BPlistWork *work) {
     if (work->infoWinFramePending == 1) {
         BmpWin_DrawFrame(work->msgWins[0].window, 2, 1, 14);
-        func_ov285_021f439c(&work->msgWins[0]);
+        BAppTool_QueueWindowScreen(&work->msgWins[0]);
         work->infoWinFramePending = 0;
     }
 }
