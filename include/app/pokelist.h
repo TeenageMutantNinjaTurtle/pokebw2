@@ -56,7 +56,8 @@ typedef struct {
     u8 picked[6];
     // Where to go on in the moves a Pokémon learns at its new level
     u32 learnIndex;
-    u8 unk64[8];
+    u16 unk64;
+    u32 unk68;
     u16 unk6C;
     u8 unk6E;
     u8 season;

@@ -5,6 +5,7 @@
 #include "app/battle_recorder.h"
 #include "app/battle_recorder/br_btn.h"
 #include "app/battle_recorder/br_fade.h"
+#include "app/battle_recorder/br_musical_send_proc.h"
 #include "app/battle_recorder/br_graphic.h"
 #include "app/battle_recorder/br_net.h"
 #include "app/battle_recorder/br_proc_sys.h"
@@ -73,7 +74,8 @@ typedef struct {
     u32 recordMode;
     BrRecordInfo recordInfo;
     BrBtnRecovery btnRecovery;
-    u8 unk_17bc[4];
+    // Set from the battle setup's unkDD_1 when the video has played
+    u32 unk_17bc;
     u8 bvRankSearch[4];
     u32 bvRankMode;
 } BrData;
@@ -136,7 +138,7 @@ typedef struct {
     u8 *video;
     BOOL isRecovery;
     BrRecordInfo *recordInfo;
-    u8 *unk3C;
+    u32 *unk3C;
 } BrRecordProcParam;
 
 typedef struct {
@@ -225,7 +227,7 @@ typedef struct {
     u32 saveSlot;
 } BrBvSaveProcParam;
 
-// The musical photo screens, which share their parameter
+// The musical photo viewing screen
 typedef struct {
     BrFade *fade;
     BrSidebar *sidebar;
@@ -236,17 +238,6 @@ typedef struct {
     GameData *gameData;
 } BrMusicalLookProcParam;
 
-typedef struct {
-    BrFade *fade;
-    BrSidebar *sidebar;
-    BrGraphic *graphic;
-    BrRes *res;
-    BrProcSys *procSys;
-    BrNet *net;
-    GameData *gameData;
-    // 0 makes the menu fade in differently
-    u32 unk1C;
-} BrMusicalSendProcParam;
 
 // The screens' procs
 extern const GameProcFunctions data_ov268_021c20e8;
@@ -261,7 +252,6 @@ extern const GameProcFunctions data_ov268_021c2768;
 extern const GameProcFunctions data_ov268_021c2774;
 extern const GameProcFunctions data_ov268_021c27b8;
 extern const GameProcFunctions data_ov270_021efe00;
-extern const GameProcFunctions data_ov269_021ef77c;
 
 extern const GameProcFunctions BR_CORE_PROC_FUNCTIONS;
 

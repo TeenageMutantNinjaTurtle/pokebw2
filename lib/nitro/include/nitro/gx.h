@@ -336,6 +336,8 @@ typedef enum {
 
 #define GX_BEGIN_TRIANGLES 0
 #define GX_BEGIN_QUADS 1
+#define GX_BEGIN_TRIANGLE_STRIP 2
+#define GX_BEGIN_QUAD_STRIP 3
 
 typedef enum {
     GX_POLYGONMODE_MODULATE,
@@ -524,6 +526,7 @@ typedef enum {
 #define GX_CAPTURE_MODE_A 0
 #define GX_CAPTURE_MODE_AB 2
 #define GX_CAPTURE_SRCA_2D3D 0
+#define GX_CAPTURE_SRCA_3D 1
 #define GX_CAPTURE_SRCB_VRAM_0x00000 0
 #define GX_CAPTURE_DEST_VRAM_A_0x00000 0
 #define GX_CAPTURE_DEST_VRAM_B_0x00000 1
@@ -1362,6 +1365,8 @@ void gfxInit3D(void);
 // NitroSDK's G3i_LookAt_, which loads the camera matrix into the geometry engine when isLoad is set, G3_RotX, G3_RotY,
 // G3_RotZ and G3_MultTransMtx33, under swan's names
 void gfxLookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL isLoad, MtxFx43 *mtx);
+// NitroSDK's G3i_PerspectiveW_, which loads the projection matrix into the geometry engine when isLoad is set
+void gfxPerspective(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, BOOL isLoad, MtxFx44 *mtx);
 // NitroSDK's G3i_OrthoW_, which loads the projection matrix into the geometry engine when isLoad is set
 void gfxOrtho(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL isLoad, MtxFx44 *mtx);
 void gfxRotateX(fx32 sin, fx32 cos);

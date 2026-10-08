@@ -21,7 +21,7 @@ from:0x021b3074 kind:thumb_call to:0x0203ce0c module:main
 from:0x021b3082 kind:thumb_call to:0x0203a15c module:main
 from:0x021b3090 kind:thumb_call to:0x0203aaec module:main
 from:0x021b309a kind:thumb_call_arm to:0x020787a8 module:main
-from:0x021b30a4 kind:thumb_call to:0x021c2560 module:overlays(262,263)
+from:0x021b30a4 kind:thumb_call to:0x021c2560 module:overlay(262)
 from:0x021b30aa kind:thumb_call to:0x021c2668 module:overlays(262,332)
 from:0x021b30b2 kind:thumb_call to:0x021c279c module:overlay(262)
 from:0x021b30bc kind:thumb_call to:0x021b5504 module:overlay(260)
@@ -71,7 +71,7 @@ from:0x021b32b6 kind:thumb_call to:0x021c2654 module:overlays(36,262)
 from:0x021b32bc kind:thumb_call to:0x02021a3c module:main
 from:0x021b32c2 kind:thumb_call to:0x021c57a4 module:overlay(262)
 from:0x021b32c8 kind:thumb_call to:0x021c4f2c module:overlays(167,262)
-from:0x021b32ce kind:thumb_call to:0x021c2aa0 module:overlays(209,262)
+from:0x021b32ce kind:thumb_call to:0x021c2aa0 module:overlay(262)
 from:0x021b32da kind:thumb_call to:0x021c35e4 module:overlay(262)
 from:0x021b32e6 kind:thumb_call to:0x021c4898 module:overlay(262)
 from:0x021b3312 kind:thumb_call to:0x021c5c74 module:overlay(262)
@@ -625,7 +625,7 @@ from:0x021b5812 kind:thumb_call_arm to:0x020787a8 module:main
 from:0x021b5820 kind:thumb_call to:0x02017934 module:main
 from:0x021b5824 kind:thumb_call to:0x0200ba78 module:main
 from:0x021b582a kind:thumb_call to:0x0200b8f4 module:main
-from:0x021b5838 kind:thumb_call to:0x021c2560 module:overlays(262,263)
+from:0x021b5838 kind:thumb_call to:0x021c2560 module:overlay(262)
 from:0x021b583e kind:thumb_call to:0x021c2668 module:overlays(262,332)
 from:0x021b5846 kind:thumb_call to:0x021c279c module:overlay(262)
 from:0x021b5856 kind:thumb_call to:0x02022d58 module:main
@@ -675,7 +675,7 @@ from:0x021b5a26 kind:thumb_call to:0x021c2654 module:overlays(36,262)
 from:0x021b5a2c kind:thumb_call to:0x02021a3c module:main
 from:0x021b5a32 kind:thumb_call to:0x021c57a4 module:overlay(262)
 from:0x021b5a38 kind:thumb_call to:0x021c4f2c module:overlays(167,262)
-from:0x021b5a3e kind:thumb_call to:0x021c2aa0 module:overlays(209,262)
+from:0x021b5a3e kind:thumb_call to:0x021c2aa0 module:overlay(262)
 from:0x021b5a44 kind:thumb_call to:0x021b8dd4 module:overlay(260)
 from:0x021b5a50 kind:thumb_call to:0x021c35e4 module:overlay(262)
 from:0x021b5a5c kind:thumb_call to:0x021c4898 module:overlay(262)

@@ -260,10 +260,10 @@ void SetZoneNPCLocation(EventData *data, u32 npcId, u16 direction, u16 x, s32 y,
     if (npcId >= data->npcCount) {
         return;
     }
-    npc = &data->npcs[npcId];
-    if (npc->isRail != 0) {
+    if (data->npcs[npcId].isRail != 0) {
         return;
     }
+    npc = &data->npcs[npcId];
     pos = &npc->pos.grid;
     npc->direction = direction;
     pos->x = x;

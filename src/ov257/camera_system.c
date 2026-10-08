@@ -186,7 +186,7 @@ static void CameraSystem_StartDma(CameraSystem *sys) {
     u16 height = CameraSystem_GetHeight(sys);
 
     CAMERA_DmaRecvAsync(CAMERA_NDMA_NO, sys->buffers[sys->bufferIndex], CAMERA_GetBytesAtOnce(width),
-                        width * height * 2, CameraSystem_OnDmaDone, NULL);
+                        (width << 1) * height, CameraSystem_OnDmaDone, NULL);
 }
 
 void CameraSystem_UpdateSound(CameraSystem *sys) {

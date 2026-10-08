@@ -410,12 +410,6 @@ extern const FieldScriptSubEventFinishFunc FIELD_SCRIPT_SUB_EVENT_FINISH_FUNCS[1
 // scrcmd_ndemo.c
 BOOL FieldScriptSubEventFinish_NDemo(FinishScriptSubEventsWork *work, u32 *state);
 
-// Overlay 155, the scenes with N
-GameEvent *func_ov155_021f59e0(u8 a0, u8 a1, u16 a2, GameSystem *gsys, FieldScriptEnv *env);
-GameEvent *func_ov155_021f5cd0(GameSystem *gsys);
-void func_ov155_021f5cf8(Field *field);
-void func_ov155_021f5d0c(Field *field);
-
 GameEventReturnCode EventFinishScriptSubEvents_Callback(GameEvent *event, u32 *state, void *data);
 GameEvent *EventFinishScriptSubEvents_Create(FieldScriptEnv *env);
 BOOL s002E_ActorsPauseAll(VM *vm, FieldScriptEnv *env);

@@ -81,7 +81,10 @@ typedef struct {
     u8 messageId;
     u8 resultMessageId;
     FestMissionHeader header;
-    u8 unk18[0x14];
+    u32 unk18;
+    // The seed of the mission's random choices (overlay 26)
+    u32 unk1C;
+    u8 unk20[0xc];
 } FestMission;
 
 // What the kinds of target are: 1 for a species and 2 for an item

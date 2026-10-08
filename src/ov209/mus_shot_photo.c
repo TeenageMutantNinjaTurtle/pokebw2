@@ -55,13 +55,6 @@ static fx32 MusShotPhoto_GetPokeX(MusShotPhoto *photo, u8 pos, u16 species);
 static void MusShotPhoto_InitText(MusShotPhoto *photo);
 static void MusShotPhoto_Debug(MusShotPhoto *photo);
 
-// Nothing reads it; perhaps a step of the debug controls that MusShotPhoto_Debug lost in the release build
-const fx32 MUS_SHOT_PHOTO_UNUSED = 0x33333;
-static const VecFx32 MUS_SHOT_PHOTO_CAMERA_TARGET = { FX32_CONST(8), 0, 0 };
-static const VecFx32 MUS_SHOT_PHOTO_CAMERA_POS = { FX32_CONST(8), 0, FX32_CONST(301) };
-static const VecFx32 MUS_SHOT_PHOTO_CAMERA_UP = { 0, FX32_ONE, 0 };
-static const GXRgb MUS_SHOT_PHOTO_EDGE_COLORS[8] = { 0 };
-
 static const BGSetup MUS_SHOT_PHOTO_BG2_SETUP = {
     0,
     0,
@@ -94,6 +87,11 @@ static const BGSetup MUS_SHOT_PHOTO_BG3_SETUP = {
     FALSE,
 };
 
+static const VecFx32 MUS_SHOT_PHOTO_CAMERA_TARGET = { FX32_CONST(8), 0, 0 };
+static const VecFx32 MUS_SHOT_PHOTO_CAMERA_POS = { FX32_CONST(8), 0, FX32_CONST(301) };
+static const VecFx32 MUS_SHOT_PHOTO_CAMERA_UP = { 0, FX32_ONE, 0 };
+static const GXRgb MUS_SHOT_PHOTO_EDGE_COLORS[8] = { 0 };
+
 static const BGSetup MUS_SHOT_PHOTO_BG1_SETUP = {
     0,
     0,
@@ -117,7 +115,7 @@ MusShotPhoto *MusShotPhoto_Create(MusicalShot *shot, HeapID heapId) {
     photo->heapId = heapId;
     photo->shot = shot;
     for (i = 0; i < 4; i++) {
-        photo->pokes[i] = func_ov210_021eed30(shot->pokes[i].species, shot->pokes[i].sex, shot->pokes[i].form,
+        photo->pokes[i] = MusicalSystem_InitPoke(shot->pokes[i].species, shot->pokes[i].sex, shot->pokes[i].form,
                                               shot->pokes[i].rare, shot->pokes[i].personality, heapId);
         for (j = 0; j < 8; j++) {
             u8 equip = shot->pokes[i].equips[j].unk4;
@@ -347,6 +345,9 @@ static void MusShotPhoto_InitText(MusShotPhoto *photo) {
     BmpWin_FlushMap(photo->titleWin);
     GFL_BGSysLoadScr(1);
 }
+
+// Nothing reads it; perhaps a step of the debug controls that MusShotPhoto_Debug lost in the release build
+const fx32 MUS_SHOT_PHOTO_UNUSED = 0x33333;
 
 static void MusShotPhoto_Debug(MusShotPhoto *photo) {
 }

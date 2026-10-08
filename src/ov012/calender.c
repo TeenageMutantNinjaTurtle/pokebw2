@@ -54,8 +54,8 @@ static void Calendar_ReleaseArc(Calendar *calendar) {
 }
 
 static u8 Calendar_GetWeatherCore(Calendar *calendar, u16 zoneId) {
-    u16 month = GameData_GetMonth(calendar->gameData);
-    u16 day = GameData_GetDay(calendar->gameData);
+    u32 month = GameData_GetMonth(calendar->gameData);
+    u32 day = GameData_GetDay(calendar->gameData);
 
     return Calendar_ReadWeatherValue(calendar, zoneId, month, day);
 }

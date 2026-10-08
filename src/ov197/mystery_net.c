@@ -370,7 +370,7 @@ static void MysteryNet_WirelessStart(MysteryNetSeq *seq, int *state, void *work)
 
     switch (*state) {
     case 0:
-        func_020425ec((GFLNetInitData *)&sNetInit, NULL, net);
+        func_020425ec(&sNetInit, NULL, net);
         GFL_BGSysSetBGEnabledB(GX_PLANEMASK_OBJ, FALSE);
         *state = 1;
         break;
@@ -850,12 +850,12 @@ static void MysteryNet_SetNdDone(void) {
 }
 
 static u32 Mystery_ParseHex(const char *str) {
+    u32 i;
+    s32 digit;
     u32 value = 0;
 
     while (TRUE) {
-        s32 digit = -1;
-        u32 i;
-
+        digit = -1;
         for (i = 0; i < NELEMS(sHexDigits); i++) {
             if (str[0] == sHexDigits[i].c) {
                 digit = sHexDigits[i].value;
@@ -865,7 +865,8 @@ static u32 Mystery_ParseHex(const char *str) {
         if (digit == -1) {
             break;
         }
-        value = value * 16 + digit;
+        value <<= 4;
+        value += digit;
         str++;
     }
     return value;

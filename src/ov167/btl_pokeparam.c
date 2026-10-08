@@ -1543,7 +1543,7 @@ u8 func_ov167_021bc120(BattleMon *mon, u8 turnsAgo) {
     return 0;
 }
 
-BOOL GetDamageReceived(BattleMon *mon, u8 turnsAgo, u8 index, BattleMonDamageRecord *record) {
+BOOL GetDamageReceived(const BattleMon *mon, u8 turnsAgo, u8 index, BattleMonDamageRecord *record) {
     s32 turn;
     u8 count;
 

@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "struct_decls.h"
+#include "field/gimmick_league_marshal.h"
 
 // The gimmicks of the Pokémon League's rooms, which the League's script plugin (overlay 52) drives. Their sounds use
 // the Elite Four's Japanese names, as SEQ_SE_SW_CATTLEYA_* for Caitlin
@@ -17,11 +18,7 @@ GameEvent *func_ov122_021eedf8(GameSystem *gsys);
 void func_ov123_021eed08(GameSystem *gsys, u16 a1);
 void func_ov123_021eed3c(GameSystem *gsys, u16 a1);
 
-// Marshal's room, zone 142 (overlay 124)
-void func_ov124_021eecf0(GameSystem *gsys);
-void func_ov124_021eed20(GameSystem *gsys, u16 a1);
-void func_ov124_021eed40(GameSystem *gsys);
-GameEvent *func_ov124_021eed6c(GameSystem *gsys);
+// Marshal's room, zone 142 (overlay 124), is in field/gimmick_league_marshal.h
 
 // Caitlin's room, zone 143 (overlay 125)
 void func_ov125_021eed10(GameSystem *gsys, u16 a1);

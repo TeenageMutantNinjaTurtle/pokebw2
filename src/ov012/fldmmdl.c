@@ -624,7 +624,7 @@ static void ClearMMSysFlag(MMSys *system, u32 flag) {
     system->flags &= ~flag;
 }
 
-u16 GetActorLimit(MMSys *system) {
+u16 GetActorLimit(const MMSys *system) {
     return system->actorCapacity;
 }
 
@@ -1512,7 +1512,7 @@ static BOOL FldAct_IsForceOffShadow(FieldActor *actor) {
     return FALSE;
 }
 
-BOOL NextActor(MMSys *mmSys, FieldActor **actor, u32 *index) {
+BOOL NextActor(const MMSys *mmSys, FieldActor **actor, u32 *index) {
     u32 limit = GetActorLimit(mmSys);
     FieldActor *candidate;
 
@@ -1826,7 +1826,7 @@ u16 GetMMSysMdlInfoCacheEntryCount(MMSys *system) {
     return system->actorConfigCache[0];
 }
 
-void GetNPCMdlInfoForOBJCODE(MMSys *actorSystem, u16 objCode, FieldActorConfig *config) {
+void GetNPCMdlInfoForOBJCODE(const MMSys *actorSystem, u16 objCode, FieldActorConfig *config) {
     s32 i;
     u32 index;
     FieldActor *actor;

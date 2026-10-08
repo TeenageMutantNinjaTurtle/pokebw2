@@ -10,7 +10,7 @@
 
 typedef struct {
     // Called when the command arrives, with the data and the table's work
-    void (*callback)(int netId, int size, void *data, void *work, NetHandle *handle);
+    void (*callback)(int netId, int size, const void *data, void *work, NetHandle *handle);
     // Where data that arrives in chunks goes, or NULL to keep it out of the receive buffer
     void *(*getBuffer)(int netId, void *work, int size);
 } NetCommand;
@@ -32,10 +32,10 @@ BOOL func_02040dd4(int command);
 void *func_02040de8(int command, int netId, int size);
 void func_02040e0c(void);
 // Handlers for data in chunks: a chunk, and the header before the chunks
-void func_02040e10(int netId, int size, void *data, void *work, NetHandle *handle);
-void func_02040ebc(int netId, int size, void *data, void *work, NetHandle *handle);
+void func_02040e10(int netId, int size, const void *data, void *work, NetHandle *handle);
+void func_02040ebc(int netId, int size, const void *data, void *work, NetHandle *handle);
 // Sends data in chunks, returning whether it could start
-int func_02040f84(NetHandle *handle, int netIds, int command, u32 size, void *data);
+int func_02040f84(NetHandle *handle, u8 netIds, u16 command, u32 size, void *data);
 // Sends the next chunk, each frame
 void func_020410dc(void);
 

@@ -33,7 +33,7 @@ MusicalMcssSys *MusicalMcss_InitSystem(u32 count, HeapID heapId);
 void MusicalMcss_TermSystem(MusicalMcssSys *sys);
 void MusicalMcss_UpdateSystem(MusicalMcssSys *sys);
 void MusicalMcss_DrawSystem(MusicalMcssSys *sys, MusicalMcssCellCallback callback);
-MusicalMcss *MusicalMcss_Add(MusicalMcssSys *sys, fx32 x, fx32 y, fx32 z, const MCSSLoadInfo *info, void *work,
+MusicalMcss *MusicalMcss_Add(MusicalMcssSys *sys, fx32 x, fx32 y, fx32 z, MCSSLoadInfo *info, void *work,
                              BOOL loadAtVBlank);
 void MusicalMcss_Del(MusicalMcssSys *sys, MusicalMcss *mcss);
 // Draws the sprites with an orthographic projection of their own

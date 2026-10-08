@@ -5,8 +5,8 @@
 #include "field/event_wifi_bsubway.h"
 #include "field/field.h"
 #include "field/field_actor.h"
+#include "field/field_gimmick_bsubway.h"
 #include "field/field_script.h"
-#include "field/ov108.h"
 #include "field/player_state.h"
 #include "field/scrcmd_bsubway.h"
 #include "field/zone.h"
@@ -275,13 +275,13 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         func_0200e438(score, 10, 1);
         break;
     case 18:
-        func_ov108_021eed80(field, sTable706c[param0], &sTable7054[param1]);
+        FieldGimmickBSubway_StartTrainEffect(field, sTable706c[param0], &sTable7054[param1]);
         break;
     case 19:
-        func_ov036_021c65a8(func_ov108_021eedcc(field), param0);
+        func_ov036_021c65a8(FieldGimmickBSubway_GetTrainEffect(field), param0);
         break;
     case 20:
-        func_ov036_021c65e8(func_ov108_021eedcc(field), param0);
+        func_ov036_021c65e8(FieldGimmickBSubway_GetTrainEffect(field), param0);
         break;
     case 21:
         *retWk = func_0200e11c(playData, 0, NULL);
@@ -362,7 +362,7 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         *retWk = 0;
         break;
     case 34:
-        func_ov108_021eed80(field, 7, sTable7054);
+        FieldGimmickBSubway_StartTrainEffect(field, 7, sTable7054);
         break;
     case 35:
         actor = FindFieldActor(Field_GetActorSystem(field), param0);
@@ -758,7 +758,7 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         func_0200e3b4(score, mode);
         break;
     case 350:
-        func_ov108_021eee4c(field);
+        FieldGimmickBSubway_StopShake(field);
         break;
     case 351: {
         u16 index = func_0200e2ec(playData);

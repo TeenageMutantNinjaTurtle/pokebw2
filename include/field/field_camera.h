@@ -113,6 +113,9 @@ BOOL FieldCamera_IsDelayActive(FieldCamera *camera);
 // What the camera follows
 void *FieldCamera_GetBind(FieldCamera *camera);
 void FieldCamera_SetBind(FieldCamera *camera, void *bind);
+// What the camera follows on a rail map
+void FieldCamera_SetRefBind(FieldCamera *camera, void *bind);
+void *FieldCamera_GetRefBind(FieldCamera *camera);
 // The event camera's animations: start, animate to a target or back over frames, and end
 void FieldCamera_EVCameraInit(FieldCamera *camera);
 void FieldCameraAnm_EnsureInitDone(FieldCamera *camera);
@@ -124,6 +127,8 @@ BOOL FieldCamera_IsAnimating(FieldCamera *camera);
 void FieldCameraAnm_EVCameraEnd(FieldCamera *camera);
 // Whether the no-grid mapper's camera areas move the camera
 void FieldNoGridMapper_SetCameraAreaEnabled(NoGridMapper *mapper, BOOL enabled);
+// Whether the zone has rail data
+BOOL FieldNoGridMapper_HasRailData(NoGridMapper *mapper);
 // Tasks that move the camera's zoom over frames: this one by a distance from its current zoom
 void FieldCameraZoomTCB_Create(Field *field, u32 frames, fx32 distance);
 void func_ov036_021c05d4(Field *field, u32 frames, fx32 distance);

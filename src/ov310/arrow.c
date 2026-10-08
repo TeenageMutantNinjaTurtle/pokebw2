@@ -205,27 +205,29 @@ static void Arrow_SetPathCore(Arrow *arrow, int startX, int startY, int endX, in
     int rowY;
     int width;
     int rowPieces;
-    int index = 0;
-    f32 frame = 0;
-    int x = startX - PIECE_SIZE;
+    int index;
+    f32 frame;
     int i;
     int columnPieces;
     int height;
     int columnX;
     int y;
 
+    frame = 0;
+    index = 0;
     width = startX - endX;
     rowPieces = (width - 4) / PIECE_SIZE;
     rowY = startY - 4;
+    startX -= PIECE_SIZE;
     for (i = 0; i < rowPieces; i++) {
-        Arrow_InitPiece(&arrow->pieces[index], x, rowY, frame, PIECE_ROW);
-        x -= PIECE_SIZE;
+        Arrow_InitPiece(&arrow->pieces[index], startX, rowY, frame, PIECE_ROW);
+        startX -= PIECE_SIZE;
         frame += 1.0f;
         index++;
     }
     if (rowPieces == 0) {
         if (width - 4 > 0) {
-            Arrow_InitPiece(&arrow->pieces[index], x, rowY, frame, PIECE_ROW);
+            Arrow_InitPiece(&arrow->pieces[index], startX, rowY, frame, PIECE_ROW);
             if (width - 4 < 4) {
                 arrow->pieces[index].stops = TRUE;
                 arrow->pieces[index].stopFrame = 1;

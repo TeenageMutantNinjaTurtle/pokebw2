@@ -8,6 +8,7 @@
 #include "constants/items.h"
 #include "constants/moves.h"
 #include "constants/sound.h"
+#include "field/event_poke_status.h"
 #include "field/field.h"
 #include "field/field_camera.h"
 #include "field/field_script.h"
@@ -668,7 +669,7 @@ static BOOL ScriptNative_UpdateShopUI(VM *vm, void *env) {
         args.slot = &shop->slot;
         GetMoveTutorShopSortimentBits(gsys, shop->work.tutorMoveIndex, shop->work.tutorIndex, &args.learnable);
         args.move = shop->work.move;
-        GameEvent_ChainNext(event, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(20), func_ov020_0216e6b4, &args));
+        GameEvent_ChainNext(event, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_EVENT_POKE_STATUS, EventMoveTutorPokeSelect_Create, &args));
         shop->state++;
         break;
     }

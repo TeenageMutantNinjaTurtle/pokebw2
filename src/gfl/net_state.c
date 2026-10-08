@@ -26,7 +26,7 @@ struct NetState {
     MATHRandContext32 rand;
     u8 unk24[4];
     // Called when the network has ended
-    void (*endCallback)(void);
+    void (*endCallback)(void *work);
     // Called when the network is ready
     void (*connectCallback)(void *work);
     GFLNetErrorInfo error;
@@ -142,7 +142,7 @@ static void func_020411c4(MATHRandContext32 *rand) {
 
 // Ends the network once the device has
 static void func_020411fc(NetState *state) {
-    void (*callback)(void);
+    void (*callback)(void *work);
     GFLNetSys *sys = func_02042e78();
 
     if (sys->pDevTable->unk74()) {
@@ -154,7 +154,7 @@ static void func_020411fc(NetState *state) {
         GFL_HeapFree(_pNetState);
         _pNetState = NULL;
         if (callback != NULL) {
-            callback();
+            callback(NULL);
         }
     }
 }
@@ -540,14 +540,14 @@ static void func_02041c84(NetState *state) {
     }
 }
 
-void func_02041cd8(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_02041cd8(int netId, int size, const void *data, void *work, NetHandle *handle) {
     func_02042be8(handle, 2, 0, NULL);
     if (func_0203ffc4() == 0) {
         func_0204115c(_pNetState, func_02041c84, 0, 1122);
     }
 }
 
-void func_02041d0c(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_02041d0c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     if (func_0203ffc4() != 0) {
         func_02042860(0);
     }
@@ -575,7 +575,7 @@ static void func_02041d70(NetState *state) {
     }
 }
 
-void func_02041da8(void (*callback)(void)) {
+void func_02041da8(void (*callback)(void *work)) {
     // BUG: When the network is not running, this writes through a NULL pointer
 #ifdef BUGFIX
     if (_pNetState != NULL && !_pNetState->ending) {
@@ -602,7 +602,7 @@ void func_02041dfc(void) {
     func_0204115c(_pNetState, func_02041df8, 0, 1232);
 }
 
-void func_02041e20(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_02041e20(int netId, int size, const void *data, void *work, NetHandle *handle) {
     func_02042e84()->bMPMode = *(u8 *)data;
 }
 
@@ -780,7 +780,7 @@ void func_020421ac(BOOL a0) {
     }
 }
 
-void func_020421f8(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_020421f8(int netId, int size, const void *data, void *work, NetHandle *handle) {
     func_020421ac(TRUE);
     _pNetState->unk4A = TRUE;
 }
@@ -834,7 +834,7 @@ static void func_020422cc(NetState *state) {
     }
 }
 
-void func_0204230c(void (*callback)(void)) {
+void func_0204230c(void (*callback)(void *work)) {
     if (_pNetState != NULL) {
         GFLNetSys *sys = func_02042e78();
 

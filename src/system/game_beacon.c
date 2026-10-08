@@ -27,6 +27,7 @@
 #include "system/game_beacon.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
+#include "system/ir_check.h"
 #include "system/pms.h"
 
 // The game's beacons. The file's name is from the ROM's string
@@ -1232,7 +1233,7 @@ void func_0202d6a8(void) {
     BOOL ok;
 
     GFL_OvlLoad(OVERLAY_ID(338));
-    ok = func_ov338_0217caf8();
+    ok = IrCheck_IsGenuineCard();
     GFL_OvlUnload(OVERLAY_ID(338));
     if (!ok) {
         GFL_HBlankTCBAdd(GameBeaconSys_HideNewHBlank, NULL, 3);

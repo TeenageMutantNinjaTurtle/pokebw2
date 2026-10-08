@@ -427,9 +427,9 @@ static BOOL TDownload_SelectTouch(TDownloadWork *wk) {
 
 static BOOL TDownload_SelectKeys(TDownloadWork *wk) {
     int input = 0;
-    BOOL result = FALSE;
     BOOL moved = FALSE;
     BOOL done = FALSE;
+    BOOL result = FALSE;
     int pos;
 
     if (func_0203d554() == TRUE) {
@@ -1284,9 +1284,9 @@ static BOOL TDownload_SavedTouch(TDownloadWork *wk) {
 
 static BOOL TDownload_SavedKeys(TDownloadWork *wk) {
     int input = 0;
-    BOOL result = FALSE;
     BOOL moved = FALSE;
     BOOL done = FALSE;
+    BOOL result = FALSE;
     int pos;
 
     if (func_0203d554() == TRUE) {

@@ -253,15 +253,15 @@ static const ClActSysSetup sClActSysSetup = {
 };
 
 static void WorldTrade_InitCellActor(WorldTradeWork *wk, const BGSysVRAMConfig *vramConfig) {
-    ArcTool *arc;
     void *plttBuf;
+    int animFile;
+    int cellFile;
+    int plttFile;
+    int charFile;
+    ArcTool *arc;
     NNSG2dPaletteData *pltt;
     u16 *colors;
     int i;
-    int charFile;
-    int plttFile;
-    int cellFile;
-    int animFile;
 
     arc = GFL_ArcSysCreateFileHandle(ARCID_WORLDTRADE, HEAPID_WORLDTRADE);
     ClActSys_Create(&sClActSysSetup, vramConfig, HEAPID_WORLDTRADE);
@@ -295,14 +295,14 @@ static void WorldTrade_InitCellActor(WorldTradeWork *wk, const BGSysVRAMConfig *
 
     if ((u8)getTrainerGender(wk->param->mystatus) == 1) {
         charFile = 0x11;
-        plttFile = 6;
-        cellFile = 0xf;
         animFile = 0x10;
+        cellFile = 0xf;
+        plttFile = 6;
     } else {
         charFile = 0xe;
-        plttFile = 4;
-        cellFile = 0xc;
         animFile = 0xd;
+        cellFile = 0xc;
+        plttFile = 4;
     }
     arc = GFL_ArcSysCreateFileHandle(30, HEAPID_WORLDTRADE);
     wk->clactRes[WT_CLACT_RES_HERO][WT_CLACT_RES_CHAR] =

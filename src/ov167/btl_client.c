@@ -6822,10 +6822,10 @@ static void func_ov167_021b97a4(BtlClient *client, BtlClientStudioScore *score, 
 static s32 StudioScore_CalcTotal(BtlClient *client, BtlClientStudioScore *score) {
     BtlScriptedRules *rules = func_ov167_0219e39c(client->mainModule);
     BtlSetup *setup = func_ov167_0219e310(client->mainModule);
-    s32 sum = score->points[0];
     s32 total;
+    s32 sum;
 
-    sum += score->points[1];
+    sum = score->points[1] + score->points[0];
     sum += score->points[2];
     sum += score->points[3];
     if (sum == 0) {
