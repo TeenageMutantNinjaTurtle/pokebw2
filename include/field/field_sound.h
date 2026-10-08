@@ -36,7 +36,7 @@ void FieldSnd_SendRequest(FieldSound *fieldSound, FieldSoundCommand command, u32
 // Called every frame
 void FieldSnd_Update(FieldSound *fieldSound);
 void FieldSnd_Release(FieldSound *fieldSound, GameData *gameData);
-void FieldSnd_SetPlayerVolumeFade(FieldSound *fieldSound, u8 volume, u16 duration);
+void FieldSnd_SetPlayerVolumeFade(FieldSound *fieldSound, u8 volume, u8 duration);
 // Ring and stop the ringtone
 void FieldSnd_RingRingtone(FieldSound *fieldSound);
 void FieldSnd_StopRingtone(FieldSound *fieldSound);

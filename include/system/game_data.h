@@ -105,11 +105,11 @@ u8 func_02017a24(GameData *gameData);
 // Sets the area of the Entree Forest the player is in, which func_02017a24 returns
 void func_02017a18(GameData *gameData, u8 area);
 u16 GameData_GetDayPeriod(GameData *gameData);
-u16 GameData_GetMonth(GameData *gameData);
-u16 GameData_GetDay(GameData *gameData);
-u16 getCurrentDayOfWeek(GameData *gameData);
-u16 getCurrentHour(GameData *gameData);
-u16 getCurrentMinute(GameData *gameData);
+u32 GameData_GetMonth(GameData *gameData);
+u32 GameData_GetDay(GameData *gameData);
+u32 getCurrentDayOfWeek(GameData *gameData);
+u32 getCurrentHour(GameData *gameData);
+u32 getCurrentMinute(GameData *gameData);
 WifiList *GameData_GetWifiList(GameData *gameData);
 void GameData_InitEncountTerrain(GameData *gameData, Field *field);
 EncountState *GameData_GetEncountState(GameData *gameData);
@@ -158,11 +158,9 @@ u16 func_0200fec8(void *block, u32 index);
 // The save's play time
 PlayTime *func_02017a40(GameData *gameData);
 void func_02017b64(GameData *gameData, u8 a1);
-u32 *func_02017b84(GameData *gameData);
+ResortWork *func_02017b84(GameData *gameData);
 u32 GetScrPluginNo(GameData *gameData);
 void SetScrPluginNo(GameData *gameData, u32 pluginNo);
-u32 func_02039978(u32 *a0, u32 index);
-void func_02039980(u32 *a0, u32 index, u32 value);
 
 Calendar *GetCalendar(GameData *gameData);
 void SetNowWeather(GameData *gameData, u8 weather);

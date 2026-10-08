@@ -1,6 +1,7 @@
 #include "types.h"
 #include "app/mystery/mystery_album.h"
 #include "app/mystery/mystery_check.h"
+#include "app/mystery/mystery_gift_data.h"
 #include "app/mystery/mystery_graphic.h"
 #include "app/mystery/mystery_net.h"
 #include "app/mystery/mystery_util.h"
@@ -252,11 +253,6 @@ static BOOL Mystery_IsRecvDataValid(const MysteryGiftRecvData *recv, u32 errors)
 // The palette of the stars and the effect for each kind of gift
 static const u16 sKindPalettes[7] = { 0, 1, 2, 6, 6, 3, 0 };
 
-// The ribbons a gift can give, by bit
-static const u32 sRibbonParams[15] = {
-    0x69, 0x6a, 0x6b, 0x6c, 0x33, 0x34, 0x2c, 0x2f, 0x30, 0x31, 0x32, 0x66, 0x67, 0x68, 0x2e,
-};
-
 const GameProcFunctions MYSTERY_GIFT_PROC_FUNCTIONS = {
     MysteryProc_Init,
     MysteryProc_Main,
@@ -326,8 +322,8 @@ static BOOL MysteryProc_Main(GameProc *proc, u32 *state, void *param, void *work
     MysterySeq_Main(wk->seq);
     if (wk->graphic != NULL) {
         MysteryGraphic_Update(wk->graphic);
-        MysteryGraphic_Draw3D(wk->graphic);
-        MysteryGraphic_UpdateCamera(wk->graphic);
+        MysteryGraphic_BeginFrame3D(wk->graphic);
+        MysteryGraphic_EndFrame3D(wk->graphic);
     }
     MysteryBgScroll_Main(&wk->scroll);
     func_02021a3c(wk->queue);
@@ -510,7 +506,7 @@ static BOOL MysteryParticle_IsActive(MysteryParticle *particle) {
 static void MysterySeq_Start(MysterySeq *seq, u32 *state, void *work) {
     MysteryWork *wk = work;
 
-    MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0, 0);
+    MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0, MYSTERY_PRINT_QUEUE);
     Mystery_CreateList(wk, LIST_TOP, HEAPID_MYSTERY);
     MysterySeq_SetNext(seq, MysterySeq_FadeIn);
 }
@@ -561,7 +557,7 @@ static void MysterySeq_Top(MysterySeq *seq, u32 *state, void *work) {
             *state = 2;
             break;
         }
-        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0, 0);
+        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0, MYSTERY_PRINT_QUEUE);
         if (wk->list == NULL) {
             Mystery_CreateList(wk, LIST_TOP, HEAPID_MYSTERY);
         }
@@ -573,7 +569,8 @@ static void MysterySeq_Top(MysterySeq *seq, u32 *state, void *work) {
             break;
         }
         if (ret == 0) {
-            BOOL canDelete = TRUE;
+            // With the album full, a card can only be thrown away to make room once its gift was picked up
+            BOOL noneDelivered = TRUE;
             BOOL full;
             u32 i;
 
@@ -582,13 +579,14 @@ static void MysterySeq_Top(MysterySeq *seq, u32 *state, void *work) {
             if (full) {
                 for (i = 0; i < func_0200aa64(wk->giftSave); i++) {
                     if (func_0200a820(wk->giftSave, i)) {
-                        canDelete = FALSE;
+                        noneDelivered = FALSE;
                     }
                 }
             }
             if (full) {
-                if (canDelete) {
-                    MysteryMsgWin_Print(wk->msgWin, wk->msgData, func_0200aa6c(wk->giftSave) == 0 ? 0x43 : 0x3a, 1);
+                if (noneDelivered) {
+                    MysteryMsgWin_Print(wk->msgWin, wk->msgData, func_0200aa6c(wk->giftSave) == 0 ? 0x43 : 0x3a,
+                                        MYSTERY_PRINT_STREAM);
                     MysterySeq_SetReturn(seq, 0);
                     *state = 19;
                 } else {
@@ -610,7 +608,7 @@ static void MysterySeq_Top(MysterySeq *seq, u32 *state, void *work) {
         }
         break;
     case 2:
-        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 4, 1);
+        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 4, MYSTERY_PRINT_STREAM);
         MysterySeq_SetReturn(seq, 3);
         *state = 19;
         break;
@@ -631,18 +629,18 @@ static void MysterySeq_Top(MysterySeq *seq, u32 *state, void *work) {
         }
         break;
     case 5:
-        MysteryNet_ChangeState(wk->net, 1);
+        MysteryNet_ChangeState(wk->net, MYSTERY_NET_STATE_WIRELESS_START);
         *state = 6;
         break;
     case 6:
-        if (MysteryNet_GetState(wk->net) == 2) {
+        if (MysteryNet_GetState(wk->net) == MYSTERY_NET_STATE_WIRELESS_READY) {
             *state = 7;
         }
         break;
     case 7:
         Mystery_DeleteList(wk);
         Mystery_CreateList(wk, LIST_RECEIVE, HEAPID_MYSTERY);
-        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 7, 0);
+        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 7, MYSTERY_PRINT_QUEUE);
         *state = 8;
         break;
     case 8:
@@ -677,14 +675,14 @@ static void MysterySeq_Top(MysterySeq *seq, u32 *state, void *work) {
     case 9:
         switch (wk->receiveMode) {
         case RECEIVE_WIRELESS:
-            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x11, 1);
+            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x11, MYSTERY_PRINT_STREAM);
             MysterySeq_SetReturn(seq, 10);
             *state = 19;
             break;
         case RECEIVE_WIFI:
             break;
         case RECEIVE_INFRARED:
-            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x17, 1);
+            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x17, MYSTERY_PRINT_STREAM);
             MysterySeq_SetReturn(seq, 10);
             *state = 19;
             break;
@@ -707,13 +705,13 @@ static void MysterySeq_Top(MysterySeq *seq, u32 *state, void *work) {
         }
         break;
     case 12:
-        if (MysteryNet_GetState(wk->net) == 2) {
-            MysteryNet_ChangeState(wk->net, 3);
+        if (MysteryNet_GetState(wk->net) == MYSTERY_NET_STATE_WIRELESS_READY) {
+            MysteryNet_ChangeState(wk->net, MYSTERY_NET_STATE_WIRELESS_END);
             *state = 13;
         }
         break;
     case 13:
-        if (MysteryNet_GetState(wk->net) == 0) {
+        if (MysteryNet_GetState(wk->net) == MYSTERY_NET_STATE_IDLE) {
             if (wk->receiveMode == RECEIVE_WIFI) {
                 MysterySeq_SetNext(seq, MysterySeq_WifiLogin);
             } else {
@@ -722,20 +720,20 @@ static void MysterySeq_Top(MysterySeq *seq, u32 *state, void *work) {
         }
         break;
     case 14:
-        if (MysteryNet_GetState(wk->net) == 2) {
-            MysteryNet_ChangeState(wk->net, 3);
+        if (MysteryNet_GetState(wk->net) == MYSTERY_NET_STATE_WIRELESS_READY) {
+            MysteryNet_ChangeState(wk->net, MYSTERY_NET_STATE_WIRELESS_END);
             *state = 15;
         } else {
             *state = 0;
         }
         break;
     case 15:
-        if (MysteryNet_GetState(wk->net) == 0) {
+        if (MysteryNet_GetState(wk->net) == MYSTERY_NET_STATE_IDLE) {
             *state = 0;
         }
         break;
     case 16:
-        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x3e, 1);
+        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x3e, MYSTERY_PRINT_STREAM);
         MysterySeq_SetReturn(seq, 17);
         *state = 19;
         break;
@@ -769,7 +767,7 @@ static void MysterySeq_About(MysterySeq *seq, u32 *state, void *work) {
 
     switch (*state) {
     case 0:
-        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x2f, 0);
+        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x2f, MYSTERY_PRINT_QUEUE);
         Mystery_CreateList(wk, LIST_ABOUT, HEAPID_MYSTERY);
         *state = 2;
         break;
@@ -780,15 +778,15 @@ static void MysterySeq_About(MysterySeq *seq, u32 *state, void *work) {
         }
         Mystery_DeleteList(wk);
         if (ret == 0) {
-            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x35, 1);
+            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x35, MYSTERY_PRINT_STREAM);
             MysterySeq_SetReturn(seq, 0);
             *state = 3;
         } else if (ret == 1) {
-            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x36, 1);
+            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x36, MYSTERY_PRINT_STREAM);
             MysterySeq_SetReturn(seq, 0);
             *state = 3;
         } else if (ret == 2) {
-            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x37, 1);
+            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x37, MYSTERY_PRINT_STREAM);
             MysterySeq_SetReturn(seq, 0);
             *state = 3;
         } else if (ret == 3) {
@@ -813,21 +811,21 @@ static void MysterySeq_Receive(MysterySeq *seq, u32 *state, void *work) {
     case 0:
         switch (wk->receiveMode) {
         case RECEIVE_WIFI:
-            MysteryNet_ChangeState(wk->net, 4);
+            MysteryNet_ChangeState(wk->net, MYSTERY_NET_STATE_WIFI);
             break;
         case RECEIVE_WIRELESS:
-            MysteryNet_ChangeState(wk->net, 7);
+            MysteryNet_ChangeState(wk->net, MYSTERY_NET_STATE_BEACON_START);
             break;
         case RECEIVE_INFRARED:
-            MysteryNet_ChangeState(wk->net, 10);
+            MysteryNet_ChangeState(wk->net, MYSTERY_NET_STATE_IRC_START);
             break;
         }
-        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x1a, 0);
+        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x1a, MYSTERY_PRINT_QUEUE);
         wk->wait = 0;
         *state = 1;
         break;
     case 1:
-        if (MysteryNet_GetState(wk->net) == 0) {
+        if (MysteryNet_GetState(wk->net) == MYSTERY_NET_STATE_IDLE) {
             ret = MysteryNet_GetRecvData(wk->net, &wk->recv, sizeof(wk->recv));
             if (ret == MYSTERY_NET_RECV_OK) {
                 if (Mystery_IsRecvDataValid(
@@ -851,20 +849,20 @@ static void MysterySeq_Receive(MysterySeq *seq, u32 *state, void *work) {
             cancel = FALSE;
             switch (wk->receiveMode) {
             case RECEIVE_WIFI:
-                if (MysteryNet_GetState(wk->net) == 4) {
-                    MysteryNet_ChangeState(wk->net, 5);
+                if (MysteryNet_GetState(wk->net) == MYSTERY_NET_STATE_WIFI) {
+                    MysteryNet_ChangeState(wk->net, MYSTERY_NET_STATE_WIFI_CANCEL);
                     cancel = TRUE;
                 }
                 break;
             case RECEIVE_WIRELESS:
-                if (MysteryNet_GetState(wk->net) == 8) {
-                    MysteryNet_ChangeState(wk->net, 9);
+                if (MysteryNet_GetState(wk->net) == MYSTERY_NET_STATE_BEACON_WAIT) {
+                    MysteryNet_ChangeState(wk->net, MYSTERY_NET_STATE_BEACON_END);
                     cancel = TRUE;
                 }
                 break;
             case RECEIVE_INFRARED:
-                if (MysteryNet_GetState(wk->net) == 11) {
-                    MysteryNet_ChangeState(wk->net, 12);
+                if (MysteryNet_GetState(wk->net) == MYSTERY_NET_STATE_IRC_WAIT) {
+                    MysteryNet_ChangeState(wk->net, MYSTERY_NET_STATE_IRC_END);
                     cancel = TRUE;
                 }
                 break;
@@ -876,15 +874,15 @@ static void MysterySeq_Receive(MysterySeq *seq, u32 *state, void *work) {
         }
         break;
     case 2:
-        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x39, 2);
+        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x39, MYSTERY_PRINT_WAIT_ICON);
         MysterySeq_SetReturn(seq, 3);
         *state = 14;
         break;
     case 3:
         wk->wait++;
-        if (MysteryNet_GetState(wk->net) == 0 && wk->wait > 30) {
+        if (MysteryNet_GetState(wk->net) == MYSTERY_NET_STATE_IDLE && wk->wait > 30) {
             wk->wait = 0;
-            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x3c, 1);
+            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x3c, MYSTERY_PRINT_STREAM);
             MysterySeq_SetReturn(seq, 4);
             *state = 14;
         }
@@ -895,7 +893,7 @@ static void MysterySeq_Receive(MysterySeq *seq, u32 *state, void *work) {
     case 5:
         Mystery_CreateList(wk, LIST_RECEIVED, HEAPID_MYSTERY);
         Mystery_CreateCardWin(wk, HEAPID_MYSTERY);
-        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x1b, 0);
+        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x1b, MYSTERY_PRINT_QUEUE);
         *state = 6;
         break;
     case 6:
@@ -903,7 +901,7 @@ static void MysterySeq_Receive(MysterySeq *seq, u32 *state, void *work) {
         ret = Mystery_UpdateList(wk);
         if (ret != MYSTERY_MENU_NONE) {
             if (ret == 0) {
-                MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x1f, 1);
+                MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x1f, MYSTERY_PRINT_STREAM);
                 MysterySeq_SetReturn(seq, 7);
                 *state = 14;
             } else if (ret == MYSTERY_MENU_CANCEL) {
@@ -913,7 +911,7 @@ static void MysterySeq_Receive(MysterySeq *seq, u32 *state, void *work) {
             cancel = TRUE;
         }
         if (cancel) {
-            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x1c, 1);
+            MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x1c, MYSTERY_PRINT_STREAM);
             MysterySeq_SetReturn(seq, 9);
             *state = 14;
         }
@@ -962,12 +960,12 @@ static void MysterySeq_Receive(MysterySeq *seq, u32 *state, void *work) {
         }
         break;
     case 11:
-        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x3b, 1);
+        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x3b, MYSTERY_PRINT_STREAM);
         MysterySeq_SetReturn(seq, 13);
         *state = 14;
         break;
     case 12:
-        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x41, 1);
+        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x41, MYSTERY_PRINT_STREAM);
         MysterySeq_SetReturn(seq, 13);
         *state = 14;
         break;
@@ -995,7 +993,7 @@ static void MysterySeq_Received(MysterySeq *seq, u32 *state, void *work) {
         MysteryEffect_Init(&wk->effect, MysteryGraphic_GetClactUnit(wk->graphic), &wk->recv, wk->gameData, &wk->actors,
                            &wk->bg, &wk->scroll, HEAPID_MYSTERY);
         MysteryEffect_Start(&wk->effect, 0);
-        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x22, 2);
+        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x22, MYSTERY_PRINT_WAIT_ICON);
         *state = 1;
         break;
     case 1:
@@ -1033,7 +1031,7 @@ static void MysterySeq_Received(MysterySeq *seq, u32 *state, void *work) {
         }
         break;
     case 8:
-        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x23, 1);
+        MysteryMsgWin_Print(wk->msgWin, wk->msgData, 0x23, MYSTERY_PRINT_STREAM);
         *state = 9;
         break;
     case 9:
@@ -1061,12 +1059,12 @@ static void MysterySeq_Received(MysterySeq *seq, u32 *state, void *work) {
 
         GFL_BGSysSetBGEnabled(1, FALSE);
         sys_memset(&setup, 0, sizeof(setup));
-        setup.mainBg = 2;
-        setup.unk4 = 0;
-        setup.subBg = 8;
-        setup.palette = 15;
-        setup.framePalette = 10;
-        setup.frameChar = 13;
+        setup.bg = 2;
+        setup.textBg = 0;
+        setup.bgPalette = 8;
+        setup.textPalette = 15;
+        setup.iconPalette = 10;
+        setup.pokePalette = 13;
         setup.unit = MysteryGraphic_GetClactUnit(wk->graphic);
         setup.giftSave = wk->giftSave;
         setup.msgData = wk->msgData;
@@ -1074,7 +1072,7 @@ static void MysterySeq_Received(MysterySeq *seq, u32 *state, void *work) {
         setup.queue = wk->queue;
         setup.wordSet = wk->wordSet;
         wk->cardRes = MysteryCardRes_Create(&setup, HEAPID_MYSTERY);
-        wk->album = MysteryAlbum_CreateReceived(&wk->recv, wk->cardRes, wk->gameData, HEAPID_MYSTERY);
+        wk->album = MysteryAlbum_CreateReceived(&wk->recv.gift, wk->cardRes, wk->gameData, HEAPID_MYSTERY);
         MysteryAlbum_SetVisible(wk->album, FALSE);
         *state = 13;
         break;
@@ -1371,7 +1369,7 @@ static void MysterySeq_WirelessOff(MysterySeq *seq, u32 *state, void *work) {
 
     switch (*state) {
     case 0:
-        MysteryMsgWin_Print(wk->msgWin, wk->scriptMsgData, 0x16, 1);
+        MysteryMsgWin_Print(wk->msgWin, wk->scriptMsgData, 0x16, MYSTERY_PRINT_STREAM);
         *state = 1;
         break;
     case 1:
@@ -1543,191 +1541,6 @@ static void Mystery_DeleteCardWin(MysteryWork *wk) {
     }
 }
 
-// The Pokémon of a Pokémon gift, as overlay 12's func_ov012_02153160 makes it, allocated from the tail of the heap.
-// NULL when the gift's Pokémon is not valid
-static inline PartyPkm *Mystery_CreateGiftPokemon(MysteryGift *gift, HeapID heapId, GameData *gameData) {
-    MysteryGiftPokemon *poke = (MysteryGiftPokemon *)gift;
-    HeapID tailHeapId = HEAPID_TAIL(heapId);
-    u16 level = poke->level;
-    u32 trainerId = poke->trainerId;
-    u32 species = poke->species;
-    u64 pid;
-    u32 gender = poke->gender;
-    u32 abilityType = poke->abilityType;
-    u32 ability;
-    u32 ivs;
-    u8 stats[6];
-    u16 moves[4];
-    PartyPkm *pkm;
-    StrBuf *name;
-    int i;
-    u32 bit;
-    u16 move;
-    u8 value;
-    u16 location;
-    u16 year;
-    u8 month;
-    u8 day;
-
-    stats[0] = poke->ivs[0];
-    stats[1] = poke->ivs[1];
-    stats[2] = poke->ivs[2];
-    stats[3] = poke->ivs[4];
-    stats[4] = poke->ivs[5];
-    stats[5] = poke->ivs[3];
-    moves[0] = poke->moves[0];
-    moves[1] = poke->moves[1];
-    moves[2] = poke->moves[2];
-    moves[3] = poke->moves[3];
-    if (gift->kind == 1 && species <= 649 && species != 0 && level <= 100 && poke->heldItem <= 638) {
-        if (level == 0) {
-            level = GFL_RandomLC(100) + 1;
-        }
-        if (poke->trainerId == 0) {
-            trainerId = getIDAsUInt(GetGameDataPlayerInfo(gameData));
-        }
-        if (gender == 0xff) {
-            gender = 2;
-        }
-        for (i = 0; i < 6; i++) {
-            if (stats[i] == 0xff) {
-                stats[i] = GFL_RandomLC(32);
-            }
-        }
-        pkm = PokeParty_NewTempPkm(species, level, trainerId, tailHeapId);
-        ivs = (stats[0] & 0x1f) | ((stats[1] & 0x1f) << 5) | ((stats[2] & 0x1f) << 10) | ((stats[3] & 0x1f) << 15) |
-              ((stats[4] & 0x1f) << 20) | ((stats[5] & 0x1f) << 25);
-        if (abilityType == 4) {
-            abilityType = (u8)GFL_RandomLC(3);
-        }
-        switch (abilityType) {
-        case 0:
-            ability = 0;
-            break;
-        case 1:
-            ability = 1;
-            break;
-        case 2:
-            ability = 0;
-            break;
-        case 3:
-            ability = 2;
-            break;
-        default:
-            return NULL;
-        }
-        if (poke->personality != 0) {
-            pid = poke->personality;
-        } else if (poke->shininess == 0) {
-            pid = PML_GenPID(trainerId, species, poke->form, gender, ability, 0);
-        } else if (poke->shininess == 1) {
-            pid = PML_GenPID(trainerId, species, poke->form, gender, ability, 2);
-        } else if (poke->shininess == 2) {
-            pid = PML_GenPID(trainerId, species, poke->form, gender, ability, 1);
-        }
-        PokeParty_CreatePkm(pkm, poke->species, level, trainerId, ivs, pid);
-        PokeParty_SetParam(pkm, PKM_PARAM_ITEM, poke->heldItem);
-        PokeParty_SetDefaultMoves(pkm);
-        for (i = 0; i < 4; i++) {
-            move = moves[i];
-            if (move != 0 && move < 560) {
-                if (PokeParty_LearnMove(pkm, move) == 0xffff) {
-                    PokeParty_SetLastMove(pkm, move);
-                }
-            }
-        }
-        if (poke->personality == 0 && abilityType == 2) {
-            PokeParty_SetHiddenAbil(pkm, species, poke->form);
-        }
-        PokeParty_SetParam(pkm, PKM_PARAM_FORM, poke->form);
-        if (poke->ball != 0 && poke->ball <= 25) {
-            PokeParty_SetParam(pkm, PKM_PARAM_POKEBALL, poke->ball);
-        } else {
-            PokeParty_SetParam(pkm, PKM_PARAM_POKEBALL, 4);
-        }
-        if (poke->metLevel != 0) {
-            PokeParty_SetParam(pkm, PKM_PARAM_MET_LEVEL, poke->metLevel);
-        }
-        PokeParty_SetParam(pkm, PKM_PARAM_CONTEST_COOL, poke->contest[0]);
-        PokeParty_SetParam(pkm, PKM_PARAM_CONTEST_BEAUTY, poke->contest[1]);
-        PokeParty_SetParam(pkm, PKM_PARAM_CONTEST_CUTE, poke->contest[2]);
-        PokeParty_SetParam(pkm, PKM_PARAM_CONTEST_SMART, poke->contest[3]);
-        PokeParty_SetParam(pkm, PKM_PARAM_CONTEST_TOUGH, poke->contest[4]);
-#ifdef BUGFIX
-        PokeParty_SetParam(pkm, PKM_PARAM_CONTEST_SHEEN, poke->contest[5]);
-#else
-        // BUG: The sheen is set to the toughness, and the gift's sheen is never used
-        PokeParty_SetParam(pkm, PKM_PARAM_CONTEST_SHEEN, poke->contest[4]);
-#endif
-        for (bit = 0; bit < 15; bit++) {
-            if (poke->ribbons & (1 << bit)) {
-                PokeParty_SetParam(pkm, sRibbonParams[bit], TRUE);
-            }
-        }
-        if (poke->version == 0) {
-            PokeParty_SetParam(pkm, PKM_PARAM_ORIGIN_GAME, game_version);
-        } else {
-            PokeParty_SetParam(pkm, PKM_PARAM_ORIGIN_GAME, poke->version);
-        }
-        if (poke->language == 0) {
-            PokeParty_SetParam(pkm, PKM_PARAM_REGION, region);
-        } else {
-            PokeParty_SetParam(pkm, PKM_PARAM_REGION, poke->language);
-        }
-        if (poke->nickname[0] == 0) {
-            GFL_HeapFree(pkm);
-            return NULL;
-        }
-        if (poke->nickname[0] != GFL_StrBufGetTerminator()) {
-            PokeParty_SetParam(pkm, PKM_PARAM_NICKNAME_RAW, (u32)poke->nickname);
-        }
-        value = poke->nature;
-        if (value == 0xff) {
-            value = GFL_RandomLC(25);
-        }
-        PokeParty_SetParam(pkm, PKM_PARAM_NATURE, value);
-        PokeParty_SetParam(pkm, PKM_PARAM_EGG_LOCATION, poke->eggLocation);
-        PokeParty_SetParam(pkm, PKM_PARAM_MET_LOCATION, poke->metLocation);
-        if (poke->otName[0] == 0) {
-            GFL_HeapFree(pkm);
-            return NULL;
-        }
-        if (poke->otName[0] == GFL_StrBufGetTerminator()) {
-            PokeParty_SetParam(pkm, PKM_PARAM_OT_NAME_RAW, (u32)GetPlayerName(GetGameDataPlayerInfo(gameData)));
-        } else {
-            PokeParty_SetParam(pkm, PKM_PARAM_OT_NAME_RAW, (u32)poke->otName);
-        }
-        value = poke->otGender;
-        if (value > 2) {
-            value = getTrainerGender(GetGameDataPlayerInfo(gameData));
-        }
-        PokeParty_SetParam(pkm, PKM_PARAM_OT_GENDER, value);
-        if (poke->isEgg) {
-            PokeParty_SetParam(pkm, PKM_PARAM_IS_EGG, TRUE);
-            name = GFL_MsgDataLoadStrbufNew(g_PMLSpeciesNamesResident, SPECIES_EGG);
-            PokeParty_SetParam(pkm, PKM_PARAM_NICKNAME, (u32)name);
-            GFL_StrBufFree(name);
-            PokeParty_SetParam(pkm, PKM_PARAM_HAPPINESS, 10);
-        }
-        year = poke->date >> 16;
-        month = poke->date >> 8;
-        day = poke->date;
-        if (poke->isEgg) {
-            location = poke->eggLocation;
-        } else {
-            location = poke->metLocation;
-        }
-        setFatefulEncounterPkmData(func_0201d620(pkm), location, year - 2000, month, day);
-        PokeParty_RecalcStats(pkm);
-        if (PokeParty_GetParam(pkm, PKM_PARAM_BAD_EGG, NULL)) {
-            GFL_HeapFree(pkm);
-            return NULL;
-        }
-        return pkm;
-    }
-    return NULL;
-}
-
 static void MysteryEffect_Init(MysteryEffect *effect, ClActUnit *unit, MysteryGiftRecvData *recv, GameData *gameData,
                                MysteryActors *actors, MysteryBg *bg, MysteryBgScroll *scroll, HeapID heapId) {
     u32 palNo;
@@ -1739,6 +1552,7 @@ static void MysteryEffect_Init(MysteryEffect *effect, ClActUnit *unit, MysteryGi
     ArcTool *arc;
     s16 height;
     ClActorSetup setup;
+    HeapID tailHeapId;
 
     sys_memset(effect, 0, sizeof(MysteryEffect));
     effect->scroll = scroll;
@@ -1747,7 +1561,7 @@ static void MysteryEffect_Init(MysteryEffect *effect, ClActUnit *unit, MysteryGi
     effect->recv = recv;
     effect->height = 0;
     effect->offsetX = 0;
-    if (recv->unk2CA) {
+    if (recv->special) {
         palNo = 3;
     } else {
         palNo = sKindPalettes[recv->gift.kind];
@@ -1764,7 +1578,8 @@ static void MysteryEffect_Init(MysteryEffect *effect, ClActUnit *unit, MysteryGi
     case 0:
         break;
     case 1:
-        pkm = Mystery_CreateGiftPokemon(&recv->gift, heapId, gameData);
+        tailHeapId = HEAPID_TAIL(heapId);
+        pkm = Mystery_CreateGiftPokemon(&recv->gift, tailHeapId, gameData);
         arc = MakePokeGraArcHandle(heapId);
         effect->palette = PokeGra_LoadClActPaletteByBoxData(arc, func_0201d624(pkm), 0, 0, 0x1c0, heapId);
         effect->cellAnims = PokeGra_LoadClActCellAnimsByBoxData(func_0201d624(pkm), 0, 2, 0, heapId);
@@ -1793,7 +1608,7 @@ static void MysteryEffect_Init(MysteryEffect *effect, ClActUnit *unit, MysteryGi
         effect->height = 8;
         break;
     }
-    if (recv->unk2CA) {
+    if (recv->special) {
         sys_memcpy((void *)(HW_OBJ_PLTT + 14 * 0x20), effect->objColors, sizeof(effect->objColors));
         sys_memset16(0x7fff, (void *)(HW_OBJ_PLTT + 14 * 0x20), 0x20);
         sys_memcpy((void *)(HW_OBJ_PLTT + 14 * 0x20), effect->whiteColors, sizeof(effect->whiteColors));
@@ -1804,7 +1619,7 @@ static void MysteryEffect_Init(MysteryEffect *effect, ClActUnit *unit, MysteryGi
     setup.bgPriority = 2;
     effect->actor = func_0204c040(unit, effect->chars, effect->palette, effect->cellAnims, &setup, 0, heapId);
     func_0204c124(effect->actor, FALSE);
-    if (recv->unk2CA) {
+    if (recv->special) {
         func_0204c318(effect->actor, 1);
     }
 }
@@ -1815,7 +1630,7 @@ static void MysteryEffect_Start(MysteryEffect *effect, u32 mode) {
     effect->frame = 0;
     switch (mode) {
     case 0:
-        if (effect->recv->unk2CA) {
+        if (effect->recv->special) {
             effect->func = MysteryEffect_FallSpecial;
         } else {
             effect->func = MysteryEffect_Fall;
@@ -2060,7 +1875,7 @@ static void MysteryBgScroll_Init(MysteryBgScroll *scroll, MysteryActors *actors,
 }
 
 static void MysteryBgScroll_Exit(MysteryBgScroll *scroll) {
-    sys_memset(scroll, 0, 0x128);
+    sys_memset(scroll, 0, sizeof(MysteryBgScroll));
 }
 
 static void MysteryBgScroll_Main(MysteryBgScroll *scroll) {

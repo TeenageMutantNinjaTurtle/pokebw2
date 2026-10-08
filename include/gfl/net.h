@@ -159,6 +159,8 @@ void GFL_NetErrMarkShown(void);
 // Sets the network error and shows it
 void func_02011d04(u32 error);
 void GFL_NetErrShow(u32 a0);
+// GFL_NetErrShow(1)
+void func_02011d20(void);
 // Shows the error with the code given
 void func_02011d04(u32 code);
 // Records the error with the code given, to show it
@@ -182,7 +184,7 @@ void func_02011778(int type);
 
 // net.c: starts and ends the network, and passes calls to the device and the other parts of the library
 void func_020425a0(int a0, int a1, HeapID parentHeapId, HeapID heapId);
-void func_020425ec(GFLNetInitData *pNetInit, void (*callback)(void *work), void *work);
+void func_020425ec(const GFLNetInitData *pNetInit, void (*callback)(void *work), void *work);
 BOOL func_02042788(void);
 // Whether the network has ended
 BOOL func_020427a4(void);
@@ -214,7 +216,7 @@ void func_02042a50(int a0);
 u8 func_02042a6c(NetHandle *handle);
 int func_02042a78(void);
 BOOL func_02042a80(int netId);
-void func_02042a9c(int unused, int a1);
+void func_02042a9c(NetHandle *handle, int a1);
 BOOL func_02042ab8(void);
 // Whether the network is infrared, or Wi-Fi
 BOOL func_02042b00(void);
@@ -278,5 +280,36 @@ typedef BOOL (*NetScanFilter)(const void *info, void *work);
 u8 func_ov030_02173b78(int index);
 void func_ov030_02175334(NetScanFilter filter);
 void func_ov030_02175658(u16 time);
+
+// wih.c, overlay 30's wireless helper, which grew out of NitroSDK's demo wh.c; the DS Download Play parent uses it to
+// pick a channel and to shut the wireless down. The comments give the wh.c functions these appear to be
+
+// The helper's states (WH_SYSSTATE_*)
+enum {
+    WH_SYSSTATE_STOP,
+    WH_SYSSTATE_IDLE,
+    WH_SYSSTATE_SCANNING,
+    WH_SYSSTATE_BUSY,
+    WH_SYSSTATE_CONNECTED,
+    WH_SYSSTATE_DATASHARING,
+    WH_SYSSTATE_KEYSHARING,
+    WH_SYSSTATE_MEASURECHANNEL,
+    WH_SYSSTATE_CONNECT_FAIL,
+    WH_SYSSTATE_ERROR,
+    WH_SYSSTATE_FATAL,
+};
+
+// Called when the wireless has ended, with whether that succeeded. The callers ignore its result
+typedef BOOL (*WHCallback)(BOOL success);
+
+int func_ov030_02174e58(void);  // WH_GetSystemState
+BOOL func_ov030_02174e90(void); // WH_StartMeasureChannel
+u16 func_ov030_02175030(void);  // WH_GetMeasureChannel
+// Starts the helper with its work on the heap given
+BOOL func_ov030_021750f0(HeapID heapId, WHCallback callback, u32 unused);
+// Frees the helper's work
+void func_ov030_02175164(void);
+BOOL func_ov030_021754a0(void);                // WH_Finalize
+BOOL func_ov030_02175578(WHCallback callback); // WH_End
 
 #endif // POKEBW2_GFL_NET_H

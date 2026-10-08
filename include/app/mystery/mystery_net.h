@@ -8,6 +8,24 @@
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
+// The states MysteryNet_ChangeState starts and MysteryNet_GetState gives
+enum {
+    MYSTERY_NET_STATE_IDLE,
+    MYSTERY_NET_STATE_WIRELESS_START,
+    MYSTERY_NET_STATE_WIRELESS_READY,
+    MYSTERY_NET_STATE_WIRELESS_END,
+    MYSTERY_NET_STATE_WIFI,
+    // Asks the Wi-Fi download to stop
+    MYSTERY_NET_STATE_WIFI_CANCEL,
+    MYSTERY_NET_STATE_WIFI_END,
+    MYSTERY_NET_STATE_BEACON_START,
+    MYSTERY_NET_STATE_BEACON_WAIT,
+    MYSTERY_NET_STATE_BEACON_END,
+    MYSTERY_NET_STATE_IRC_START,
+    MYSTERY_NET_STATE_IRC_WAIT,
+    MYSTERY_NET_STATE_IRC_END,
+};
+
 // What MysteryNet_GetRecvData gives
 enum {
     MYSTERY_NET_RECV_NONE,

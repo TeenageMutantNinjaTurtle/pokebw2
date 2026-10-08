@@ -77,11 +77,21 @@ typedef struct {
     u32 *cursorPos;
 } MysteryListSetup;
 
+// How a message window prints: all at once, a character at a time waiting for a key at the end, or all at once
+// with the wait icon
+enum {
+    MYSTERY_PRINT_QUEUE,
+    MYSTERY_PRINT_STREAM,
+    MYSTERY_PRINT_WAIT_ICON,
+    MYSTERY_PRINT_NONE,
+};
+
 MysteryMsgWin *MysteryMsgWin_Create(u16 bg, u8 palette, PrintQueue *queue, Font *font, HeapID heapId);
 // A message window of one line, which waits for a key after its stream
 MysteryMsgWin *MysteryMsgWin_CreateSmall(u16 bg, u8 palette, PrintQueue *queue, Font *font, HeapID heapId);
 void MysteryMsgWin_Delete(MysteryMsgWin *win);
 void MysteryMsgWin_Update(MysteryMsgWin *win);
+// mode is a MYSTERY_PRINT_*
 void MysteryMsgWin_Print(MysteryMsgWin *win, MsgData *msgData, u32 msgId, u32 mode);
 BOOL MysteryMsgWin_IsDone(MysteryMsgWin *win);
 void MysteryMsgWin_DrawFrame(MysteryMsgWin *win, u16 frameChar, u8 framePalette);
@@ -89,6 +99,15 @@ void MysteryMsgWin_DrawFrame(MysteryMsgWin *win, u16 frameChar, u8 framePalette)
 MysteryYesNo *MysteryYesNo_Create(const MysteryYesNoSetup *setup, HeapID heapId);
 void MysteryYesNo_Delete(MysteryYesNo *menu);
 u32 MysteryYesNo_Update(MysteryYesNo *menu);
+
+// A window that prints one string, the line of a MysteryTextWin
+MysteryTextLine *MysteryTextLine_Create(BOOL deferFlush, u16 bg, u8 x, u8 y, u8 width, u8 height, u8 palette,
+                                        PrintQueue *queue, HeapID heapId);
+void MysteryTextLine_Delete(MysteryTextLine *line);
+void MysteryTextLine_PrintStr(MysteryTextLine *line, const StrBuf *str, Font *font);
+void MysteryTextLine_SetColor(MysteryTextLine *line, u16 color);
+void MysteryTextLine_SetPos(MysteryTextLine *line, s32 x, s32 y, u32 align);
+BOOL MysteryTextLine_Update(MysteryTextLine *line);
 
 MysteryTextWin *MysteryTextWin_Create(BOOL deferFlush, const MysteryTextWinEntry *entries, u32 count, u16 bg,
                                       u8 palette, PrintQueue *queue, MsgData *msgData, Font *font, HeapID heapId);
@@ -118,8 +137,8 @@ void MysterySeq_End(MysterySeq *seq);
 void MysterySeq_SetReturn(MysterySeq *seq, u32 state);
 void MysterySeq_Return(MysterySeq *seq);
 
-MysteryOamText *MysteryOamText_Create(const ClActorSetup *setup, u16 width, u16 height, u32 palette, u8 priority,
-                                      u32 paletteOffset, BmpOamSys *bmpOam, PrintQueue *queue, HeapID heapId);
+MysteryOamText *MysteryOamText_Create(const ClActorSetup *setup, u16 width, u16 height, u32 palette, u8 paletteOffset,
+                                      u32 surface, BmpOamSys *bmpOam, PrintQueue *queue, HeapID heapId);
 void MysteryOamText_Delete(MysteryOamText *oamText);
 void MysteryOamText_Clear(MysteryOamText *oamText);
 void MysteryOamText_Print(MysteryOamText *oamText, MsgData *msgData, u32 msgId, Font *font);

@@ -78,6 +78,7 @@
 #include "system/gf_font.h"
 #include "system/iss_sys.h"
 #include "system/main.h"
+#include "system/resort_work.h"
 #include "system/rtc.h"
 #include "system/season.h"
 #include "system/zone_weather.h"
@@ -215,7 +216,7 @@ Field *Field_Create(GameSystem *gsys, HeapID heapId) {
         }
     }
     field->areaData = AreaData_Create(heapId, areaId, season);
-    func_02039898(func_02017b84(field->gameData), GameData_GetSaveControl(field->gameData));
+    ResortWork_UpdateRecords(func_02017b84(field->gameData), GameData_GetSaveControl(field->gameData));
     field->ctrlVTable = GetZoneFieldmapCtrlVTable(field->zoneId);
     return field;
 }
@@ -320,7 +321,7 @@ u32 FieldRoutine_MapLoad(GameSystem *gsys, Field *field) {
         PlayerState *playerState = GSYS_GetPlayerState(gsys);
         u16 dir = PlayerState_CalcDirection(playerState);
         VecFx32 *pos = &playerState->position;
-        u32 season;
+        u8 season;
 
         if (FieldPlayerState_GetExState(playerState) == 1 && !GetZoneFlagsEnableCycling(field->zoneId)) {
             SetPlayerSpecialState(playerState, 0);
@@ -958,7 +959,7 @@ void FldActSys_AsyncMatLoadTCBFunc(TCB *tcb, void *data) {
 }
 
 void FldActSys_VRAMUploadFunc(BOOL type, u32 dest, void *src, u32 size) {
-    gfxUploadAsync(type == 0 ? 0 : 1, dest, src, size);
+    NNS_GfdRegisterNewVramTransferTask(!type ? NNS_GFD_DST_3D_TEX_VRAM : NNS_GFD_DST_3D_TEX_PLTT, dest, src, size);
 }
 
 void Field_LoadEdgeColorTable(AreaData *area, u16 zoneId) {

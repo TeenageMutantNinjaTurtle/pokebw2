@@ -43,6 +43,9 @@ void Field_SetCasteliaRush(Field *field, BOOL flag);
 BOOL Field_GetCasteliaRush(Field *field);
 void *Field_GetColorPostFX(Field *field);
 void Field_SetPlayerPosPtr(Field *field, VecFx32 *position);
+// The money window that the scripts show on the field's message BG
+void *Field_GetMoneyWin(Field *field);
+void Field_SetMoneyWin(Field *field, void *moneyWin);
 // Recolors a texture resource with the field's color post-FX
 void FieldColorPostFX_Apply(void *postFx, void *texture);
 fx32 func_ov036_02181324(Field *field);
@@ -70,10 +73,53 @@ BOOL func_ov036_02188884(void *msgWin);
 void func_ov036_021887d4(void *msgWin);
 BOOL func_ov036_021887f4(void *msgWin);
 void func_ov036_021889c8(void *msgWin);
+// Frees the balloon at once, and prints another message in it
+void func_ov036_02188818(void *msgWin);
+void func_ov036_02188844(void *msgWin, StrBuf *strbuf);
+// The list window of the field's message BG: create, free, clear and print a line
+void *func_ov036_02187ca0(void *msgBGSys, MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
+void func_ov036_02187d10(void *window);
+void func_ov036_02187d28(void *window, u16 x, u16 y, StrBuf *strbuf);
+void func_ov036_02187d38(void *window);
+// The system message window of the field's message BG: create, close, print, whether printing has ended, skip
+// to the end, and its bitmap window
+void *func_ov036_02188498(void *msgBGSys, MsgData *msgData, u32 a2);
+// Prints a message of the window's message data
+void func_ov036_02188538(void *window, u32 x, u32 y, u32 messageId);
+void func_ov036_02188504(void *window);
+void func_ov036_02188580(void *window, u32 x, u32 y, StrBuf *strbuf);
+BOOL func_ov036_021885bc(void *window);
+void func_ov036_02188630(void *window);
+BmpWin *func_ov036_021886b0(void *window);
+// The info message window: create, close, reopen, print, whether printing has ended, and skip to the end
+void *func_ov036_02188a54(void *msgBGSys, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+void func_ov036_02188ab0(void *window);
+void func_ov036_02188ae8(void *window);
+void func_ov036_02188ba4(void *window, u32 x, u32 y, StrBuf *strbuf);
+BOOL func_ov036_02188bdc(void *window);
+void func_ov036_02188c90(void *window);
+// The numbered message windows: create one, close all, and whether any is open
+void func_ov036_02188ddc(void *msgBGSys, StrBuf *strbuf, u16 index, u8 x, u8 y, u8 width, u8 height);
+void func_ov036_02188e9c(void *msgBGSys);
+BOOL func_ov036_02188ed0(void *msgBGSys);
+// The sign window: create (with the message BG's font, or another), close, and print, which returns TRUE when done
+void *func_ov036_02188f28(void *msgBGSys, u16 type);
+void *func_ov036_02188f34(void *msgBGSys, u16 type, Font *font);
+void func_ov036_0218903c(void *window);
+BOOL func_ov036_02189110(void *window, StrBuf *strbuf);
+// The checker window: create, close, print, whether printing has ended, and the size a message needs
+void *func_ov036_02189a98(void *msgBGSys, u16 type, u16 x, u16 y, u16 width, u16 height);
+void func_ov036_02189b50(void *window);
+void func_ov036_02189bc4(void *window, u32 x, u32 y, StrBuf *strbuf);
+BOOL func_ov036_02189c00(void *window);
+u32 func_ov036_02189c34(void *msgBGSys, StrBuf *strbuf, u32 margin);
+u32 func_ov036_02189c54(void *msgBGSys, StrBuf *strbuf, u32 margin);
+// Whether the messages of the field's message BG scroll on their own
+void func_ov036_021879cc(void *msgBGSys, BOOL enable);
 // Where a balloon over an actor goes, from where the player stands, and the offset and window position of each
 u8 ActorMsgWin_CalcWinPosAuto(FieldActor *player, const VecFx32 *pos);
 void func_ov036_021a8bec(const VecFx32 *pos, VecFx32 *offset, G3DCamera *g3dCamera, FieldCamera *camera, u8 winPos);
-void func_ov036_021a8c00(u8 winPos, u32 *a1, u32 *a2);
+void func_ov036_021a8c00(u32 winPos, u32 *a1, u32 *a2);
 // A talk window on the field's message BG, printing messages of a message data or strings: create, free, print,
 // whether printing has ended, clear, and the window
 MsgData *func_ov036_021879a0(void *msgBGSys, u32 fileId);
@@ -139,11 +185,17 @@ GameEvent *func_ov036_021bfa68(u16 a0, GameSystem *gsys, u32 a2, u16 a3);
 // choose between them, or NULL when neither can enter
 GameEvent *func_ov036_021aebf0(GameSystem *gsys, u32 a1, Regulation *regulation, u16 *result, HeapID heapId);
 u32 func_ov036_021aece0(GameSystem *gsys, u32 a1, Regulation *regulation, HeapID heapId);
+// The screen that picks the party or the Battle Box for a battle, whether it is done, and the choice
+void *func_ov036_021c3180(Field *field, PokeParty *party, PokeParty *battleBoxParty, u8 partyOk, u8 battleBoxOk,
+                          HeapID heapId);
+BOOL func_ov036_021c3278(void *select);
+u16 func_ov036_021c3218(void *select, u32 *a1);
 u32 func_ov036_0218816c(void *window);
 void func_ov036_02187ea0(void *window);
 void *func_ov036_021c3d9c(PlayerInfo *info, Field *field, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 u32 func_ov036_021c3f98(void *obj);
 void func_ov036_021c3eb4(void *obj);
+void *func_ov036_021c6574(void *effects, u32 a1, const VecFx32 *pos);
 void func_ov036_021c65a8(void *obj, u16 a1);
 void func_ov036_021c65e8(void *obj, u16 a1);
 void FieldPlayer_SetWPos(FieldPlayer *player, const VecFx32 *pos);
@@ -174,12 +226,16 @@ BOOL FieldTaskManager_IsIdle(FieldTaskManager *taskManager);
 MMSys *Field_GetActorSystem(Field *field);
 FieldCamera *Field_GetCameraSystem(Field *field);
 NoGridMapper *Field_GetNoGridMapper(Field *field);
+// The rail position of the given rail coordinates in the zone
+void FieldNoGridMapper_CreatePosExternal(NoGridMapper *mapper, u16 zoneId, u16 a2, u16 a3, u16 a4, RailPosition *pos, u16 a6);
 FieldExpObjSystem *Field_GetExpObjSystem(Field *field);
 // Whether a fade that FieldFadeTCB_Start started is still running
 BOOL Field_GetFadeFlag(Field *field);
 FieldFog *Field_GetFog(Field *field);
 FieldG3DMapper *Field_GetG3DMapper(Field *field);
 GameSystem *Field_GetGameSystem(Field *field);
+// How many Pokémon in the party can battle: not Eggs, and not fainted
+u32 func_ov036_02182f90(GameSystem *gsys);
 AreaData *Field_GetAreaData(Field *field);
 TCBManager *Field_GetTCBMgr(Field *field);
 EncEff *Field_GetEncEff(Field *field);
@@ -249,6 +305,13 @@ void func_ov036_021878d0(void *msgBGSys);
 void func_ov036_0218796c(void *msgBGSys);
 void func_ov036_02187760(void *msgBGSys);
 void func_ov036_0218776c(void *msgBGSys);
+// Releases the BG of the field's message BG and returns TRUE, or returns FALSE if it has none
+BOOL func_ov036_02187868(void *msgBGSys);
+void func_ov036_021879c0(void *msgBGSys);
+// The state of a message window of the field's message BG. fld_faceup.c moves the mouth from state 0 to state 2,
+// which looks like printing and finished
+u32 func_ov036_02188cbc(void *window);
+void func_ov036_021b5180(PlaceName *placeName);
 // Overlay 34, which the Union Room and the Entralink load
 void *func_ov034_0217b768(HeapID heapId);
 void func_ov034_0217b794(void *work);

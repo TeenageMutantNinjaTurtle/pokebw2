@@ -18,5 +18,7 @@ void *FieldLight_Create(u32 lightsId, u32 daySeconds, u32 season, FieldFog *fog,
 void FieldLight_Free(void *light);
 void FieldLight_Update(void *light, u32 daySeconds);
 void FieldLight_Flush(void *light, BOOL a1);
+// Flashes the lights to a color, without fading back
+void FieldLight_StartFlashOneWay(void *light, u16 color, u16 a2);
 
 #endif // POKEBW2_FIELD_FIELD_ENVIRONMENT_H

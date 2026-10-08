@@ -4,6 +4,7 @@
 #include "field/event_sound.h"
 #include "field/field.h"
 #include "field/field_event.h"
+#include "field/field_pass_power.h"
 #include "gfl/overlay.h"
 #include "save/bag.h"
 #include "save/high_link.h"
@@ -130,7 +131,7 @@ GameEventReturnCode func_ov014_0216e73c(GameEvent *event, u32 *state, void *data
         u32 args[2];
         args[0] = work->argument;
         args[1] = 1;
-        GameEvent_Replace(event, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(156), func_ov156_021f59e0, args));
+        GameEvent_Replace(event, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(156), EventPassPowerActivate_Create, args));
         return GAMEEVENT_CONTINUE;
     }
     case 9:

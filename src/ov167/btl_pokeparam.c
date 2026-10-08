@@ -485,7 +485,7 @@ void Move_UpdateID(BattleMon *mon, u8 index, u16 move, u8 maxPP, BOOL updateCurr
     MoveWork_UpdateNumber(&mon->moves[index], move, maxPP, updateCurrent);
 }
 
-BOOL MoveIsUsable(BattleMon *mon, u16 move) {
+BOOL MoveIsUsable(const BattleMon *mon, u16 move) {
     u32 i;
 
     for (i = 0; i < 4; i++) {
@@ -571,7 +571,7 @@ void func_ov167_021bb054(BattleMon *mon) {
     mon->core.illusion = 0;
 }
 
-PartyPkm *func_ov167_021bb064(BattleMon *mon) {
+PartyPkm *func_ov167_021bb064(const BattleMon *mon) {
     PartyPkm *disguise;
 
     disguise = mon->core.illusionDisguise;
@@ -597,7 +597,7 @@ u32 func_ov167_021bb07c(const BattleMon *mon, u32 stat) {
     return stat;
 }
 
-u32 RawBattleMonStat(const BattleMon *mon, u32 stat) {
+s32 RawBattleMonStat(const BattleMon *mon, u32 stat) {
     stat = func_ov167_021bb07c(mon, stat);
     switch (stat) {
     case 8:
@@ -619,16 +619,16 @@ u32 RawBattleMonStat(const BattleMon *mon, u32 stat) {
     }
 }
 
-void func_ov167_021bb10c(BattleMon *mon, u16 *stats) {
+void func_ov167_021bb10c(BattleMon *mon, BattleMonLevelUp *stats) {
     u8 wasEncrypted;
 
     wasEncrypted = PokeParty_DecryptPkm(mon->core.src);
-    stats[1] = PokeParty_GetParam(mon->core.src, PKM_PARAM_MAX_HP, NULL);
-    stats[2] = PokeParty_GetParam(mon->core.src, PKM_PARAM_ATTACK, NULL);
-    stats[3] = PokeParty_GetParam(mon->core.src, PKM_PARAM_DEFENSE, NULL);
-    stats[4] = PokeParty_GetParam(mon->core.src, PKM_PARAM_SP_ATTACK, NULL);
-    stats[5] = PokeParty_GetParam(mon->core.src, PKM_PARAM_SP_DEFENSE, NULL);
-    stats[6] = PokeParty_GetParam(mon->core.src, PKM_PARAM_SPEED, NULL);
+    stats->hp = PokeParty_GetParam(mon->core.src, PKM_PARAM_MAX_HP, NULL);
+    stats->attack = PokeParty_GetParam(mon->core.src, PKM_PARAM_ATTACK, NULL);
+    stats->defense = PokeParty_GetParam(mon->core.src, PKM_PARAM_DEFENSE, NULL);
+    stats->spAttack = PokeParty_GetParam(mon->core.src, PKM_PARAM_SP_ATTACK, NULL);
+    stats->spDefense = PokeParty_GetParam(mon->core.src, PKM_PARAM_SP_DEFENSE, NULL);
+    stats->speed = PokeParty_GetParam(mon->core.src, PKM_PARAM_SPEED, NULL);
     PokeParty_EncryptPkm(mon->core.src, wasEncrypted);
 }
 
@@ -1461,7 +1461,7 @@ void func_ov167_021bbf44(BattleMon *mon, u8 targetPos, BOOL success, u8 unk144, 
     }
 }
 
-u16 GetConsecutiveMoveCount(BattleMon *mon) {
+u32 GetConsecutiveMoveCount(BattleMon *mon) {
     return mon->consecutiveMoveCount;
 }
 
@@ -1530,7 +1530,7 @@ void func_ov167_021bc048(BattleMon *mon, const BattleMonDamageRecord *record) {
     }
 }
 
-u8 func_ov167_021bc120(BattleMon *mon, u32 turnsAgo) {
+u8 func_ov167_021bc120(BattleMon *mon, u8 turnsAgo) {
     s32 turn;
 
     if (turnsAgo < 3) {
@@ -1543,7 +1543,7 @@ u8 func_ov167_021bc120(BattleMon *mon, u32 turnsAgo) {
     return 0;
 }
 
-BOOL GetDamageReceived(BattleMon *mon, u32 turnsAgo, u8 index, BattleMonDamageRecord *record) {
+BOOL GetDamageReceived(const BattleMon *mon, u8 turnsAgo, u8 index, BattleMonDamageRecord *record) {
     s32 turn;
     u8 count;
 

@@ -16,7 +16,10 @@ struct Regulation {
     u8 unk9;
     u8 unkA[0x52];
     u8 unk5C[0x4c];
-    u8 unkA8[0x12];
+    u8 unkA8[0x10];
+    // Whether the partners' teams are shown in the selection, and its time limit
+    u8 showPartners;
+    u8 timeLimit;
     u8 unkBA;
     u8 unkBB;
 };
@@ -32,6 +35,7 @@ Regulation *func_0201f734(u32 fileId, HeapID heapId);
 u32 func_0201f14c(Regulation *regulation, void *a1, PartyPkm *pkm);
 u32 func_0201f1e8(Regulation *regulation, PokeParty *party, const u8 *picked);
 u32 func_0201f268(Regulation *regulation, PokeParty *party);
+u32 func_0201f424(Regulation *regulation, PokeParty *party, u32 *a2);
 // Picks Pokémon of a party that the regulation allows, by their slots from 1, and returns how many it picked
 u32 func_0201f97c(Regulation *regulation, PokeParty *party, u8 *picked);
 // Values out of the parameter's range are ignored

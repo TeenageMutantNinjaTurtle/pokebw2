@@ -64,10 +64,17 @@ typedef struct {
 
 // A zone's wild encounters for a season, 0xe8 bytes of archive 0x7f
 struct EncData {
+    // The encounter rate of each kind of encounter (ENCTYPE_*), 0 for none
     u8 userData[7];
     u8 flags : 7;
     u8 fishingEnable : 1;
-    WildEncSlot slots[56];
+    WildEncSlot grass[12];
+    WildEncSlot grassRare[12];
+    WildEncSlot grassShaking[12];
+    WildEncSlot surf[5];
+    WildEncSlot surfRare[5];
+    WildEncSlot fishing[5];
+    WildEncSlot fishingRare[5];
 };
 
 extern const char data_ov012_0216e240[];
@@ -86,7 +93,7 @@ void func_ov012_021591f4(GameData *gameData);
 u16 EncountSave_GetRoamingPkmZone(EncountSave *save, u8 slot);
 u16 getSwarmLevelRangeFromData(GameData *gameData);
 u32 func_ov012_02159218(EncountSave *save);
-void func_ov012_0215921c(void);
+void func_ov012_0215921c(GameData *gameData, u8 slot);
 void func_ov012_02159220(GameData *gameData);
 // A weather that overrides the zone's, which is always WEATHER_NONE
 u32 GetDefaultWeatherValue(GameData *gameData, u16 zoneId);

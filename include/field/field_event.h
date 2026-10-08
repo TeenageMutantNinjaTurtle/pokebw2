@@ -52,10 +52,16 @@ GameEvent *EventFieldOpen_CreateHeadless(GameSystem *gsys);
 GameEvent *EventFieldOpenRestoreLCD_Create(GameSystem *gsys);
 // Restores the field's screens and the BGs that were on
 void FieldG3D_RestoreSurface(Field *field);
+// Runs the proc as a field subprocess
+GameEvent *EventFieldSubprocessCall_Create(GameSystem *gsys, Field *field, s32 overlayId, const GameProcFunctions *functions,
+                                           void *param);
 // Runs the proc as a field subprocess, then calls callback with work if there is a callback, and frees work
 GameEvent *EventFieldSubprocessCall_CreateWithCallback(GameSystem *gsys, Field *field, s32 overlayId,
                                                        const GameProcFunctions *functions, void *param,
                                                        void (*callback)(void *work), void *work);
+// Events of overlay 36's other files that scripts start: a name input for the Pokémon, and another input with its result
+GameEvent *EventPokeNameWordSetInput_Create(GameSystem *gsys, u16 a1, u16 a2, u16 *result, WordSet *wordSet);
+GameEvent *func_ov036_021bfc9c(GameSystem *gsys, u16 *result);
 GameEvent *EventFieldSubprocessTransition_Create(GameSystem *gsys, Field *field, s32 overlayId,
                                                  const GameProcFunctions *functions, void *param);
 GameEvent *EventPlayerSpinDown_Create(GameEvent *event, GameSystem *gsys, Field *field);
@@ -80,7 +86,6 @@ GameEvent *func_ov036_021b9df8(GameEvent *event, GameSystem *gsys, Field *field)
 GameEvent *EventWarpSequence_CreateIn(WarpSequence *warp);
 GameEvent *EventWarpSequence_CreateOut(WarpSequence *warp);
 GameEvent *func_ov033_021773e4(GameSystem *gsys, void *args);
-GameEvent *func_ov156_021f59e0(GameSystem *gsys, void *args);
 // What starts the events of the field in each kind of map
 GameEvent *FieldEventProvider_Grid(GameSystem *gsys, void *data);
 GameEvent *FieldEventProvider_UnionRoom(GameSystem *gsys, void *data);

@@ -624,7 +624,7 @@ static void ClearMMSysFlag(MMSys *system, u32 flag) {
     system->flags &= ~flag;
 }
 
-u16 GetActorLimit(MMSys *system) {
+u16 GetActorLimit(const MMSys *system) {
     return system->actorCapacity;
 }
 
@@ -1512,7 +1512,7 @@ static BOOL FldAct_IsForceOffShadow(FieldActor *actor) {
     return FALSE;
 }
 
-BOOL NextActor(MMSys *mmSys, FieldActor **actor, u32 *index) {
+BOOL NextActor(const MMSys *mmSys, FieldActor **actor, u32 *index) {
     u32 limit = GetActorLimit(mmSys);
     FieldActor *candidate;
 
@@ -1826,7 +1826,7 @@ u16 GetMMSysMdlInfoCacheEntryCount(MMSys *system) {
     return system->actorConfigCache[0];
 }
 
-void GetNPCMdlInfoForOBJCODE(MMSys *actorSystem, u16 objCode, FieldActorConfig *config) {
+void GetNPCMdlInfoForOBJCODE(const MMSys *actorSystem, u16 objCode, FieldActorConfig *config) {
     s32 i;
     u32 index;
     FieldActor *actor;
@@ -1908,7 +1908,7 @@ static BOOL CheckNPCSpawnFlag(EventWork *eventWork, u16 flag) {
     return EventWork_FlagGet(eventWork, flag);
 }
 
-BOOL func_ov012_02168024(u32 type) {
+u16 func_ov012_02168024(u16 type) {
     switch (type) {
     case 4:
     case 5:
@@ -1918,12 +1918,9 @@ BOOL func_ov012_02168024(u32 type) {
     case 11:
     case 12:
     case 13:
-        return TRUE;
+        return 1;
     }
-    // BUG: Nothing is returned for the other types
-#ifdef BUGFIX
-    return FALSE;
-#endif
+    return type;
 }
 
 void func_ov012_02168054(FieldActor *actor) {

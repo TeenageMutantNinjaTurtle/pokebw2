@@ -116,11 +116,17 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
         # still emits. Without a symbol, the object before it seems to run on over it
         path = config_dir(version, module) / "symbols.txt"
         lines = path.read_text().splitlines()
-        if any(line.split()[0] == argument for line in lines):
+        # An object in .bss has no contents, so dsd gives it the bss kind
+        sections = parse_sections(config_dir(version, module) / "delinks.txt")
+        in_bss = any(start <= addr < end for name, (start, end) in sections.items() if name.endswith("bss"))
+        kind = "kind:bss" if in_bss else "kind:data"
+        # Already there under any name: rename_symbol.py may have renamed it since the fix was recorded
+        if any(kind in line and (m := SYMBOL_ADDR_RE.search(line)) and int(m.group(1), 16) == addr for line in lines):
             return
-        data = [i for i, line in enumerate(lines) if "kind:data" in line and (m := SYMBOL_ADDR_RE.search(line))
+        data = [i for i, line in enumerate(lines) if kind in line and (m := SYMBOL_ADDR_RE.search(line))
                 and int(m.group(1), 16) < addr]
-        lines.insert(data[-1] + 1 if data else len(lines), f"{argument} kind:data(any) addr:{addr:#010x}")
+        symbol = f"{argument} kind:bss addr:{addr:#010x}" if in_bss else f"{argument} kind:data(any) addr:{addr:#010x}"
+        lines.insert(data[-1] + 1 if data else len(lines), symbol)
         path.write_text("\n".join(lines) + "\n")
         return
     if action == "add_function":
@@ -130,7 +136,8 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
         path = config_dir(version, module) / "symbols.txt"
         lines = path.read_text().splitlines()
         line = f"{name} kind:function({mode},size={size}) addr:{addr:#010x}"
-        if line in lines:
+        # Already there under any name: rename_symbol.py may have renamed it since the fix was recorded
+        if any(l.endswith(f" kind:function({mode},size={size}) addr:{addr:#010x}") for l in lines):
             return
         lines = [l for l in lines if not (m := SYMBOL_ADDR_RE.search(l)) or int(m.group(1), 16) != addr]
         before = [i for i, l in enumerate(lines) if "kind:function" in l and (m := SYMBOL_ADDR_RE.search(l))
@@ -140,15 +147,17 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
         return
     if action == "add_label":
         # A label with the instruction mode of the function at the address, for code that the compiler calls by
-        # two names, such as the runtime's _ll_mul and _ull_mul
+        # two names, such as the runtime's _ll_mul and _ull_mul, or of the label dsd found there, for a second entry
+        # point inside a function, such as _ll_sdiv inside _ll_mod
         path = config_dir(version, module) / "symbols.txt"
         lines = path.read_text().splitlines()
         at = [i for i, line in enumerate(lines) if (m := SYMBOL_ADDR_RE.search(line)) and int(m.group(1), 16) == addr]
         if any(lines[i].split()[0] == argument for i in at):
             return
-        mode = next((m.group(1) for i in at if (m := re.search(r"kind:function\((arm|thumb)", lines[i]))), None)
+        mode = next((m.group(1) for i in at
+                     if (m := re.search(r"kind:(?:function|label)\((arm|thumb)", lines[i]))), None)
         if mode is None:
-            sys.exit(f"{version}: no function at {module} {addr:#010x}")
+            sys.exit(f"{version}: no function or label at {module} {addr:#010x}")
         lines.insert(at[-1] + 1, f"{argument} kind:label({mode}) addr:{addr:#010x}")
         path.write_text("\n".join(lines) + "\n")
         return

@@ -2,6 +2,7 @@
 #define POKEBW2_NITRO_FS_H
 
 #include "types.h"
+#include "nitro/mi.h"
 
 // NitroSDK's file system, under swan's names: FS_InitFile, FS_OpenFile, FS_GetLength, FS_ReadFile, FS_CloseFile,
 // FS_SeekFile, and FS_CreateFileFromMemory, which opens a file over memory
@@ -21,8 +22,7 @@ BOOL extfs_fopen(FSFile *file, const void *data, u32 size);
 #define FS_SEEK_SET 0
 
 // Overlays: NitroSDK's FS_LoadOverlayInfo, FS_LoadOverlay, FS_UnloadOverlay and FS_SetDefaultDMA, under swan's names.
-// The target is the processor, MI_PROCESSOR_ARM9
-#define MI_PROCESSOR_ARM9 0
+// The target is the processor, MI_PROCESSOR_ARM9 (nitro/mi.h)
 #define FS_DMA_NOT_USE 0xffffffff
 
 typedef struct {

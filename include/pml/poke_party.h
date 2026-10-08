@@ -82,6 +82,8 @@ u32 GetStatusCond(PartyPkm *pkm);
 void PokeParty_SetStatusCond(PartyPkm *pkm, u32 status);
 u32 PokeParty_GetSex(PartyPkm *pkm);
 BOOL PokeParty_CheckAnyRibbon(PartyPkm *pkm);
+// Whether the Pokémon can learn the move at moveIndex of a move tutor's list, by its species and form
+BOOL PokeParty_CheckMoveTutorPaid(PartyPkm *pkm, u32 moveIndex, u32 tutor);
 BOOL PokeParty_IsRare(PartyPkm *pkm);
 // Decrypt a Pokémon for a series of reads and writes, and return whether it was encrypted, which is what the
 // encryption afterwards takes
@@ -108,15 +110,6 @@ BOOL doesPokeHavePokerus(BoxPkm *pkm);
 BOOL pokerusDuration(PartyPkm *pkm);
 BOOL pokeHasPkrs(PartyPkm *pkm);
 BoxPkm *func_0201d620(PartyPkm *pkm);
-// Marks the Pokémon as met in a fateful encounter, at the location and on the date
-void setFatefulEncounterPkmData(BoxPkm *pkm, u16 location, u32 year, u32 month, u32 day);
-// Whether the Pokémon came by one of four kinds of special transfer for the player
-BOOL special_transfers(BoxPkm *pkm, u32 kind, PlayerInfo *playerInfo);
-// The message file of a location's name, and the name's index in it
-u32 func_02035f5c(u32 location);
-u32 func_02035fac(u32 location);
-// Whether a move is an HM, which a Pokémon can't forget
-BOOL isPkmMoveHmMove(GameData *gameData, u16 move, HeapID heapId);
 // Puts a move in a slot with its full PP and no PP Ups
 void PML_PkmSetMove(BoxPkm *pkm, u16 move, u32 slot);
 // How a nature changes a stat, attack to special defense from 1: 1 raised, -1 lowered, 0 neither
@@ -141,14 +134,6 @@ void hatchEgg(PartyPkm *pkm, PlayerInfo *playerInfo, u16 placeName, HeapID heapI
 void PokeParty_Init(PokeParty *party);
 void PokeParty_Copy(const PokeParty *src, PokeParty *dest);
 void PokeParty_InitCore(PokeParty *party, u32 capacity);
-// An item's place in a list of 46 battle items, 0 if it isn't in it
-u32 func_02035944(u16 item);
-// Records how and where the Pokémon was met, with the player as its Trainer
-void PokeParty_SetupMetData(PartyPkm *pkm, u32 a1, PlayerInfo *playerInfo, u16 placeName, HeapID heapId);
-u32 func_02035cf8(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);
-// Sets where and when a Pokémon from the Dream Radar was met
-void setDreamRadarPokeMetInfo(BoxPkm *pkm);
-void func_02035efc(PartyPkm *pkm, u32 arg1, PlayerInfo *playerInfo);
 void PokeParty_ClearPkm(PartyPkm *pkm);
 // Restores a Pokémon's HP and PP and cures its status
 void PokeParty_Recover(PartyPkm *pkm);
@@ -158,8 +143,12 @@ u32 PokeParty_GetLevel(PartyPkm *pkm);
 BOOL canPkmLearnTM_Wrapper(PartyPkm *pkm, u8 tm);
 void setLevel(PartyPkm *pkm, u32 level);
 u32 PokeParty_GetLevel(PartyPkm *pkm);
+// Gives a Pokémon of the party Pokérus at random
+void pokerusHandler(PokeParty *party);
 // Counts down the Pokérus of the party's Pokémon by days
 void pokerusDecay(PokeParty *party, s32 days);
+// Spreads Pokérus from the party's Pokémon to their neighbours at random
+void pokerusSpread(PokeParty *party);
 void PokeParty_SetNature(PartyPkm *pkm, u32 nature);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
 // A Pokémon's icon in ARCID_POKEICON: its characters' file and its palette
@@ -215,6 +204,10 @@ void PokeParty_ChangeForme(PartyPkm *pkm, u16 forme);
 // The form of Arceus for a plate, and of Genesect for a drive
 u16 _getTypeForPlate(u16 item);
 u32 func_0201ef8c(u16 item);
+// The form, or 0 if the species has fewer forms. Species 650 counts as having two
+u8 PML_PkmSanitizeForme(u16 species, u8 form);
+// The form a sprite shows: 0 for the four species whose forms share one sprite
+u8 func_0201efe4(u16 species, u8 form);
 // Teaches a move, and returns 0xffff when all four slots are full
 u16 PokeParty_LearnMove(PartyPkm *pkm, u16 move);
 // Replaces the last move
@@ -243,11 +236,14 @@ void setNicknameToNick(PartyPkm *pkm);
 BOOL hasPokemonChangedForm(BoxPkm *pkm);
 // The number of Pokémon in the party that can battle: not fainted and not eggs
 int countActivePkms(PokeParty *party);
-// Whether the Pokémon knows a hidden machine move
-BOOL doesPkmHaveTmMove(BoxPkm *pkm, u32 a1);
 PartyPkm *PokeParty_NewPkm(u16 species, u16 level, u32 trainerId, u32 a3, s32 a4, u64 pid, HeapID heapId);
 void TransformVsPokePartyBySeason(GameData *gameData, PokeParty *party, u8 season);
 
 BOOL IsTrainerOT(PartyPkm *pkm, PlayerInfo *player);
+// Whether a Pokémon's nature raises (1) or lowers (-1) a stat
+s8 doesNatureAffectStat(PartyPkm *pkm, u32 stat);
+
+u8 getHiddenPowerType(PartyPkm *pkm);
+u32 getHiddenPowerBasePwr(PartyPkm *pkm);
 
 #endif // POKEBW2_PML_POKE_PARTY_H

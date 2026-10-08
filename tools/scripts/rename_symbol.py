@@ -6,7 +6,11 @@ symbol of every other version through the version maps. `--apply` renames every 
 regenerate_configs.py runs after importing names from swan.
 
     rename_symbol.py func_ov035_0217ed70 ElScoreboard_Create
+    rename_symbol.py sButtonAnims sTDownloadButtonAnims --module overlays/ov326   # a name several symbols share
     rename_symbol.py --file renames.txt
+
+The sources are rewritten everywhere, except for a static: only its own file, the one delinks.txt places it in, can
+refer to it, and another file may have a static of the same name.
     rename_symbol.py --apply
 """
 import argparse
@@ -33,17 +37,32 @@ def symbol_files(version: str) -> dict[str, Path]:
     return {str(path.parent.relative_to(arm9)): path for path in sorted(arm9.rglob("symbols.txt"))}
 
 
-def find_symbol(version: str, name: str) -> tuple[str, int] | None:
+def find_symbols(version: str, name: str) -> list[tuple[str, int]]:
+    """Returns every (module, address) with a symbol of this name. Statics in different files can share one."""
+    found = []
     for module, path in symbol_files(version).items():
         for line in path.read_text().splitlines():
             match = SYMBOL_RE.match(line)
             if match and match.group(1) == name:
-                return module, int(match.group(4), 16)
-    return None
+                found.append((module, int(match.group(4), 16)))
+    return found
 
 
 def name_in_use(version: str, name: str) -> bool:
-    return find_symbol(version, name) is not None
+    return bool(find_symbols(version, name))
+
+
+def owning_source(module: str, addr: int) -> Path | None:
+    """Returns the source file whose sections in the primary version's delinks.txt contain an address."""
+    path = ROOT / "config" / PRIMARY / "arm9" / module / "delinks.txt"
+    source = None
+    for line in path.read_text().splitlines():
+        if line.endswith(":") and not line.startswith(" "):
+            source = line[:-1]
+        elif source and (m := re.search(r"start:(0x[0-9a-f]+) end:(0x[0-9a-f]+)", line)):
+            if int(m.group(1), 16) <= addr < int(m.group(2), 16):
+                return ROOT / source
+    return None
 
 
 def load_pairs() -> dict[str, dict[tuple[str, int], int]]:
@@ -109,11 +128,19 @@ def apply(module: str, addr: int, name: str, pairs) -> list[str]:
     return old_names
 
 
-def rename_in_sources(old_names: list[str], new: str):
+def is_static(source: Path, name: str) -> bool:
+    """Whether a source file defines a name as static, such as `static const u16 sTable[] = {...}`."""
+    return re.search(rf"^\s*static\b[^;{{(]*\b{re.escape(name)}\b", source.read_text(), re.MULTILINE) is not None
+
+
+def rename_in_sources(old_names: list[str], new: str, only: Path | None = None):
+    """Rewrites the old names in the sources, or only in one file, the one that defines them as static."""
     patterns = [re.compile(rf"\b{re.escape(old)}\b") for old in set(old_names) if old != new]
     for directory in SOURCE_DIRS:
         for path in sorted(directory.rglob("*")):
             if path.suffix not in (".c", ".h", ".inc", ".s"):
+                continue
+            if only is not None and path != only:
                 continue
             text = path.read_text()
             new_text = text
@@ -124,25 +151,35 @@ def rename_in_sources(old_names: list[str], new: str):
                 print(f"updated {path.relative_to(ROOT)}")
 
 
-def rename(old: str, new: str, pairs, names: list) -> list:
+def rename(old: str, new: str, pairs, names: list, module: str | None = None) -> list:
     """Renames a symbol in every version and the sources, and returns the updated names."""
     if not IDENTIFIER_RE.match(new):
         sys.exit(f"{new!r} is not a valid identifier")
-    found = find_symbol(PRIMARY, old)
-    if found is None:
-        sys.exit(f"{old} is not a symbol in {PRIMARY}")
+    found = find_symbols(PRIMARY, old)
+    if module is not None:
+        found = [f for f in found if f[0] == module]
+    if not found:
+        sys.exit(f"{old} is not a symbol in {PRIMARY}" + (f" {module}" if module else ""))
+    if len(found) > 1:
+        places = ", ".join(f"{m} {a:#010x}" for m, a in found)
+        sys.exit(f"{old} names several symbols ({places}): give --module")
     for version in [PRIMARY, *OTHERS]:
         if name_in_use(version, new):
             sys.exit(f"{new} is already a symbol in {version}")
 
-    module, addr = found
+    module, addr = found[0]
+    # Statics in different files can share a name, including one whose symbol still has its default name. A static is
+    # only visible in its own file, so only that file is rewritten; rewriting everywhere would rename the others too
+    only = owning_source(module, addr)
+    if only is not None and not (only.exists() and is_static(only, old)):
+        only = None
     old_names = apply(module, addr, new, pairs)
     # A default name is not recorded, so renaming a symbol back to it removes its entry
     names = [n for n in names if (n[0], n[1]) != (module, addr)]
     if not DEFAULT_NAME_RE.match(new):
         names.append((module, addr, new))
     save_names(names)
-    rename_in_sources(old_names, new)
+    rename_in_sources(old_names, new, only)
     print(f"{old} -> {new} ({module} {addr:#010x})")
     return names
 
@@ -153,6 +190,7 @@ def main():
     parser.add_argument("new", nargs="?", help="new name")
     parser.add_argument("--apply", action="store_true", help="apply every rename in config/names.txt")
     parser.add_argument("--file", type=Path, help="rename each `old new` pair, one to a line, of a file")
+    parser.add_argument("--module", help="the module of the symbol, e.g. overlays/ov326, when several share the name")
     args = parser.parse_args()
 
     pairs = load_pairs()
@@ -167,12 +205,12 @@ def main():
         for line in args.file.read_text().splitlines():
             if line.strip():
                 old, new = line.split()
-                names = rename(old, new, pairs, names)
+                names = rename(old, new, pairs, names, args.module)
         return
 
     if not args.old or not args.new:
         parser.error("give the old and new names, a --file of them, or --apply")
-    rename(args.old, args.new, pairs, names)
+    rename(args.old, args.new, pairs, names, args.module)
 
 
 if __name__ == "__main__":

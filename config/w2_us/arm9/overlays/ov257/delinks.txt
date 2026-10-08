@@ -70,7 +70,39 @@ src/ov257/comm_tvt_sys.c:
     .data       start:0x021b26fc end:0x021b2718
 
 src/ov257/ctvt_game.c:
-    .text       start:0x021a22f8 end:0x021a790c
-    .rodata     start:0x021b1ae4 end:0x021b2254
+    .text       start:0x021a22f8 end:0x021a765c
+    .rodata     start:0x021b1ae4 end:0x021b2230
     .data       start:0x021b26a4 end:0x021b26c0
     .bss        start:0x021b3db0 end:0x021b3dc8
+
+src/ov257/ctvt_game_cam.c:
+    .text       start:0x021a80cc end:0x021a9740
+    .rodata     start:0x021b2278 end:0x021b22bc
+    .data       start:0x021b26d4 end:0x021b26e4
+    .bss        start:0x021b3dc8 end:0x021b3dcc
+
+src/ov257/ctvt_game_target.c:
+    .text       start:0x021a765c end:0x021a790c
+    .rodata     start:0x021b2230 end:0x021b2254
+
+lib/twl/src/ssp_exifenc.c:
+    complete
+    .text       start:0x021ae3b4 end:0x021af77c
+    .rodata     start:0x021b25c4 end:0x021b25d8
+    .data       start:0x021b3d34 end:0x021b3da0
+    .bss        start:0x021b62cc end:0x021b7a20
+
+lib/twl/src/ssp_jpegenc.c:
+    .text       start:0x021acca0 end:0x021ae3b4
+    .rodata     start:0x021b2580 end:0x021b25c4
+    .data       start:0x021b3980 end:0x021b3d34
+    .bss        start:0x021b62c0 end:0x021b62cc
+
+lib/twl/src/ssp_jpegdec.c:
+    .text       start:0x021ab018 end:0x021ac6a0
+    .data       start:0x021b2718 end:0x021b3980
+    .bss        start:0x021b3dcc end:0x021b6278
+
+lib/twl/src/ssp_exifdec.c:
+    .text       start:0x021ac6a0 end:0x021acca0
+    .bss        start:0x021b6278 end:0x021b62c0

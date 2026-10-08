@@ -4,9 +4,10 @@
 #include "battle/btl_client.h"
 #include "battle/btl_main.h"
 #include "battle/btl_pokeparam.h"
+#include "battle/btl_string.h"
 #include "battle/btlv.h"
-#include "battle/trainer_data.h"
 #include "battle/tr_ai.h"
+#include "battle/trainer_data.h"
 #include "gfl/bmpwin.h"
 #include "gfl/clact.h"
 #include "gfl/g3d.h"
@@ -14,29 +15,20 @@
 #include "gfl/msg.h"
 #include "gfl/net.h"
 #include "gfl/overlay.h"
-#include "gfl/tcbl.h"
-#include "nitro/gx.h"
-#include "nitro/hw.h"
 #include "gfl/sound.h"
 #include "gfl/str.h"
 #include "gfl/tcb.h"
+#include "gfl/tcbl.h"
+#include "nitro/gx.h"
+#include "nitro/hw.h"
 #include "pml/waza.h"
 #include "system/gf_font.h"
-
-typedef BOOL (*BtlvSubProcFn)(s32 *seq, void *arg);
 
 // The procedure each display command starts
 typedef struct BtlvCmdEntry {
     u32 cmd;
     BtlvMainProc proc;
 } BtlvCmdEntry;
-
-typedef struct BtlvSubProc {
-    BtlvSubProcFn init;
-    BtlvSubProcFn main;
-    void *arg;
-    s32 seq;
-} BtlvSubProc;
 
 // Overlay 286's parameters
 typedef struct BtlvOv286Param {
@@ -124,7 +116,7 @@ struct BtlvCore {
     u8 unk1B5;
     u8 unk1B6[6];
     TCBExManager *tcbManager;
-    void *unk1C0;
+    BtlvScu *scu;
     void *unk1C4;
     HeapID heapId;
 };
@@ -277,7 +269,7 @@ BtlvCore *BtlvCore_Create(BtlMainModule *mainModule, BtlClient *client, BtlPokeC
     core->font = GFL_FontCreate(0x17, 0, 0, 0, heapId);
     core->font2 = GFL_FontCreate(0x17, 2, 0, 0, heapId);
     core->tcbManager = GFL_TCBExMgrCreate(heapId, heapId, 0x40, 0x80);
-    core->unk1C0 = func_ov167_021d0c24(core, core->mainModule, pokeCon, core->tcbManager, core->font, core->font2,
+    core->scu = func_ov167_021d0c24(core, core->mainModule, pokeCon, core->tcbManager, core->font, core->font2,
                                     core->clientId, heapId);
     core->unk1C4 = func_ov169_06899af0(core, core->mainModule, pokeCon, core->tcbManager, core->font, core->client,
                                      arg3, heapId);
@@ -289,9 +281,9 @@ BtlvCore *BtlvCore_Create(BtlMainModule *mainModule, BtlClient *client, BtlPokeC
 }
 
 void func_ov167_021ce870(BtlvCore *core) {
-    func_ov167_021d4d50(core);
+    func_ov167_021d4d50();
     func_ov169_06899ed0(core->unk1C4);
-    func_ov167_021d0f84(core->unk1C0);
+    func_ov167_021d0f84(core->scu);
     GFL_TCBExMgrFree(core->tcbManager);
     GFL_StrBufFree(core->strbuf);
     GFL_FontFree(core->font);
@@ -338,19 +330,19 @@ BOOL func_ov167_021ce940(BtlvCore *core, s32 *seq, void *work) {
 
     switch (*seq) {
     case 0:
-        data = func_ov168_021ded1c(core->mainModule, core->unk1C0, core->heapId);
+        data = func_ov168_021ded1c(core->mainModule, core->scu, core->heapId);
         func_ov168_021dee04(data, core->font2, core->heapId);
         GFL_HeapFree(data);
-        func_ov167_021d0cd4(core->unk1C0);
+        func_ov167_021d0cd4(core->scu);
         func_ov169_06899c7c(core->unk1C4);
         (*seq)++;
         break;
     case 1:
-        func_ov167_021d1084(core->unk1C0, func_ov167_021b1990(core->client));
+        func_ov167_021d1084(core->scu, func_ov167_021b1990(core->client));
         (*seq)++;
         break;
     case 2:
-        if (func_ov167_021d12a0(core->unk1C0)) {
+        if (func_ov167_021d12a0(core->scu)) {
             if (func_ov167_021b1978(core->client)) {
                 core->unk1A0.unk00 = 1;
                 core->unk1A0.unk04 = 1;
@@ -375,24 +367,24 @@ BOOL func_ov167_021cea24(BtlvCore *core, s32 *seq, void *work) {
 
     switch (*seq) {
     case 0:
-        data = func_ov168_021ded1c(core->mainModule, core->unk1C0, core->heapId);
+        data = func_ov168_021ded1c(core->mainModule, core->scu, core->heapId);
         func_ov168_021dee04(data, core->font2, core->heapId);
         GFL_HeapFree(data);
         keys = func_ov169_0689b7c8(core->unk1C4);
         wk->savedKeys = *keys;
         *keys = 0;
-        func_ov167_021d0cd4(core->unk1C0);
+        func_ov167_021d0cd4(core->scu);
         func_ov169_06899c7c(core->unk1C4);
         wk->msgData = GFL_MsgSysLoadData(FALSE, 2, 0x17, core->heapId);
         wk->wait = 0;
         (*seq)++;
         break;
     case 1:
-        func_ov167_021d1084(core->unk1C0, 0);
+        func_ov167_021d1084(core->scu, 0);
         (*seq)++;
         break;
     case 2:
-        if (func_ov167_021d12a0(core->unk1C0)) {
+        if (func_ov167_021d12a0(core->scu)) {
             BtlvStringParam param;
 
             mon = func_ov167_021ceec0(core, 0);
@@ -427,12 +419,12 @@ BOOL func_ov167_021cea24(BtlvCore *core, s32 *seq, void *work) {
         break;
     case 6:
         if (func_ov167_021d02e8(core) && func_ov169_06899ea8(core->unk1C4)) {
-            func_ov167_021d3094(core->unk1C0, 0, 1, 0x21, PML_MoveGetParam(0x21, 0x1b), 0, 0);
+            func_ov167_021d3094(core->scu, 0, 1, 0x21, PML_MoveGetParam(0x21, 0x1b), 0, 0);
             (*seq)++;
         }
         break;
     case 7:
-        if (func_ov167_021d3130(core->unk1C0)) {
+        if (func_ov167_021d3130(core->scu)) {
             mon = func_ov167_021ceec0(core, 1);
             func_ov168_021dfac4(1, (s32)GetBattleMonStat(mon, 0xe) / 6);
             func_ov168_021df560(1, 0x21);
@@ -441,19 +433,19 @@ BOOL func_ov167_021cea24(BtlvCore *core, s32 *seq, void *work) {
         }
         break;
     case 8:
-        if (func_ov167_021d31d0(core->unk1C0)) {
+        if (func_ov167_021d31d0(core->scu)) {
             func_ov167_021d02cc(core, GetMonID(func_ov167_021ceec0(core, 1)), 0x2d);
             (*seq)++;
         }
         break;
     case 9:
         if (func_ov167_021d02e8(core)) {
-            func_ov167_021d3094(core->unk1C0, 1, 0, 0x2d, PML_MoveGetParam(0x2d, 0x1b), 0, 0);
+            func_ov167_021d3094(core->scu, 1, 0, 0x2d, PML_MoveGetParam(0x2d, 0x1b), 0, 0);
             (*seq)++;
         }
         break;
     case 10:
-        if (func_ov167_021d3130(core->unk1C0)) {
+        if (func_ov167_021d3130(core->scu)) {
             func_ov167_021d03a0(core, 0);
             (*seq)++;
         }
@@ -1118,11 +1110,11 @@ void func_ov167_021cfc60(BtlvCore *core, u8 attackerPos, u8 targetPos, u16 move,
     } else {
         target = 0xff;
     }
-    func_ov167_021d3094(core->unk1C0, attacker, target, move, arg4, arg5, arg6);
+    func_ov167_021d3094(core->scu, attacker, target, move, arg4, arg5, arg6);
 }
 
 BOOL func_ov167_021cfca4(BtlvCore *core) {
-    return func_ov167_021d3130(core->unk1C0);
+    return func_ov167_021d3130(core->scu);
 }
 
 void func_ov167_021cfcb4(BtlvCore *core, u16 arg1, u8 pos, u8 type) {
@@ -1147,12 +1139,12 @@ BOOL func_ov167_021cfd20(s32 *seq, void *arg) {
     work = func_ov167_021ce93c(core, sizeof(BtlvPosEffectWork));
     switch (*seq) {
     case 0:
-        func_ov167_021d3188(core->unk1C0, work->pos, work->unk00, func_ov167_021b1990(core->client));
+        func_ov167_021d3188(core->scu, work->pos, work->unk00, func_ov167_021b1990(core->client));
         func_ov167_021cfeec(core, work->type);
         (*seq)++;
         break;
     case 1:
-        if (func_ov167_021d31d0(core->unk1C0)) {
+        if (func_ov167_021d31d0(core->scu)) {
             return TRUE;
         }
         break;
@@ -1184,12 +1176,12 @@ BOOL func_ov167_021cfdf0(s32 *seq, void *arg) {
     work = func_ov167_021ce93c(core, sizeof(BtlvPosEffectWork));
     switch (*seq) {
     case 0:
-        func_ov167_021d31e8(core->unk1C0, work->pos, work->unk00);
+        func_ov167_021d31e8(core->scu, work->pos, work->unk00);
         func_ov167_021cfeec(core, work->type);
         (*seq)++;
         break;
     case 1:
-        if (func_ov167_021d3200(core->unk1C0)) {
+        if (func_ov167_021d3200(core->scu)) {
             return TRUE;
         }
         break;
@@ -1221,13 +1213,13 @@ BOOL func_ov167_021cfe7c(BtlvCore *core) {
     case 0:
         flag = func_ov167_021b1990(core->client);
         for (i = 0; i < work->count; i++) {
-            func_ov167_021d3188(core->unk1C0, work->pos[i], work->unk10, flag);
+            func_ov167_021d3188(core->scu, work->pos[i], work->unk10, flag);
         }
         func_ov167_021cfeec(core, work->type);
         work->seq++;
         break;
     case 1:
-        if (func_ov167_021d31d0(core->unk1C0) && func_ov167_021d2edc(core->unk1C0)) {
+        if (func_ov167_021d31d0(core->scu) && func_ov167_021d2edc(core->scu)) {
             return TRUE;
         }
         break;
@@ -1263,11 +1255,11 @@ void func_ov167_021cff14(BtlvCore *core, u8 pos, u32 visible) {
 }
 
 void func_ov167_021cff44(BtlvCore *core, u8 pos) {
-    func_ov167_021d3414(core->unk1C0, pos, func_ov167_021b1990(core->client));
+    func_ov167_021d3414(core->scu, pos, func_ov167_021b1990(core->client));
 }
 
 BOOL func_ov167_021cff60(BtlvCore *core) {
-    if (func_ov167_021d3450(core->unk1C0)) {
+    if (func_ov167_021d3450(core->scu)) {
         return TRUE;
     }
     return FALSE;
@@ -1298,27 +1290,27 @@ BOOL func_ov167_021cffb8(BtlvCore *core) {
 }
 
 void func_ov167_021cffcc(BtlvCore *core, u8 pos) {
-    func_ov167_021d3214(core->unk1C0, pos, func_ov167_021b1990(core->client));
+    func_ov167_021d3214(core->scu, pos, func_ov167_021b1990(core->client));
 }
 
 BOOL func_ov167_021cffe8(BtlvCore *core) {
-    return func_ov167_021d323c(core->unk1C0);
+    return func_ov167_021d323c(core->scu);
 }
 
 void func_ov167_021cfff8(BtlvCore *core, u8 pos) {
-    func_ov167_021d3250(core->unk1C0, pos);
+    func_ov167_021d3250(core->scu, pos);
 }
 
 BOOL func_ov167_021d0008(BtlvCore *core) {
-    return func_ov167_021d3284(core->unk1C0);
+    return func_ov167_021d3284(core->scu);
 }
 
 void func_ov167_021d0018(BtlvCore *core, u8 pos, u16 arg2) {
-    func_ov167_021d3298(core->unk1C0, pos, arg2, func_ov167_021b1990(core->client));
+    func_ov167_021d3298(core->scu, pos, arg2, func_ov167_021b1990(core->client));
 }
 
 BOOL func_ov167_021d0038(BtlvCore *core) {
-    return func_ov167_021d32f4(core->unk1C0);
+    return func_ov167_021d32f4(core->scu);
 }
 
 void func_ov167_021d0048(BtlvCore *core, u8 pos, u8 arg2, u8 arg3) {
@@ -1345,11 +1337,11 @@ BOOL func_ov167_021d00c4(s32 *seq, void *arg) {
     work = func_ov167_021ce93c(core, sizeof(BtlvMonEffectWork));
     switch (*seq) {
     case 0:
-        func_ov167_021d3354(core->unk1C0, work->pos, work->unk01, work->unk02, func_ov167_021b1990(core->client));
+        func_ov167_021d3354(core->scu, work->pos, work->unk01, work->unk02, func_ov167_021b1990(core->client));
         (*seq)++;
         break;
     case 1:
-        if (func_ov167_021d33d0(core->unk1C0)) {
+        if (func_ov167_021d33d0(core->scu)) {
             return TRUE;
         }
         break;
@@ -1442,45 +1434,45 @@ void func_ov167_021d02cc(BtlvCore *core, u8 monId, u16 move) {
 }
 
 BOOL func_ov167_021d02e8(BtlvCore *core) {
-    return func_ov167_021d2edc(core->unk1C0);
+    return func_ov167_021d2edc(core->scu);
 }
 
 BOOL func_ov167_021d02f8(BtlvCore *core) {
-    return func_ov167_021d2ec4(core->unk1C0);
+    return func_ov167_021d2ec4(core->scu);
 }
 
-void func_ov167_021d0308(BtlvCore *core, const StrBuf *strbuf, u32 wait, BtlvMsgCallback callback) {
+void func_ov167_021d0308(BtlvCore *core, const StrBuf *strbuf, u16 wait, BtlvMsgCallback callback) {
     if (!func_ov167_021b1990(core->client)) {
-        func_ov167_021d2e20(core->unk1C0, strbuf, wait, callback);
+        func_ov167_021d2e20(core->scu, strbuf, wait, callback);
     }
 }
 
 void func_ov167_021d0330(BtlvCore *core, const StrBuf *strbuf) {
-    func_ov167_021d2dbc(core->unk1C0, strbuf);
+    func_ov167_021d2dbc(core->scu, strbuf);
 }
 
-void func_ov167_021d0340(BtlvCore *core, u32 arg1, u32 arg2) {
-    func_ov167_021d39e4(core->unk1C0, arg1, arg2);
+void func_ov167_021d0340(BtlvCore *core, u8 pos, BOOL flash) {
+    func_ov167_021d39e4(core->scu, pos, flash);
 }
 
-BOOL func_ov167_021d0350(BtlvCore *core, u32 arg1) {
-    return func_ov167_021d3a1c(core->unk1C0, arg1);
+BOOL func_ov167_021d0350(BtlvCore *core, u8 pos) {
+    return func_ov167_021d3a1c(core->scu, pos);
 }
 
-void func_ov167_021d0360(BtlvCore *core, u32 arg1) {
-    func_ov167_021d3a38(core->unk1C0, arg1);
+void func_ov167_021d0360(BtlvCore *core, u8 pos) {
+    func_ov167_021d3a38(core->scu, pos);
 }
 
-BOOL func_ov167_021d0370(BtlvCore *core, u32 arg1) {
-    return func_ov167_021d3a68(core->unk1C0, arg1);
+BOOL func_ov167_021d0370(BtlvCore *core, u8 pos) {
+    return func_ov167_021d3a68(core->scu, pos);
 }
 
-void func_ov167_021d0380(BtlvCore *core, u32 arg1) {
-    func_ov167_021d3a88(core->unk1C0, arg1);
+void func_ov167_021d0380(BtlvCore *core, u8 pos) {
+    func_ov167_021d3a88(core->scu, pos);
 }
 
-BOOL func_ov167_021d0390(BtlvCore *core, u32 arg1) {
-    return func_ov167_021d3aa8(core->unk1C0, arg1);
+BOOL func_ov167_021d0390(BtlvCore *core, u8 pos) {
+    return func_ov167_021d3aa8(core->scu, pos);
 }
 
 void func_ov167_021d03a0(BtlvCore *core, u32 arg1) {
@@ -1500,56 +1492,56 @@ BOOL func_ov167_021d03c0(BtlvCore *core, u32 arg1) {
 
 void func_ov167_021d03d4(BtlvCore *core) {
     func_ov168_021e0430(3);
-    func_ov167_021d4194(core->unk1C0);
+    func_ov167_021d4194(core->scu);
 }
 
 BOOL func_ov167_021d03ec(BtlvCore *core) {
-    return func_ov167_021d41b0(core->unk1C0);
+    return func_ov167_021d41b0(core->scu);
 }
 
 void func_ov167_021d03fc(BtlvCore *core) {
     func_ov168_021e0468();
-    func_ov167_021d41b8(core->unk1C0);
+    func_ov167_021d41b8(core->scu);
 }
 
 void func_ov167_021d0410(BtlvCore *core, u8 pos) {
-    func_ov167_021d34ec(core->unk1C0, func_ov167_0219c6dc(core->mainModule, pos));
+    func_ov167_021d34ec(core->scu, func_ov167_0219c6dc(core->mainModule, pos));
 }
 
 BOOL func_ov167_021d0428(BtlvCore *core, u8 pos) {
-    return func_ov167_021d34fc(core->unk1C0, func_ov167_0219c6dc(core->mainModule, pos));
+    return func_ov167_021d34fc(core->scu, func_ov167_0219c6dc(core->mainModule, pos));
 }
 
-void func_ov167_021d0440(BtlvCore *core, u32 arg1, u32 arg2) {
-    func_ov167_021d3510(core->unk1C0, arg1, arg2);
+void func_ov167_021d0440(BtlvCore *core, u8 pos, u32 arg2) {
+    func_ov167_021d3510(core->scu, pos, arg2);
 }
 
 BOOL func_ov167_021d0450(BtlvCore *core) {
-    return func_ov167_021d3558(core->unk1C0);
+    return func_ov167_021d3558(core->scu);
 }
 
 void func_ov167_021d0460(BtlvCore *core, u32 arg1) {
-    func_ov167_021d363c(core->unk1C0, arg1, func_ov167_021b1990(core->client));
+    func_ov167_021d363c(core->scu, arg1, func_ov167_021b1990(core->client));
 }
 
 BOOL func_ov167_021d047c(BtlvCore *core) {
-    return func_ov167_021d3694(core->unk1C0);
+    return func_ov167_021d3694(core->scu);
 }
 
 void func_ov167_021d048c(BtlvCore *core, u32 arg1, u32 arg2) {
-    func_ov167_021d35e0(core->unk1C0, arg1, arg2, func_ov167_021b1990(core->client));
+    func_ov167_021d35e0(core->scu, arg1, arg2, func_ov167_021b1990(core->client));
 }
 
 BOOL func_ov167_021d04ac(BtlvCore *core) {
-    return func_ov167_021d3694(core->unk1C0);
+    return func_ov167_021d3694(core->scu);
 }
 
 void func_ov167_021d04bc(BtlvCore *core) {
-    func_ov167_021d3830(core->unk1C0);
+    func_ov167_021d3830(core->scu);
 }
 
 BOOL func_ov167_021d04cc(BtlvCore *core) {
-    return func_ov167_021d385c(core->unk1C0);
+    return func_ov167_021d385c(core->scu);
 }
 
 void func_ov167_021d04dc(BtlvCore *core, u8 clientId, u8 arg2, u8 arg3, u8 slot1, u8 slot2) {
@@ -1583,12 +1575,12 @@ BOOL func_ov167_021d0568(s32 *seq, void *arg) {
         break;
     case 1:
         if (!func_ov168_021df7e8()) {
-            func_ov167_021d3464(core->unk1C0, work->pos1, work->pos2);
+            func_ov167_021d3464(core->scu, work->pos1, work->pos2);
             (*seq)++;
         }
         break;
     case 2:
-        if (func_ov167_021d3490(core->unk1C0, work->pos1, work->pos2)) {
+        if (func_ov167_021d3490(core->scu, work->pos1, work->pos2)) {
             return TRUE;
         }
         break;
@@ -1649,21 +1641,21 @@ BOOL func_ov167_021d06ec(s32 *seq, void *arg) {
         break;
     case 1:
         if (!func_ov168_021df7e8()) {
-            func_ov167_021d34bc(core->unk1C0, work->pos[0]);
-            func_ov167_021d34bc(core->unk1C0, work->pos[1]);
-            func_ov167_021d34bc(core->unk1C0, work->pos[2]);
+            func_ov167_021d34bc(core->scu, work->pos[0]);
+            func_ov167_021d34bc(core->scu, work->pos[1]);
+            func_ov167_021d34bc(core->scu, work->pos[2]);
             (*seq)++;
         }
         break;
     case 2:
         done = TRUE;
-        if (!func_ov167_021d34d4(core->unk1C0, work->pos[0])) {
+        if (!func_ov167_021d34d4(core->scu, work->pos[0])) {
             done = FALSE;
         }
-        if (!func_ov167_021d34d4(core->unk1C0, work->pos[1])) {
+        if (!func_ov167_021d34d4(core->scu, work->pos[1])) {
             done = FALSE;
         }
-        if (!func_ov167_021d34d4(core->unk1C0, work->pos[2])) {
+        if (!func_ov167_021d34d4(core->scu, work->pos[2])) {
             done = FALSE;
         }
         if (done) {
@@ -1734,44 +1726,44 @@ BOOL func_ov167_021d0854(BtlvCore *core, u8 *slot) {
     return FALSE;
 }
 
-void func_ov167_021d0978(BtlvCore *core, BattleMon *mon, const void *levelUp) {
-    func_ov167_021d41f8(core->unk1C0, mon, levelUp);
+void func_ov167_021d0978(BtlvCore *core, BattleMon *mon, const BattleMonLevelUp *levelUp) {
+    func_ov167_021d41f8(core->scu, mon, levelUp);
 }
 
 BOOL func_ov167_021d0988(BtlvCore *core) {
-    return func_ov167_021d4234(core->unk1C0);
+    return func_ov167_021d4234(core->scu);
 }
 
 void func_ov167_021d0998(BtlvCore *core) {
-    func_ov167_021d428c(core->unk1C0);
+    func_ov167_021d428c(core->scu);
 }
 
 BOOL func_ov167_021d09a8(BtlvCore *core) {
-    return func_ov167_021d42ac(core->unk1C0);
+    return func_ov167_021d42ac(core->scu);
 }
 
 void func_ov167_021d09b8(BtlvCore *core) {
-    func_ov167_021d4304(core->unk1C0);
+    func_ov167_021d4304(core->scu);
 }
 
 BOOL func_ov167_021d09c8(BtlvCore *core) {
-    return func_ov167_021d4324(core->unk1C0);
+    return func_ov167_021d4324(core->scu);
 }
 
 void func_ov167_021d09d8(BtlvCore *core) {
-    func_ov167_021d41bc(core->unk1C0);
+    func_ov167_021d41bc(core->scu);
 }
 
 BOOL func_ov167_021d09e8(BtlvCore *core) {
-    return func_ov167_021d41f0(core->unk1C0);
+    return func_ov167_021d41f0(core->scu);
 }
 
 void func_ov167_021d09f8(BtlvCore *core) {
-    func_ov167_021d41d0(core->unk1C0);
+    func_ov167_021d41d0(core->scu);
 }
 
 BOOL func_ov167_021d0a08(BtlvCore *core) {
-    return func_ov167_021d41f0(core->unk1C0);
+    return func_ov167_021d41f0(core->scu);
 }
 
 void BattleClientCmd_ForceQuitInputNotify(BtlvCore *core) {

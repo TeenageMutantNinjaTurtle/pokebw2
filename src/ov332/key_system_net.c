@@ -63,7 +63,7 @@ static BOOL KeySystemNet_CheckBeacon(u32 gameId, u32 value);
 static void KeySystemNet_OnConnect(void *work);
 static void KeySystemNet_OnStart(void *work, BOOL a1);
 static void KeySystemNet_OnDisconnect(void *work);
-static void KeySystemNet_Receive(int netId, int size, void *data, void *work, NetHandle *handle);
+static void KeySystemNet_Receive(int netId, int size, const void *data, void *work, NetHandle *handle);
 static BOOL KeySystemNet_CanRequest(KeySystemNet *net, u32 request);
 static void KeySystemNet_Stop(KeySystemNet *net);
 static void KeySystemNet_OnError(KeySystemNet *net);
@@ -155,7 +155,7 @@ void KeySystemNet_Free(KeySystemNet *net) {
 void KeySystemNet_Update(KeySystemNet *net) {
     KeySystemSeq_Run(net->seq);
     if (net->mode == KEY_SYSTEM_NET_MODE_OV181 && net->ov181Work != NULL) {
-        func_ov181_021a03f4(net->ov181Work);
+        MBDataConv_Update(net->ov181Work);
     }
 }
 
@@ -168,7 +168,7 @@ void KeySystemNet_SetMode(KeySystemNet *net, u32 mode) {
             break;
         case KEY_SYSTEM_NET_MODE_OV181:
             GFL_OvlLoad(OVERLAY_ID(181));
-            net->ov181Work = func_ov181_021a039c(1);
+            net->ov181Work = MBDataConv_Create(1);
             break;
         case KEY_SYSTEM_NET_MODE_WIFI:
             GFL_OvlLoad(OVERLAY_ID(189));
@@ -549,24 +549,24 @@ static void KeySystemNet_SeqOv181Start(KeySystemSeq *seq, int *state, void *work
     switch (*state) {
     case 0:
         request->ov181.result = 0;
-        func_ov181_021a0470(net->ov181Work, request->ov181.text, request->ov181.title);
+        MBDataConv_SetGameInfo(net->ov181Work, request->ov181.text, request->ov181.title);
         (*state)++;
         break;
     case 1:
-        func_ov181_021a0418(net->ov181Work, 0);
+        MBDataConv_Request(net->ov181Work, MB_DATACONV_REQUEST_DISTRIBUTE);
         (*state)++;
         break;
     case 2:
-        if (func_ov181_021a0460(net->ov181Work)) {
+        if (MBDataConv_IsIdle(net->ov181Work)) {
             request->ov181.result = 1;
             *state = 4;
         } else if (GCTX_HIDGetPressedKeys() & PAD_BUTTON_B) {
-            func_ov181_021a0418(net->ov181Work, 2);
+            MBDataConv_Request(net->ov181Work, MB_DATACONV_REQUEST_CANCEL);
             *state = 3;
         }
         break;
     case 3:
-        if (func_ov181_021a0460(net->ov181Work)) {
+        if (MBDataConv_IsIdle(net->ov181Work)) {
             request->ov181.result = 2;
             *state = 4;
         }
@@ -584,18 +584,18 @@ static void KeySystemNet_SeqOv181End(KeySystemSeq *seq, int *state, void *work) 
     switch (*state) {
     case 0:
         request->ov181End.done = FALSE;
-        func_ov181_021a0418(net->ov181Work, 3);
+        MBDataConv_Request(net->ov181Work, MB_DATACONV_REQUEST_CONNECT);
         (*state)++;
         break;
     case 1:
-        if (func_ov181_021a0460(net->ov181Work)) {
+        if (MBDataConv_IsIdle(net->ov181Work)) {
             (*state)++;
         }
         break;
     case 2:
         request->ov181End.done = TRUE;
-        request->ov181End.result = func_ov181_021a0484(net->ov181Work);
-        request->ov181End.data = func_ov181_021a0488(net->ov181Work);
+        request->ov181End.result = MBDataConv_GetResult(net->ov181Work);
+        request->ov181End.data = MBDataConv_GetReceivedData(net->ov181Work);
         KeySystemSeq_Set(seq, KeySystemNet_SeqIdle);
         break;
     }
@@ -806,7 +806,7 @@ static void KeySystemNet_OnDisconnect(void *work) {
     }
 }
 
-static void KeySystemNet_Receive(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void KeySystemNet_Receive(int netId, int size, const void *data, void *work, NetHandle *handle) {
     KeySystemNet *net = work;
 
     if (handle == func_02040440() && netId != func_0203ffc4() && size < NET_BUFFER_SIZE) {
@@ -834,7 +834,7 @@ static void KeySystemNet_Stop(KeySystemNet *net) {
     switch (net->mode) {
     case KEY_SYSTEM_NET_MODE_OV181:
         if (net->ov181Work != NULL) {
-            func_ov181_021a03c8(net->ov181Work);
+            MBDataConv_Delete(net->ov181Work);
             net->ov181Work = NULL;
             GFL_OvlUnload(OVERLAY_ID(181));
         }

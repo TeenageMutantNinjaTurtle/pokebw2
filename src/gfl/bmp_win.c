@@ -153,7 +153,7 @@ void BmpWin_FlushMap(BmpWin *window) {
     GFL_HeapFree(screen);
 }
 
-void BmpWin_MakeFrameScreen(BmpWin *window, u32 frameChar, u8 palette) {
+void BmpWin_MakeFrameScreen(BmpWin *window, u16 frameChar, u8 palette) {
     u16 pal;
 
     if (GFL_BGSysGetBGMode(window->bg) != BGMODE_AFFINE) {

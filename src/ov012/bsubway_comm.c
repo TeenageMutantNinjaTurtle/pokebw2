@@ -23,14 +23,14 @@ static void func_ov012_02161960(BSubwayScrWork *bsw);
 static void func_ov012_0216196c(BSubwayScrWork *bsw, u16 value);
 static void func_ov012_02161978(BSubwayScrWork *bsw, u16 value);
 static void func_ov012_02161984(BSubwayScrWork *bsw, u16 value);
-static void func_ov012_02161ad8(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov012_02161b4c(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov012_02161b80(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov012_02161bbc(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov012_02161be8(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov012_02161c1c(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov012_02161c40(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov012_02161c64(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov012_02161ad8(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov012_02161b4c(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov012_02161b80(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov012_02161bbc(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov012_02161be8(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov012_02161c1c(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov012_02161c40(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov012_02161c64(int netId, int size, const void *data, void *work, NetHandle *handle);
 
 static const NetCommand data_ov012_0216d8fc[] = {
     {func_ov012_02161ad8, NULL},
@@ -82,7 +82,7 @@ static const GFLNetInitData data_ov012_0216d93c = {
 };
 
 void func_ov012_02161844(BSubwayScrWork *bsw) {
-    func_020425ec((GFLNetInitData *)&data_ov012_0216d93c, NULL, bsw);
+    func_020425ec(&data_ov012_0216d93c, NULL, bsw);
 }
 
 static void *func_ov012_02161858(void *work) {
@@ -243,7 +243,7 @@ BOOL func_ov012_02161a94(BSubwayScrWork *bsw, u16 *var) {
     return FALSE;
 }
 
-static void func_ov012_02161ad8(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02161ad8(int netId, int size, const void *data, void *work, NetHandle *handle) {
     BSubwayScrWork *bsw = work;
     const u16 *recv = data;
     u16 result = 0;
@@ -266,7 +266,7 @@ static void func_ov012_02161ad8(int netId, int size, void *data, void *work, Net
     bsw->recvResult = result;
 }
 
-static void func_ov012_02161b4c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02161b4c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     BSubwayScrWork *bsw = work;
 
     bsw->recvCount++;
@@ -276,7 +276,7 @@ static void func_ov012_02161b4c(int netId, int size, void *data, void *work, Net
     sys_memcpy(data, bsw->unk32, 14 * sizeof(u16));
 }
 
-static void func_ov012_02161b80(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02161b80(int netId, int size, const void *data, void *work, NetHandle *handle) {
     BSubwayScrWork *bsw = work;
     const u16 *recv = data;
 
@@ -290,7 +290,7 @@ static void func_ov012_02161b80(int netId, int size, void *data, void *work, Net
     }
 }
 
-static void func_ov012_02161bbc(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02161bbc(int netId, int size, const void *data, void *work, NetHandle *handle) {
     BSubwayScrWork *bsw = work;
 
     bsw->recvCount++;
@@ -300,7 +300,7 @@ static void func_ov012_02161bbc(int netId, int size, void *data, void *work, Net
     sys_memcpy(data, &bsw->partner, sizeof(PlayerInfo));
 }
 
-static void func_ov012_02161be8(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02161be8(int netId, int size, const void *data, void *work, NetHandle *handle) {
     BSubwayScrWork *bsw = work;
     const u16 *recv = data;
 
@@ -315,7 +315,7 @@ static void func_ov012_02161be8(int netId, int size, void *data, void *work, Net
     }
 }
 
-static void func_ov012_02161c1c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02161c1c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     BSubwayScrWork *bsw = work;
     const u16 *recv = data;
 
@@ -326,7 +326,7 @@ static void func_ov012_02161c1c(int netId, int size, void *data, void *work, Net
     bsw->recvResult = recv[0];
 }
 
-static void func_ov012_02161c40(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02161c40(int netId, int size, const void *data, void *work, NetHandle *handle) {
     BSubwayScrWork *bsw = work;
     const u16 *recv = data;
 
@@ -337,7 +337,7 @@ static void func_ov012_02161c40(int netId, int size, void *data, void *work, Net
     bsw->recvResult = recv[0];
 }
 
-static void func_ov012_02161c64(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02161c64(int netId, int size, const void *data, void *work, NetHandle *handle) {
     BSubwayScrWork *bsw = work;
     const u16 *recv = data;
 

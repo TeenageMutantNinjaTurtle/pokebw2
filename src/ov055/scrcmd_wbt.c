@@ -1,6 +1,6 @@
 #include "types.h"
+#include "field/event_wbt.h"
 #include "field/field_script.h"
-#include "field/ov022.h"
 #include "field/ov135.h"
 #include "field/scrcmd_wbt.h"
 #include "field/wbt.h"
@@ -224,7 +224,7 @@ static BOOL func_ov055_021e5b38(VM *vm, FieldScriptEnv *env) {
     sys = func_ov055_021e5800(env);
     setup = func_ov055_021e67f4(heapId, gsys);
     func_ov055_021e68a8(gsys, sys, setup);
-    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(22), func_ov022_0216e73c, setup));
+    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(22), EventWbtList_Create, setup));
     return TRUE;
 }
 

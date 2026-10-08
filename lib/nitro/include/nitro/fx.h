@@ -138,6 +138,8 @@ fx32 FX_Inv(fx32 x);
 // NitroSDK's FX_Mul as a function, rounding, and FX_Atan2Idx
 fx32 fx_mul_round(fx32 v1, fx32 v2);
 u16 fx_atan2(fx32 y, fx32 x);
+// Returns the fraction of x and writes its whole part, both with the sign of x
+fx32 fx_fract(fx32 x, fx32 *whole);
 fx32 FX_Sqrt(fx32 x);
 fx32 FX_InvSqrt(fx32 x);
 
@@ -163,5 +165,11 @@ static inline void VEC_Fx16Set(VecFx16 *v, fx16 x, fx16 y, fx16 z) {
 
 // NitroSDK's MTX_Inverse43, which returns -1 when the matrix has no inverse
 int MAT43_Invert(const MtxFx43 *mtx, MtxFx43 *inv);
+// NitroSDK's MTX_Inverse33
+int MAT3_Invert(const MtxFx33 *mtx, MtxFx33 *inv);
+// NitroSDK's MTX_Copy33To44, MTX_Copy43To44 and MTX_Concat44
+void MAT3_To4x4(const MtxFx33 *src, MtxFx44 *dst);
+void MAT43_To4x4(const MtxFx43 *src, MtxFx44 *dst);
+void MAT4_Mul(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab);
 
 #endif // POKEBW2_NITRO_FX_H

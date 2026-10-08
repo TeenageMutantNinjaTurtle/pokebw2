@@ -21,6 +21,7 @@
 #include "save/key_info.h"
 #include "save/player_info.h"
 #include "save/save_control.h"
+#include "save/save_outside.h"
 #include "system/bmp_menulist.h"
 #include "system/bmp_winframe.h"
 #include "system/dsi.h"
@@ -824,13 +825,13 @@ static void DataConvert_SeqSaveOther(KeySystemSeq *seq, int *state, void *work) 
 
     switch (*state) {
     case 0:
-        func_ov331_021bec24(wk->ov331Work);
+        SaveOutside_StartSave(wk->ov331Work);
         wk->timer = 0;
         (*state)++;
         break;
     case 1:
         wk->timer++;
-        if (func_ov331_021bec98(wk->ov331Work)) {
+        if (SaveOutside_Save(wk->ov331Work)) {
             (*state)++;
         }
         break;

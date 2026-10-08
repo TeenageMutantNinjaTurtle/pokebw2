@@ -16,6 +16,7 @@ u32 FieldPlayer_DeriveExState(FieldPlayer *player);
 void FieldPlayer_SetSpecialState(FieldPlayer *player, u32 state);
 void FieldPlayer_SetSpecialSeq(FieldPlayer *player, u32 seq);
 BOOL func_ov036_0219a580(FieldPlayer *player);
+u32 func_ov036_0219a864(FieldPlayer *player);
 BOOL func_ov036_0219a834(FieldPlayer *player);
 BOOL func_ov036_0219a870(FieldPlayer *player);
 BOOL func_ov036_0219ab24(FieldPlayer *player);
@@ -34,10 +35,14 @@ BOOL func_ov036_0219ad00(FieldPlayer *player);
 void *func_ov036_0219ad0c(FieldPlayer *player);
 u32 FieldPlayer_GetTileTypeInDir(FieldPlayer *player, u16 direction);
 FieldActor *FieldPlayer_GetActorInFront(FieldPlayer *player);
+FieldActor *FieldPlayer_GetActorInFrontEx(FieldPlayer *player, fx32 maxHeightDiff);
 BOOL CheckSurfHeightAllow(FieldPlayer *player, u32 direction);
 BOOL CheckCanInteractWaterfall(FieldPlayer *player, u32 tileUnder, u32 tileInFront);
 FieldPlayer *FieldPlayer_Create(PlayerState *state, Field *field, const VecFx32 *pos, u32 sex, HeapID heapId);
 void FieldPlayer_Free(FieldPlayer *player);
 void FieldPlayer_SyncState(FieldPlayer *player);
+void FieldPlayer_ForceBrake(FieldPlayer *player);
+void FieldPlayer_SetRailPos(FieldPlayer *player, const RailPosition *pos);
+void FieldPlayer_GetRailWorldPos(FieldPlayer *player, VecFx32 *pos);
 
 #endif // POKEBW2_FIELD_FIELD_PLAYER_H

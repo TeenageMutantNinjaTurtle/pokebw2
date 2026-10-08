@@ -10,6 +10,7 @@
 #include "battle/btl_server_cmd.h"
 #include "battle/btl_server_flow.h"
 #include "battle/btl_server_flow_sub.h"
+#include "battle/handler_common.h"
 #include "constants/abilities.h"
 #include "constants/items.h"
 #include "constants/moves.h"
@@ -467,7 +468,7 @@ static u8 func_ov167_021aedac(BtlServerFlow *flow, BattleMon *mon, BtlFlowMovePa
 void AddExpAndEVs(BtlServerFlow *flow, BattleParty *party, BattleMon *defeated, BtlFlowExpEntry *entries) {
     BtlSetup *setup;
     u32 baseExp;
-    u32 numMons;
+    u16 numMons;
     u16 numExpShare;
     u16 i;
     BattleMon *mon;
@@ -1214,9 +1215,9 @@ static BOOL func_ov167_021afcf4(BtlServerFlow *flow, BattleMon *mon, u16 item, s
 // An Elixir restores the PP of every move
 static BOOL func_ov167_021afd90(BtlServerFlow *flow, BattleMon *mon, u16 item, s32 value, u8 param) {
     u8 monId;
-    u8 maxAmount;
+    u32 numMoves;
     BOOL used;
-    u8 numMoves;
+    u8 maxAmount;
     u8 amount;
     u32 i;
     BattleHandlerPPParam *pp;
@@ -1685,6 +1686,7 @@ u32 func_ov167_021b05b4(BtlServerFlow *flow) {
     u8 otherSide;
     u8 monId;
     s32 outcome;
+    u8 monSide;
 
     alive[0] = alive[1] = 0;
     total[0] = total[1] = 0;
@@ -1713,7 +1715,8 @@ u32 func_ov167_021b05b4(BtlServerFlow *flow) {
         if (alive[0] == 0) {
             monId = func_ov169_0689d35c(flow->unk3E0);
             if (monId != 0x1f) {
-                if (side == GetSideFromMonID(monId)) {
+                monSide = GetSideFromMonID(monId);
+                if (monSide == side) {
                     return 1;
                 }
                 return 0;

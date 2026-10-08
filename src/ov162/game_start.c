@@ -29,6 +29,7 @@
 #include "save/player_info.h"
 #include "save/save_control.h"
 #include "save/save_control_intr.h"
+#include "save/save_outside.h"
 #include "system/bmp_winframe.h"
 #include "system/game_system.h"
 #include "system/gf_font.h"
@@ -407,11 +408,11 @@ static void func_ov162_021a04a8(SaveControl *save) {
 
     if (func_02007464(save) & 2) {
         GFL_OvlLoad(OVERLAY_ID(331));
-        work = func_ov331_021bea20(HEAPID_USER);
-        if (func_ov331_021bee68(work)) {
-            func_ov331_021bee24(HEAPID_USER);
+        work = SaveOutside_Load(HEAPID_USER);
+        if (SaveOutside_IsKeysLoaded(work)) {
+            SaveOutside_EraseKeys(HEAPID_USER);
         }
-        func_ov331_021bec1c(work);
+        SaveOutside_Free(work);
         GFL_OvlUnload(OVERLAY_ID(331));
     }
 }
@@ -421,14 +422,14 @@ static void func_ov162_021a04e8(SaveControl *save) {
 
     if (SaveControl_GetStatus(save) == 1 && !SaveControl_IsDataAlreadyPresent(save)) {
         GFL_OvlLoad(OVERLAY_ID(331));
-        work = func_ov331_021bea20(HEAPID_USER);
-        if (func_ov331_021bed54(work)) {
-            func_ov331_021bed78(work, save);
+        work = SaveOutside_Load(HEAPID_USER);
+        if (SaveOutside_IsGiftsLoaded(work)) {
+            SaveOutside_CopyGiftsToSave(work, save);
         }
-        if (func_ov331_021bee68(work)) {
-            func_ov331_021bee88(work, save);
+        if (SaveOutside_IsKeysLoaded(work)) {
+            SaveOutside_CopyKeysToSave(work, save);
         }
-        func_ov331_021bec1c(work);
+        SaveOutside_Free(work);
         GFL_OvlUnload(OVERLAY_ID(331));
     }
 }
@@ -656,5 +657,5 @@ static void DebugGameStart_CycleCursorColor(DebugGameStartWork *wk) {
     r = 25 + ((-20 * t) >> FX32_SHIFT);
     g = 30 + ((-15 * t) >> FX32_SHIFT);
     wk->cursorColor = GX_RGB(r, g, b);
-    gfxUploadAsync(15, 3 * 0x20 + 6 * 2, &wk->cursorColor, sizeof(GXRgb));
+    NNS_GfdRegisterNewVramTransferTask(15, 3 * 0x20 + 6 * 2, &wk->cursorColor, sizeof(GXRgb));
 }

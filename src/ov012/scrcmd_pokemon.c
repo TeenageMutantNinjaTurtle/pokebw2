@@ -9,6 +9,7 @@
 #include "gfl/std.h"
 #include "gfl/str.h"
 #include "pml/item.h"
+#include "pml/met_data.h"
 #include "pml/personal.h"
 #include "pml/poke_party.h"
 #include "pml/species_names.h"
@@ -631,6 +632,7 @@ BOOL s0113_PokePartyIsOriginGame(VM *vm, FieldScriptEnv *env) {
     HeapID heapId;
     StrBuf *otName;
     StrBuf *playerName;
+    u32 origin;
 
     if (!CheckGetPartyPokemon(env, index, &pkm)) {
         *result = FALSE;
@@ -662,7 +664,8 @@ BOOL s0113_PokePartyIsOriginGame(VM *vm, FieldScriptEnv *env) {
         *result = FALSE;
         return FALSE;
     }
-    if (game_version != PokeParty_GetParam(pkm, PKM_PARAM_ORIGIN_GAME, NULL)) {
+    origin = PokeParty_GetParam(pkm, PKM_PARAM_ORIGIN_GAME, NULL);
+    if (origin != game_version) {
         *result = FALSE;
         return FALSE;
     }

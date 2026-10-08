@@ -32,6 +32,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - Chained stores of one constant (`a = b = TRUE`) share a register; separate ones may not.
   (matching.md: "Two stores of the same constant")
 - Variables of an inner block are allocated apart from the function's. (matching.md: "declared in an inner block")
+- A zeroed struct passed by value in a loop is copied from another zero variable: declaring it in a block around the
+  loop changes which. (matching.md: "zeroed struct a loop passes by value")
 - A narrow type in a wider local: `GFL_BGSysAllocChar` only matched with a `u8` tile size held in an `int`.
   (matching.md: "plain change")
 - Diagnose with `tools/scripts/locals.py`, which shows each variable's register.
@@ -46,7 +48,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 - An extra slot holding a copy of an address-taken local before a nested loop: read its field inside the inner loop,
   not into a local in the outer one. (matching.md: "hoisted only out of the loop it sits in")
-- Stack locals are laid out in reverse declaration order. (matching.md: "reverse declaration order")
+- Stack locals are laid out in reverse declaration order; to read values in one order and slot them in another,
+  declare without initializers and assign later. (matching.md: "reverse declaration order")
 - A struct copied from `.rodata` once before a loop into the lowest slot, then into another slot inside it: a
   local initializer in the loop body. (matching.md: "local initializer inside a loop")
 - Spilled variables get slots in the order they are first assigned, in small functions. In big switches,
@@ -84,9 +87,13 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A load through a `const` pointer is reused across stores but not hoisted out of a loop. (matching.md: "reused across stores")
 - Initializations are scheduled where they are written: `int i = 0;` declared after a call against `for (i = 0; ...)`.
   (matching.md: "scheduled where they are written")
+- Two loop variables zeroed in the wrong order: `for (i = 0, count = 0; ...)` in the original's order.
+  (matching.md: "Two loop variables zeroed")
 - A u16 stack parameter left in its slot and reloaded with `ldrh`, one load shared by two calls: those callees take
   `u32`; check their prototypes against their asm. (matching.md: "reloaded with `ldrh`")
 - An argument loaded before a call among the arguments was passed to an inlined helper that makes the call.
+- A field read before a `sys_memset` (or another call) that could change it was the argument of an inlined helper.
+  (matching.md: "a field read before a call that could change it")
   (matching.md: "inlined helper that makes the call")
 - One load of a struct's pointer field for two stores through it, where ours reloads: an inline helper taking the
   pointer. (matching.md: "Two stores through a pointer")
@@ -104,8 +111,16 @@ text to `grep -n` there. Entries without a key come from later work and still be
   local. (matching.md: "nested in another call's arguments")
 - Arguments loaded in order around a conditional one: that argument was a local set before the call.
   (matching.md: "A conditional expression among a call's arguments")
+- A plain argument loaded before a call that is another argument: the plain one was in a local.
+  (matching.md: "plain argument loaded before")
+- An inline's argument computed and spilled at the inline's entry: the caller passed a local.
+  (matching.md: "copies into its one use")
+- A `const` table read before I/O register stores: it was written before them. (matching.md: "not moved across stores to I/O")
 
 ## An instruction too many or too few
+
+- A saved register, `bl` and return where the C tail-calls (`ldr r3, =f; bx r3`): the call passes a fourth register
+  argument. (matching.md: "four arguments in registers")
 
 - A narrowing before an `and` into a `u8` field: `x &= mask` narrows the mask, `x = x & mask` doesn't.
   (matching.md: "compound assignment to a narrow field")
@@ -149,6 +164,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   register")
 - An array initializer stores at its declaration: open an inner block where the original clears the array.
   (matching.md: "The initializer's stores happen")
+- `s16` narrowing of a value also used unnarrowed: an inline with `s16` parameters. (matching.md: "inline with `s16` parameters")
 
 ## Branches and block layout
 
@@ -205,6 +221,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "i <= N - 1")
 - A test after a body that is entered from the top and from an earlier branch, in a function that does one box a frame:
   `while (box < n) { ...; break; }`, with a comment. (matching.md: "stops after its first pass")
+- A load hoisted one loop level only: it was in the middle loop's body. (matching.md: "middle loop's body")
 
 ## Switches
 
@@ -259,6 +276,9 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - When the prediction is wrong, move one declaration at a time and compare the built sections with the ROM.
   (matching.md: "prediction disagrees")
 - `static const` goes in `.rodata`, so a table in `.data` isn't `const`. (matching.md: "`static const` data goes in")
+- Small unreferenced objects at the start of a file's shared `.rodata` (ahead of its smallest referenced table) are
+  function-local `static const`s, which are emitted even when their reads are folded or absent. (matching.md:
+  "function-local `static const` is emitted")
 - A `static const` whose address is never taken is folded and not emitted. If the original has it, it isn't static.
   An unreferenced word after a file's larger tables is the next file's first object.
   (matching.md: "whose address is never taken")
@@ -267,6 +287,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   picks the macro by it.
 - `GFL_ASSERT` keeps its expression as a string, which preserves the original variable names. (matching.md: "GFL_ASSERT")
 - A file's `.data` ends at its last object.
+- One table in the `.rodata` of several files: a `static const` in a header, with a `static inline` reading it.
+  (matching.md: "same small table")
 
 ## Function order and presence
 

@@ -90,18 +90,18 @@ prints the tables below from the configs and the ROM:
 
 ### Overlay 12
 
-1619 of 1668 functions are in source files. Embedded names without a file yet: `event_battle.c`, `pair_sys.c`.
+1668 of 1668 functions are in source files.
 
 | File | `.text` (Black 2) | Functions | Status | Name |
 | --- | --- | --- | --- | --- |
-| `event_ircbattle.c` | `0x021503c0`–`0x02150cf8` | 13 | partial | string at `0x0216dfa0` |
+| `event_ircbattle.c` | `0x021503c0`–`0x02150cf8` | 13 | complete | string at `0x0216dfa0` |
 | `musical_event.c` | `0x02150cf8`–`0x02151e68` | 33 | partial | string at `0x0216dfb4` |
 | `musical_dressup_sys.c` | `0x02151e68`–`0x02151f90` | 5 | complete | string at `0x0216dfd0` |
 | `musical_stage_sys.c` | `0x02151f90`–`0x021522d8` | 9 | complete | string at `0x0216dff4` |
 | `musical_program.c` | `0x021522d8`–`0x0215264c` | 15 | partial | string at `0x0216e008` |
-| `event_colosseum_battle.c` | `0x0215264c`–`0x0215291c` | 3 | partial | descriptive |
+| `event_colosseum_battle.c` | `0x0215264c`–`0x0215291c` | 3 | complete | descriptive |
 | `delivery_beacon.c` | `0x0215291c`–`0x02152c0c` | 22 | partial | string at `0x0216e0a8` |
-| `delivery_irc.c` | `0x02152c0c`–`0x02153160` | 27 | partial | string at `0x0216e180` |
+| `delivery_irc.c` | `0x02152c0c`–`0x02153160` | 27 | complete | string at `0x0216e180` |
 | `mystery_gift_pokemon.c` | `0x02153160`–`0x021535dc` | 1 | partial | descriptive |
 | `intrude_work.c` | `0x021535dc`–`0x0215366c` | 12 | complete | descriptive |
 | `script_sys.c` | `0x0215366c`–`0x02153da4` | 41 | partial | string at `0x0216e190` |
@@ -115,7 +115,7 @@ prints the tables below from the configs and the ROM:
 | `trainer_script.c` | `0x02154f98`–`0x021550a4` | 11 | complete | descriptive |
 | `scrcmd_work.c` | `0x021550a4`–`0x021555f8` | 47 | complete | string at `0x0216e1e4` |
 | `scrcmd_game_state.c` | `0x021555f8`–`0x02156174` | 55 | complete | descriptive |
-| `scrcmd_pokemon.c` | `0x02156174`–`0x021574a4` | 43 | partial | string at `0x0216e1f4` |
+| `scrcmd_pokemon.c` | `0x02156174`–`0x021574a4` | 43 | complete | string at `0x0216e1f4` |
 | `scrcmd_proc.c` | `0x021574a4`–`0x02157c20` | 21 | partial | string at `0x0216e208` |
 | `scrcmd_sodateya.c` | `0x02157c20`–`0x021580c4` | 18 | complete | string at `0x0216e218` |
 | `scrcmd_musical.c` | `0x021580c4`–`0x021590ec` | 27 | partial | string at `0x0216e22c` |
@@ -150,14 +150,14 @@ prints the tables below from the configs and the ROM:
 | `scrcmd_weather.c` | `0x021611e0`–`0x02161260` | 1 | complete | descriptive |
 | `symbol_save_field.c` | `0x02161260`–`0x021613d0` | 8 | complete | descriptive |
 | `comm_player.c` | `0x021613d0`–`0x02161844` | 12 | complete | string at `0x0216e2e4` |
-| `bsubway_comm.c` | `0x02161844`–`0x02161c88` | 27 | partial | descriptive |
+| `bsubway_comm.c` | `0x02161844`–`0x02161c88` | 27 | complete | descriptive |
 | `fld_btl_inst_event.c` | `0x02161c88`–`0x02161f6c` | 4 | complete | descriptive |
 | `fld_btl_inst_tool.c` | `0x02161f6c`–`0x02162b64` | 22 | partial | string at `0x0216e36c` |
 | `event_cgear_poweron.c` | `0x02162b64`–`0x02162c48` | 3 | complete | descriptive |
 | `event_trial_house.c` | `0x02162c48`–`0x02162f44` | 6 | partial | descriptive |
-| `ev_time.c` | `0x02162f44`–`0x021631c8` | 13 | partial | descriptive |
+| `ev_time.c` | `0x02162f44`–`0x021631c8` | 13 | complete | descriptive |
 | `field_g3d_map.c` | `0x021631c8`–`0x02163b38` | 47 | partial | string at `0x0216e380` |
-| `report_event.c` | `0x02163b38`–`0x02164330` | 20 | partial | string at `0x0216e390` |
+| `report_event.c` | `0x02163b38`–`0x02164330` | 20 | complete | string at `0x0216e390` |
 | `shaymin_form.c` | `0x02164330`–`0x02164490` | 4 | complete | descriptive |
 | `scrcmd_trial_house.c` | `0x02164490`–`0x02164838` | 16 | complete | descriptive |
 | `scrcmd_actor_move.c` | `0x02164838`–`0x021649ec` | 4 | complete | descriptive |
@@ -169,15 +169,19 @@ prints the tables below from the configs and the ROM:
 | `namein_setup.c` | `0x021659ec`–`0x02165b1c` | 7 | complete | string at `0x0216e3a0` |
 | `event_league_lift.c` | `0x02165b1c`–`0x02165eb8` | 7 | partial | descriptive |
 | `event_bsubway.c` | `0x02165eb8`–`0x02166664` | 17 | partial | descriptive |
-| `fldmmdl.c` | `0x02166664`–`0x02168320` | 270 | partial | string at `0x0216e5c0` |
+| `fldmmdl.c` | `0x02166664`–`0x02168320` | 270 | complete | string at `0x0216e5c0` |
 | `fest_mission_field.c` | `0x02168320`–`0x02168468` | 5 | complete | descriptive |
+| `burmy_form.c` | `0x02168468`–`0x021684bc` | 1 | complete | descriptive |
+| `event_battle.c` | `0x021684bc`–`0x0216919c` | 26 | complete | string at `0x0216e5dc` |
 | `trcard_sys.c` | `0x0216919c`–`0x02169c1c` | 23 | complete | string at `0x0216e5ec` |
 | `scrcmd_sp_poke.c` | `0x02169c1c`–`0x02169c7c` | 4 | complete | descriptive |
 | `waza_oshie.c` | `0x02169c7c`–`0x02169e18` | 4 | partial | string at `0x0216e5fc` |
 | `g3d_text_draw.c` | `0x02169e18`–`0x0216a190` | 7 | partial | descriptive |
 | `pass_power_check.c` | `0x0216a190`–`0x0216a23c` | 2 | partial | descriptive |
+| `pair_sys.c` | `0x0216a23c`–`0x0216a6a4` | 16 | complete | string at `0x0216e60c` |
 | `scrcmd_hollow_rival.c` | `0x0216a6a4`–`0x0216a82c` | 7 | complete | descriptive |
 | `scrcmd_keysystem.c` | `0x0216a82c`–`0x0216a950` | 5 | complete | string at `0x0216e618` |
+| `scrcmd_download_data.c` | `0x0216a950`–`0x0216abc0` | 6 | complete | descriptive |
 | `scrcmd_pedometer.c` | `0x0216abc0`–`0x0216ac28` | 3 | complete | descriptive |
 | `hidden_hollow.c` | `0x0216ac28`–`0x0216acc4` | 2 | complete | descriptive |
 | `scrcmd_join_avenue_store.c` | `0x0216acc4`–`0x0216ad3c` | 4 | complete | descriptive |

@@ -138,7 +138,7 @@ u32 GetZoneNPCsCount(EventData *eventData);
 void SetZoneNPCLocation(EventData *eventData, u32 npcId, u16 direction, u16 x, s32 y, u16 z);
 void SetZoneNPCMdlID(EventData *eventData, u16 npcId, u16 objCode);
 void SetZoneNPCSCRID(EventData *eventData, u16 npcId, u16 scriptId);
-void GetNPCMdlInfoForOBJCODE(MMSys *actorSystem, u16 objCode, FieldActorConfig *config);
+void GetNPCMdlInfoForOBJCODE(const MMSys *actorSystem, u16 objCode, FieldActorConfig *config);
 void LoadMModelSystemInfoCache(MMSys *mmSys, s32 index);
 void SetActorFlag(FieldActor *actor, u32 flag);
 void ClearActorFlag(FieldActor *actor, u32 flag);
@@ -159,6 +159,7 @@ void func_ov036_0219634c(FieldActor *actor, u16 *a1, u16 *a2);
 void func_ov036_021963a4(FieldActor *actor, u16 a1, u16 a2);
 // The unit vector of a direction along the actor's rail
 void func_ov036_02195a78(FieldActor *actor, u16 dir, VecFx16 *dest);
+void func_ov036_02195a58(FieldActor *actor, VecFx16 *dest);
 u32 GetIndexOfObjID(u16 objCode);
 
 // Overlay 36's table that func_ov036_02194650 indexes, by a record's unk9
@@ -199,7 +200,7 @@ FieldG3DMapper *GetMMSysG3DMapper(MMSys *system);
 BOOL GetTerrainAtPosByActor(FieldActor *actor, const VecFx32 *position, MapTerrainBuf *terrain);
 Field *GetMMSysField(MMSys *mmSys);
 // The movement command of a direction in the row of a table that has the command
-u16 GetAcmdForDir(u32 dir, u32 acmd);
+u16 GetAcmdForDir(u16 dir, u32 acmd);
 // The collision flags of the tile next to the actor in a direction
 u32 ActorRouteCollCheckOneTileInDir(FieldActor *actor, u16 dir);
 // Starts a movement command
@@ -217,7 +218,7 @@ void func_ov012_021682e8(FieldActor *actor, const FieldActorMoveCode *moveCode);
 u16 GetActorZoneID(FieldActor *actor);
 BOOL IsActorFlag16(FieldActor *actor);
 // Steps through the system's actors from *index, returning TRUE with the next one in *actor
-BOOL NextActor(MMSys *mmSys, FieldActor **actor, u32 *index);
+BOOL NextActor(const MMSys *mmSys, FieldActor **actor, u32 *index);
 FieldActor *CreateNewActorByEntityNoWKOBJCODE(MMSys *mmSys, const ZoneNPC *npc, u32 zoneId);
 // Sets a ZoneNPC's position on the grid
 void func_ov012_021682c0(ZoneNPC *npc, u16 x, u16 z, s32 y);
@@ -234,6 +235,8 @@ void SetActorWPosValue(FieldActor *actor, const VecFx32 *pos);
 // The actor with an ID, or NULL
 FieldActor *FindFieldActor(MMSys *mmSys, u16 id);
 FieldActor *FindActorByMoveCode(MMSys *mmSys, u16 code);
+// The other Trainer of a double battle pair
+FieldActor *FindPairedTrainerActor(FieldActor *actor);
 // Moves grid coordinates or a position by a distance in a direction
 void AdjusGridXZByDir(u32 dir, s16 *x, s16 *z, s16 distance);
 void ExpandVecInGridDir(u16 dir, VecFx32 *pos, fx32 distance);
@@ -272,6 +275,8 @@ u16 GetActorMoveCode(FieldActor *actor);
 s16 GetActorWalkAreaW(FieldActor *actor);
 s16 GetActorWalkAreaH(FieldActor *actor);
 ActorPositionRail *GetNPCRailPosPtrAddr(FieldActor *actor);
+// The rail unit that moves the actor along the rails
+RailUnit *FldAct_GetRailUnit(FieldActor *actor);
 ActorPositionRail *ClearActorPositionBlock(FieldActor *actor, u32 size);
 // Call the move code's unk4 and unk8 functions
 void func_ov012_02167174(FieldActor *actor);
@@ -402,7 +407,7 @@ void FldActSys_Free(MMSys *system);
 void FldActSys_ForceFullSync(MMSys *system);
 // Creates the actor of the entity with an ID, if it is spawned
 FieldActor *func_ov012_021668f8(MMSys *mmSys, ZoneNPC *npcs, s32 zoneId, u32 count, EventWork *eventWork, u16 uid);
-u16 GetActorLimit(MMSys *system);
+u16 GetActorLimit(const MMSys *system);
 // The base priority of the actors' tasks
 u16 func_ov012_02166f6c(MMSys *system);
 HeapID FldActSys_GetFieldHeapID(MMSys *system);
@@ -470,6 +475,8 @@ FieldActor *GetFirstActorOnGPos(MMSys *system, s16 x, s16 z, BOOL checkInit);
 FieldActor *FindActorByGPos(MMSys *system, s16 x, s16 z, fx32 y, fx32 maxHeightDiff, BOOL checkInit);
 FieldActor *FindActorByGPos_(MMSys *system, s16 x, s16 z, fx32 y, fx32 maxHeightDiff, BOOL checkInit,
                              FieldActor *exclude);
+// The first actor on a rail position
+FieldActor *FindActorByRailPos(MMSys *system, const RailPosition *position, BOOL checkInit);
 // Whether another actor has the object code
 BOOL FldAct_CheckObjCodeShared(FieldActor *actor, u16 objCode);
 void ChangeActorUID(FieldActor *actor, u16 uid);
@@ -481,7 +488,8 @@ const FieldActorResGroup *GetNPCMdlInfoG2DRscGroup(const FieldActorConfig *confi
 const FieldActorResGroup *GetNPCMdlInfoG3DRscGroup(const FieldActorConfig *config);
 // The object code that an object code stands for, through the work values of WKOBJCODE00 and on
 u16 ResolvePossibleWKOBJCODE(EventWork *eventWork, u16 objCode);
-BOOL func_ov012_02168024(u32 type);
+// How an actor of the event type looks for the player: the types that see only the way they face give 1
+u16 func_ov012_02168024(u16 type);
 void func_ov012_02168054(FieldActor *actor);
 void func_ov012_02168058(FieldActor *actor);
 void func_ov012_0216805c(FieldActor *actor);

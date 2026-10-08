@@ -24,7 +24,7 @@ static struct {
     int bg1X;
 } sNet;
 
-static void func_020427b8(void);
+static void func_020427b8(void *work);
 static void func_02042ae4(int x, int y);
 static void func_02042b40(void);
 
@@ -43,7 +43,7 @@ void func_020425a0(int a0, int a1, HeapID parentHeapId, HeapID heapId) {
     func_0203e7dc();
 }
 
-void func_020425ec(GFLNetInitData *pNetInit, void (*callback)(void *work), void *work) {
+void func_020425ec(const GFLNetInitData *pNetInit, void (*callback)(void *work), void *work) {
     GFLNetSys *pNet;
 
     if (sNet.parentHeapId != 0) {
@@ -115,7 +115,7 @@ BOOL func_020427a4(void) {
     return FALSE;
 }
 
-static void func_020427b8(void) {
+static void func_020427b8(void *work) {
     GFLNetSys *pNet = func_02042e78();
     HeapID heapId = pNet->aNetInit.heapId;
     HeapID wifiHeapId = pNet->aNetInit.wifiHeapId;
@@ -330,7 +330,7 @@ BOOL func_02042a80(int netId) {
     return func_0204044c(func_02040414(netId));
 }
 
-void func_02042a9c(int unused, int a1) {
+void func_02042a9c(NetHandle *handle, int a1) {
     GFLNetSys *pNet = func_02042e78();
 
     if (pNet->pDevTable->unkB8 != NULL) {

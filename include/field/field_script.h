@@ -27,7 +27,9 @@ struct ScriptWork {
     StrBuf *altStrBuf;
     void *unk38;
     void *userHeap;
-    u32 seBitMask;
+    // A bit per sound effect player that the script waits on
+    u8 seBitMask;
+    u8 unk41[3];
     u8 trainerState[2][0x1c];
     u16 localWork[0x62];
     FieldActorAnmProc *actorAnmProc;
@@ -54,6 +56,16 @@ typedef struct {
     StrBuf *descriptions[32];
 } ScriptListMenu;
 
+// What actorWork holds: the actor that a message balloon is over, and where the balloon goes
+typedef struct {
+    u16 actorId;
+    u16 winX;
+    // The actor's position plus offset
+    VecFx32 pos;
+    VecFx32 actorPos;
+    VecFx32 offset;
+} ScriptActorWork;
+
 struct ScriptSubwork {
     ScriptWork *work;
     GameSystem *gsys;
@@ -68,7 +80,7 @@ struct ScriptSubwork {
     u8 actorMsgPosActual;
     u8 actorMsgPos;
     u16 waitCounter;
-    void *nowPkmVoice;
+    u32 nowPkmVoice;
     void *elevatorTable;
 };
 
@@ -398,12 +410,6 @@ extern const FieldScriptSubEventFinishFunc FIELD_SCRIPT_SUB_EVENT_FINISH_FUNCS[1
 // scrcmd_ndemo.c
 BOOL FieldScriptSubEventFinish_NDemo(FinishScriptSubEventsWork *work, u32 *state);
 
-// Overlay 155, the scenes with N
-GameEvent *func_ov155_021f59e0(u8 a0, u8 a1, u16 a2, GameSystem *gsys, FieldScriptEnv *env);
-GameEvent *func_ov155_021f5cd0(GameSystem *gsys);
-void func_ov155_021f5cf8(Field *field);
-void func_ov155_021f5d0c(Field *field);
-
 GameEventReturnCode EventFinishScriptSubEvents_Callback(GameEvent *event, u32 *state, void *data);
 GameEvent *EventFinishScriptSubEvents_Create(FieldScriptEnv *env);
 BOOL s002E_ActorsPauseAll(VM *vm, FieldScriptEnv *env);
@@ -443,10 +449,16 @@ ScriptWork *EventScriptCall_Replace(GameEvent *event, u16 scriptId, FieldActor *
 u32 ScriptWork_AddVM(ScriptWork *work, u16 zoneId, u16 scriptId);
 BOOL FieldScript_VMExists(ScriptWork *work, u8 index);
 void FieldScript_Run(GameSystem *gsys, ScriptWork *work, u16 scriptId, u32 featureLevel);
+// What ScriptWork_GetFieldWork returns: the field's message BG system and the field, or NULLs outside the field
+typedef struct {
+    void *msgBGSys;
+    Field *field;
+} ScriptFieldWork;
+
 void UpdateScriptFieldWk(void *fieldWork, GameSystem *gsys);
 void *ScriptWork_GetFieldWork(ScriptWork *work);
 void *ScriptWork_GetSubwork(ScriptWork *work);
-u32 *ScriptWork_GetSEBitMask(ScriptWork *work);
+u8 *ScriptWork_GetSEBitMask(ScriptWork *work);
 u16 ScriptWork_GetSCRID(ScriptWork *work);
 // A variable of the script (IDs from 0x8000) or saved event work (from 0x4000)
 u16 *ScriptWork_GetWkAddr(ScriptWork *work, GameData *gameData, u16 id);
@@ -455,8 +467,8 @@ BOOL ScriptWork_SetWkValue(ScriptWork *work, u16 id, u32 value);
 // Waits a number of frames: UpdateWaitCounter returns TRUE once they have passed
 void FieldScriptEnv_SetWaitCounter(FieldScriptEnv *env, u16 frames);
 BOOL FieldScriptEnv_UpdateWaitCounter(FieldScriptEnv *env);
-void *GetScrEnvNowPkmVoice(FieldScriptEnv *env);
-void SetScrEnvNowPkmVoice(FieldScriptEnv *env, void *voice);
+u32 GetScrEnvNowPkmVoice(FieldScriptEnv *env);
+void SetScrEnvNowPkmVoice(FieldScriptEnv *env, u32 voice);
 void *FieldScriptEnv_GetElevatorTable(FieldScriptEnv *env);
 void FieldScriptEnv_SetElevatorTable(FieldScriptEnv *env, void *table);
 void SetFieldScriptEnvMsgData(FieldScriptEnv *env, u32 arcId, u32 fileNo);
@@ -486,7 +498,7 @@ MMSys *GetScrEnvMMdlSys(FieldScriptEnv *env);
 void AddItemToListMenu(FieldScriptEnv *env, u32 a1, u32 message, u32 value, StrBuf *a4, StrBuf *a5);
 
 // Overlay 36: show a message, and have the script wait for it
-BOOL func_ov036_021a8eb4(VM *vm, FieldScriptEnv *env, StrBuf *message, u32 a3, u16 a4, u32 a5);
+BOOL func_ov036_021a8eb4(VM *vm, FieldScriptEnv *env, StrBuf *message, u16 actorId, u16 pos, u32 a5);
 BOOL loadMsgBox(VM *vm, FieldScriptEnv *env, StrBuf *message, u32 a3, u8 a4);
 
 #endif // POKEBW2_FIELD_FIELD_SCRIPT_H

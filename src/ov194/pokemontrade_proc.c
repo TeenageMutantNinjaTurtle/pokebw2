@@ -34,6 +34,7 @@
 #include "nitro/gx.h"
 #include "nitro/hw.h"
 #include "nitro/math.h"
+#include "pml/hm_check.h"
 #include "pml/item.h"
 #include "pml/poke_party.h"
 #include "save/box.h"
@@ -64,32 +65,32 @@ static void func_ov194_021b7be0(PokemonTradeWork *wk);
 static void *func_ov194_021b7bf0(int netId, void *work, int size);
 static void *func_ov194_021b7c0c(int netId, void *work, int size);
 static void *func_ov194_021b7c28(int netId, void *work, int size);
-static void func_ov194_021b7c4c(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b7d44(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b7d98(int netId, int size, void *data, void *work, NetHandle *handle, int index);
-static void func_ov194_021b7e0c(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b7e20(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b7e34(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7c4c(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7d44(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7d98(int netId, int size, const void *data, void *work, NetHandle *handle, int index);
+static void func_ov194_021b7e0c(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7e20(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7e34(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void func_ov194_021b7e48(u32 value, int index, int netId, PokemonTradeWork *wk, NetHandle *handle);
-static void func_ov194_021b7e84(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b7e9c(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b7eb4(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b7ecc(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b7ef0(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b7f1c(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b7f38(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b7f7c(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b7fa8(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b803c(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b805c(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b8088(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b80bc(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b80e4(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b810c(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b8134(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b8140(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b8164(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov194_021b8170(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7e84(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7e9c(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7eb4(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7ecc(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7ef0(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7f1c(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7f38(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7f7c(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b7fa8(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b803c(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b805c(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b8088(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b80bc(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b80e4(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b810c(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b8134(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b8140(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b8164(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov194_021b8170(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void PokemonTrade_WaitFadeOutToEnd(PokemonTradeWork *wk);
 static void func_ov194_021b8200(PokemonTradeWork *wk, int side);
 static BOOL func_ov194_021b82a8(PokemonTradeWork *wk, int box, int slot);
@@ -529,7 +530,7 @@ static void *func_ov194_021b7c28(int netId, void *work, int size) {
     return &wk->boxColors[1];
 }
 
-static void func_ov194_021b7c4c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7c4c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440()) {
         wk->unk11E8[netId != PokemonTrade_GetMyNetId() ? 1 : 0] = *(const u8 *)data;
@@ -568,7 +569,7 @@ PartyPkm *PokemonTrade_GetPkm(PokemonTradeWork *wk, int side) {
     return wk->pkm[1 - side];
 }
 
-static void func_ov194_021b7d44(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7d44(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440()) {
         u32 pkmSize = PokeParty_GetPkmRawSize();
@@ -580,7 +581,7 @@ static void func_ov194_021b7d44(int netId, int size, void *data, void *work, Net
     }
 }
 
-static void func_ov194_021b7d98(int netId, int size, void *data, void *work, NetHandle *handle, int index) {
+static void func_ov194_021b7d98(int netId, int size, const void *data, void *work, NetHandle *handle, int index) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         if (PokeParty_GetParam(wk->recvPkm[netId], PKM_PARAM_SPECIES_VALID, NULL)) {
@@ -592,15 +593,15 @@ static void func_ov194_021b7d98(int netId, int size, void *data, void *work, Net
     }
 }
 
-static void func_ov194_021b7e0c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7e0c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     func_ov194_021b7d98(netId, size, data, work, handle, 0);
 }
 
-static void func_ov194_021b7e20(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7e20(int netId, int size, const void *data, void *work, NetHandle *handle) {
     func_ov194_021b7d98(netId, size, data, work, handle, 1);
 }
 
-static void func_ov194_021b7e34(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7e34(int netId, int size, const void *data, void *work, NetHandle *handle) {
     func_ov194_021b7d98(netId, size, data, work, handle, 2);
 }
 
@@ -614,33 +615,33 @@ static void func_ov194_021b7e48(u32 value, int index, int netId, PokemonTradeWor
     }
 }
 
-static void func_ov194_021b7e84(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7e84(int netId, int size, const void *data, void *work, NetHandle *handle) {
     func_ov194_021b7e48(*(const u8 *)data, 0, netId, work, handle);
 }
 
-static void func_ov194_021b7e9c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7e9c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     func_ov194_021b7e48(*(const u8 *)data, 1, netId, work, handle);
 }
 
-static void func_ov194_021b7eb4(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7eb4(int netId, int size, const void *data, void *work, NetHandle *handle) {
     func_ov194_021b7e48(*(const u8 *)data, 2, netId, work, handle);
 }
 
-static void func_ov194_021b7ecc(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7ecc(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440()) {
         wk->unk5E4[netId] = *(const u8 *)data;
     }
 }
 
-static void func_ov194_021b7ef0(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7ef0(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         wk->unk11FB_0 = 0;
     }
 }
 
-static void func_ov194_021b7f1c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7f1c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     // The command only syncs the machines
     if (handle != func_02040440()) {
         return;
@@ -650,7 +651,7 @@ static void func_ov194_021b7f1c(int netId, int size, void *data, void *work, Net
     }
 }
 
-static void func_ov194_021b7f38(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7f38(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         const u8 *bytes = data;
@@ -660,14 +661,14 @@ static void func_ov194_021b7f38(int netId, int size, void *data, void *work, Net
     }
 }
 
-static void func_ov194_021b7f7c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7f7c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         wk->partnerCheckResult = *(const u8 *)data;
     }
 }
 
-static void func_ov194_021b7fa8(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b7fa8(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     UnityTowerVisitor profile;
     if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
@@ -687,21 +688,21 @@ static void func_ov194_021b7fa8(int netId, int size, void *data, void *work, Net
     }
 }
 
-static void func_ov194_021b803c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b803c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440()) {
         wk->command[netId] = *(const u8 *)data;
     }
 }
 
-static void func_ov194_021b805c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b805c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         wk->unk1060 = *(const u8 *)data;
     }
 }
 
-static void func_ov194_021b8088(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b8088(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         func_ov194_021bc29c(wk, 1, *(const u32 *)data);
@@ -709,49 +710,49 @@ static void func_ov194_021b8088(int netId, int size, void *data, void *work, Net
     }
 }
 
-static void func_ov194_021b80bc(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b80bc(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440() && netId != PokemonTrade_GetMyNetId()) {
         func_ov194_021b8200(wk, 1);
     }
 }
 
-static void func_ov194_021b80e4(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b80e4(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440() && netId != func_0203ffc4()) {
         wk->unk107E = *(const s16 *)data;
     }
 }
 
-static void func_ov194_021b810c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b810c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440() && netId != func_0203ffc4()) {
         func_ov194_021be648(wk, *(const u8 *)data, 1);
     }
 }
 
-static void func_ov194_021b8134(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b8134(int netId, int size, const void *data, void *work, NetHandle *handle) {
     // The command only syncs the machines
     if (handle != func_02040440()) {
         return;
     }
 }
 
-static void func_ov194_021b8140(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b8140(int netId, int size, const void *data, void *work, NetHandle *handle) {
     PokemonTradeWork *wk = work;
     if (handle == func_02040440() && netId != func_0203ffc4()) {
         wk->unkFA0 = *(const u8 *)data;
     }
 }
 
-static void func_ov194_021b8164(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b8164(int netId, int size, const void *data, void *work, NetHandle *handle) {
     // The command only syncs the machines
     if (handle != func_02040440()) {
         return;
     }
 }
 
-static void func_ov194_021b8170(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov194_021b8170(int netId, int size, const void *data, void *work, NetHandle *handle) {
     // The command only syncs the machines
     if (handle != func_02040440()) {
         return;

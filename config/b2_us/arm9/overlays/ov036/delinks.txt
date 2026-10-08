@@ -37,6 +37,7 @@ src/ov036/field_palace_sys.c:
     .data       start:0x021d56fc end:0x021d5710
 
 src/ov036/field_goout_effect.c:
+    complete
     .text       start:0x021c83e8 end:0x021c8808
     .data       start:0x021d5710 end:0x021d5728
 
@@ -128,3 +129,124 @@ src/ov036/fldeff_encount.c:
     .text       start:0x021a50a4 end:0x021a5604
     .rodata     start:0x021d06cc end:0x021d0728
     .data       start:0x021d5074 end:0x021d50dc
+
+src/ov036/fldeff_namipoke.c:
+    complete
+    .text       start:0x021a4384 end:0x021a50a4
+    .rodata     start:0x021d05f4 end:0x021d06cc
+    .data       start:0x021d5060 end:0x021d5074
+
+src/ov036/fldeff_iwakudaki.c:
+    complete
+    .text       start:0x021a5604 end:0x021a5828
+    .rodata     start:0x021d0728 end:0x021d0778
+    .data       start:0x021d50dc end:0x021d5100
+
+src/ov036/fldeff_fishing.c:
+    complete
+    .text       start:0x021a5828 end:0x021a5a18
+    .rodata     start:0x021d0778 end:0x021d07d0
+    .data       start:0x021d5100 end:0x021d5118
+
+src/ov036/fldeff_fes_kira.c:
+    complete
+    .text       start:0x021a5a18 end:0x021a5d2c
+    .rodata     start:0x021d07d0 end:0x021d0820
+    .data       start:0x021d5118 end:0x021d5138
+
+src/ov036/event_trainer_eye.c:
+    complete
+    .text       start:0x021a5d2c end:0x021a6668
+    .rodata     start:0x021d0820 end:0x021d0878
+    .data       start:0x021d5138 end:0x021d514c
+
+src/ov036/scrcmd_trainer.c:
+    complete
+    .text       start:0x021a6668 end:0x021a6b80
+
+src/ov036/scrcmd_save.c:
+    complete
+    .text       start:0x021a6b80 end:0x021a6d14
+
+src/ov036/scrcmd_item.c:
+    complete
+    .text       start:0x021a74ac end:0x021a7724
+
+src/ov036/scrcmd_word.c:
+    complete
+    .text       start:0x021a7724 end:0x021a7eb8
+
+src/ov036/scrcmd_mapchange.c:
+    complete
+    .text       start:0x021a7eb8 end:0x021a82bc
+
+src/ov036/scrcmd_sound.c:
+    complete
+    .text       start:0x021a6d14 end:0x021a74ac
+
+src/ov036/scrcmd_menu.c:
+    complete
+    .text       start:0x021a82bc end:0x021a861c
+
+src/ov036/scrcmd_gym.c:
+    complete
+    .text       start:0x021aad44 end:0x021ab218
+
+src/ov036/scrcmd_fade.c:
+    .text       start:0x021ab218 end:0x021ab73c
+
+src/ov036/scrcmd_msg.c:
+    .text       start:0x021a861c end:0x021a98c4
+    .rodata     start:0x021d0878 end:0x021d08e4
+
+src/ov036/scrcmd_buildmodel.c:
+    complete
+    .text       start:0x021ab73c end:0x021abb48
+
+src/ov036/scrcmd_place_name.c:
+    complete
+    .text       start:0x021abb48 end:0x021abb70
+
+src/ov036/scrcmd_net.c:
+    complete
+    .text       start:0x021adc6c end:0x021add94
+
+src/ov036/scrcmd_encount.c:
+    complete
+    .text       start:0x021ae394 end:0x021ae6d4
+    .rodata     start:0x021d0f58 end:0x021d0f64
+    .data       start:0x021d51f0 end:0x021d5204
+
+src/ov036/scrcmd_fldmmdl.c:
+    complete
+    .text       start:0x021a98c4 end:0x021aad44
+    .rodata     start:0x021d08e4 end:0x021d0918
+    .data       start:0x021d514c end:0x021d5160
+
+src/ov036/scrcmd_camera.c:
+    complete
+    .text       start:0x021ae6d4 end:0x021aea40
+
+src/ov036/scrcmd_proc_fld.c:
+    complete
+    .text       start:0x021add94 end:0x021ae394
+    .data       start:0x021d51dc end:0x021d51f0
+
+src/ov036/scrcmd_fld_battle.c:
+    complete
+    .text       start:0x021aea40 end:0x021aedf4
+    .data       start:0x021d5204 end:0x021d5218
+
+src/ov036/scrcmd_misc.c:
+    .text       start:0x021afcd4 end:0x021b0228
+    .rodata     start:0x021d0f64 end:0x021d0f98
+
+src/ov036/rail_attr.c:
+    complete
+    .text       start:0x021b3a3c end:0x021b3bac
+    .data       start:0x021d525c end:0x021d5268
+
+src/ov036/scrcmd_shop.c:
+    .text       start:0x021abb70 end:0x021adc6c
+    .rodata     start:0x021d0918 end:0x021d0f58
+    .data       start:0x021d5160 end:0x021d51dc

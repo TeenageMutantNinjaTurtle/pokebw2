@@ -9,7 +9,8 @@ a rule here changes, change it there too.
 
 ## Rules
 
-- **Both ROMs stay byte for byte.** Every change ends with `ninja`, which checks each module and both SHA1s. Black 2 is
+- **Both ROMs stay byte for byte.** Every change ends with `ninja`, which compiles every source file, complete or
+  not, and checks each module and both SHA1s. Black 2 is
   primary. White 2 shares the source (`BLACK2`/`WHITE2` defines) and gets its configs through the version map, so
   change configs only with the scripts, which update both versions and record what they did:
   `add_source_file.py`, `mark_complete.py`, `rename_symbol.py`, `config_fixes.py`.
@@ -17,15 +18,20 @@ a rule here changes, change it there too.
   in the header and the commit; never an overlay number. Functions go in address order, and in reverse for SPL,
   whose `1.2/base` compiler emits them reversed. `src/` is code built with the game's compiler: `src/ovNNN/` for overlays,
   `src/gfl` and `src/system` for main, by link order. Libraries built apart, with their own compiler, go in
-  `lib/<name>/{include,src}` with a `library.toml`: `lib/spl`, and `lib/nitro`, `lib/nnsys` (headers only so far).
+  `lib/<name>/{include,src}` with a `library.toml`: `lib/spl`, `lib/dsprot`, `lib/nitro` (RC4 so far) and
+  `lib/nnsys` (FND and GFD so far).
   `docs/code-organization.md` has the rest.
 - **Names:** swan's first, marked as swan's in the header. Our own go through `rename_symbol.py`, which records them
   in `config/names.txt`. Types swan doesn't name are named after their owner. Rename a static's symbol to its C name.
+  Library code in `lib/` (NitroSDK, NitroSystem, TwlSDK, DWC) uses the SDK's own names where the code shows them, even
+  over swan's; the header notes swan's name where it differs. The user chose this.
 - **Write C from the asm.** pret (pokeplatinum, pokeheartgold) and other decomps are references for names and
   structure, never code to copy. The user chose this explicitly for SPL.
 - **Natural C only.** No inline asm, permuter noise, unexplained `volatile`, pointer-arithmetic tricks or meaningless
   temporaries. A function that doesn't match keeps the closest natural C and gets a row in
-  `docs/nonmatching-functions.md` (both addresses, the difference, and what was tried).
+  `docs/nonmatching-functions.md` (both addresses, the difference, and what was tried). The one exception: in `lib/`,
+  a function that the SDK itself wrote in assembly (an `asm` function in its C file, such as NitroSDK's `MTX_Identity43`
+  or the CP15 cache functions) is an MWCC `asm` function, said to be one in a comment. The user chose this.
 - **Bugs:** `// BUG:` plus an `#ifdef BUGFIX` fix, with the original in `#else`.
 - **Keep going.** Continue in file order and commit each file as it is done. Don't end a turn with a menu when the next
   step is obvious. Ask only real decisions, such as placement with no evidence or a change of scope. Answer any message
@@ -41,8 +47,10 @@ a rule here changes, change it there too.
   enforces these.
 - **Publish every commit.** Right after each commit: `git fetch origin && git merge origin/main` (in a worktree too,
   into its branch), resolve any conflicts, run `python3 configure.py && ninja` and check that both SHA1s match, then
-  `git push origin HEAD:main`. If the push is rejected because someone pushed first, fetch, merge, build and push
-  again. Never force-push, and never push a merge that doesn't build both ROMs. The `finish-file` skill has the steps.
+  `git push origin HEAD:main`. `ninja` also compiles every incomplete file for both versions, so a file that no longer
+  compiles fails the build even though it isn't linked. If the push is rejected because someone pushed first, fetch,
+  merge, build and push again. Never force-push, and never push a merge that doesn't build
+  both ROMs. The `finish-file` skill has the steps.
 - **Context is the scarce resource.** Never print a whole `.s` file, a whole doc, a ninja log or a permuter log. Use
   `show_func.py NAME`, `compiler_probe.py --functions F --mismatches --align`, `grep -n` and `| tail`.
 - Long jobs run with `run_in_background` or Monitor, never `sleep`. Run the permuter only under a memory cap: an

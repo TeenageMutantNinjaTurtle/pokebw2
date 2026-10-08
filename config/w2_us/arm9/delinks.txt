@@ -140,9 +140,11 @@ src/gfl/gf_standard.c:
     .bss        start:0x02141900 end:0x02141904
 
 src/gfl/tcb.c:
+    complete
     .text       start:0x0203a528 end:0x0203a700
 
 src/gfl/tcbl.c:
+    complete
     .text       start:0x0203a700 end:0x0203a944
     .data       start:0x0209a8ac end:0x0209a8b4
 
@@ -201,6 +203,7 @@ src/gfl/wm_icon.c:
     .bss        start:0x021418d0 end:0x021418d8
 
 src/gfl/net_system.c:
+    complete
     .text       start:0x0203e8f4 end:0x02040208
     .data       start:0x0209aa94 end:0x0209aae0
     .bss        start:0x021418d8 end:0x021418dc
@@ -212,12 +215,14 @@ src/gfl/net_handle.c:
     .bss        start:0x021418dc end:0x021418e0
 
 src/gfl/net_command.c:
+    complete
     .text       start:0x02040bc0 end:0x02041180
     .rodata     start:0x0209331c end:0x020933a4
     .data       start:0x0209ab64 end:0x0209ac28
     .bss        start:0x021418e0 end:0x021418e4
 
 src/gfl/net_state.c:
+    complete
     .text       start:0x02041180 end:0x020425cc
     .data       start:0x0209ac28 end:0x0209ad24
     .bss        start:0x021418e4 end:0x021418e8
@@ -282,6 +287,7 @@ src/gfl/billboard.c:
     .data       start:0x0209b04c end:0x0209b058
 
 src/gfl/billboard_act.c:
+    complete
     .text       start:0x0204f124 end:0x0204f890
     .rodata     start:0x02094048 end:0x02094064
     .data       start:0x0209b058 end:0x0209b068
@@ -390,6 +396,7 @@ src/system/bmp_menulist.c:
     .data       start:0x0209a494 end:0x0209a4a4
 
 src/system/palanm.c:
+    complete
     .text       start:0x02026dec end:0x020279e0
     .data       start:0x0209a4c0 end:0x0209a4d8
 
@@ -692,3 +699,117 @@ src/system/time_icon.c:
 
 src/system/unity_tower_register.c:
     .text       start:0x0203537c end:0x020355e4
+
+src/system/shooter_item.c:
+    complete
+    .text       start:0x02035914 end:0x02035990
+    .rodata     start:0x02092b68 end:0x02092c20
+
+src/system/pml_met_data.c:
+    complete
+    .text       start:0x02035990 end:0x0203602c
+
+src/system/pml_hm_check.c:
+    complete
+    .text       start:0x0203602c end:0x02036068
+
+src/system/save_error.c:
+    complete
+    .text       start:0x02036068 end:0x02036314
+
+src/system/resort_binary.c:
+    complete
+    .text       start:0x020395d8 end:0x02039898
+    .data       start:0x0209a878 end:0x0209a888
+
+src/system/resort_work.c:
+    complete
+    .text       start:0x02039898 end:0x020399b4
+    .data       start:0x0209a888 end:0x0209a898
+
+src/system/boot_proc.c:
+    complete
+    .text       start:0x02036314 end:0x020363b0
+    .rodata     start:0x02092c20 end:0x02092c2c
+    .bss        start:0x02141848 end:0x02141850
+
+src/system/resonance_resort_data.c:
+    .text       start:0x020363b0 end:0x02039538
+    .rodata     start:0x02092c2c end:0x02092d00
+    .data       start:0x0209a860 end:0x0209a878
+    .bss        start:0x02141850 end:0x0214185c
+
+src/system/resort_layout.c:
+    complete
+    .text       start:0x02039538 end:0x020395d8
+    .rodata     start:0x02092d00 end:0x02092f78
+
+lib/nitro/src/crypto/rc4.c:
+    .text       start:0x020399b4 end:0x02039aac
+
+lib/nnsys/src/fnd/list.c:
+    complete
+    .text       start:0x0205ea68 end:0x0205eb7c
+
+lib/nnsys/src/fnd/heapcommon.c:
+    complete
+    .text       start:0x0205eb7c end:0x0205ec44
+    .bss        start:0x02141a60 end:0x02141a70
+
+lib/nnsys/src/fnd/expheap.c:
+    complete
+    .text       start:0x0205ec44 end:0x0205f1a8
+
+lib/nnsys/src/fnd/frameheap.c:
+    complete
+    .text       start:0x0205f1a8 end:0x0205f348
+
+lib/nnsys/src/fnd/unitheap.c:
+    complete
+    .text       start:0x0205f348 end:0x0205f390
+
+lib/nnsys/src/fnd/allocator.c:
+    complete
+    .text       start:0x0205f390 end:0x0205f42c
+    .rodata     start:0x020941e4 end:0x02094204
+
+lib/nnsys/src/gfd/gfd_TexVramMan.c:
+    complete
+    .text       start:0x0205f42c end:0x0205f438
+    .data       start:0x0209b1e8 end:0x0209b1f0
+
+lib/nnsys/src/gfd/gfd_PlttVramMan.c:
+    complete
+    .text       start:0x0205f438 end:0x0205f444
+    .data       start:0x0209b1f0 end:0x0209b1f8
+
+lib/nnsys/src/gfd/gfd_FrameTexVramMan.c:
+    complete
+    .text       start:0x0205f444 end:0x0205f664
+    .data       start:0x0209b1f8 end:0x0209b28c
+    .bss        start:0x02141a70 end:0x02141a74
+
+lib/nnsys/src/gfd/gfd_FramePlttVramMan.c:
+    complete
+    .text       start:0x0205f664 end:0x0205f754
+    .bss        start:0x02141a74 end:0x02141a80
+
+lib/nnsys/src/gfd/gfd_VramTransferManager.c:
+    complete
+    .text       start:0x0205f754 end:0x0205fa80
+    .rodata     start:0x02094204 end:0x02094294
+    .bss        start:0x02141a80 end:0x02141a94
+
+lib/nnsys/src/gfd/gfdi_LinkedListVramMan_Common.c:
+    complete
+    .text       start:0x0205fa80 end:0x0205fd00
+
+lib/nnsys/src/gfd/gfd_LinkedListTexVramMan.c:
+    .text       start:0x0205fd00 end:0x0205ff24
+    .rodata     start:0x02094294 end:0x020942c4
+    .bss        start:0x02141a94 end:0x02141ab0
+
+lib/nnsys/src/gfd/gfd_LinkedListPlttVramMan.c:
+    complete
+    .text       start:0x0205ff24 end:0x02060050
+    .bss        start:0x02141ab0 end:0x02141ac4

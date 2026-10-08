@@ -5,6 +5,7 @@
 #include "app/comm_tvt/ctvt_comm.h"
 #include "app/comm_tvt/ctvt_game_balloon.h"
 #include "app/comm_tvt/ctvt_game_cam.h"
+#include "app/comm_tvt/ctvt_game_target.h"
 #include "constants/sound.h"
 #include "gfl/arc.h"
 #include "gfl/arc_util.h"
@@ -96,32 +97,6 @@ enum {
     CTVT_GAME_PLAY_WAIT_SYNC_FREE,
     CTVT_GAME_PLAY_FREE,
 };
-
-// A face that floats up in the target game. Its scene is its member's, whose actors are the face as it is, as its
-// member hit it and as another hit it; scene 4 holds the effects of the hits
-typedef struct {
-    BOOL active;
-    TCB *tcb;
-    CtvtGame *game;
-    G3DManager *g3d;
-    u16 scene;
-    SRTMatrix srt;
-    // 0 until it is hit, then 1 by its member, 2 by another
-    int actor;
-    // 1 to 3, the nearest
-    int depth;
-    s8 alpha;
-    fx32 hitFrame;
-    BOOL hitAnimating;
-    fx32 grow;
-    // What the hit scored: 0 or 1 by its member, before and after the hurry, 2 or 3 by another
-    u32 hitKind;
-    VecFx32 velocity;
-    // The last frame of the host that it moved for
-    u16 frame;
-    s8 fadeFrames;
-    u8 hitPending;
-} CtvtGameTarget;
 
 // A member's score on the sub screen, or a slot of the call that nobody is in
 typedef struct {
@@ -260,7 +235,6 @@ struct CtvtGame {
 
 static BOOL CtvtGame_AreAllJoined(CommTvtWork *sys, CtvtGame *game);
 static BOOL CtvtGame_AreAllReady(CommTvtWork *sys, CtvtGame *game);
-static u16 CtvtGame_GetFrame(CtvtGame *game);
 static void CtvtGame_InitPlay(CommTvtWork *sys, CtvtGame *game);
 static void CtvtGame_FreePlay(CommTvtWork *sys, CtvtGame *game);
 static void CtvtGame_Abort(CommTvtWork *sys, CtvtGame *game);
@@ -318,7 +292,11 @@ static CtvtGamePlayer *CtvtGamePlayer_CreateAbsent(CommTvtWork *sys, CtvtGame *g
 static void CtvtGamePlayer_Delete(CtvtGamePlayer *player);
 static void CtvtGame_UpdatePlayers(CtvtGame *game);
 static void CtvtGamePlayer_Show(CommTvtWork *sys, CtvtGamePlayer *player);
+#ifdef BUGFIX
+static void CtvtGame_SetScore(CtvtGame *game, u8 netId, u16 score);
+#else
 static void CtvtGame_SetScore(CtvtGame *game, u8 netId, u8 score);
+#endif
 static void CtvtGame_StartSort(CtvtGame *game, BOOL hurry);
 static void CtvtGame_Rank(CtvtGame *game);
 static BOOL CtvtGamePlayer_Slide(CtvtGamePlayer *player, int dx);
@@ -326,17 +304,14 @@ static void CtvtGamePlayer_PlaceAtRank(CtvtGamePlayer *player);
 static void CtvtGamePlayer_Task(TCB *tcb, void *data);
 static void CtvtGamePlayer_InitResult(CommTvtWork *sys, CtvtGamePlayer *player);
 static void CtvtGamePlayer_ResultTask(TCB *tcb, void *data);
-static void CtvtGameTarget_Init(CtvtGameTarget *target);
-static void CtvtGameTarget_Delete(CtvtGameTarget *target);
-static void CtvtGameTarget_Update(CtvtGameTarget *target);
-static void CtvtGameTarget_Draw(CtvtGameTarget *target);
-static BOOL CtvtGameTarget_UpdateHit(CtvtGameTarget *target);
-static BOOL CtvtGameTarget_Fade(CtvtGameTarget *target);
 
 static MATHRandContext32 sCtvtGameRand;
 
 // No code reads these. The game has five bytes here, b1 1e 0c 01 00, in the section that sPumpThresholds shares,
-// which no declaration tried reproduces
+// which no declaration tried reproduces. They sort before the 3-byte table, so they would be objects of 1 or 2 bytes
+// that some code refers to without reading them; this unreferenced placeholder gets a section of its own instead.
+// Splitting the targets off into ctvt_game_target.c put their bounds table in place but not these bytes, and the
+// objects of equal size are not in the game's order yet
 const u8 data_ov257_021b1aa8[4] = { 0xb1, 0x1e, 0x0c, 0x01 };
 
 // How many pumps a balloon takes to reach each stage after the first
@@ -584,17 +559,6 @@ static const u8 sFaceOrders[24][4] = {
     { 3, 0, 1, 2 }, { 3, 0, 2, 1 }, { 3, 1, 0, 2 }, { 3, 1, 2, 0 }, { 3, 2, 0, 1 }, { 3, 2, 1, 0 },
 };
 
-// Where a target of each depth leaves the screen
-static const struct {
-    fx32 maxY;
-    fx32 minX;
-    fx32 maxX;
-} sTargetBounds[] = {
-    { FX32_CONST(270), FX32_CONST(-254), FX32_CONST(254) },
-    { FX32_CONST(260), FX32_CONST(-233), FX32_CONST(233) },
-    { FX32_CONST(250), FX32_CONST(-200), FX32_CONST(200) },
-};
-
 // How high the results' puffs rise, by rank
 static fx32 sShotTopYs[] = { FX32_CONST(60), FX32_CONST(30), 0, FX32_CONST(-30) };
 
@@ -650,7 +614,7 @@ void CtvtGame_Enter(CommTvtWork *sys, CtvtGame *game) {
         u8 unk3dc = CtvtComm_GetUnk3dc(sys, comm, selfNetId);
 
         game->cam =
-            func_ov257_021a82cc(heapId, cameraEnabled, CtvtGame_GetType(game), unk3dc, game->members, cameraSystem);
+            CtvtGameCam_Create(heapId, cameraEnabled, CtvtGame_GetType(game), unk3dc, game->members, cameraSystem);
     }
     game->state = CTVT_GAME_STATE_START_CAMERA;
     game->replay = FALSE;
@@ -663,7 +627,7 @@ void CtvtGame_Leave(CommTvtWork *sys, CtvtGame *game) {
     u8 j;
 
     func_02021c44(CommTvt_GetPrintQueue(sys));
-    func_ov257_021a83ac(game->cam);
+    CtvtGameCam_Delete(game->cam);
     for (i = 0; i < 3; i++) {
         if (game->members[i].hasCamera == TRUE && !canPlayerExchangePhotos()) {
             for (j = 0; j < 3; j++) {
@@ -695,14 +659,14 @@ int CtvtGame_Main(CommTvtWork *sys, CtvtGame *game) {
         }
         break;
     case CTVT_GAME_STATE_START_CAMERA:
-        game->camTask = func_ov257_021a8090(game->cam, heapId);
+        game->camTask = CtvtGameCam_StartTask(game->cam, heapId);
         game->state = CTVT_GAME_STATE_CAMERA;
         GFL_WipeSet(0, 1, 1, 0, 6, 1, heapId);
         break;
     case CTVT_GAME_STATE_CAMERA:
         if (GFL_WipeIsFinished() == TRUE) {
             if (!CtvtGame_CheckError(sys, game)) {
-                switch (func_ov257_021a81d4(game->camTask)) {
+                switch (CtvtGameCam_UpdateTask(game->camTask)) {
                 case 0:
                     break;
                 case 1:
@@ -721,7 +685,7 @@ int CtvtGame_Main(CommTvtWork *sys, CtvtGame *game) {
         GFL_WipeSet(0, 0, 0, 0, 6, 1, heapId);
         break;
     case CTVT_GAME_STATE_FREE_CAMERA:
-        func_ov257_021a8228(game->camTask);
+        CtvtGameCam_EndTask(game->camTask);
         game->state = CTVT_GAME_STATE_INIT_PLAY;
         break;
     case CTVT_GAME_STATE_INIT_PLAY:
@@ -876,7 +840,7 @@ void CtvtGame_LoadBalloonPictures(CtvtGame *game, u8 netId, u8 color) {
         } else {
             src = game->members[slot].pictures[i];
         }
-        gfxUploadAsync(0, dest, src, 0x2000);
+        NNS_GfdRegisterNewVramTransferTask(0, dest, src, 0x2000);
     }
 }
 
@@ -931,7 +895,7 @@ void CtvtGame_SetFrame(CtvtGame *game, u16 frame) {
     game->frameReceived = TRUE;
 }
 
-static u16 CtvtGame_GetFrame(CtvtGame *game) {
+u16 CtvtGame_GetFrame(CtvtGame *game) {
     return game->frame;
 }
 
@@ -1144,7 +1108,7 @@ static void CtvtGame_Abort(CommTvtWork *sys, CtvtGame *game) {
     switch (game->state) {
     case CTVT_GAME_STATE_CAMERA:
     case CTVT_GAME_STATE_FADE_OUT_CAMERA:
-        func_ov257_021a8228(game->camTask);
+        CtvtGameCam_EndTask(game->camTask);
         break;
     case CTVT_GAME_STATE_PLAY:
         type = CtvtGame_GetType(game);
@@ -2364,8 +2328,10 @@ static void CtvtGame_InitResults(CommTvtWork *sys, CtvtGame *game) {
             u16 count = GFL_G3DMgrGetSceneResCount(game->g3d, game->scenes[netId]);
             void *resource = GFL_G3DMgrGetResource(game->g3d, j + count * netId);
 
-            dest = NNS_GfdGetTexKeyAddr(GFL_G3DResGetTexVRAMHandle(resource)) + 0x2000 / 32;
+            NNSGfdTexKey key = GFL_G3DResGetTexVRAMHandle(resource);
+
             picture = 0;
+            dest = NNS_GfdGetTexKeyAddr(key) + 0x2000 / 32;
             if (j == 0) {
                 picture = 0;
             } else if (j == 1) {
@@ -2376,7 +2342,7 @@ static void CtvtGame_InitResults(CommTvtWork *sys, CtvtGame *game) {
             } else {
                 src = game->members[slot].pictures[picture];
             }
-            gfxUploadAsync(0, dest, src, 0x2000);
+            NNS_GfdRegisterNewVramTransferTask(0, dest, src, 0x2000);
         }
         if (selfNetId != netId) {
             slot++;
@@ -3035,7 +3001,7 @@ static AppTaskMenu *CtvtGame_CreateCancelMenu(CommTvtWork *sys, CtvtGame *game) 
 }
 
 static void CtvtGame_LaunchTarget(CtvtGame *game, CtvtGameTarget *target, u16 scene) {
-    u16 x;
+    fx32 x;
     fx32 speed;
     u16 angle;
     VecFx32 dir;
@@ -3047,9 +3013,9 @@ static void CtvtGame_LaunchTarget(CtvtGame *game, CtvtGameTarget *target, u16 sc
     target->alpha = 31;
     target->scene = scene;
     target->frame = game->frame;
-    x = game->lastColumn * 64 + CtvtGame_Rand(64);
+    x = (u16)(game->lastColumn * 64 + CtvtGame_Rand(64)) * FX32_ONE;
     target->srt.translation.z = FX32_CONST(-5) * (4 - target->depth);
-    target->srt.translation.x = x * FX32_ONE - FX32_CONST(128);
+    target->srt.translation.x = x - FX32_CONST(128);
     target->srt.translation.y = FX32_CONST(-15);
     target->srt.scale.z = target->srt.scale.y = target->srt.scale.x = (target->depth << 9) + 0x700;
     speed = (CtvtGame_Rand(2) + 1) * 0xa00;
@@ -3248,7 +3214,7 @@ static CtvtGamePlayer *CtvtGamePlayer_Create(CommTvtWork *sys, CtvtGame *game, u
     u8 selfNetId = func_02042a6c(func_02040440());
     u8 x;
     int tileX;
-    BOOL isSelf = TRUE;
+    BOOL isSelf;
     u8 y;
     int tileY;
     CtvtGamePlayer *player;
@@ -3257,6 +3223,7 @@ static CtvtGamePlayer *CtvtGamePlayer_Create(CommTvtWork *sys, CtvtGame *game, u
     y = sPlayerPositions[pos][1];
     player = GFL_HeapAllocate(game->heapId, sizeof(CtvtGamePlayer), TRUE, "ctvt_game.c", 6999);
 
+    isSelf = TRUE;
     player->heapId = game->heapId;
     player->pos = pos;
     player->rank = pos + 1;
@@ -3401,7 +3368,14 @@ static void CtvtGamePlayer_Show(CommTvtWork *sys, CtvtGamePlayer *player) {
     player->scorePending = TRUE;
 }
 
+// BUG: the scores go up to 999 and a target can come every 16 frames of the 60-second game, at 2 or 4 points a hit,
+// so a player who hits the targets with their own face can pass 255. The u8 then shows the score modulo 256 until
+// the results, which take the scores as they are
+#ifdef BUGFIX
+static void CtvtGame_SetScore(CtvtGame *game, u8 netId, u16 score) {
+#else
 static void CtvtGame_SetScore(CtvtGame *game, u8 netId, u8 score) {
+#endif
     CtvtGamePlayer *player = NULL;
     u8 i;
     PrintQueue *queue;
@@ -3732,147 +3706,4 @@ static void CtvtGamePlayer_ResultTask(TCB *tcb, void *data) {
     case 2:
         break;
     }
-}
-
-static void CtvtGameTarget_Init(CtvtGameTarget *target) {
-    target->srt.scale.x = FX32_ONE;
-    target->srt.scale.y = FX32_ONE;
-    target->srt.scale.z = FX32_ONE;
-    MAT3_Identity(&target->srt.rotation);
-    target->depth = 2;
-    target->alpha = 31;
-    target->fadeFrames = 0;
-    target->srt.translation.x = 0;
-    target->srt.translation.y = 0;
-    target->srt.translation.z = 0;
-    target->velocity.x = 0;
-    target->velocity.y = 0;
-    target->velocity.z = 0;
-    target->active = FALSE;
-    target->scene = 0;
-    target->actor = 0;
-    target->hitFrame = 0;
-    target->hitAnimating = FALSE;
-    target->grow = 0;
-    target->hitKind = 0;
-    target->hitPending = FALSE;
-    target->tcb = NULL;
-}
-
-static void CtvtGameTarget_Delete(CtvtGameTarget *target) {
-    if (target->tcb != NULL) {
-        GFL_TCBRemove(target->tcb);
-        target->tcb = NULL;
-    }
-    CtvtGameTarget_Init(target);
-}
-
-static void CtvtGameTarget_Update(CtvtGameTarget *target) {
-    u16 frame = CtvtGame_GetFrame(target->game);
-    int elapsed = frame - target->frame;
-    u8 i;
-
-    if (elapsed <= 0) {
-        return;
-    }
-    target->frame = frame;
-    for (i = 0; i < elapsed; i++) {
-        if (target->actor != 0) {
-            if (target->alpha == 31) {
-                if (CtvtGameTarget_UpdateHit(target) == TRUE) {
-                    target->alpha--;
-                }
-            } else if (CtvtGameTarget_Fade(target) == TRUE) {
-                CtvtGameTarget_Delete(target);
-                return;
-            }
-        } else {
-            VEC_Add(&target->srt.translation, &target->velocity, &target->srt.translation);
-        }
-    }
-    if (target->srt.translation.y > sTargetBounds[target->depth - 1].maxY ||
-        target->srt.translation.x > sTargetBounds[target->depth - 1].maxX ||
-        target->srt.translation.x < sTargetBounds[target->depth - 1].minX) {
-        CtvtGameTarget_Delete(target);
-    }
-}
-
-static void CtvtGameTarget_Draw(CtvtGameTarget *target) {
-    G3DActor *actor;
-    fx32 count;
-    u16 first;
-    u16 index;
-
-    if (target->active == TRUE) {
-        if (target->actor != 0 && target->hitAnimating == TRUE) {
-            index = GFL_G3DMgrGetSceneFirstActorIdx(target->g3d, 4);
-            index += target->hitKind;
-            actor = GFL_G3DMgrGetActor(target->g3d, index);
-            GFL_G3DActorSetAnmFrame(actor, 0, &target->hitFrame);
-            GFL_G3DActorSetAnmFrame(actor, 1, &target->hitFrame);
-            target->hitFrame += FX32_ONE;
-            GFL_G3DActorGetAnmFrameCount(actor, 0, &count);
-            if (target->hitFrame >= count) {
-                target->hitAnimating = FALSE;
-            }
-            GFL_G3DSysDrawObj(actor, &target->srt);
-        }
-        first = GFL_G3DMgrGetSceneFirstActorIdx(target->g3d, target->scene);
-        actor = GFL_G3DMgrGetActor(target->g3d, first + target->actor);
-        func_02068410(GFL_G3DMdlGetEngineModel(GFL_G3DActorGetMdl(actor))->resMdl, target->alpha);
-        GFL_G3DSysDrawObj(actor, &target->srt);
-    }
-}
-
-static BOOL CtvtGameTarget_UpdateHit(CtvtGameTarget *target) {
-    VecFx32 grow;
-    u16 first;
-
-    switch (target->hitKind) {
-    case 0:
-    case 1:
-        first = GFL_G3DMgrGetSceneFirstActorIdx(target->g3d, target->scene);
-        if (!GFL_G3DActorStepAnmFrameLoop(GFL_G3DMgrGetActor(target->g3d, first + target->actor), 2, FX32_ONE)) {
-            return TRUE;
-        }
-        break;
-    case 2:
-    case 3:
-        if (target->grow < 0x310) {
-            target->grow += 0x4a;
-            if (target->grow > 0x310) {
-                target->grow = 0x310;
-            }
-            grow.x = 0x4a;
-            grow.y = 0x4a;
-            grow.z = 0x4a;
-            VEC_Add(&target->srt.scale, &grow, &target->srt.scale);
-        }
-        if (target->grow == 0x310) {
-            return TRUE;
-        }
-        break;
-    }
-    return FALSE;
-}
-
-static BOOL CtvtGameTarget_Fade(CtvtGameTarget *target) {
-    target->alpha -= 3;
-    if (target->alpha <= 0) {
-        target->alpha = 0;
-        if (target->hitKind <= 1) {
-            return TRUE;
-        }
-        if (target->active == TRUE) {
-            target->active = FALSE;
-            target->fadeFrames = 10;
-        } else {
-            target->fadeFrames--;
-            if (target->fadeFrames <= 0) {
-                CtvtGameTarget_Delete(target);
-                return TRUE;
-            }
-        }
-    }
-    return FALSE;
 }

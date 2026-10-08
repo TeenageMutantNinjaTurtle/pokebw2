@@ -12,6 +12,7 @@
 #include "system/printsys.h"
 
 typedef struct {
+    // 0 to look at the album, 1 to throw a card away when the album is full
     u32 mode;
     u32 unk4;
     ClActUnit *unit;
@@ -23,13 +24,16 @@ typedef struct {
     GameData *gameData;
 } MysteryCardViewSetup;
 
+// The card's BGs and palettes, on the main screen when its BG is below 4
 typedef struct {
-    u32 mainBg;
-    u32 unk4;
-    u32 subBg;
-    u32 palette;
-    u32 framePalette;
-    u32 frameChar;
+    // The card's BG, which also gives its Pokémon's BG priority
+    u32 bg;
+    u32 textBg;
+    u32 bgPalette;
+    u32 textPalette;
+    // The OBJ palettes of the gift's icon and of the gift's Pokémon
+    u32 iconPalette;
+    u32 pokePalette;
     ClActUnit *unit;
     MysteryGiftSave *giftSave;
     MsgData *msgData;
@@ -47,12 +51,14 @@ BOOL MysteryCardView_IsEnd(MysteryCardView *view);
 MysteryCardRes *MysteryCardRes_Create(const MysteryCardResSetup *setup, HeapID heapId);
 void MysteryCardRes_Delete(MysteryCardRes *res);
 
-MysteryAlbum *MysteryAlbum_CreateReceived(MysteryGiftRecvData *recv, MysteryCardRes *res, GameData *gameData,
-                                          HeapID heapId);
+// A card drawn with the BGs and actors of res: its text, its icon, and the Pokémon of a Pokémon gift
+MysteryAlbum *MysteryAlbum_CreateReceived(MysteryGift *gift, MysteryCardRes *res, GameData *gameData, HeapID heapId);
 void MysteryAlbum_Delete(MysteryAlbum *album);
 void MysteryAlbum_Main(MysteryAlbum *album);
+// Brings a Pokémon gift's Pokémon out of the card
 void MysteryAlbum_StartOpen(MysteryAlbum *album);
 BOOL MysteryAlbum_IsOpened(MysteryAlbum *album);
-void MysteryAlbum_SetVisible(MysteryAlbum *album, BOOL visible);
+// Draws the card at the next VBlank, with its BG's graphics, or only its palette when paletteOnly is set
+void MysteryAlbum_SetVisible(MysteryAlbum *album, BOOL paletteOnly);
 
 #endif // POKEBW2_APP_MYSTERY_MYSTERY_ALBUM_H

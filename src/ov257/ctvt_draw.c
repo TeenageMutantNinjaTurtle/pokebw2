@@ -415,8 +415,8 @@ int CtvtDraw_Main(CommTvtWork *sys, CtvtDraw *draw) {
         break;
     case DRAW_STATE_WAIT_DISCONNECTED:
         if (func_0203da48() == TRUE || (GCTX_HIDGetPressedKeys() & (PAD_BUTTON_A | PAD_BUTTON_B))) {
-            draw->state = DRAW_STATE_FADE_OUT;
             draw->exit = TRUE;
+            draw->state = DRAW_STATE_FADE_OUT;
             func_ov257_021aab14(sys, TRUE);
             CtvtCamera_StopCamera(sys, CommTvt_GetCamera(sys));
             draw->waitSound = TRUE;
@@ -449,8 +449,8 @@ int CtvtDraw_Main(CommTvtWork *sys, CtvtDraw *draw) {
         break;
     case DRAW_STATE_WAIT_SYNC_EXIT:
         if (CtvtComm_IsSynced(sys, CommTvt_GetComm(sys), 47) == TRUE) {
-            draw->state = DRAW_STATE_FADE_OUT;
             draw->exit = TRUE;
+            draw->state = DRAW_STATE_FADE_OUT;
             func_ov257_021aab14(sys, TRUE);
             CtvtCamera_StopCamera(sys, CommTvt_GetCamera(sys));
             draw->waitSound = TRUE;
@@ -466,8 +466,8 @@ int CtvtDraw_Main(CommTvtWork *sys, CtvtDraw *draw) {
         break;
     case DRAW_STATE_WAIT_ALONE:
         if (func_0203da48() == TRUE || (GCTX_HIDGetPressedKeys() & (PAD_BUTTON_A | PAD_BUTTON_B))) {
-            draw->state = DRAW_STATE_FADE_OUT;
             draw->exit = TRUE;
+            draw->state = DRAW_STATE_FADE_OUT;
             func_ov257_021aab14(sys, TRUE);
             CtvtCamera_StopCamera(sys, CommTvt_GetCamera(sys));
             draw->waitSound = TRUE;
@@ -549,7 +549,7 @@ int CtvtDraw_Main(CommTvtWork *sys, CtvtDraw *draw) {
 
         draw->cursorColor = GX_RGB(level, level, level);
     }
-    gfxUploadAsync(14, 0xde, &draw->cursorColor, sizeof(draw->cursorColor));
+    NNS_GfdRegisterNewVramTransferTask(14, 0xde, &draw->cursorColor, sizeof(draw->cursorColor));
     return COMM_TVT_MODE_DRAW;
 }
 

@@ -98,7 +98,7 @@ BOOL GFL_HeapMgrInit(const HeapDef *defs, u16 rootCount, u16 maxHeapIds, u32 res
         void *memory = mem_alloc_direct(OS_ARENA_MAIN, defs[i].size, 4);
 
         if (memory != NULL) {
-            sHeapMgr.heaps[i].handle = InitHeapBaseSafe(memory, defs[i].size, 0);
+            sHeapMgr.heaps[i].handle = NNS_FndCreateExpHeapEx(memory, defs[i].size, 0);
             sHeapMgr.indices[i] = i;
         } else {
             sHeapMgr.lastResult = i;
@@ -123,7 +123,7 @@ BOOL GFL_HeapAddChild(HeapID parentHeapId, HeapID heapId, u32 size) {
         sHeapMgr.lastResult = HEAP_RESULT_1;
     } else if ((parent = GFL_HeapGetBase(parentHeapId & (HEAPID_TAIL_BIT - 1))) == NULL) {
         sHeapMgr.lastResult = HEAP_RESULT_2;
-    } else if ((memory = AllocOnHeapBase(parent, size, alignment)) == NULL) {
+    } else if ((memory = NNS_FndAllocFromExpHeapEx(parent, size, alignment)) == NULL) {
         sHeapMgr.lastResult = HEAP_RESULT_3;
     } else if (GFL_HeapAdd(parent, heapId, memory, size)) {
         return TRUE;
@@ -147,7 +147,7 @@ BOOL GFL_HeapAdd(NNSFndHeapHandle parent, HeapID heapId, void *memory, u32 size)
 
     for (i = sHeapMgr.rootCount; i < sHeapMgr.heapCount; i++) {
         if (sHeapMgr.heaps[i].handle == NULL) {
-            sHeapMgr.heaps[i].handle = InitHeapBaseSafe(memory, size, 0);
+            sHeapMgr.heaps[i].handle = NNS_FndCreateExpHeapEx(memory, size, 0);
             if (sHeapMgr.heaps[i].handle == NULL) {
                 sHeapMgr.lastResult = HEAP_RESULT_5;
             } else {
@@ -177,14 +177,14 @@ BOOL GFL_HeapDeleteCore(HeapID heapId) {
         parent = GFL_HeapGetParentBase(heapId);
         memory = GFL_HeapGetRawPtr(heapId);
         index = sHeapMgr.indices[heapId];
-        func_0205ef78(heap);
+        NNS_FndDestroyExpHeap(heap);
         if (parent == NULL || memory == NULL) {
             if (!sHeapMgr.heaps[index].external) {
                 sHeapMgr.lastResult = HEAP_RESULT_2;
                 return FALSE;
             }
         } else {
-            FreeFromHeapBase(parent, memory);
+            NNS_FndFreeToExpHeap(parent, memory);
         }
         sHeapMgr.heaps[index].handle = NULL;
         sHeapMgr.heaps[index].parent = NULL;
@@ -216,7 +216,7 @@ void *GFL_HeapAllocateCore(HeapID heapId, u32 size) {
     } else {
         interrupts = CPU_IRQDisable();
         size += sizeof(HeapBlockHeader);
-        block = AllocOnHeapBase(heap, size, alignment);
+        block = NNS_FndAllocFromExpHeapEx(heap, size, alignment);
         if (block == NULL) {
             sHeapMgr.lastResult = HEAP_RESULT_3;
         } else {
@@ -250,7 +250,7 @@ BOOL GFL_HeapFreeCore(void *ptr) {
         interrupts = CPU_IRQDisable();
         sHeapMgr.heaps[sHeapMgr.indices[heapId]].allocations--;
         block->magic = HEAP_BLOCK_MAGIC - 1;
-        FreeFromHeapBase(heap, block);
+        NNS_FndFreeToExpHeap(heap, block);
         CPU_SetIRQMask(interrupts);
         sHeapMgr.lastResult = HEAP_RESULT_OK;
         return TRUE;
@@ -269,7 +269,7 @@ BOOL GFL_HeapCreateAllocatorCore(NNSFndAllocator *allocator, HeapID heapId, int 
     if (heapId >= sHeapMgr.maxHeapIds) {
         sHeapMgr.lastResult = HEAP_RESULT_1;
     } else {
-        CreateExpHeapAllocator(allocator, GFL_HeapGetBase(heapId), alignment);
+        NNS_FndInitAllocatorForExpHeap(allocator, GFL_HeapGetBase(heapId), alignment);
         sHeapMgr.lastResult = HEAP_RESULT_OK;
         return TRUE;
     }
@@ -288,8 +288,8 @@ BOOL GFL_HeapResizeCore(void *ptr, u32 size) {
     } else if ((heap = GFL_HeapGetBase(block->heapId)) == NULL) {
         sHeapMgr.lastResult = HEAP_RESULT_3;
     } else {
-        oldSize = HeapBlock_GetSize(block);
-        newSize = ExpHeap_ResizeBlock(heap, block, size + sizeof(HeapBlockHeader));
+        oldSize = NNS_FndGetSizeForMBlockExpHeap(block);
+        newSize = NNS_FndResizeForMBlockExpHeap(heap, block, size + sizeof(HeapBlockHeader));
         size += sizeof(HeapBlockHeader);
         result = TRUE;
         sHeapMgr.lastResult = HEAP_RESULT_OK;
@@ -313,7 +313,7 @@ u32 GFL_HeapGetFreeSizeCore(HeapID heapId) {
         sHeapMgr.lastResult = HEAP_RESULT_1;
     } else {
         sHeapMgr.lastResult = HEAP_RESULT_OK;
-        return HeapBase_GetFreeSize(GFL_HeapGetBase(heapId));
+        return NNS_FndGetTotalFreeSizeForExpHeap(GFL_HeapGetBase(heapId));
     }
     return 0;
 }

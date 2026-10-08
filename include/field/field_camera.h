@@ -80,6 +80,7 @@ GameEvent *EventEvCameraShake_Create(GameSystem *gsys, const FieldEvCameraShake 
 void FieldCamera_CalcTransform(FieldCamera *camera, u16 heldKeys);
 G3DCamera *FieldCamera_GetG3DCamera(FieldCamera *camera);
 void FieldCamera_CoordsGetEyeOffset(FieldCamera *camera, VecFx32 *offset);
+void FieldCamera_CoordsGetEye(FieldCamera *camera, VecFx32 *eye);
 void FieldCamera_CoordsGetTarget(FieldCamera *camera, VecFx32 *target);
 void FieldCamera_CoordsGetTargetOffset(FieldCamera *camera, VecFx32 *offset);
 void FieldCamera_CoordsSetEyeOffset(FieldCamera *camera, const VecFx32 *offset);
@@ -112,15 +113,22 @@ BOOL FieldCamera_IsDelayActive(FieldCamera *camera);
 // What the camera follows
 void *FieldCamera_GetBind(FieldCamera *camera);
 void FieldCamera_SetBind(FieldCamera *camera, void *bind);
+// What the camera follows on a rail map
+void FieldCamera_SetRefBind(FieldCamera *camera, void *bind);
+void *FieldCamera_GetRefBind(FieldCamera *camera);
 // The event camera's animations: start, animate to a target or back over frames, and end
 void FieldCamera_EVCameraInit(FieldCamera *camera);
 void FieldCameraAnm_EnsureInitDone(FieldCamera *camera);
 void FieldCameraAnm_SetAnimation(FieldCamera *camera, const FieldEvCameraAnimationSetup *setup, u16 frames);
+void FieldCameraAnm_SetAnimationRealTime(FieldCamera *camera, const FieldEvCameraAnimationSetup *setup, u16 frames);
 void FieldCameraAnm_SetReturnAnimation(FieldCamera *camera, const FieldEvCameraAnimationFlags *flags, u16 frames);
+void FieldCameraAnm_SetLoadDefaultsAnimation(FieldCamera *camera, u16 frames);
 BOOL FieldCamera_IsAnimating(FieldCamera *camera);
 void FieldCameraAnm_EVCameraEnd(FieldCamera *camera);
 // Whether the no-grid mapper's camera areas move the camera
 void FieldNoGridMapper_SetCameraAreaEnabled(NoGridMapper *mapper, BOOL enabled);
+// Whether the zone has rail data
+BOOL FieldNoGridMapper_HasRailData(NoGridMapper *mapper);
 // Tasks that move the camera's zoom over frames: this one by a distance from its current zoom
 void FieldCameraZoomTCB_Create(Field *field, u32 frames, fx32 distance);
 void func_ov036_021c05d4(Field *field, u32 frames, fx32 distance);

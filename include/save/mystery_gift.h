@@ -15,13 +15,14 @@ struct MysteryGift {
     // The date the card was received, as year << 16 | month << 8 | day
     s32 date;
     u16 id;
-    u8 unkB2;
+    // Which of the gift messages the card shows
+    u8 msgIndex;
     // What the gift gives, 1 for a Pokémon and 2 for an item
     u8 kind;
     // Received at most once per game, by its ID
     u8 once : 1;
-    // Not yet picked up from the delivery man
-    u8 undelivered : 1;
+    // Picked up from the delivery man; only such cards can be thrown away
+    u8 delivered : 1;
     u8 unkB4_2 : 6;
     u8 unkB5[0x17];
 };
@@ -32,7 +33,8 @@ typedef struct {
     // The games that may receive the gift, 1 << GAME_VERSION for each
     u32 versions;
     u16 text[253];
-    u8 unk2CA;
+    // Shown with the special effect, with particles
+    u8 special;
     u8 unk2CB;
     u16 unk2CC;
     // getCRC16 of everything before it
@@ -74,19 +76,46 @@ typedef struct {
     s32 date;
 } MysteryGiftPokemon;
 
+// The save's block of mystery gifts, which mgEncryptData encrypts
+#define SAVE_BLOCK_MYSTERY_GIFT 0x22
+
+typedef struct {
+    // A bit for each gift ID received
+    u8 receivedFlags[0x100];
+    MysteryGift cards[12];
+    // Kept by mgEncryptData at the end of the data it encrypts
+    u16 checksum;
+    u16 key;
+} MysteryGiftSaveData;
+
+// What mgEncryptData and mgDecryptData encrypt: the save's block, or the gifts kept outside the save (save_outside.c)
+#define MG_DATA_OUTSIDE 0
+#define MG_DATA_SAVE 1
+
+void mgEncryptData(void *data, u32 kind);
+void mgDecryptData(void *data, u32 kind);
+
 // Loads the mystery gift save into a new buffer, and frees it. Function name from swan
 MysteryGiftSave *mysteryGiftBlock(SaveControl *save, u32 a1, HeapID heapId);
 void func_0200aa54(MysteryGiftSave *save);
 // Copies the card in the slot into gift
 BOOL func_0200a71c(MysteryGiftSave *save, u32 slot, MysteryGift *gift);
+// Whether the slot has a card
 BOOL func_0200a800(MysteryGiftSave *save, u32 slot);
+// Whether the gift of the slot was picked up from the delivery man, which func_0200a858 marks
 BOOL func_0200a820(MysteryGiftSave *save, u32 slot);
 void func_0200a858(MysteryGiftSave *save, u32 slot);
 // Saves the gift in the first free slot, and returns FALSE when there is none
 BOOL func_0200a750(MysteryGiftSave *save, const MysteryGift *gift);
+// Throws away the card in the slot
+void func_0200a7b0(MysteryGiftSave *save, u32 slot);
 // Whether the album has a free slot
 BOOL func_0200a7e4(MysteryGiftSave *save);
-// Whether the gift with the ID was received, and marks it received
+// Whether the album has any card
+BOOL func_0200a88c(MysteryGiftSave *save);
+// Swaps the cards of two slots
+void func_0200a970(MysteryGiftSave *save, u32 slot1, u32 slot2);
+// Whether the gift with the ID was received, and the marking of it
 BOOL func_0200a8c4(MysteryGiftSave *save, u32 id);
 void func_0200a900(MysteryGiftSave *save, u32 id);
 // Whether the received data's CRC is right

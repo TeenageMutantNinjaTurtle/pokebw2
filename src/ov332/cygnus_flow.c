@@ -19,6 +19,7 @@
 #include "nitro/math.h"
 #include "nitro/os.h"
 #include "pml/item.h"
+#include "pml/met_data.h"
 #include "pml/personal.h"
 #include "pml/poke_graphic.h"
 #include "pml/poke_party.h"
@@ -1144,7 +1145,7 @@ static void CygnusData_Receive(CygnusData *data, HeapID heapId) {
         if (pkm != NULL) {
             PlayerInfo *player = GetGameDataPlayerInfo(data->gameData);
 
-            if (func_02035cf8(pkm, 8, player)) {
+            if (PokeParty_IsSpecialTransfer(pkm, 8, player)) {
                 setOneShotDRObtained(getTrainerCardDataBlkAddress(data->gameData), 7, player);
             }
             addPkmToDex(pokedex, pkm);

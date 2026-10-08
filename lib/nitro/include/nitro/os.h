@@ -10,6 +10,7 @@ u64 clock(void);
 #define OS_SYSTEM_CLOCK 33514000
 #define OS_TicksToSeconds(tick) (((tick) * 64) / OS_SYSTEM_CLOCK)
 #define OS_TicksToMilliSeconds(tick) (((tick) * 64) / (OS_SYSTEM_CLOCK / 1000))
+#define OS_TicksToMicroSeconds(tick) (((tick) * 64 * 1000) / (OS_SYSTEM_CLOCK / 1000))
 // Restarts the game, which swan names sys_reset
 void sys_reset(u32 parameter);
 // Stops the game after a fatal error, calling the registered handler first
@@ -62,6 +63,9 @@ void free_device(int arena, int heap, void *ptr);
 
 s32 cart_key_create(void);
 void cart_key_release(u16 lockId);
+// NitroSDK's OS_LockCard and OS_UnlockCard
+s32 func_0207a178(u16 lockId);
+s32 func_0207a1a0(u16 lockId);
 
 // NitroSDK's OS_DisableInterrupts and OS_RestoreInterrupts, under swan's names
 u32 CPU_IRQDisable(void);
@@ -80,6 +84,12 @@ void OS_GetLowEntropyData(u32 buffer[8]);
 int STD_CompareString(const char *a, const char *b);
 // NitroSDK's STD_GetStringLength
 int NNS_STD_StrLen(const char *str);
+// NitroSDK's STD_CopyLString: copies at most size - 1 characters and a NUL, returning the length of src
+int func_0207f7cc(char *dst, const char *src, int size);
+// NitroSDK's STD_TSPrintf
+int func_020800e8(char *dst, const char *fmt, ...);
+// TwlSDK's OS_SpinWaitSysCycles: busy-waits for some cycles of the system clock
+void func_0207c160(u32 cycles);
 
 // NitroSDK's OS_WaitIrq and OS_IsRunOnTwl, under swan's names
 void irq_waitFor(BOOL clear, u32 interrupts);
@@ -128,6 +138,20 @@ typedef struct {
     u16 commentLength;
 } OSOwnerInfo;
 
+// TwlSDK's owner settings, which add the country
+typedef struct {
+    u8 language;
+    u8 favoriteColor;
+    OSBirthday birthday;
+    u16 nickName[OS_OWNERINFO_NICKNAME_MAX + 1];
+    u16 nickNameLength;
+    u16 comment[OS_OWNERINFO_COMMENT_MAX + 1];
+    u16 commentLength;
+    u8 country;
+} OSOwnerInfoEx;
+
 void OS_GetOwnerInfo(OSOwnerInfo *info);
+
+int OS_SNPrintf(char *dst, u32 len, const char *format, ...);
 
 #endif // POKEBW2_NITRO_OS_H

@@ -81,7 +81,7 @@ static BOOL func_ov194_021c60a0(TradeCurve *curve);
 static void func_ov194_021c4324(void);
 static void func_ov194_021c58b4(PokemonTradeWork *wk);
 static void func_ov194_021c5dcc(u32 param, fx32 frame);
-static void func_ov194_021c5e9c(PokemonTradeWork *wk, u16 vram, u32 paletteMask);
+static void func_ov194_021c5e9c(const PokemonTradeWork *wk, u16 vram, u32 paletteMask);
 static void func_ov194_021c5f64(PokemonTradeWork *wk, BOOL dim, u16 vram, u32 paletteMask);
 
 // The cell actor systems of the trade, and of the trade demo, which has only a few sprites
@@ -781,8 +781,8 @@ static void func_ov194_021c3904(PokemonTradeWork *wk, BoxSaveAccessor *boxes, in
             slot += box * 30;
             func_0204c178(wk->icons[index][i], &screenPos, CLACT_VRAM_SUB);
             if (async == TRUE && screenPos.x >= -16 && screenPos.x <= 272) {
-                if (!gfxUploadAsync(35, proxy.vramLocation.baseAddrOfVram[NNS_G2D_VRAM_TYPE_2DSUB],
-                                    wk->iconCharData + slot * 0x200, 0x200)) {
+                if (!NNS_GfdRegisterNewVramTransferTask(35, proxy.vramLocation.baseAddrOfVram[NNS_G2D_VRAM_TYPE_2DSUB],
+                                                        wk->iconCharData + slot * 0x200, 0x200)) {
                     sys_memcpy(wk->iconCharData + slot * 0x200,
                                (void *)(HW_DB_OBJ_VRAM + proxy.vramLocation.baseAddrOfVram[NNS_G2D_VRAM_TYPE_2DSUB]),
                                0x200);
@@ -2245,7 +2245,7 @@ BOOL func_ov194_021c5e80(PokemonTradeWork *wk) {
 }
 
 // Dims the palettes of a standard palette memory (PALFADE_VRAM_*) in paletteMask
-static void func_ov194_021c5e9c(PokemonTradeWork *wk, u16 vram, u32 paletteMask) {
+static void func_ov194_021c5e9c(const PokemonTradeWork *wk, u16 vram, u32 paletteMask) {
     PaletteFade *fade = PaletteFade_Create(wk->heapId);
     u8 *colors;
     int i;

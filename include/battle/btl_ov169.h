@@ -69,5 +69,25 @@ u8 func_ov169_0689d35c(void *data);
 void func_ov169_0689c6c8(BtlServerFlow *flow, BattleMon *target);
 
 BOOL func_ov169_0689cb5c(u16 move);
+// Whether an item is an Arceus plate, and a Genesect drive
+BOOL func_ov169_0689cb08(u16 item);
+BOOL func_ov169_0689cb18(u16 item);
 
+// Move and ability checks the move handlers use
+BOOL func_ov169_0689ca34(u16 move);
+BOOL func_ov169_0689ca44(u16 move);
+BOOL func_ov169_0689caa4(u16 ability);
+BOOL func_ov169_0689cac4(u16 ability);
+BOOL func_ov169_0689cba4(u16 move);
+BOOL func_ov169_0689cbc4(u16 move);
+BOOL func_ov169_0689cbe4(u16 move);
+// Whether Mimic can't copy a move
+BOOL func_ov169_0689cc04(u16 move);
+const u16 *func_ov169_0689cc14(u32 *count);
+BOOL func_ov169_0689d1ec(void *data, u16 move, u32 turn);
+u32 GetUsedMoveCount(void *data, u16 move, u32 turn);
+u16 func_ov169_0689d250(void *data, u32 turn);
+
+void *FieldEffectEventAdd(u32 effect, u32 subParam);
+void func_ov169_06898080(void *event);
 #endif // POKEBW2_BATTLE_BTL_OV169_H

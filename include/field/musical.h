@@ -5,7 +5,9 @@
 // commands of scrcmd_musical.c, and overlays 209, 210 and 211, which those load
 
 #include "types.h"
+#include "app/musical/mus_item_data.h"
 #include "app/musical/musical_shot_sys.h"
+#include "app/musical/musical_system.h"
 #include "app/ov174.h"
 #include "gfl/heap.h"
 #include "gfl/proc.h"
@@ -53,64 +55,6 @@ void func_ov012_02151e44(MusicalEventWork *work);
 // Whether the connection was lost
 BOOL func_ov012_02151e64(MusicalEventWork *work);
 
-// Overlay 210, the musical's data
-struct Ov210Work {
-    u32 unk0;
-    void *unk4;
-    // The archive of the program's messages
-    void *msgArc;
-};
-
-// A prop a Pokémon wears on the stage
-typedef struct {
-    u16 itemId;
-    s16 unk2;
-    // The slot it is worn on
-    u8 slot;
-} MusicalPokeEquip;
-
-// A Pokémon on the stage
-struct MusicalPoke {
-    // Who frees it: 0 the event, 1 the communication, 2 the stage
-    u32 owner;
-    u32 unk4;
-    u16 species;
-    u8 form;
-    u8 unkB;
-    u8 unkC;
-    u32 personality;
-    MusicalPokeEquip equips[9];
-    u16 points;
-    u16 unk4C[4];
-    BOOL unk54[9];
-    u16 unk78;
-};
-
-BOOL func_ov210_021eec80(PartyPkm *pkm);
-MusicalPoke *func_ov210_021eecac(PartyPkm *pkm, HeapID heapId);
-MusicalPoke *func_ov210_021eed30(u16 species, u8 form, u8 a2, u8 a3, u32 personality, HeapID heapId);
-Ov210Work *func_ov210_021eedac(HeapID heapId);
-void func_ov210_021eedd8(Ov210Work *work);
-void func_ov210_021eee0c(Ov210Work *work, SaveControl *save, GameData *gameData, u8 a3, HeapID heapId);
-void *func_ov210_021eef38(HeapID heapId);
-void func_ov210_021eef64(void *items);
-u32 func_ov210_021ef164(void *items, u16 itemId);
-// A prop's entry in the table func_ov210_021eef38 loads, 12 bytes
-typedef struct MusicalItemData MusicalItemData;
-MusicalItemData *func_ov210_021eef78(void *items, u16 itemId);
-// The prop's offset from where it is worn, x then y
-void func_ov210_021eef84(MusicalItemData *item, s32 *offset);
-// The BlAct size of its texture
-u32 func_ov210_021eef94(MusicalItemData *item);
-// Whether the prop can be worn at a position, by its flags
-BOOL func_ov210_021eef98(MusicalItemData *item, u8 pos);
-BOOL func_ov210_021ef018(MusicalItemData *item, u8 pos);
-// Whether the prop's category is that of a position
-BOOL func_ov210_021ef088(MusicalItemData *item, u8 pos);
-// Its flags 0x80 and 0x200
-BOOL func_ov210_021ef0f4(MusicalItemData *item);
-BOOL func_ov210_021ef104(MusicalItemData *item);
-
 // Overlay 211, the musical's communication
 void *func_ov211_021ef1e0(HeapID heapId, GameSystem *gsys, GameCommSys *comm, u16 value);
 void func_ov211_021ef220(void *comm);
@@ -127,6 +71,16 @@ MusicalPoke *func_ov211_021f0094(void *comm, u8 index);
 BOOL func_ov211_021f03d8(void *comm);
 BOOL func_ov211_021f03e0(void *comm);
 u8 func_ov211_021f0470(void *comm);
+// The players' props on the stage: asks to use one, and whether it was sent; the prop each Pokémon uses (10 for
+// none), which is then cleared; the position of the Pokémon in the limelight (4 or more for none), cleared with
+// func_ov211_021f05b4; and the result of a prop's use
+BOOL func_ov211_021f0460(void *comm, u8 equip);
+void func_ov211_021f0510(void *comm, u8 pos, u8 equip);
+u8 func_ov211_021f053c(void *comm, u8 pos);
+void func_ov211_021f056c(void *comm, u8 pos);
+u8 func_ov211_021f0598(void *comm);
+void func_ov211_021f05b4(void *comm);
+void func_ov211_021f05c0(void *comm, u8 pos, u8 equip, u32 result);
 u8 func_ov211_021f0488(void *comm, u8 index);
 u16 *func_ov211_021f0494(void *comm, u8 index);
 BOOL func_ov211_021f04a0(void *comm);
@@ -144,8 +98,5 @@ void *func_ov211_021ef230(u32 *seq, void *param);
 BOOL func_ov211_021ef288(u32 *seq, void *param, void *work);
 BOOL func_ov211_021ef378(u32 *seq, void *param, void *work);
 void func_ov211_021ef394(u32 *seq, void *param, void *work);
-
-// Overlay 20
-GameEvent *func_ov020_0216e714(GameSystem *gsys, void *args);
 
 #endif // POKEBW2_FIELD_MUSICAL_H

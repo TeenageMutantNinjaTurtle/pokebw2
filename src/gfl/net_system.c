@@ -117,7 +117,7 @@ static BOOL func_0203f7f0(u16 netId, u8 *data, u16 size);
 static BOOL func_0203f8f8(u16 netId, u8 *data, u16 size);
 static BOOL func_0203f9c0(BOOL ok);
 static BOOL func_0203f9f0(BOOL ok);
-static BOOL func_0203fa28(u8 *packet, NetQueue *queue, int size, int seq);
+static BOOL func_0203fa28(u8 *packet, NetQueue *queue, int size, u8 seq);
 static void func_0203fbe0(int command, int size, void *data, NetRecvState *state);
 static void func_0203fc34(NetRingBuff *ring, int netId, u8 *temp, NetRecvState *state, int size);
 static void func_0203fdbc(void);
@@ -791,7 +791,7 @@ static BOOL func_0203f9f0(BOOL ok) {
     return TRUE;
 }
 
-static BOOL func_0203fa28(u8 *packet, NetQueue *queue, int size, int seq) {
+static BOOL func_0203fa28(u8 *packet, NetQueue *queue, int size, u8 seq) {
     GFLNetInitData *ini = func_02042e84();
     GFLNetSys *sys = func_02042e78();
     NetSendBuffer buffer;

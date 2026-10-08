@@ -52,8 +52,8 @@ static BOOL func_ov012_02151f90(GameProc *proc, u32 *state, void *param, void *w
         func_ov012_021522bc(wk->param, 3, 2, 21, 0, 2);
         wk->param->pokes[1]->owner = 0;
         GFL_HeapCreateChild(HEAPID_USER, HEAPID_TAIL(HEAPID_MUSICAL_EVENT), 0x80000);
-        wk->param->ov210 = func_ov210_021eedac(HEAPID_USER);
-        func_ov210_021eee0c(wk->param->ov210, NULL, NULL, 0, HEAPID_MUSICAL_EVENT);
+        wk->param->ov210 = MusicalSystem_InitProgramData(HEAPID_USER);
+        MusicalSystem_LoadProgramData(wk->param->ov210, NULL, NULL, 0, HEAPID_MUSICAL_EVENT);
         wk->param->program = func_ov012_021522d8(HEAPID_MUSICAL, wk->param->ov210, 0);
         func_ov012_02152424(HEAPID_MUSICAL, wk->param->program, wk->param);
         wk->param->pokes[0]->points = 75;
@@ -71,7 +71,7 @@ static BOOL func_ov012_0215218c(GameProc *proc, u32 *state, void *param, void *w
 
     if (param == NULL) {
         func_ov012_0215241c(wk->param->program);
-        func_ov210_021eedd8(wk->param->ov210);
+        MusicalSystem_FreeProgramData(wk->param->ov210);
         GFL_HeapDelete(HEAPID_MUSICAL_EVENT);
         wk->param->pokes[1]->owner = 2;
         func_ov012_02152248(wk->param);
@@ -87,16 +87,16 @@ static BOOL func_ov012_021521d4(GameProc *proc, u32 *state, void *param, void *w
 
     switch (*state) {
     case 0:
-        wk->stage = func_ov209_021be9b0(wk->param, HEAPID_MUSICAL);
+        wk->stage = StaActing_Init(wk->param, HEAPID_MUSICAL);
         *state = 1;
         break;
     case 1:
-        if (func_ov209_021beccc(wk->stage) == TRUE) {
+        if (StaActing_Main(wk->stage) == TRUE) {
             *state = 2;
         }
         break;
     case 2:
-        func_ov209_021beb70(wk->stage);
+        StaActing_Term(wk->stage);
         return TRUE;
     }
     return FALSE;
@@ -132,7 +132,7 @@ void func_ov012_02152274(MusicalStageParam *param, u8 pos, MusicalPoke *poke) {
 
 void func_ov012_02152280(MusicalStageParam *param, u8 pos, u16 species, u8 form, u32 personality, u16 a5,
                          HeapID heapId) {
-    param->pokes[pos] = func_ov210_021eed30(species, form, 0, 0, personality, heapId);
+    param->pokes[pos] = MusicalSystem_InitPoke(species, form, 0, 0, personality, heapId);
     param->pokes[pos]->owner = 2;
     param->pokes[pos]->unk78 = a5;
 }

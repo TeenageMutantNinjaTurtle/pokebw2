@@ -30,6 +30,9 @@ u32 func_020105a0(KeyInfoSave *keyInfo);
 KeyInfoSave *func_0201046c(void *a0);
 // The Memory Link's data, at 0x38 in the same data
 void *func_02010470(void *a0);
+// Clears the key system's data, and the copy of the key information into the save
+void func_02010448(void *a0);
+void func_02010490(KeyInfoSave *dest, const KeyInfoSave *src);
 
 #define GAME_DIFFICULTY_EASY 0
 #define GAME_DIFFICULTY_NORMAL 1

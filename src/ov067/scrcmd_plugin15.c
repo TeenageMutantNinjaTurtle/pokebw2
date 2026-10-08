@@ -1,6 +1,6 @@
 #include "types.h"
 #include "field/field_script.h"
-#include "field/ov113.h"
+#include "field/gimmick_humilau.h"
 #include "system/vm.h"
 
 // Script plugin 15 (overlay 67), commands from 1000, of zones 463, 465 and 474, whose gimmick is overlay 113

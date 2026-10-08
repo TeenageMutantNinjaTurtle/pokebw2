@@ -2,6 +2,7 @@
 #define POKEBW2_SYSTEM_GAME_BEACON_H
 
 #include "types.h"
+#include "save/join_avenue.h"
 #include "struct_decls.h"
 
 // Names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0), except the GameBeaconSys_*, GameBeacon_* and
@@ -46,6 +47,8 @@ typedef union {
         u32 unk00;
         u16 text[8];
     } mission;
+    // A Join Avenue visitor's shop choice and extra data, of the type's argument (func_02037970)
+    JoinAvenueBeaconPayload avenue;
     // The other views overlay 12's game_beacon_set.c fills its messages through
     u32 value32;
     u8 value8;
@@ -251,5 +254,7 @@ void func_0202d6a8(void);
 // In another file of ARM9 main
 // Whether a received beacon is invalid
 BOOL func_02013bd4(const GameBeacon *beacon);
+// The beacon's type, or 1 for a type of 0 or of GAME_BEACON_TYPE_MAX or more
+u16 func_02013eac(const GameBeacon *beacon);
 
 #endif // POKEBW2_SYSTEM_GAME_BEACON_H

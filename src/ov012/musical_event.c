@@ -137,9 +137,9 @@ GameEvent *func_ov012_02150cf8(GameSystem *gsys, GameData *gameData, u8 slot, BO
     work->stage = NULL;
     work->shot = NULL;
     work->musicalSave = getMusicalInfoBlkAddress(gameData);
-    work->ov210 = func_ov210_021eedac(HEAPID_GAMEEVENT);
+    work->ov210 = MusicalSystem_InitProgramData(HEAPID_GAMEEVENT);
     if (work->online == FALSE || func_ov211_021f04a0(work->commWork->comm) == TRUE) {
-        func_ov210_021eee0c(work->ov210, work->save, work->gameData, func_0200aee4(work->musicalSave),
+        MusicalSystem_LoadProgramData(work->ov210, work->save, work->gameData, func_0200aee4(work->musicalSave),
                             HEAPID_MUSICAL_EVENT);
     }
     if (work->online == TRUE) {
@@ -353,7 +353,7 @@ static GameEventReturnCode func_ov012_02150e6c(GameEvent *event, u32 *state, voi
 }
 
 static void func_ov012_0215118c(MusicalEventWork *work) {
-    work->poke = func_ov210_021eecac(work->pkm, HEAPID_GAMEEVENT);
+    work->poke = MusicalSystem_InitPokeFromPkm(work->pkm, HEAPID_GAMEEVENT);
     if (work->online) {
         func_ov211_021f04a0(work->commWork->comm);
         func_ov211_021f04d4(work->commWork->comm);
@@ -372,7 +372,7 @@ static void func_ov012_021511b4(MusicalEventWork *work) {
         GFL_HeapFree(work->shot);
     }
     if (work->ov210 != NULL) {
-        func_ov210_021eedd8(work->ov210);
+        MusicalSystem_FreeProgramData(work->ov210);
     }
     if (work->poke != NULL) {
         GFL_HeapFree(work->poke);
@@ -445,7 +445,7 @@ static void func_ov012_021512dc(MusicalEventWork *work) {
             }
         }
     }
-    items = func_ov210_021eef38(HEAPID_GAMEEVENT);
+    items = MusItemData_Init(HEAPID_GAMEEVENT);
     for (i = 0; i < 4; i++) {
         poke = work->stage->pokes[i];
         for (j = 0; j < 9; j++) {
@@ -455,7 +455,7 @@ static void func_ov012_021512dc(MusicalEventWork *work) {
             }
         }
     }
-    func_ov210_021eef64(items);
+    MusItemData_Free(items);
 }
 
 // Takes the photo of the finale
@@ -509,9 +509,9 @@ static void func_ov012_02151384(MusicalEventWork *work) {
         info = NULL;
         poke = work->stage->pokes[pos];
         shot->pokes[pos].species = poke->species;
+        shot->pokes[pos].sex = poke->sex;
+        shot->pokes[pos].rare = poke->rare;
         shot->pokes[pos].form = poke->form;
-        shot->pokes[pos].unk2_2 = poke->unkC;
-        shot->pokes[pos].unk2_3 = poke->unkB;
         shot->pokes[pos].personality = poke->personality;
         if (pos == work->playerPos) {
             info = GetGameDataPlayerInfo(work->gameData);
@@ -585,7 +585,7 @@ static void func_ov012_0215168c(MusicalEventWork *work) {
     counts[1] = 0;
     counts[2] = 0;
     counts[3] = 0;
-    items = func_ov210_021eef38(HEAPID_GAMEEVENT);
+    items = MusItemData_Init(HEAPID_GAMEEVENT);
     poke = work->stage->pokes[work->playerPos];
     for (i = 0; i < 9; i++) {
         if (poke->equips[i].itemId != 0xff) {
@@ -595,7 +595,7 @@ static void func_ov012_0215168c(MusicalEventWork *work) {
     for (i = 0; i < 4; i++) {
         func_0200aec8(work->musicalSave, i, counts[i]);
     }
-    func_ov210_021eef64(items);
+    MusItemData_Free(items);
     zoneId = GameData_GetPlayerState(work->gameData)->zoneId;
     FriendshipManagerCalc(work->pkm, 6, zoneId, HEAPID_GAMEEVENT);
     records = GameData_GetRecords(work->gameData);

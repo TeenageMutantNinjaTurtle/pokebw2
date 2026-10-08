@@ -71,7 +71,7 @@ data_ov320_0219edc3 kind:data(any) addr:0x0219ee03
 data_ov320_0219edd0 kind:data(any) addr:0x0219ee10
 data_ov320_0219ede8 kind:data(any) addr:0x0219ee28
 data_ov320_0219ee08 kind:data(any) addr:0x0219ee48
-data_ov320_0219ee40 kind:data(any) addr:0x0219ee80 ambiguous
+WBT_LIST_PROC_FUNCTIONS kind:data(any) addr:0x0219ee80 ambiguous
 data_ov320_0219ee4c kind:data(any) addr:0x0219ee8c
 data_ov320_0219ee94 kind:data(any) addr:0x0219eed4
 data_ov320_0219ee96 kind:data(any) addr:0x0219eed6

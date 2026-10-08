@@ -50,6 +50,13 @@ enum {
     // Not from swan: the phrase select's heap
     HEAPID_PMS_SELECT = 0x51,
     HEAPID_BATTLE_RETURN = 0x52,
+    // Not from swan: the Battle Recorder's heaps, br_main.c's and the one its screens share
+    HEAPID_BATTLE_RECORDER_SYS = 0x59,
+    HEAPID_BATTLE_RECORDER = 0x5a,
+    // Not from swan: the DS Download Play parent's heap, overlay 181
+    HEAPID_MB_PARENT = 0x5d,
+    // Not from swan: the Entralink monolith's heap
+    HEAPID_MONOLITH = 0x61,
     HEAPID_GAMESYNC = 0x67,
     // The evolution demo's graphics, which it frees while another screen runs
     HEAPID_SHINKA_DEMO_GRAPHIC = 0x68,
@@ -74,6 +81,8 @@ enum {
     HEAPID_BOX_SEARCH = 0x98,
     // Unova Link's (not from swan)
     HEAPID_KEY_SYSTEM = 0x9b,
+    // Not from swan: the heap of the Pokémon World Tournament's win record and downloaded tournaments, overlay 326
+    HEAPID_WBT_RECORD = 0x9e,
 };
 
 // Allocates from the end of the heap instead of the start

@@ -162,8 +162,8 @@ enum {
 };
 
 // The files of an item that GetItemGraphicsDatID and PML_ItemReadDataFile give: its data in ARCID_ITEMINFO, its icon's
-// characters and palette in ARCID_ITEMGRA, and the characters and palette of the icon of the battle items in
-// func_02035944's list
+// characters and palette in ARCID_ITEMGRA, and the characters and palette of the icon of the Wonder Launcher's
+// items, in ShooterItem_GetIndex's order
 #define ITEM_FILE_DATA 0
 #define ITEM_FILE_ICON_CHAR 1
 #define ITEM_FILE_ICON_PLTT 2
@@ -185,6 +185,8 @@ void setItemDescriptionTextToStrbuf(StrBuf *strbuf, u16 item, HeapID heapId);
 s32 GetItemParam(u16 item, u32 param, HeapID heapId);
 s32 PML_ItemGetParam(ItemData *data, u32 param);
 BOOL PML_ItemIsTMHM(u16 item);
+// How many of an item the bag can hold: one of a TM or HM, 999 of others
+u32 PML_ItemGetMaxStorageCount(u16 item);
 BOOL PML_ItemIsTM(u16 item);
 // The move a TM or HM teaches, or 0
 u16 PML_ItemGetTMWazaID(u16 item);

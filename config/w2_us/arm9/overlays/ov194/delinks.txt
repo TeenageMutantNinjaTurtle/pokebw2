@@ -27,6 +27,7 @@ src/ov194/pokemontrade_save.c:
     .data       start:0x021c6f48 end:0x021c6f84
 
 src/ov194/pokemontrade_message.c:
+    complete
     .text       start:0x021bfbe4 end:0x021c1958
     .rodata     start:0x021c6750 end:0x021c67dc
 

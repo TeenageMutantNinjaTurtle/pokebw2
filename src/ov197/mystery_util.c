@@ -41,7 +41,7 @@ enum {
 };
 
 // A window that prints one string
-typedef struct {
+struct MysteryTextLine {
     PrintWindow printWindow;
     PrintQueue *queue;
     BmpWin *window;
@@ -52,7 +52,7 @@ typedef struct {
     u32 align;
     // The window's screen is sent to VRAM by MysteryTextLine_Flush rather than when it is made
     BOOL deferFlush;
-} MysteryTextLine;
+};
 
 struct MysteryTextWin {
     const MysteryTextWinEntry *entries;
@@ -69,14 +69,6 @@ struct MysteryTextWinCopy {
     GFLBitmap *bitmaps[0];
 };
 
-// How a message window prints
-enum {
-    PRINT_MODE_QUEUE,
-    PRINT_MODE_STREAM,
-    PRINT_MODE_WAIT_ICON,
-    PRINT_MODE_NONE,
-};
-
 struct MysteryMsgWin {
     u32 unk0;
     Font *font;
@@ -85,7 +77,8 @@ struct MysteryMsgWin {
     BmpWin *window;
     StrBuf *str;
     u16 bgColor;
-    // Never set, so the key cursor and the stream use heap 0
+    // BUG: Never set, so the key cursor, the wait icon and the stream allocate from heap 0 (the system heap); with
+    // BUGFIX the create functions set it
     HeapID heapId;
     PrintWindow printWindow;
     PrintQueue *queue;
@@ -147,15 +140,8 @@ struct MysteryOamText {
     PrintQueue *queue;
 };
 
-static MysteryTextLine *MysteryTextLine_Create(BOOL deferFlush, u16 bg, u8 x, u8 y, u8 width, u8 height, u8 palette,
-                                               PrintQueue *queue, HeapID heapId);
-static void MysteryTextLine_Delete(MysteryTextLine *line);
 static void MysteryTextLine_ClearScreen(MysteryTextLine *line);
 static void MysteryTextLine_PrintMsg(MysteryTextLine *line, MsgData *msgData, u32 msgId, Font *font);
-static void MysteryTextLine_PrintStr(MysteryTextLine *line, const StrBuf *str, Font *font);
-static void MysteryTextLine_SetColor(MysteryTextLine *line, u16 color);
-static void MysteryTextLine_SetPos(MysteryTextLine *line, s32 x, s32 y, u32 align);
-static BOOL MysteryTextLine_Update(MysteryTextLine *line);
 static void MysteryTextLine_Flush(MysteryTextLine *line);
 static void MysteryTextLine_GetPos(const MysteryTextLine *line, Font *font, MysteryPos *pos);
 static void Mystery_AlignText(u32 align, const MysteryPos *pos, GFLBitmap *bitmap, const StrBuf *str, Font *font,
@@ -181,8 +167,8 @@ static inline void MysteryMsgWin_PrintQueue(PrintWindow *printWindow, PrintQueue
     printWindow->flushPending = TRUE;
 }
 
-static MysteryTextLine *MysteryTextLine_Create(BOOL deferFlush, u16 bg, u8 x, u8 y, u8 width, u8 height, u8 palette,
-                                               PrintQueue *queue, HeapID heapId) {
+MysteryTextLine *MysteryTextLine_Create(BOOL deferFlush, u16 bg, u8 x, u8 y, u8 width, u8 height, u8 palette,
+                                        PrintQueue *queue, HeapID heapId) {
     MysteryTextLine *line = GFL_HeapAllocate(heapId, sizeof(MysteryTextLine), FALSE, "mystery_util.c", 85);
 
     sys_memset(line, 0, sizeof(MysteryTextLine));
@@ -202,7 +188,7 @@ static MysteryTextLine *MysteryTextLine_Create(BOOL deferFlush, u16 bg, u8 x, u8
     return line;
 }
 
-static void MysteryTextLine_Delete(MysteryTextLine *line) {
+void MysteryTextLine_Delete(MysteryTextLine *line) {
     BmpWin_Free(line->window);
     GFL_StrBufFree(line->str);
     GFL_HeapFree(line);
@@ -221,7 +207,7 @@ static void MysteryTextLine_PrintMsg(MysteryTextLine *line, MsgData *msgData, u3
     PrintWindow_Print(&line->printWindow, line->queue, pos.x, pos.y, line->str, font, line->color);
 }
 
-static void MysteryTextLine_PrintStr(MysteryTextLine *line, const StrBuf *str, Font *font) {
+void MysteryTextLine_PrintStr(MysteryTextLine *line, const StrBuf *str, Font *font) {
     MysteryPos pos;
 
     GFL_BitmapFill(BmpWin_GetBitmap(line->window), line->color & 0x1f);
@@ -230,17 +216,17 @@ static void MysteryTextLine_PrintStr(MysteryTextLine *line, const StrBuf *str, F
     PrintWindow_Print(&line->printWindow, line->queue, pos.x, pos.y, line->str, font, line->color);
 }
 
-static void MysteryTextLine_SetColor(MysteryTextLine *line, u16 color) {
+void MysteryTextLine_SetColor(MysteryTextLine *line, u16 color) {
     line->color = color;
 }
 
-static void MysteryTextLine_SetPos(MysteryTextLine *line, s32 x, s32 y, u32 align) {
+void MysteryTextLine_SetPos(MysteryTextLine *line, s32 x, s32 y, u32 align) {
     line->pos.x = x;
     line->pos.y = y;
     line->align = align;
 }
 
-static BOOL MysteryTextLine_Update(MysteryTextLine *line) {
+BOOL MysteryTextLine_Update(MysteryTextLine *line) {
     if (!line->deferFlush) {
         PrintWindow_Flush(&line->printWindow, line->queue);
         if (!line->printWindow.flushPending) {
@@ -312,8 +298,11 @@ MysteryMsgWin *MysteryMsgWin_Create(u16 bg, u8 palette, PrintQueue *queue, Font 
     sys_memset(win, 0, sizeof(MysteryMsgWin));
     win->bgColor = 15;
     win->font = font;
+#ifdef BUGFIX
+    win->heapId = heapId;
+#endif
     win->queue = queue;
-    win->mode = PRINT_MODE_NONE;
+    win->mode = MYSTERY_PRINT_NONE;
     win->str = GFL_StrBufCreate(768, heapId);
     win->window = BmpWin_CreateDynamic(bg, 1, 19, 30, 4, palette, TRUE);
     PrintWindow_Init(&win->printWindow, win->window);
@@ -333,8 +322,11 @@ MysteryMsgWin *MysteryMsgWin_CreateSmall(u16 bg, u8 palette, PrintQueue *queue, 
     sys_memset(win, 0, sizeof(MysteryMsgWin));
     win->bgColor = 15;
     win->font = font;
+#ifdef BUGFIX
+    win->heapId = heapId;
+#endif
     win->queue = queue;
-    win->mode = PRINT_MODE_NONE;
+    win->mode = MYSTERY_PRINT_NONE;
     AppPrintsysCommon_Init(&win->printCommon, 2);
     win->str = GFL_StrBufCreate(512, heapId);
     win->window = BmpWin_CreateDynamic(bg, 1, 21, 30, 2, palette, TRUE);
@@ -369,14 +361,14 @@ void MysteryMsgWin_Delete(MysteryMsgWin *win) {
 
 void MysteryMsgWin_Update(MysteryMsgWin *win) {
     switch (win->mode) {
-    case PRINT_MODE_WAIT_ICON:
+    case MYSTERY_PRINT_WAIT_ICON:
         PrintWindow_Flush(&win->printWindow, win->queue);
         break;
-    case PRINT_MODE_QUEUE:
+    case MYSTERY_PRINT_QUEUE:
         PrintWindow_Flush(&win->printWindow, win->queue);
         win->done = !win->printWindow.flushPending ? TRUE : FALSE;
         break;
-    case PRINT_MODE_STREAM:
+    case MYSTERY_PRINT_STREAM:
         if (win->stream != NULL) {
             if (win->keyCursor != NULL) {
                 KeyCursor_Update(win->keyCursor, win->stream, win->window);
@@ -386,7 +378,7 @@ void MysteryMsgWin_Update(MysteryMsgWin *win) {
             }
         }
         break;
-    case PRINT_MODE_NONE:
+    case MYSTERY_PRINT_NONE:
         break;
     }
     GFL_TCBExMgrUpdate(win->tcbManager);
@@ -409,21 +401,21 @@ static void MysteryMsgWin_PrintStr(MysteryMsgWin *win, u32 mode) {
     }
     MysteryMsgWin_EndWait(win);
     switch (mode) {
-    case PRINT_MODE_WAIT_ICON:
+    case MYSTERY_PRINT_WAIT_ICON:
         win->waitIcon = WaitIcon_Create(GFL_VBlankGetTCBMgr(), win->window, (u8)win->bgColor, 16, win->heapId);
         MysteryMsgWin_PrintQueue(&win->printWindow, win->queue, win->str, win->font);
-        win->mode = PRINT_MODE_QUEUE;
+        win->mode = MYSTERY_PRINT_QUEUE;
         break;
-    case PRINT_MODE_QUEUE:
+    case MYSTERY_PRINT_QUEUE:
         MysteryMsgWin_PrintQueue(&win->printWindow, win->queue, win->str, win->font);
-        win->mode = PRINT_MODE_QUEUE;
+        win->mode = MYSTERY_PRINT_QUEUE;
         break;
-    case PRINT_MODE_STREAM:
+    case MYSTERY_PRINT_STREAM:
         AppPrintsysCommon_Init(&win->printCommon, 2);
         win->keyCursor = KeyCursor_Create(win->bgColor, TRUE, TRUE, win->heapId);
         win->stream = func_02022268(win->window, 0, 0, win->str, win->font, func_02017bcc(), win->tcbManager, 0,
                                     win->heapId, win->bgColor);
-        win->mode = PRINT_MODE_STREAM;
+        win->mode = MYSTERY_PRINT_STREAM;
         break;
     default:
         break;
@@ -927,7 +919,7 @@ void MysteryPal_BlendOne(u32 type, u16 *dest, u16 angle, u8 palette, u8 index, u
     u8 g = fromG + ((toG - fromG) * t >> FX32_SHIFT);
 
     *dest = GX_RGB(r, g, b);
-    gfxUploadAsync(type, palette * 32 + index * 2, dest, sizeof(u16));
+    NNS_GfdRegisterNewVramTransferTask(type, palette * 32 + index * 2, dest, sizeof(u16));
 }
 
 void MysteryPal_Blend(u32 type, u16 *dest, u16 angle, u32 palette, const u16 *from, const u16 *to) {
@@ -949,5 +941,5 @@ void MysteryPal_Blend(u32 type, u16 *dest, u16 angle, u32 palette, const u16 *fr
 
         dest[i] = GX_RGB(r, g, b);
     }
-    gfxUploadAsync(type, palette * 32, dest, 32);
+    NNS_GfdRegisterNewVramTransferTask(type, palette * 32, dest, 32);
 }

@@ -41,6 +41,8 @@ typedef u16 GXRgb;
 #define reg_G3_MTX_MODE (*(vu32 *)0x04000440)
 #define reg_G3_MTX_PUSH (*(vu32 *)0x04000444)
 #define reg_G3_MTX_POP (*(vu32 *)0x04000448)
+#define reg_G3_MTX_STORE (*(vu32 *)0x0400044c)
+#define reg_G3_MTX_RESTORE (*(vu32 *)0x04000450)
 #define reg_G3_MTX_IDENTITY (*(vu32 *)0x04000454)
 #define reg_G3_MTX_SCALE (*(vu32 *)0x0400046c)
 #define reg_G3_MTX_TRANS (*(vu32 *)0x04000470)
@@ -70,6 +72,7 @@ typedef u16 GXRgb;
 #define reg_G2S_DB_WININ (*(vu16 *)0x04001048)
 #define reg_G2S_DB_WINOUT (*(vu16 *)0x0400104a)
 #define reg_G2S_DB_BLDCNT (*(vu16 *)0x04001050)
+#define reg_G2S_DB_BLDALPHA (*(vu16 *)0x04001052)
 
 #define REG_GX_DISPCNT_W0_SHIFT 13
 #define REG_GX_DISPCNT_W0_MASK 0x00002000
@@ -223,6 +226,7 @@ typedef enum {
 #define GX_VRAM_BG_64_E GX_VRAM_E
 #define GX_VRAM_BG_128_A GX_VRAM_A
 #define GX_VRAM_BG_128_B GX_VRAM_B
+#define GX_VRAM_BG_128_C GX_VRAM_C
 #define GX_VRAM_BG_128_D GX_VRAM_D
 #define GX_VRAM_BG_256_AB (GX_VRAM_A | GX_VRAM_B)
 #define GX_VRAM_BGEXTPLTT_NONE GX_VRAM_NONE
@@ -234,10 +238,12 @@ typedef enum {
 #define GX_VRAM_OBJ_NONE GX_VRAM_NONE
 #define GX_VRAM_OBJ_16_F GX_VRAM_F
 #define GX_VRAM_OBJ_16_G GX_VRAM_G
+#define GX_VRAM_OBJ_32_FG (GX_VRAM_F | GX_VRAM_G)
 #define GX_VRAM_OBJ_64_E GX_VRAM_E
 #define GX_VRAM_OBJ_128_B GX_VRAM_B
 #define GX_VRAM_OBJ_256_AB (GX_VRAM_A | GX_VRAM_B)
 #define GX_VRAM_OBJEXTPLTT_NONE GX_VRAM_NONE
+#define GX_VRAM_OBJEXTPLTT_0_F GX_VRAM_F
 #define GX_VRAM_SUB_OBJ_NONE GX_VRAM_NONE
 #define GX_VRAM_SUB_OBJ_16_I GX_VRAM_I
 #define GX_VRAM_SUB_OBJ_128_D GX_VRAM_D
@@ -289,6 +295,7 @@ typedef enum {
 
 typedef enum {
     GX_BG_CHARBASE_0x00000 = 0,
+    GX_BG_CHARBASE_0x04000 = 1,
     GX_BG_CHARBASE_0x10000 = 4,
     GX_BG_CHARBASE_0x3c000 = 15,
 } GXBGCharBase;
@@ -314,6 +321,7 @@ typedef enum {
 typedef enum {
     GX_BG_BMPSCRBASE_0x00000 = 0,
     GX_BG_BMPSCRBASE_0x10000 = 4,
+    GX_BG_BMPSCRBASE_0x14000 = 5,
     GX_BG_BMPSCRBASE_0x28000 = 10,
 } GXBGBmpScrBase;
 
@@ -328,6 +336,8 @@ typedef enum {
 
 #define GX_BEGIN_TRIANGLES 0
 #define GX_BEGIN_QUADS 1
+#define GX_BEGIN_TRIANGLE_STRIP 2
+#define GX_BEGIN_QUAD_STRIP 3
 
 typedef enum {
     GX_POLYGONMODE_MODULATE,
@@ -516,6 +526,7 @@ typedef enum {
 #define GX_CAPTURE_MODE_A 0
 #define GX_CAPTURE_MODE_AB 2
 #define GX_CAPTURE_SRCA_2D3D 0
+#define GX_CAPTURE_SRCA_3D 1
 #define GX_CAPTURE_SRCB_VRAM_0x00000 0
 #define GX_CAPTURE_DEST_VRAM_A_0x00000 0
 #define GX_CAPTURE_DEST_VRAM_B_0x00000 1
@@ -688,6 +699,14 @@ static inline void G2S_BlendNone(void) {
     reg_G2S_DB_BLDCNT = 0;
 }
 
+static inline void G2_ChangeBlendAlpha(int eva, int evb) {
+    reg_G2_BLDALPHA = (u16)(eva | (evb << 8));
+}
+
+static inline void G2S_ChangeBlendAlpha(int eva, int evb) {
+    reg_G2S_DB_BLDALPHA = (u16)(eva | (evb << 8));
+}
+
 static inline void G3X_SetShading(int shading) {
     reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_THS_MASK | REG_G3X_DISP3DCNT_RO_MASK |
                                                      REG_G3X_DISP3DCNT_GO_MASK)) |
@@ -759,6 +778,14 @@ static inline void G3_PushMtx(void) {
 
 static inline void G3_PopMtx(int num) {
     reg_G3_MTX_POP = num;
+}
+
+static inline void G3_StoreMtx(int num) {
+    reg_G3_MTX_STORE = (u32)num;
+}
+
+static inline void G3_RestoreMtx(int num) {
+    reg_G3_MTX_RESTORE = (u32)num;
 }
 
 static inline void G3_Identity(void) {
@@ -1148,11 +1175,19 @@ void gfxEndTextureUpload(void);
 void gfxBeginPaletteUpload(void);
 void gfxUploadPalette(const void *src, u32 dest, u32 size);
 void gfxEndPaletteUpload(void);
+// NitroSDK's GX_BeginLoadClearImage, GX_LoadClearImageColor, GX_LoadClearImageDepth and GX_EndLoadClearImage
+void gfxBeginRearPlaneImageUpload(void);
+void gfxUploadRearPlaneImageA(const void *src, u32 size);
+void gfxUploadRearPlaneImageB(const void *src, u32 size);
+void gfxEndRearPlaneImageUpload(void);
 // NitroSDK's G3_LoadMtx43 and G3_MultMtx43
 void gfxLoadMatrix4x3(const MtxFx43 *mtx);
 void gfxMultMatrix4x3(const MtxFx43 *mtx);
 void gfxSetEngineModeA(int dispMode, int bgMode, int bg0As3D);
 void gfxSetBGModeB(int bgMode);
+// NitroSDK's GX_HBlankIntr and GX_VBlankIntr, which return whether the interrupt was enabled
+s32 gfxSetHBlankIRQEnabled(BOOL enable);
+s32 gfxSetVBlankIRQEnabled(BOOL enable);
 
 // NitroSDK's loads to BG VRAM: GX_LoadBG0Scr to GXS_LoadBG3Scr, GX_LoadBG0Char to GXS_LoadBG3Char, and GX_LoadBGPltt
 // and GXS_LoadBGPltt
@@ -1203,11 +1238,14 @@ void gfxEndObjExtPltBUpload(void);
 u16 gfxGetObjBanksA(void);
 u16 gfxGetObjBanksB(void);
 
-// NitroSDK's G2_GetBG0ScrPtr
+// NitroSDK's G2_GetBG0ScrPtr and G2_GetBG1ScrPtr
 void *gfxGetScreenAddrBG0A(void);
+void *gfxGetScreenAddrBG1A(void);
 // NitroSDK's G2_GetBG2ScrPtr and G2_GetBG3ScrPtr
 void *gfxGetScreenAddrBG2A(void);
 void *gfxGetScreenAddrBG3A(void);
+// NitroSDK's G2S_GetBG3ScrPtr
+void *gfxGetScreenAddrBG3B(void);
 
 // NitroSDK's G2_GetBG0CharPtr to G2S_GetBG3CharPtr
 void *gfxGetCharAddrBG0A(void);
@@ -1261,8 +1299,15 @@ void gfxEngineEnableA(void);
 #define HW_LCDC_VRAM_B 0x06820000
 #define HW_LCDC_VRAM_C 0x06840000
 #define HW_LCDC_VRAM_D 0x06860000
+// The BG and OBJ VRAM of each engine, at their largest
+#define HW_BG_VRAM 0x06000000
+#define HW_BG_VRAM_SIZE 0x80000
+#define HW_DB_BG_VRAM 0x06200000
+#define HW_DB_BG_VRAM_SIZE 0x20000
+#define HW_OBJ_VRAM_SIZE 0x40000
 // The sub engine's OBJ characters
 #define HW_DB_OBJ_VRAM 0x06600000
+#define HW_DB_OBJ_VRAM_SIZE 0x20000
 #define HW_OAM 0x07000000
 #define HW_DB_OAM 0x07000400
 #define HW_OAM_SIZE 0x400
@@ -1320,11 +1365,15 @@ void gfxInit3D(void);
 // NitroSDK's G3i_LookAt_, which loads the camera matrix into the geometry engine when isLoad is set, G3_RotX, G3_RotY,
 // G3_RotZ and G3_MultTransMtx33, under swan's names
 void gfxLookAt(const VecFx32 *camPos, const VecFx32 *camUp, const VecFx32 *target, BOOL isLoad, MtxFx43 *mtx);
+// NitroSDK's G3i_PerspectiveW_, which loads the projection matrix into the geometry engine when isLoad is set
+void gfxPerspective(fx32 fovySin, fx32 fovyCos, fx32 aspect, fx32 n, fx32 f, fx32 scaleW, BOOL isLoad, MtxFx44 *mtx);
 // NitroSDK's G3i_OrthoW_, which loads the projection matrix into the geometry engine when isLoad is set
 void gfxOrtho(fx32 t, fx32 b, fx32 l, fx32 r, fx32 n, fx32 f, fx32 scaleW, BOOL isLoad, MtxFx44 *mtx);
 void gfxRotateX(fx32 sin, fx32 cos);
 void gfxRotateY(fx32 sin, fx32 cos);
 void gfxRotateZ(fx32 sin, fx32 cos);
+// NitroSDK's G3_MultMtx44
+void gfxMultMatrix4x4(const MtxFx44 *mtx);
 void gfxMultTransRot4x3(const MtxFx33 *mtx, const VecFx32 *trans);
 void gfxResetMatrixStack(void);
 int gfxGetBoxTestResult(s32 *in);

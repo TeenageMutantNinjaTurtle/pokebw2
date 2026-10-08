@@ -1,8 +1,11 @@
 // Function names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 
 #include "types.h"
+#include "battle/battle_overlay.h"
+#include "battle/btl_adapter.h"
 #include "battle/btl_calc.h"
 #include "battle/btl_client.h"
+#include "battle/btl_field.h"
 #include "battle/btl_main.h"
 #include "battle/btl_net.h"
 #include "battle/btl_pokeparam.h"
@@ -11,6 +14,7 @@
 #include "battle/btl_server_flow.h"
 #include "battle/btl_setup.h"
 #include "battle/btlv.h"
+#include "battle/pokewood_cutin.h"
 #include "constants/abilities.h"
 #include "constants/pokemon.h"
 #include "constants/species.h"
@@ -26,6 +30,7 @@
 #include "system/text_speed.h"
 #include "system/app_keycursor.h"
 #include "system/gf_font.h"
+#include "system/ir_check.h"
 #include "gfl/proc.h"
 #include "gfl/random.h"
 #include "gfl/sound.h"
@@ -112,9 +117,9 @@ const GameProcFunctions data_ov167_021d6ce0 = { func_ov167_021998c0, func_ov167_
 
 // Starts a step of the module
 static inline void BtlMainSeq_Set(BtlMainSeq *seq, BtlMainSeqFunc func, BtlMainModule *mainModule) {
-    seq->mainModule = mainModule;
     seq->func = func;
     seq->nextFunc = NULL;
+    seq->mainModule = mainModule;
     seq->state = 0;
 }
 
@@ -177,7 +182,7 @@ BOOL func_ov167_021998c0(GameProc *proc, u32 *state, void *param, void *work) {
             notInitialized = TRUE;
         }
         mainModule->unk473_2 = (u8)notInitialized;
-        mainModule->unk2BC = func_ov167_021d5a84(mainModule->heapId);
+        mainModule->field = func_ov167_021d5a84(mainModule->heapId);
         func_ov167_0219ccbc(&mainModule->pokeCons[0], mainModule, FALSE);
         func_ov167_0219ccbc(&mainModule->pokeCons[1], mainModule, TRUE);
         func_ov167_0219e164(mainModule->setup);
@@ -280,7 +285,7 @@ BOOL func_ov167_02199ca0(BtlMainModule *mainModule) {
     u32 i;
 
     for (i = 0; i < 4; i++) {
-        if (DoesClientExist(mainModule, i) && !func_ov167_021d4880(mainModule->unk2C8, i)) {
+        if (DoesClientExist(mainModule, i) && !func_ov167_021d4880(&mainModule->recReader, i)) {
             return FALSE;
         }
     }
@@ -331,9 +336,9 @@ BOOL func_ov167_02199cd4(GameProc *proc, u32 *state, void *param, void *work) {
         (*state)++;
         break;
     case 3:
-        if (mainModule->unk2BC != 0) {
-            func_ov167_021d5aac(mainModule->unk2BC);
-            mainModule->unk2BC = 0;
+        if (mainModule->field != NULL) {
+            func_ov167_021d5aac(mainModule->field);
+            mainModule->field = NULL;
         }
         if (mainModule->unk2C0 != NULL) {
             GFL_HeapFree(mainModule->unk2C0);
@@ -538,9 +543,9 @@ void func_ov167_0219a1e8(BtlMainModule *mainModule, BtlSetup *setup) {
 
 void func_ov167_0219a228(BtlMainModule *mainModule, BtlSetup *setup) {
     if (setup->fieldSituation.unk1b != 0) {
-        func_ov167_021d4630(mainModule->unk2C8, setup->unkB0, setup->unkB4);
-        func_ov167_021b18e8(mainModule->clients[0], mainModule->unk2C8);
-        func_ov167_021b18e8(mainModule->clients[1], mainModule->unk2C8);
+        func_ov167_021d4630(&mainModule->recReader, setup->unkB0, setup->unkB4);
+        func_ov167_021b18e8(mainModule->clients[0], &mainModule->recReader);
+        func_ov167_021b18e8(mainModule->clients[1], &mainModule->recReader);
     }
 }
 
@@ -709,10 +714,10 @@ BOOL func_ov167_0219a5bc(u32 *state, BtlMainModule *mainModule) {
         }
     }
     if (setup->fieldSituation.unk1b != 0) {
-        func_ov167_021d4630(mainModule->unk2C8, setup->unkB0, setup->unkB4);
+        func_ov167_021d4630(&mainModule->recReader, setup->unkB0, setup->unkB4);
         for (i = 0; i < 4; i++) {
             if (DoesClientExist(mainModule, i)) {
-                func_ov167_021b18e8(mainModule->clients[i], mainModule->unk2C8);
+                func_ov167_021b18e8(mainModule->clients[i], &mainModule->recReader);
             }
         }
     }
@@ -945,8 +950,9 @@ BOOL func_ov167_0219ada0(BtlMainModule *mainModule, s32 *state) {
         break;
     case 3:
         if (func_ov167_021b9c0c(&mainModule->syncData)) {
-            mainModule->setup->unkA2 = mainModule->syncData.unk18;
-            mainModule->setup->rand = mainModule->syncData.rand;
+            BtlSetup *setup = mainModule->setup;
+            setup->unkA2 = mainModule->syncData.unk18;
+            setup->rand = mainModule->syncData.rand;
             mainModule->rand = mainModule->syncData.rand;
             mainModule->unk473_2 = mainModule->syncData.unk1F_0;
             mainModule->unk43C = mainModule->syncData.unk1E;
@@ -1529,8 +1535,8 @@ BOOL IsSwitchMode(BtlMainModule *mainModule) {
     return FALSE;
 }
 
-void func_ov167_0219bde0(BtlMainModule *mainModule) {
-    func_02017c50(mainModule->unk43C);
+s32 func_ov167_0219bde0(BtlMainModule *mainModule) {
+    return func_02017c50(mainModule->unk43C);
 }
 
 void func_ov167_0219bdf0(BtlMainModule *mainModule) {
@@ -1542,7 +1548,7 @@ BOOL func_ov167_0219bdfc(BtlMainModule *mainModule) {
 
     if (mainModule->setup->battleType <= 1) {
         GFL_OvlLoad(OVERLAY_ID(338));
-        result = func_ov338_0217caf8();
+        result = IrCheck_IsGenuineCard();
         GFL_OvlUnload(OVERLAY_ID(338));
         if (!result) {
             return FALSE;
@@ -2637,11 +2643,11 @@ BattleMon *func_ov167_0219d180(BtlPokeCon *pokeCon, u8 pos) {
 }
 
 BattleMon *func_ov167_0219d188(BtlPokeCon *pokeCon, u8 pos) {
-    BtlMainModule *mainModule = pokeCon->mainModule;
     u8 i = pos;
     u8 clientId;
     u8 index;
     BattleParty *parties;
+    BtlMainModule *mainModule = pokeCon->mainModule;
 
     clientId = BattlePosToClientID(mainModule, pos);
     index = 0;
@@ -2733,7 +2739,8 @@ BOOL IsAllyMonID(u8 monId1, u8 monId2) {
 }
 
 u8 GetSideFromMonID(u8 monId) {
-    return monId >= 12 ? 1 : 0;
+    BtlSide side = monId < 12 ? BTL_SIDE_1ST : BTL_SIDE_2ND;
+    return side;
 }
 
 // Public function name from swan.
@@ -3167,8 +3174,8 @@ PlayerInfo *func_ov167_0219d998(BtlMainModule *mainModule) {
     return CommPlayerSupport_GetSupporter(mainModule->setup->unk88);
 }
 
-u32 func_ov167_0219d9a8(BtlMainModule *mainModule) {
-    return mainModule->unk2BC;
+BtlField *func_ov167_0219d9a8(BtlMainModule *mainModule) {
+    return mainModule->field;
 }
 
 void func_ov167_0219d9b0(BtlMainModule *mainModule) {
@@ -3249,8 +3256,12 @@ void *func_ov167_0219db00(BtlMainModule *mainModule) {
 BOOL func_ov167_0219db08(BtlMainModule *mainModule) {
     BOOL result = FALSE;
 
-    if (func_ov167_0219a004(mainModule->setup) == 1 && mainModule->setup->unk97 != 0) {
-        result = TRUE;
+    switch (func_ov167_0219a004(mainModule->setup)) {
+    case 1:
+        if (mainModule->setup->unk97 != 0) {
+            result = TRUE;
+        }
+        break;
     }
     return result;
 }
@@ -3610,14 +3621,14 @@ void func_ov167_0219e314(BtlMainModule *mainModule, u8 arg1) {
     mainModule->unk478 = GFL_HeapAllocate(HEAPID_BATTLE, 0x14, FALSE, "btl_main.c", 6432);
     func_ov167_0219e3c8(mainModule->unk474);
     mainModule->unk478->unk08 = 0xff;
-    mainModule->unk47C = func_ov167_021d5e1c(HEAPID_BATTLE);
+    mainModule->cutin = func_ov167_021d5e1c(HEAPID_BATTLE);
     if (func_ov167_0219c988(mainModule) == 2) {
         func_ov167_0219cb7c(mainModule);
     }
 }
 
 void func_ov167_0219e378(BtlMainModule *mainModule) {
-    func_ov167_021d5e68(mainModule->unk47C);
+    func_ov167_021d5e68(mainModule->cutin);
     GFL_HeapFree(mainModule->unk478);
     GFL_HeapFree(mainModule->unk474);
 }
@@ -3636,8 +3647,8 @@ void *func_ov167_0219e3ac(BtlMainModule *mainModule) {
     return mainModule->unk478;
 }
 
-void *func_ov167_0219e3bc(BtlMainModule *mainModule) {
-    return mainModule->unk47C;
+PokewoodCutin *func_ov167_0219e3bc(BtlMainModule *mainModule) {
+    return mainModule->cutin;
 }
 
 void func_ov167_0219e3c8(void *data) {

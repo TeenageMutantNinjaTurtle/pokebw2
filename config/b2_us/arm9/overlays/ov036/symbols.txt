@@ -3478,7 +3478,7 @@ FieldExpObj_Draw kind:function(thumb,size=0x86) addr:0x021b832c
 FieldExpObj_StepAllAnimations kind:function(thumb,size=0xb0) addr:0x021b83b4
 FieldExpObj_AllocAnmSet kind:function(thumb,size=0x44) addr:0x021b8464
 FieldExpObj_GetAnmInfo kind:function(thumb,size=0x3a) addr:0x021b84a8
-func_ov036_021b84e4 kind:function(thumb,size=0x4) addr:0x021b84e4
+FieldExpObjAnm_SetFrameStep kind:function(thumb,size=0x4) addr:0x021b84e4
 FieldExpObjAnm_SetPaused kind:function(thumb,size=0x4) addr:0x021b84e8
 func_ov036_021b84ec kind:function(thumb,size=0x4) addr:0x021b84ec
 FieldExpObjAnm_SetLooped kind:function(thumb,size=0x4) addr:0x021b84f0
@@ -5345,31 +5345,32 @@ ACMD_QUEUE_TURN_N_8F kind:data(any) addr:0x021d0904
 data_ov036_021d090c kind:data(any) addr:0x021d090c
 BP_SHOP_ITEM_COUNTS kind:data(any) addr:0x021d0918
 MOVE_TUTOR_SHOP_ITEM_COUNTS kind:data(any) addr:0x021d091a
-data_ov036_021d0924 kind:data(any) addr:0x021d0924
+sUnk021d091e kind:data(any) addr:0x021d091e
+sConfirmDialogSetup kind:data(any) addr:0x021d0924
 MOVE_TUTOR_CURRENCY_ITEMS kind:data(any) addr:0x021d092a
 SHOP_UI_CURRENCY_MSGIDS kind:data(any) addr:0x021d0934
 BADGE_SHOP_DAT_IDS kind:data(any) addr:0x021d093c
-data_ov036_021d0948 kind:data(any) addr:0x021d0948
-data_ov036_021d0954 kind:data(any) addr:0x021d0954
-data_ov036_021d0960 kind:data(any) addr:0x021d0960
-data_ov036_021d096c kind:data(any) addr:0x021d096c
-data_ov036_021d0978 kind:data(any) addr:0x021d0978
-data_ov036_021d0984 kind:data(any) addr:0x021d0984
-data_ov036_021d0990 kind:data(any) addr:0x021d0990
-data_ov036_021d099c kind:data(any) addr:0x021d099c
-data_ov036_021d09a8 kind:data(any) addr:0x021d09a8
-data_ov036_021d09b4 kind:data(any) addr:0x021d09b4
-data_ov036_021d09c0 kind:data(any) addr:0x021d09c0
-data_ov036_021d09d8 kind:data(any) addr:0x021d09d8
+sWindowShards kind:data(any) addr:0x021d0948
+sWindowTitle kind:data(any) addr:0x021d0954
+sWindowMoney kind:data(any) addr:0x021d0960
+sWindowList kind:data(any) addr:0x021d096c
+sWindowInBag kind:data(any) addr:0x021d0978
+sWindowMoveInfo kind:data(any) addr:0x021d0984
+sWindowInfo kind:data(any) addr:0x021d0990
+sWindowMessage kind:data(any) addr:0x021d099c
+sWindowBP kind:data(any) addr:0x021d09a8
+sWindowAmount kind:data(any) addr:0x021d09b4
+sSpecialMartLevels kind:data(any) addr:0x021d09c0
+sListRects kind:data(any) addr:0x021d09d8
 data_ov036_021d09dc kind:data(any) addr:0x021d09dc
 data_ov036_021d09e0 kind:data(any) addr:0x021d09e0
 data_ov036_021d09e4 kind:data(any) addr:0x021d09e4
-data_ov036_021d09f8 kind:data(any) addr:0x021d09f8
+sActorSetups kind:data(any) addr:0x021d09f8
 data_ov036_021d0a00 kind:data(any) addr:0x021d0a00
 data_ov036_021d0a08 kind:data(any) addr:0x021d0a08
 data_ov036_021d0a10 kind:data(any) addr:0x021d0a10
 data_ov036_021d0a18 kind:data(any) addr:0x021d0a18
-data_ov036_021d0a20 kind:data(any) addr:0x021d0a20
+sCameraTargetOffsets kind:data(any) addr:0x021d0a20
 data_ov036_021d0a24 kind:data(any) addr:0x021d0a24
 data_ov036_021d0a28 kind:data(any) addr:0x021d0a28
 data_ov036_021d0a50 kind:data(any) addr:0x021d0a50
@@ -5670,9 +5671,9 @@ data_ov036_021d5138 kind:data(any) addr:0x021d5138
 data_ov036_021d514c kind:data(any) addr:0x021d514c
 BP_SHOP_ITEMS kind:data(any) addr:0x021d5160
 MOVE_TUTOR_SHOP_ITEMS kind:data(any) addr:0x021d5168
-data_ov036_021d5178 kind:data(any) addr:0x021d5178
-data_ov036_021d5194 kind:data(any) addr:0x021d5194
-data_ov036_021d51b0 kind:data(any) addr:0x021d51b0
+sMartWindows kind:data(any) addr:0x021d5178
+sBPShopWindows kind:data(any) addr:0x021d5194
+sMoveTutorWindows kind:data(any) addr:0x021d51b0
 data_ov036_021d51cc kind:data(any) addr:0x021d51cc
 data_ov036_021d51dc kind:data(any) addr:0x021d51dc
 data_ov036_021d51f0 kind:data(any) addr:0x021d51f0
@@ -5755,7 +5756,6 @@ data_ov036_021d5778 kind:data(any) addr:0x021d5778
 data_ov036_021d577c kind:data(any) addr:0x021d577c
 data_ov036_021d57a0 kind:bss addr:0x021d57a0
 data_ov036_021d6ce0 kind:bss addr:0x021d6ce0 ambiguous
-data_ov036_021d6f6c kind:bss addr:0x021d6f6c
 data_ov036_021d7448 kind:bss addr:0x021d7448 ambiguous
 data_ov036_021dd93c kind:bss addr:0x021dd93c ambiguous
 data_ov036_021dd940 kind:bss addr:0x021dd940
@@ -5779,5 +5779,5 @@ data_ov036_021e0a01 kind:bss addr:0x021e0a01
 data_ov036_021e1ab8 kind:bss addr:0x021e1ab8 ambiguous
 g_FieldEdgeColorTable kind:bss addr:0x021e57a0
 data_ov036_021e57b0 kind:bss addr:0x021e57b0
-data_ov036_021e57bc kind:bss addr:0x021e57bc
-data_ov036_021e57c0 kind:bss addr:0x021e57c0
+g_ScrEventActorFlags kind:bss addr:0x021e57bc
+g_ScrBMAnmWaitHandleID kind:bss addr:0x021e57c0

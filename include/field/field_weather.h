@@ -2,6 +2,7 @@
 #define POKEBW2_FIELD_FIELD_WEATHER_H
 
 #include "types.h"
+#include "gfl/clact.h"
 #include "gfl/heap.h"
 #include "struct_decls.h"
 
@@ -11,17 +12,40 @@
 // What a weather's functions get
 typedef struct WeatherTask WeatherTask;
 
-typedef BOOL (*WeatherFunc)(WeatherTask *task, u32 arg);
+// One of a weather's particles, such as overlay 77's grains of sand
+typedef struct WeatherObj WeatherObj;
+
+// Called from FieldWeather_Update with the heap it was given
+typedef BOOL (*WeatherFunc)(WeatherTask *task, u32 arg, HeapID heapId);
+// Adds count particles
+typedef void (*WeatherSpawnFunc)(WeatherTask *task, int count, HeapID heapId);
 
 typedef struct {
     u16 unk00[20];
     // The size of the work that func_ov036_021997e4 returns
     u32 workSize;
-    WeatherFunc funcs[8];
+    WeatherFunc funcs[7];
+    // Moves one particle, every frame
+    void (*objFunc)(WeatherObj *obj);
 } WeatherData;
+
+// Main: an entry of the u16 table at data_02090124, which the weather overlays pass as a sound
+u16 func_020198f0(u32 index);
 
 // Overlay 36
 void *func_ov036_021997e4(WeatherTask *task);
+void func_ov036_0219978c(WeatherTask *task, u32 a1, u32 index);
+void func_ov036_021997bc(WeatherTask *task, int value, u32 index);
+void func_ov036_021997cc(WeatherTask *task, int value, u32 index);
+BOOL func_ov036_021997e8(WeatherTask *task);
+WeatherObj *func_ov036_021997f4(WeatherTask *task, HeapID heapId);
+void func_ov036_0219980c(WeatherObj *obj);
+void func_ov036_02199824(WeatherTask *task, u32 a1, u32 a2, u32 a3, int a4, int a5, int a6, int a7,
+                         WeatherSpawnFunc spawn);
+void func_ov036_02199854(WeatherTask *task, u32 a1, u32 a2, u32 a3, int a4);
+BOOL func_ov036_02199868(WeatherTask *task, HeapID heapId);
+BOOL func_ov036_02199874(WeatherTask *task, HeapID heapId);
+void func_ov036_02199880(WeatherTask *task, WeatherSpawnFunc spawn, int count, int a3, int a4, HeapID heapId);
 void func_ov036_02199734(WeatherTask *task, u32 a1, u32 a2);
 void func_ov036_02199740(WeatherTask *task, u32 a1, u32 a2);
 void func_ov036_0219974c(WeatherTask *task, u32 a1);
@@ -36,16 +60,26 @@ BOOL func_ov036_02199a20(WeatherTask *task);
 u32 func_ov036_02199a2c(WeatherTask *task);
 u32 func_ov036_02199a38(WeatherTask *task);
 u32 func_ov036_02199a44(WeatherTask *task);
+void func_ov036_02199a50(WeatherTask *task);
+// The camera's movement since the last frame, as a scroll
+void func_ov036_02199a78(WeatherTask *task, int *x, int *y);
+void func_ov036_02199b90(WeatherTask *task, int x, int y);
+void func_ov036_02199be8(WeatherTask *task, u32 a1);
+void func_ov036_02199bf8(WeatherTask *task);
+void *func_ov036_02199c5c(WeatherObj *obj);
+ClActor *func_ov036_02199c64(WeatherObj *obj);
+void func_ov036_02199c6c(WeatherObj *obj, ClActorPos *pos);
+void func_ov036_02199c80(WeatherObj *obj, const ClActorPos *pos);
 
 // Overlay 74
 extern WeatherData SUNNY_WEATHER;
-BOOL func_ov074_021e90c0(WeatherTask *task, u32 arg);
-BOOL func_ov074_021e9108(WeatherTask *task, u32 arg);
-BOOL func_ov074_021e9170(WeatherTask *task, u32 arg);
-BOOL func_ov074_021e91b8(WeatherTask *task, u32 arg);
-BOOL func_ov074_021e91bc(WeatherTask *task, u32 arg);
-BOOL func_ov074_021e91e0(WeatherTask *task, u32 arg);
-BOOL func_ov074_021e91f4(WeatherTask *task, u32 arg);
+BOOL func_ov074_021e90c0(WeatherTask *task, u32 arg, HeapID heapId);
+BOOL func_ov074_021e9108(WeatherTask *task, u32 arg, HeapID heapId);
+BOOL func_ov074_021e9170(WeatherTask *task, u32 arg, HeapID heapId);
+BOOL func_ov074_021e91b8(WeatherTask *task, u32 arg, HeapID heapId);
+BOOL func_ov074_021e91bc(WeatherTask *task, u32 arg, HeapID heapId);
+BOOL func_ov074_021e91e0(WeatherTask *task, u32 arg, HeapID heapId);
+BOOL func_ov074_021e91f4(WeatherTask *task, u32 arg, HeapID heapId);
 void *func_ov036_02199004(FieldCamera *camera, void *light, FieldFog *fog, void *fogCtrl, FieldSound *sound, u32 season,
                           HeapID heapId);
 void func_ov036_021990d8(void *weather);
