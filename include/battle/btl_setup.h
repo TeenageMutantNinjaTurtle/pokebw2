@@ -8,14 +8,20 @@
 #include "struct_decls.h"
 #include "system/pms_data.h"
 
-// The battle's surroundings, which GetFieldEffectData returns
-struct BtlFieldSituation {
-    u32 unk00;
+// The background, place and time of a battle, which the battle view copies as one struct
+typedef struct {
+    u32 bgType;
     u32 terrain;
     u8 weather;
-    u8 unk09;
+    u8 season;
     u16 zoneId;
-    u8 unk0c[4];
+    u8 hour;
+    u8 minute;
+} BtlFieldEnv;
+
+// The battle's surroundings, which GetFieldEffectData returns
+struct BtlFieldSituation {
+    BtlFieldEnv env;
     // The battle's music
     u16 bgm;
     u16 unk12;

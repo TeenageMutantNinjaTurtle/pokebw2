@@ -117,7 +117,7 @@ u8 func_ov167_0219f588(BtlServerFlow *flow) {
     queue->writePtr = 0;
     result = FALSE;
     queue->readPtr = 0;
-    weather = GetFieldEffectData(flow->mainModule)->weather;
+    weather = GetFieldEffectData(flow->mainModule)->env.weather;
     if (weather != 0 && ServerControl_ChangeWeather(flow, weather, 0xff)) {
         result = TRUE;
     }
@@ -7440,7 +7440,7 @@ u32 func_ov167_021abca8(BtlServerFlow *flow) {
 }
 
 u32 GetBattleTerrain(BtlServerFlow *flow) {
-    return GetFieldEffectData(flow->mainModule)->terrain;
+    return GetFieldEffectData(flow->mainModule)->env.terrain;
 }
 
 u32 func_ov167_021abcc0(BtlServerFlow *flow) {
