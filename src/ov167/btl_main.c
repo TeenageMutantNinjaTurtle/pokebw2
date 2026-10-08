@@ -116,9 +116,9 @@ const GameProcFunctions data_ov167_021d6ce0 = { func_ov167_021998c0, func_ov167_
 
 // Starts a step of the module
 static inline void BtlMainSeq_Set(BtlMainSeq *seq, BtlMainSeqFunc func, BtlMainModule *mainModule) {
-    seq->mainModule = mainModule;
     seq->func = func;
     seq->nextFunc = NULL;
+    seq->mainModule = mainModule;
     seq->state = 0;
 }
 

@@ -224,7 +224,7 @@ static void *func_02040d5c(int command) {
 void func_02040d78(int netId, int netIds, int command, int size, void *data, NetHandle *handle) {
     if (func_02040c94(netIds)) {
         BOOL ok = TRUE;
-        void (*callback)(int netId, int size, void *data, void *work, NetHandle *handle);
+        void (*callback)(int netId, int size, const void *data, void *work, NetHandle *handle);
 
         if (!func_0204044c(handle) && command >= GFL_NET_CMD_BASE_COUNT) {
             ok = FALSE;
@@ -264,7 +264,7 @@ void *func_02040de8(int command, int netId, int size) {
 void func_02040e0c(void) {
 }
 
-void func_02040e10(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_02040e10(int netId, int size, const void *data, void *work, NetHandle *handle) {
     int index = netId;
 
     if (netId == GFL_NET_NETID_SERVER) {
@@ -289,9 +289,8 @@ void func_02040e10(int netId, int size, void *data, void *work, NetHandle *handl
     }
 }
 
-void func_02040ebc(int netId, int size, void *data, void *work, NetHandle *handle) {
-    u32 hugeSize;
-    NetHugeHeader *header = data;
+void func_02040ebc(int netId, int size, const void *data, void *work, NetHandle *handle) {
+    const NetHugeHeader *header = data;
     int index = netId;
 
     if (netId == GFL_NET_NETID_SERVER) {
@@ -299,10 +298,9 @@ void func_02040ebc(int netId, int size, void *data, void *work, NetHandle *handl
     }
     if (handle == func_02040440() && func_02040de8(header->command, netId, header->size)) {
         GFL_ASSERT(_pCommandWork->aNetHugeRecv[index].used==FALSE);
-        hugeSize = header->size;
         _pCommandWork->aNetHugeRecv[index].used = TRUE;
-        _pCommandWork->aNetHugeRecv[index].size = hugeSize;
-        _pCommandWork->aNetHugeRecv[index].data = func_02040de8(header->command, netId, hugeSize);
+        _pCommandWork->aNetHugeRecv[index].size = header->size;
+        _pCommandWork->aNetHugeRecv[index].data = func_02040de8(header->command, netId, header->size);
         GFL_ASSERT(_pCommandWork->aNetHugeRecv[index].data);
         _pCommandWork->aNetHugeRecv[index].command = header->command;
         _pCommandWork->aNetHugeRecv[index].chunkSize = header->chunkSize;

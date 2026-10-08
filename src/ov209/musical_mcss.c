@@ -131,7 +131,7 @@ typedef struct {
 static void MusicalMcss_DrawQuad(MusicalMcss *mcss, fx32 x, fx32 y, fx32 width, fx32 height, fx32 s, fx32 t,
                                  const NNSG2dAnimDataSRT *cellSrt, const NNSG2dAnimDataSRT *mcSrt, u32 node, BOOL ortho,
                                  fx32 *z, u8 flip);
-static void MusicalMcss_Load(MusicalMcssSys *sys, int index, const MCSSLoadInfo *info, BOOL atVBlank);
+static void MusicalMcss_Load(MusicalMcssSys *sys, int index, MCSSLoadInfo *info, BOOL atVBlank);
 static void MusicalMcss_LoadTask(TCB *tcb, void *data);
 static void MusicalMcss_InitMCAnime(MusicalMcss *mcss, u32 mcType);
 static void MusicalMcss_SetMaterial(void);
@@ -456,7 +456,7 @@ static void MusicalMcss_DrawQuad(MusicalMcss *mcss, fx32 x, fx32 y, fx32 width, 
     }
 }
 
-MusicalMcss *MusicalMcss_Add(MusicalMcssSys *sys, fx32 x, fx32 y, fx32 z, const MCSSLoadInfo *info, void *work,
+MusicalMcss *MusicalMcss_Add(MusicalMcssSys *sys, fx32 x, fx32 y, fx32 z, MCSSLoadInfo *info, void *work,
                              BOOL loadAtVBlank) {
     int i;
 
@@ -570,7 +570,7 @@ void MusicalMcss_CopyState(MusicalMcss *src, MusicalMcss *dst) {
     dst->centerOffset = src->centerOffset;
 }
 
-static void MusicalMcss_Load(MusicalMcssSys *sys, int index, const MCSSLoadInfo *info, BOOL atVBlank) {
+static void MusicalMcss_Load(MusicalMcssSys *sys, int index, MCSSLoadInfo *info, BOOL atVBlank) {
     MusicalMcss *mcss = sys->mcss[index];
     const NNSG2dAnimSequence *seq;
     MusicalMcssLoad *load;

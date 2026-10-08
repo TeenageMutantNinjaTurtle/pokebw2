@@ -418,7 +418,7 @@ static int func_02043748(void *work) {
     return sys->unk1C(work) + sizeof(NetIwCollectMac);
 }
 
-void func_02043764(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_02043764(int netId, int size, const void *data, void *work, NetHandle *handle) {
     NetIwCollectMac *pTemp = data;
     int i;
     int num;

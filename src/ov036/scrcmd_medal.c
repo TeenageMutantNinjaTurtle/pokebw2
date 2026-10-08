@@ -212,7 +212,7 @@ FieldActor *GetMrMedalActorIndex(Field *field) {
 
 u32 GetMrMedalActorUID(GameData *gameData) {
     EventData *eventData;
-    ZoneNPC *npcs;
+    const ZoneNPC *npcs;
     s32 count;
     s32 i;
 

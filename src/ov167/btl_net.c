@@ -83,27 +83,27 @@ typedef struct {
 
 static BtlNetWork *sWork;
 
-static void func_ov167_021b9abc(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov167_021b9abc(int netId, int size, const void *data, void *work, NetHandle *handle);
 static BOOL func_ov167_021b9b30(int netId);
 static u8 func_ov167_021b9b94(u8 clientId);
-static void func_ov167_021b9be0(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov167_021b9be0(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void *func_ov167_021b9c6c(int netId, void *work, int size);
-static void func_ov167_021b9cb4(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov167_021b9cb4(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void func_ov167_021ba4ec(void);
 static void func_ov167_021ba26c(void);
 static void *func_ov167_021b9d58(int netId, void *work, int size);
-static void func_ov167_021b9db8(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov167_021b9db8(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void *func_ov167_021b9eb0(int netId, void *work, int size);
-static void func_ov167_021b9efc(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov167_021b9efc(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void *func_ov167_021ba038(int netId, void *work, int size);
-static void func_ov167_021ba080(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov167_021ba080(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void *func_ov167_021ba154(int netId, void *work, int size);
-static void func_ov167_021ba19c(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov167_021ba19c(int netId, int size, const void *data, void *work, NetHandle *handle);
 static BtlCommTrainerData *func_ov167_021ba20c(const BtlSetupTrainer *trainer, HeapID heapId);
 static void func_ov167_021ba264(void *data);
 static void *func_ov167_021ba3fc(int netId, void *work, int size);
-static void func_ov167_021ba414(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov167_021ba4b8(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov167_021ba414(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov167_021ba4b8(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void *func_ov167_021ba4e0(int netId, void *work, int size);
 
 void func_ov167_021b9950(NetHandle *netHandle, u16 clientMask, HeapID heapId) {
@@ -184,7 +184,7 @@ BOOL func_ov167_021b9a94(u8 clientId) {
 }
 
 // Command 0x100: records a machine's version, and once every machine's is in, makes the highest the server
-static void func_ov167_021b9abc(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov167_021b9abc(int netId, int size, const void *data, void *work, NetHandle *handle) {
     const BtlNetVersionPacket *packet = data;
     BtlNetVersions *versions = &sWork->versions;
     int i;
@@ -257,9 +257,9 @@ BOOL func_ov167_021b9bb8(BtlMainSyncData *data) {
 }
 
 // Command 0x101: keeps the first sync data that arrives
-static void func_ov167_021b9be0(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov167_021b9be0(int netId, int size, const void *data, void *work, NetHandle *handle) {
     if (!sWork->syncDataReceived) {
-        sWork->syncData = *(BtlMainSyncData *)data;
+        sWork->syncData = *(const BtlMainSyncData *)data;
         sWork->syncDataReceived = TRUE;
     }
 }
@@ -285,7 +285,7 @@ static void *func_ov167_021b9c6c(int netId, void *work, int size) {
 }
 
 // Command 0x102: a party has arrived
-static void func_ov167_021b9cb4(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov167_021b9cb4(int netId, int size, const void *data, void *work, NetHandle *handle) {
     sWork->recvSizes[netId] = size;
 }
 
@@ -330,7 +330,7 @@ static void *func_ov167_021b9d58(int netId, void *work, int size) {
 }
 
 // Command 0x103: a Chatot cry has arrived
-static void func_ov167_021b9db8(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov167_021b9db8(int netId, int size, const void *data, void *work, NetHandle *handle) {
     if (size == sizeof(u32)) {
         BtlNetRecvBuffer *buffer = &sWork->clientReplies[netId];
 
@@ -385,8 +385,8 @@ static void *func_ov167_021b9eb0(int netId, void *work, int size) {
 
 // Command 0x104: keeps the party for its client
 // Command 0x104: keeps the party for its client
-static void func_ov167_021b9efc(int netId, int size, void *data, void *work, NetHandle *handle) {
-    BtlNetPartyPacket *packet = data;
+static void func_ov167_021b9efc(int netId, int size, const void *data, void *work, NetHandle *handle) {
+    const BtlNetPartyPacket *packet = data;
     u32 partySize = packet->size;
 
     if (sWork->parties[packet->clientId] == NULL) {
@@ -443,7 +443,7 @@ static void *func_ov167_021ba038(int netId, void *work, int size) {
 }
 
 // Command 0x105: a machine's player info has arrived
-static void func_ov167_021ba080(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov167_021ba080(int netId, int size, const void *data, void *work, NetHandle *handle) {
     sWork->recvSizes[netId] = size;
 }
 
@@ -488,7 +488,7 @@ static void *func_ov167_021ba154(int netId, void *work, int size) {
 }
 
 // Command 0x106: a trainer has arrived
-static void func_ov167_021ba19c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov167_021ba19c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     sWork->tempSize = size;
 }
 
@@ -620,7 +620,7 @@ static void *func_ov167_021ba3fc(int netId, void *work, int size) {
 }
 
 // Command 0x108: a client's reply has arrived
-static void func_ov167_021ba414(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov167_021ba414(int netId, int size, const void *data, void *work, NetHandle *handle) {
     BtlNetRecvBuffer *buffer = &sWork->clientReplies[netId];
 
     buffer->size = size;
@@ -657,7 +657,7 @@ BOOL func_ov167_021ba484(void *data, u32 size) {
 }
 
 // Command 0x107: the server's command has arrived
-static void func_ov167_021ba4b8(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov167_021ba4b8(int netId, int size, const void *data, void *work, NetHandle *handle) {
     if (!sWork->serverCmdReceived) {
         BtlNetRecvBuffer *buffer = &sWork->serverCmd;
 

@@ -20,10 +20,10 @@ void func_020414c0(HeapID unused);
 void func_02041a30(int a0, void (*callback)(void *work), int a2);
 void func_02041c00(int mode, int a1, const u8 *mac);
 // Command handlers
-void func_02041cd8(int netId, int size, void *data, void *work, NetHandle *handle);
-void func_02041d0c(int netId, int size, void *data, void *work, NetHandle *handle);
-void func_02041e20(int netId, int size, void *data, void *work, NetHandle *handle);
-void func_020421f8(int netId, int size, void *data, void *work, NetHandle *handle);
+void func_02041cd8(int netId, int size, const void *data, void *work, NetHandle *handle);
+void func_02041d0c(int netId, int size, const void *data, void *work, NetHandle *handle);
+void func_02041e20(int netId, int size, const void *data, void *work, NetHandle *handle);
+void func_020421f8(int netId, int size, const void *data, void *work, NetHandle *handle);
 // Ends the network, calling callback when it has
 void func_02041da8(void (*callback)(void *work));
 void func_02041de4(void);

@@ -212,6 +212,7 @@ src/gfl/net_handle.c:
     .bss        start:0x021418dc end:0x021418e0
 
 src/gfl/net_command.c:
+    complete
     .text       start:0x02040bc0 end:0x02041180
     .rodata     start:0x0209331c end:0x020933a4
     .data       start:0x0209ab64 end:0x0209ac28

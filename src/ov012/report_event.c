@@ -238,7 +238,8 @@ u32 EventSave_Update(EventSaveWork *work, u32 *state) {
     case 19:
         func_ov012_02163ea0(work);
         if (work->screenId == 10 || work->screenId == 4) {
-            FieldSubscreen_ReqChange(Field_GetSubscreen(work->field), work->screenId);
+            FieldSubscreen *subscreen = Field_GetSubscreen(work->field);
+            FieldSubscreen_ReqChange(subscreen, work->screenId);
         } else {
             FieldSubscreen_ReqChange(Field_GetSubscreen(work->field), 0);
         }

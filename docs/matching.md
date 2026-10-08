@@ -8,6 +8,22 @@ tools that show the differences.
 
 ## Registers
 
+- An array element's address kept as `base + i * size` and read as `[base, offset]`, where ours keeps `&p[i]`, comes
+  from a pointer to `const`: `pdw_postman.c`'s `FindMysteryGiftDeliveryManNPCID` and `scrcmd_medal.c`'s
+  `GetMrMedalActorUID` declare `const ZoneNPC *npcs;`.
+- In a comma `for` initializer, the order of a struct copy and a counter picks the copy's registers:
+  `field_actor_tool.c`'s `CheckBlockedCollPathToPosition` copies with `r2` and `r3` only as
+  `for (i = 0, tilePosition = rowPosition; ...)`.
+- Independent stores are scheduled freely, so the asm's store order doesn't show the source's. A function that only
+  fills a struct, with only a constant's register different, can need any order of its assignments: `btl_main.c`'s
+  `BtlMainSeq_Set` inline matches only as `func`, `nextFunc`, `mainModule`, `state`.
+- A parameter the original copies to a saved register at entry and changes there in place is walked by the source
+  itself, not copied to a local: `arrow.c`'s `Arrow_SetPathCore` steps `startX -= PIECE_SIZE` rather than an
+  `x = startX - PIECE_SIZE`.
+- A field that a condition tests and a call's argument uses again after another call stays in a saved register;
+  the original reloads it when the other call's result has a block-scoped local of its own:
+  `report_event.c`'s `EventSave_Update` writes `FieldSubscreen *subscreen = Field_GetSubscreen(work->field);` before
+  passing `work->screenId`.
 - Saved registers swapped around an indirect call, with `r0` still holding a value just stored, mean the call passes
   an argument: `net_state.c`'s `func_020411fc` calls the network's end callback as `callback(NULL)`, so the callback
   type takes a `void *`. Parameters spilled at entry in the wrong order can be narrower than written:
@@ -62,9 +78,9 @@ Same instructions, registers swapped.
   `PStaInfo_PrintMemo` sets its highest IV with `ldr r7, [sp, #0x14]`, `best`'s slot, which matches only as
   `best = 0;` between two calls well before the loop and `u8 maxIV = best;`; `maxIV = 0` makes it 18 bytes longer.
   The same goes for a zeroed struct a loop passes by value, which MWCC builds once in the loop's preheader by copying
-  a variable in scope that holds 0: `btl_server_flow.c`'s `func_ov167_021a49c4` copies `BtlFlowDamageFlags flags = { 0 };`
-  from the loop counter, as the original does, only with `flags` declared in a block around the loop; at function scope
-  it copies `damage`.
+  a variable in scope that holds 0: `btl_server_flow.c`'s `func_ov167_021a49c4` copies
+  `BtlFlowDamageFlags flags = { 0 };` from the loop counter, as the original does, only with `flags` declared in a
+  block around the loop; at function scope it copies `damage`.
 - `arr[count++] = x` and `arr[count] = x; count++;` allocate registers differently, as do `count = 1; arr[0] = x;` and
   the reverse order.
 - `a[i + c]` adds `c` to `i` first, while `(a + i)[c]` folds `c * 4` into the base offset. When the original folds a
@@ -240,6 +256,16 @@ Same code, other `sp` offsets or frame size.
 
 ## Instruction order
 
+- `const` can be wrong as well as missing: through a `const` pointer MWCC loads a call's field arguments before its
+  constant ones. `musical_mcss.c`'s `MusicalMcss_Load` builds the `compressed` argument first, as the original does,
+  only with its `info` not `const`. And a `const` parameter is what counts: a `const` local copy of a plain pointer
+  parameter doesn't schedule like it, so the `NetCommand` callbacks take `const void *data`, which matched four of
+  them; MWCC won't convert between function pointer types that differ only in a parameter's `const`.
+- A spilled value reloaded before a call's result is stored, where the original stores the result first, can need
+  the result in a local and the stores in field order: `key_system_util.c`'s `KeySystemAccelMove_Init` stores
+  `speed` and then `accel = FX_Div(...)`.
+- A counter zeroed at its declaration before a local array with an initializer is zeroed before the array's address
+  is set up; `for (i = 0; ...)` after the array zeroes it after: `event_ircbattle.c`'s `func_ov012_02150588`.
 - A constant stored to a field that the original builds one store earlier is stored first in the source: MWCC
   keeps the stores in their order but builds the constant sooner. `ctvt_draw.c`'s `CtvtDraw_Main` writes
   `draw->exit = TRUE; draw->state = DRAW_STATE_FADE_OUT;`.
@@ -284,6 +310,8 @@ Same instructions, scheduled in another order.
 - Two loop variables zeroed in the other order: zero both in the `for` initializer in the original's order.
   `scrcmd_medal.c`'s `GetHintableMedalCount` zeroes `i` before `count` only as `for (i = 0, count = 0; ...)`; `count`
   initialized at its declaration, or declared first, zeroes it first.
+  `event_battle.c`'s `EventBattleCall_Callback` builds its count of 0x25 before its checksum's zero only as
+  `for (shift = 0x25, checksum = 0; ...)`.
 - A counter's zero stored to its stack slot ahead of a call, in another register than the call's arguments, can be
   written after that call: overlay 185's `CountupGreetings` stores `n`'s zero before calling
   `PMSWord_GetWordNumByGmmId` only with `n = 0;` after `first` and `last` are computed. Written before the call, it is
@@ -579,7 +607,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 ## Branches and block layout
 
 - `if (x == TRUE) { return 0; } return 1;` and its other spellings build 1 first (`movs r0, #1`, `bne`); the
-  original's `movs r0, #0`, `beq`, `movs r0, #1` is a result variable, `ret = 0; if (x != TRUE) { ret = 1; } return ret;`.
+  original's `movs r0, #0`, `beq`, `movs r0, #1` is a result variable,
+  `ret = 0; if (x != TRUE) { ret = 1; } return ret;`.
   `plist_sys.c`'s `PokeList_CheckLearnMove` writes two of its three such returns that way and one plainly, so compare
   each return of a function on its own.
 - `if (a == b) { return FALSE; } return TRUE;` is folded into `a != b`, which branches with `beq` to the `FALSE`

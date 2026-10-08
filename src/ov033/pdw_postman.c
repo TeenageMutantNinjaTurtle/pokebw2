@@ -384,7 +384,7 @@ FieldActor *FindMysteryGiftDeliveryManActor(Field *field) {
 
 s32 FindMysteryGiftDeliveryManNPCID(GameData *gameData) {
     EventData *eventData;
-    ZoneNPC *npcs;
+    const ZoneNPC *npcs;
     s32 count;
     s32 i;
 

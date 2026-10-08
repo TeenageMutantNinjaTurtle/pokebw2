@@ -540,14 +540,14 @@ static void func_02041c84(NetState *state) {
     }
 }
 
-void func_02041cd8(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_02041cd8(int netId, int size, const void *data, void *work, NetHandle *handle) {
     func_02042be8(handle, 2, 0, NULL);
     if (func_0203ffc4() == 0) {
         func_0204115c(_pNetState, func_02041c84, 0, 1122);
     }
 }
 
-void func_02041d0c(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_02041d0c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     if (func_0203ffc4() != 0) {
         func_02042860(0);
     }
@@ -602,7 +602,7 @@ void func_02041dfc(void) {
     func_0204115c(_pNetState, func_02041df8, 0, 1232);
 }
 
-void func_02041e20(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_02041e20(int netId, int size, const void *data, void *work, NetHandle *handle) {
     func_02042e84()->bMPMode = *(u8 *)data;
 }
 
@@ -780,7 +780,7 @@ void func_020421ac(BOOL a0) {
     }
 }
 
-void func_020421f8(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_020421f8(int netId, int size, const void *data, void *work, NetHandle *handle) {
     func_020421ac(TRUE);
     _pNetState->unk4A = TRUE;
 }

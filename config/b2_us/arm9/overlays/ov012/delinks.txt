@@ -5,6 +5,7 @@
     .bss        start:0x0216e640 end:0x0216e660 kind:bss align:32
 
 src/ov012/event_ircbattle.c:
+    complete
     .text       start:0x021503c0 end:0x02150cf8
     .rodata     start:0x0216adcc end:0x0216ade4
     .data       start:0x0216dfa0 end:0x0216dfb4
@@ -39,6 +40,7 @@ src/ov012/delivery_beacon.c:
     .data       start:0x0216e034 end:0x0216e110
 
 src/ov012/delivery_irc.c:
+    complete
     .text       start:0x02152c0c end:0x02153160
     .rodata     start:0x0216af3c end:0x0216af5c
     .data       start:0x0216e110 end:0x0216e190
@@ -259,6 +261,7 @@ src/ov012/comm_player.c:
     .data       start:0x0216e2e4 end:0x0216e36c
 
 src/ov012/bsubway_comm.c:
+    complete
     .text       start:0x02161844 end:0x02161c88
     .rodata     start:0x0216d8fc end:0x0216d9ac
 
@@ -288,6 +291,7 @@ src/ov012/field_g3d_map.c:
     .data       start:0x0216e380 end:0x0216e390
 
 src/ov012/report_event.c:
+    complete
     .text       start:0x02163b38 end:0x02164330
     .data       start:0x0216e390 end:0x0216e3a0
 
@@ -339,6 +343,7 @@ src/ov012/event_bsubway.c:
     .rodata     start:0x0216dc5c end:0x0216dc68
 
 src/ov012/fldmmdl.c:
+    complete
     .text       start:0x02166664 end:0x02168320
     .data       start:0x0216e3b0 end:0x0216e5cc
 

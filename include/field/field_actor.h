@@ -138,7 +138,7 @@ u32 GetZoneNPCsCount(EventData *eventData);
 void SetZoneNPCLocation(EventData *eventData, u32 npcId, u16 direction, u16 x, s32 y, u16 z);
 void SetZoneNPCMdlID(EventData *eventData, u16 npcId, u16 objCode);
 void SetZoneNPCSCRID(EventData *eventData, u16 npcId, u16 scriptId);
-void GetNPCMdlInfoForOBJCODE(MMSys *actorSystem, u16 objCode, FieldActorConfig *config);
+void GetNPCMdlInfoForOBJCODE(const MMSys *actorSystem, u16 objCode, FieldActorConfig *config);
 void LoadMModelSystemInfoCache(MMSys *mmSys, s32 index);
 void SetActorFlag(FieldActor *actor, u32 flag);
 void ClearActorFlag(FieldActor *actor, u32 flag);
@@ -217,7 +217,7 @@ void func_ov012_021682e8(FieldActor *actor, const FieldActorMoveCode *moveCode);
 u16 GetActorZoneID(FieldActor *actor);
 BOOL IsActorFlag16(FieldActor *actor);
 // Steps through the system's actors from *index, returning TRUE with the next one in *actor
-BOOL NextActor(MMSys *mmSys, FieldActor **actor, u32 *index);
+BOOL NextActor(const MMSys *mmSys, FieldActor **actor, u32 *index);
 FieldActor *CreateNewActorByEntityNoWKOBJCODE(MMSys *mmSys, const ZoneNPC *npc, u32 zoneId);
 // Sets a ZoneNPC's position on the grid
 void func_ov012_021682c0(ZoneNPC *npc, u16 x, u16 z, s32 y);
@@ -406,7 +406,7 @@ void FldActSys_Free(MMSys *system);
 void FldActSys_ForceFullSync(MMSys *system);
 // Creates the actor of the entity with an ID, if it is spawned
 FieldActor *func_ov012_021668f8(MMSys *mmSys, ZoneNPC *npcs, s32 zoneId, u32 count, EventWork *eventWork, u16 uid);
-u16 GetActorLimit(MMSys *system);
+u16 GetActorLimit(const MMSys *system);
 // The base priority of the actors' tasks
 u16 func_ov012_02166f6c(MMSys *system);
 HeapID FldActSys_GetFieldHeapID(MMSys *system);

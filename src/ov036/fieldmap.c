@@ -321,7 +321,7 @@ u32 FieldRoutine_MapLoad(GameSystem *gsys, Field *field) {
         PlayerState *playerState = GSYS_GetPlayerState(gsys);
         u16 dir = PlayerState_CalcDirection(playerState);
         VecFx32 *pos = &playerState->position;
-        u32 season;
+        u8 season;
 
         if (FieldPlayerState_GetExState(playerState) == 1 && !GetZoneFlagsEnableCycling(field->zoneId)) {
             SetPlayerSpecialState(playerState, 0);

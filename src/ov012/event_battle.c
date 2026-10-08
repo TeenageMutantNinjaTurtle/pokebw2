@@ -453,11 +453,11 @@ static GameEventReturnCode EventBattleCall_Callback(GameEvent *event, u32 *state
     }
     case 6: {
         u32 shift;
-        u32 checksum = 0;
+        u32 checksum;
         const u32 *code = (const u32 *)func_ov337_0218092c;
         u32 index;
 
-        for (shift = 0x25; shift != 0; shift--) {
+        for (shift = 0x25, checksum = 0; shift != 0; shift--) {
             checksum ^= (*code >> shift) | (*code << (32 - shift));
             code++;
         }
@@ -479,10 +479,10 @@ static GameEventReturnCode EventBattleCall_Callback(GameEvent *event, u32 *state
     }
     case 7: {
         u32 shift;
-        u32 checksum = 0;
+        u32 checksum;
         const u32 *code = (const u32 *)func_ov337_021809d8;
 
-        for (shift = 0x25; shift != 0; shift--) {
+        for (shift = 0x25, checksum = 0; shift != 0; shift--) {
             checksum ^= (*code >> shift) | (*code << (32 - shift));
             code++;
         }
