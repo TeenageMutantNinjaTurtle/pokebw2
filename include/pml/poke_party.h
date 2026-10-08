@@ -143,8 +143,12 @@ u32 PokeParty_GetLevel(PartyPkm *pkm);
 BOOL canPkmLearnTM_Wrapper(PartyPkm *pkm, u8 tm);
 void setLevel(PartyPkm *pkm, u32 level);
 u32 PokeParty_GetLevel(PartyPkm *pkm);
+// Gives a Pokémon of the party Pokérus at random
+void pokerusHandler(PokeParty *party);
 // Counts down the Pokérus of the party's Pokémon by days
 void pokerusDecay(PokeParty *party, s32 days);
+// Spreads Pokérus from the party's Pokémon to their neighbours at random
+void pokerusSpread(PokeParty *party);
 void PokeParty_SetNature(PartyPkm *pkm, u32 nature);
 void setPkmBattleData(PartyPkm *pkm, u32 param, u32 value);
 // A Pokémon's icon in ARCID_POKEICON: its characters' file and its palette

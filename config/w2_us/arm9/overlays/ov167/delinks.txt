@@ -25,6 +25,7 @@ src/ov167/btl_server_flow_sub.c:
     .rodata     start:0x021d6d3c end:0x021d6e18
 
 src/ov167/btl_handler_work.c:
+    complete
     .text       start:0x021b087c end:0x021b0a5c
     .rodata     start:0x021d6e18 end:0x021d6e90
 
@@ -39,7 +40,10 @@ src/ov167/btl_pokeparam.c:
     .data       start:0x021dafbc end:0x021dafcc
 
 src/ov167/battle_event.c:
+    complete
     .text       start:0x021bc6fc end:0x021bd094
+    .data       start:0x021dafcc end:0x021dafd4
+    .bss        start:0x021db1d4 end:0x021dd884
 
 src/ov167/btl_calc.c:
     .text       start:0x021bd094 end:0x021bdb38
@@ -100,6 +104,7 @@ src/ov167/btl_adapter.c:
     .bss        start:0x021dd8a8 end:0x021dd8bc
 
 src/ov167/btl_string.c:
+    complete
     .text       start:0x021d4ca4 end:0x021d59a8
     .rodata     start:0x021daa5c end:0x021dab2c
     .bss        start:0x021dd8bc end:0x021dd928

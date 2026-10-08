@@ -24,6 +24,8 @@ void GFXRegSetMasterBrightness(u32 reg, s32 brightness);
 s32 gfxRegGetMasterBrightness(u32 reg);
 void gfxClearColor(GXRgb color, u8 alpha, s16 depth, u8 polygonId, BOOL fog);
 void gfxDisableLCDCBanks(void);
+// G3_MultMtx33: multiplies the current matrix by mtx
+void gfxMultMatrix3x3(const MtxFx33 *mtx);
 void gfxRegSetAlphaBlend(u32 reg, u32 plane1, u32 plane2, s32 alpha1, s32 alpha2);
 void gfxRegSetBrightnessBlend(u32 reg, u32 plane, s32 brightness);
 void gfxRegSetBlend(u32 reg, u32 plane1, u32 plane2, s32 alpha1, s32 alpha2, u32 all);

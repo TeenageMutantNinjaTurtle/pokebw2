@@ -25,7 +25,11 @@ void func_ov134_021efe24(void *work);
 void func_ov134_021efeec(void *work);
 void func_ov134_021eff04(void *work);
 void func_ov134_021f03cc(WbtSystem *sys, GameSystem *gsys, WbtEntrant *opponent);
+// The battle of the current round, which overlay 22 starts, and its end and freeing
+BtlSetup *func_ov134_021f04c0(WbtSystem *sys, GameSystem *gsys);
+void func_ov134_021f05c4(WbtSystem *sys, BtlSetup *setup);
 u8 func_ov134_021f062c(WbtSystem *sys, u16 round);
+void func_ov134_021f065c(WbtSystem *sys, GameData *gameData, BtlSetup *setup);
 // The player's opponent in the current round
 WbtEntrant *func_ov134_021f0724(WbtSystem *sys);
 u32 func_ov134_021f0738(WbtSystem *sys);

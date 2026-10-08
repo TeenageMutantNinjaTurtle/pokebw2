@@ -2,7 +2,7 @@
 // the game records after them. The name is the ROM's own, from GFL_HeapAllocate's file argument.
 // Function and data names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 #include "types.h"
-#include "app/ov166.h"
+#include "app/event_battle_return.h"
 #include "app/ov337.h"
 #include "battle/battle_proc.h"
 #include "battle/btl_result.h"
@@ -53,7 +53,7 @@ typedef struct {
     GameSystem *gsys;
     GameData *gameData;
     BtlSetup *setup;
-    Ov166Param ov166Param;
+    EventBattleReturnParam battleReturnParam;
     // Whether the caller returns to the field itself
     u32 unk14;
     // Whether losing doesn't black the player out
@@ -76,12 +76,6 @@ typedef struct {
     u32 unk0C;
 } EventWildBattleCallWork;
 
-// Burmy's form for each terrain
-typedef struct {
-    u16 terrain;
-    u16 form;
-} BurmyForm;
-
 static GameEventReturnCode EventBattleCall_Callback(GameEvent *event, u32 *state, void *work);
 static void func_ov012_02168edc(u16 trainerId, u32 kind);
 static void func_ov012_02168efc(BtlSetup *setup, u32 kind);
@@ -95,13 +89,6 @@ static void *func_ov012_02169154(u32 *seed, void *work);
 static void *func_ov012_02169170(u32 *seed, void *work);
 static void *func_ov012_02169180(u32 *seed, void *work);
 static void *func_ov012_02169198(u32 *seed, void *work);
-
-static const BurmyForm data_ov012_0216dc90[35] = {
-    {0x00, 1}, {0x01, 1}, {0x02, 2}, {0x03, 2}, {0x04, 1}, {0x05, 0}, {0x06, 0}, {0x07, 1}, {0x08, 0},
-    {0x09, 0}, {0x0a, 1}, {0x0b, 1}, {0x0c, 0}, {0x0d, 0}, {0x0e, 2}, {0x0f, 2}, {0x10, 2}, {0x11, 2},
-    {0x12, 2}, {0x13, 2}, {0x14, 2}, {0x15, 1}, {0x16, 0}, {0x17, 0}, {0x18, 2}, {0x19, 1}, {0x1a, 2},
-    {0x1b, 2}, {0x1c, 2}, {0x1d, 2}, {0x1e, 2}, {0x1f, 2}, {0x20, 2}, {0x21, 2}, {0x22, 2},
-};
 
 // The result of a wild battle for each battle result
 static const u8 WILD_BATTLE_RESULT[7] = {0xff, 2, 0xff, 1, 1, 0, 0};
@@ -126,24 +113,6 @@ static const u8 BTL_RESULT_LUT[7][5] = {
 
 // The trainer classes that send the third kind of beacon
 static u16 data_ov012_0216e5cc[7] = {0x9b, 0x9c, 0xc0, 0xbe, 0x0a, 0x0c, 0x0b};
-
-void burmyTransform(GameData *gameData, PartyPkm *pkm, u32 terrain) {
-    PokeDexSave *pokedex = GameData_GetPokedex(gameData);
-    u32 species = PokeParty_GetParam(pkm, PKM_PARAM_SPECIES, NULL);
-    int i;
-
-    for (i = 0; i < 35; i++) {
-        if (terrain == data_ov012_0216dc90[i].terrain) {
-            u32 form = data_ov012_0216dc90[i].form;
-
-            if (species == SPECIES_BURMY) {
-                PokeParty_ChangeForme(pkm, form);
-                PokeDex_RegistPkm(pokedex, pkm);
-            }
-            return;
-        }
-    }
-}
 
 static GameEventReturnCode EventWildBattleCall_Callback(GameEvent *event, u32 *state, void *work) {
     EventWildBattleCallWork *wk = work;
@@ -431,9 +400,9 @@ static GameEventReturnCode EventBattleCall_Callback(GameEvent *event, u32 *state
         break;
     case 4:
         if (wk->setup->unkDD_3 == 0) {
-            wk->ov166Param.setup = wk->setup;
-            wk->ov166Param.gameData = gameData;
-            GSYS_QueueProcAsEvent(event, OVERLAY_ID(166), &data_ov166_0219d6a0, &wk->ov166Param);
+            wk->battleReturnParam.setup = wk->setup;
+            wk->battleReturnParam.gameData = gameData;
+            GSYS_QueueProcAsEvent(event, OVERLAY_ID(166), &EVENT_BATTLE_RETURN_PROC_FUNCTIONS, &wk->battleReturnParam);
         }
         (*state)++;
         break;
@@ -453,11 +422,11 @@ static GameEventReturnCode EventBattleCall_Callback(GameEvent *event, u32 *state
     }
     case 6: {
         u32 shift;
-        u32 checksum = 0;
+        u32 checksum;
         const u32 *code = (const u32 *)func_ov337_0218092c;
         u32 index;
 
-        for (shift = 0x25; shift != 0; shift--) {
+        for (shift = 0x25, checksum = 0; shift != 0; shift--) {
             checksum ^= (*code >> shift) | (*code << (32 - shift));
             code++;
         }
@@ -479,10 +448,10 @@ static GameEventReturnCode EventBattleCall_Callback(GameEvent *event, u32 *state
     }
     case 7: {
         u32 shift;
-        u32 checksum = 0;
+        u32 checksum;
         const u32 *code = (const u32 *)func_ov337_021809d8;
 
-        for (shift = 0x25; shift != 0; shift--) {
+        for (shift = 0x25, checksum = 0; shift != 0; shift--) {
             checksum ^= (*code >> shift) | (*code << (32 - shift));
             code++;
         }

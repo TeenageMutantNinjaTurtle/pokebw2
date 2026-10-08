@@ -5,6 +5,7 @@
     .bss        start:0x021e3100 end:0x021e3120 kind:bss align:32
 
 src/ov214/worldtrade.c:
+    complete
     .text       start:0x021d33c0 end:0x021d3fdc
     .rodata     start:0x021e1af8 end:0x021e1b9c
     .data       start:0x021e29e0 end:0x021e2bb8

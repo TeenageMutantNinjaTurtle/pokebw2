@@ -67,8 +67,8 @@ int func_02040474(void);
 void func_0204049c(int netId);
 BOOL func_02040504(void);
 // Command handlers: a machine's timing number, negotiation, and shared data
-void func_02040574(int netId, int size, void *data, void *work, NetHandle *handle);
-void func_020405ec(int netId, int size, void *data, void *work, NetHandle *handle);
+void func_02040574(int netId, int size, const void *data, void *work, NetHandle *handle);
+void func_020405ec(int netId, int size, const void *data, void *work, NetHandle *handle);
 // Sends a timing number to synchronize on, which func_02040654 and func_02040664 check for
 void func_020405f8(NetHandle *handle, u16 timing);
 void func_02040624(NetHandle *handle, u32 a1, u32 a2);
@@ -80,7 +80,7 @@ void func_0204095c(int netId, int size, NetNegotiation *negotiation, void *work,
 void func_02040a20(int netId, int size, u8 *data);
 // Forgets a machine, as when it disconnects
 void func_02040a9c(int netID);
-void func_02040ad0(int netID, int size, void *data, void *work, NetHandle *handle);
+void func_02040ad0(int netID, int size, const void *data, void *work, NetHandle *handle);
 void func_02040b38(NetHandle *handle, int a1, int a2, int a3);
 void func_02040b68(NetHandle *handle, int value);
 

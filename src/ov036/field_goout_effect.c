@@ -14,7 +14,7 @@
 #include "system/zone_weather.h"
 
 FieldLensFlare *FieldLensFlare_Create(GameSystem *gameSystem, GameData *gameData, FieldExpObjSystem *expObjSys,
-                                      u32 effectIndex, u32 dayPeriod, HeapID heapId) {
+                                      u8 effectIndex, u32 dayPeriod, HeapID heapId) {
     FieldLensFlare *lensFlare = GFL_HeapAllocate(heapId, sizeof(FieldLensFlare), TRUE, "field_goout_effect.c", 0x6b);
     u32 entryIdx;
     u16 effectSet;

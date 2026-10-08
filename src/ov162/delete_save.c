@@ -22,6 +22,7 @@
 #include "nitro/gx.h"
 #include "nitro/os.h"
 #include "save/save_control.h"
+#include "save/save_outside.h"
 #include "system/app_keycursor.h"
 #include "system/bmp_menu.h"
 #include "system/bmp_menulist.h"
@@ -222,7 +223,7 @@ static void DeleteSave_Delete(DeleteSaveWork *wk, u32 *state) {
         GFL_VBlankSetCallback(DeleteSave_VBlank, NULL);
         save = SaveControl_GetInstance();
         GFL_OvlLoad(OVERLAY_ID(331));
-        func_ov331_021bede0(HEAPID_SAVEDATA_DELETE);
+        SaveOutside_Erase(HEAPID_SAVEDATA_DELETE);
         GFL_OvlUnload(OVERLAY_ID(331));
         func_02011558(HEAPID_SAVEDATA_DELETE);
         func_020074ac(save);

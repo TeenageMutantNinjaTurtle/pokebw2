@@ -435,9 +435,9 @@ static void func_ov194_021c05ec(PartyPkm *pkm, BmpWin *window, int x, int y, Pok
 
 // The other stats
 static void func_ov194_021c0684(PartyPkm *pkm, BmpWin *window, int x, int y, PokemonTradeWork *wk) {
+    int i = 0;
     u32 params[] = { PKM_PARAM_ATTACK, PKM_PARAM_DEFENSE, PKM_PARAM_SP_ATTACK, PKM_PARAM_SP_DEFENSE, PKM_PARAM_SPEED };
-    int i;
-    for (i = 0; i < 5; i++) {
+    for (; i < 5; i++) {
         GFL_MsgDataLoadStrbuf(wk->msgData, 40, wk->drawTemplate);
         WordSetNumber(wk->wordSet, 0, PokeParty_GetParam(pkm, params[i], NULL), 3, 1, TRUE);
         GFL_WordSetFormatStrbuf(wk->wordSet, wk->drawStr, wk->drawTemplate);

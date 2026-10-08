@@ -9,7 +9,7 @@
 // find each other's wireless beacons by them
 
 // Starts it in place of a GFL_NET_TYPE 4 network, returning the init data to start the infrared network with
-GFLNetInitData *func_02042f74(GFLNetInitData *pNetInit, void *work);
+const GFLNetInitData *func_02042f74(const GFLNetInitData *pNetInit, void *work);
 void func_02043028(void);
 void func_02043048(void);
 // Whether it is running
@@ -23,7 +23,7 @@ void func_0204313c(u8 *mac, int index);
 // Steps it each frame
 void func_020431cc(void);
 // The command handler for the MAC addresses another machine collected
-void func_02043764(int netId, int size, void *data, void *work, NetHandle *handle);
+void func_02043764(int netId, int size, const void *data, void *work, NetHandle *handle);
 BOOL func_020437a0(void);
 void func_020437dc(int netId);
 u8 func_0204381c(void);

@@ -5,6 +5,15 @@
 
 #define reg_OS_IME (*(vu16 *)0x04000208)
 
+// The card's SPI bus to its backup memory (and the infrared chip): control and data
+#define reg_MI_MCCNT0 (*(vu16 *)0x040001a0)
+#define reg_MI_MCD0 (*(vu16 *)0x040001a2)
+#define REG_MI_MCCNT0_E_MASK 0x8000
+#define REG_MI_MCCNT0_I_MASK 0x4000
+#define REG_MI_MCCNT0_SEL_MASK 0x2000
+#define REG_MI_MCCNT0_BUSY_MASK 0x0080
+#define REG_MI_MCCNT0_MODE_MASK 0x0040
+
 #define reg_GX_DISPSTAT (*(vu16 *)0x04000004)
 #define REG_GX_DISPSTAT_HBLK_MASK 0x0002
 #define reg_GX_VCOUNT (*(vu16 *)0x04000006)

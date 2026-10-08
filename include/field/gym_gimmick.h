@@ -20,13 +20,11 @@ void GymElec_SetBrightness(Field *field, u32 brightness);
 void GymInsect_PlayObject(Field *field, u8 object);
 void GymInsect_ShowEffect(Field *field);
 
-// Overlays 94 and 96 to 102: the other gyms' puzzles
+// Overlays 94, 96 and 98 to 102: the other gyms' puzzles (overlay 97's are in gym_driftveil_lift.h)
 GameEvent *func_ov094_021eeef8(GameSystem *gsys, u16 a1);
 GameEvent *func_ov096_021eeddc(GameSystem *gsys, u16 a1, u16 a2);
 GameEvent *func_ov096_021eedf0(GameSystem *gsys, BOOL a1, BOOL a2);
 void func_ov096_021eee04(GameSystem *gsys);
-GameEvent *func_ov097_021eede4(GameSystem *gsys, BOOL a1, BOOL a2);
-void func_ov097_021eefe4(GameSystem *gsys, u16 a1);
 GameEvent *func_ov098_021eee0c(GameSystem *gsys, u16 a1);
 GameEvent *func_ov098_021eee48(GameSystem *gsys, u16 a1);
 void func_ov098_021eee84(GameSystem *gsys, u16 a1);

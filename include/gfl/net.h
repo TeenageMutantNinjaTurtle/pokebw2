@@ -186,7 +186,7 @@ void func_02011bdc(u16 trackMask, s32 volume);
 
 // net.c: starts and ends the network, and passes calls to the device and the other parts of the library
 void func_020425a0(int a0, int a1, HeapID parentHeapId, HeapID heapId);
-void func_020425ec(GFLNetInitData *pNetInit, void (*callback)(void *work), void *work);
+void func_020425ec(const GFLNetInitData *pNetInit, void (*callback)(void *work), void *work);
 BOOL func_02042788(void);
 // Whether the network has ended
 BOOL func_020427a4(void);
@@ -218,7 +218,7 @@ void func_02042a50(int a0);
 u8 func_02042a6c(NetHandle *handle);
 int func_02042a78(void);
 BOOL func_02042a80(int netId);
-void func_02042a9c(int unused, int a1);
+void func_02042a9c(NetHandle *handle, int a1);
 BOOL func_02042ab8(void);
 // Whether the network is infrared, or Wi-Fi
 BOOL func_02042b00(void);
@@ -302,8 +302,8 @@ enum {
     WH_SYSSTATE_FATAL,
 };
 
-// Called when the wireless has ended, with whether that succeeded
-typedef void (*WHCallback)(BOOL success);
+// Called when the wireless has ended, with whether that succeeded. The callers ignore its result
+typedef BOOL (*WHCallback)(BOOL success);
 
 int func_ov030_02174e58(void);  // WH_GetSystemState
 BOOL func_ov030_02174e90(void); // WH_StartMeasureChannel

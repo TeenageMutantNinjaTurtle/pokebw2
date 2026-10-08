@@ -437,8 +437,8 @@ u16 SCQUE_RESERVE_Pos(BtlServerCmdQueue *que, u32 event) {
 void func_ov167_021b14ec(BtlServerCmdQueue *que, u32 reserve, u32 event, ...) {
     va_list list;
     u8 format;
-    u32 count;
     u32 i;
+    u32 count;
     u16 pos;
 
     format = data_ov167_021d6e50[event];

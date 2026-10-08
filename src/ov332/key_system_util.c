@@ -975,6 +975,7 @@ void KeySystemTween_GetPos(const KeySystemTween *tween, ClActorPos *pos) {
 void KeySystemAccelMove_Init(KeySystemAccelMove *move, const KeySystemPos *start, const KeySystemPos *end, fx32 speed,
                              int frames) {
     fx32 dist;
+    fx32 accel;
 
     VEC_Set(&move->pos, FX32_CONST(start->x), FX32_CONST(start->y), 0);
     VEC_Set(&move->start, FX32_CONST(start->x), FX32_CONST(start->y), 0);
@@ -982,8 +983,9 @@ void KeySystemAccelMove_Init(KeySystemAccelMove *move, const KeySystemPos *start
     dist = vecfx_dist(&move->end, &move->start);
     VEC_Subtract(&move->end, &move->start, &move->dir);
     vecfx_normalize(&move->dir, &move->dir);
-    move->accel = FX_Div((dist - speed * frames) * 2, frames * frames * FX32_ONE);
+    accel = FX_Div((dist - speed * frames) * 2, frames * frames * FX32_ONE);
     move->speed = speed;
+    move->accel = accel;
     move->frame = 0;
     move->frames = frames;
 }

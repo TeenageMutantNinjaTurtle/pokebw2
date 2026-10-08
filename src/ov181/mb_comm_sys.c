@@ -85,12 +85,12 @@ struct MBCommSys {
     void *data;
 };
 
-static void MBComm_RecvPacket(int netId, int size, void *data, void *work, NetHandle *handle);
-static void MBComm_RecvParentInfo(int netId, int size, void *data, void *work, NetHandle *handle);
+static void MBComm_RecvPacket(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void MBComm_RecvParentInfo(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void *MBComm_GetParentInfoBuffer(int netId, void *work, int size);
-static void MBComm_RecvPokemon(int netId, int size, void *data, void *work, NetHandle *handle);
+static void MBComm_RecvPokemon(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void *MBComm_GetPokemonBuffer(int netId, void *work, int size);
-static void MBComm_RecvData(int netId, int size, void *data, void *work, NetHandle *handle);
+static void MBComm_RecvData(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void *MBComm_GetDataBuffer(int netId, void *work, int size);
 static void *MBComm_GetBeaconData(void *work);
 static int MBComm_GetBeaconDataSize(void *work);
@@ -420,8 +420,8 @@ BOOL MBComm_SendCommand(MBCommSys *comm, u8 command, u32 value) {
     return func_02042c18(handle, 0xff, MB_COMM_NETCMD_PACKET, sizeof(MBCommPacket), &packet, TRUE, FALSE, FALSE);
 }
 
-static void MBComm_RecvPacket(int netId, int size, void *data, void *work, NetHandle *handle) {
-    MBCommPacket *packet = data;
+static void MBComm_RecvPacket(int netId, int size, const void *data, void *work, NetHandle *handle) {
+    const MBCommPacket *packet = data;
     MBCommSys *comm = work;
 
     switch (packet->command) {
@@ -501,7 +501,7 @@ BOOL MBComm_SendParentInfo(MBCommSys *comm, MBCommParentInfo *info) {
     return func_02042c18(handle, 1, MB_COMM_NETCMD_PARENT_INFO, sizeof(MBCommParentInfo), info, TRUE, FALSE, TRUE);
 }
 
-static void MBComm_RecvParentInfo(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void MBComm_RecvParentInfo(int netId, int size, const void *data, void *work, NetHandle *handle) {
     MBCommSys *comm = work;
 
     comm->parentInfoReceived = TRUE;
@@ -520,7 +520,7 @@ void *MBComm_GetData(MBCommSys *comm) {
     return comm->data;
 }
 
-static void MBComm_RecvPokemon(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void MBComm_RecvPokemon(int netId, int size, const void *data, void *work, NetHandle *handle) {
     MBCommSys *comm = work;
 
     comm->pokemonReceived = TRUE;
@@ -532,7 +532,7 @@ static void *MBComm_GetPokemonBuffer(int netId, void *work, int size) {
     return comm->pokemon;
 }
 
-static void MBComm_RecvData(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void MBComm_RecvData(int netId, int size, const void *data, void *work, NetHandle *handle) {
     MBCommSys *comm = work;
 
     comm->dataReceived = TRUE;

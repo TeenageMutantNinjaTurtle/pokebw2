@@ -1421,6 +1421,7 @@ static u16 func_0204ca08(const MtxFx22 *mtx) {
 
 // Whether a cell's bounding rect, or circle, is in view, its corners transformed by the matrix
 static BOOL func_0204ca1c(const NNSG2dCellData *cell, const MtxFx32 *mtx, const NNSG2dViewRect *view) {
+    fx32 tmp;
     const NNSG2dCellBoundingRectS16 *rect = &cell->boundingRect;
     u32 r = NNSi_G2dGetCellBoundingSphereR(cell);
     fx32 posX = mtx->_20 - view->posTopLeft.x;
@@ -1450,14 +1451,12 @@ static BOOL func_0204ca1c(const NNSG2dCellData *cell, const MtxFx32 *mtx, const 
     left = posX + (fx_mul_round(minX, mtx->_00) + fx_mul_round(minX, mtx->_10));
     right = posX + (fx_mul_round(maxX, mtx->_00) + fx_mul_round(maxX, mtx->_10));
     if (bottom < top) {
-        fx32 tmp = bottom;
-
+        tmp = bottom;
         bottom = top;
         top = tmp;
     }
     if (right < left) {
-        fx32 tmp = right;
-
+        tmp = right;
         right = left;
         left = tmp;
     }
@@ -1469,14 +1468,14 @@ static BOOL func_0204ca1c(const NNSG2dCellData *cell, const MtxFx32 *mtx, const 
 
 // The same, untransformed
 static BOOL func_0204cb14(const NNSG2dCellData *cell, const MtxFx32 *mtx, const NNSG2dViewRect *view) {
-    u32 r = NNSi_G2dGetCellBoundingSphereR(cell);
     const NNSG2dCellBoundingRectS16 *rect = &cell->boundingRect;
+    u32 r = NNSi_G2dGetCellBoundingSphereR(cell);
     fx32 posX = mtx->_20 - view->posTopLeft.x;
     fx32 posY = mtx->_21 - view->posTopLeft.y;
-    fx32 maxX;
+    fx32 minY;
     fx32 maxY;
     fx32 minX;
-    fx32 minY;
+    fx32 maxX;
 
     if (((cell->cellAttr >> NNSi_G2D_CELLATTR_BOUNDINGRECT_SHIFT) & 1) == 1) {
         minY = rect->minBounding.y << FX32_SHIFT;

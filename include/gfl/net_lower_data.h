@@ -23,7 +23,7 @@ BOOL func_02043b24(int netId);
 void func_02043b44(void);
 // The command handlers for the data and for its header
 void *func_02043c64(int netId, void *work, int size);
-void func_02043ca0(int netId, int size, void *data, void *work, NetHandle *handle);
-void func_02043d6c(int netId, int size, void *data, void *work, NetHandle *handle);
+void func_02043ca0(int netId, int size, const void *data, void *work, NetHandle *handle);
+void func_02043d6c(int netId, int size, const void *data, void *work, NetHandle *handle);
 
 #endif // POKEBW2_GFL_NET_LOWER_DATA_H

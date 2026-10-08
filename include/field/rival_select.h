@@ -9,7 +9,9 @@ struct RivalEntry {
     u8 unk1;
     u8 selected;
     u8 active;
-    u32 unk4;
+    // From overlay 26's table of the mission's people
+    u16 unk4;
+    u8 unk6;
 };
 
 struct RivalSelectContext {
@@ -24,7 +26,6 @@ struct RivalSelectContext {
 RivalEntry *func_02014864(void *owner);
 BOOL func_02018fa8(u16 areaId);
 u8 getHollowNum(RivalDataSave *save);
-BOOL func_ov026_0216fa30(RivalSelectContext *context);
 
 RivalEntry *func_ov073_021e8be0(RivalSelectContext *context, u32 id);
 void func_ov073_021e8bfc(RivalSelectContext *context, u32 id);

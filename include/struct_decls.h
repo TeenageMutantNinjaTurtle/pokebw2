@@ -162,6 +162,7 @@ typedef struct BtlvBGauge BtlvBGauge;
 typedef struct BtlvBg BtlvBg;
 typedef struct BtlvCamera BtlvCamera;
 typedef struct BtlvClact BtlvClact;
+typedef struct FieldSoundEmitter FieldSoundEmitter;
 typedef struct BtlvCore BtlvCore;
 typedef struct BtlvEffect BtlvEffect;
 typedef struct BtlvEffectSetup BtlvEffectSetup;

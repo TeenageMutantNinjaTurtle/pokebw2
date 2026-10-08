@@ -1,15 +1,12 @@
-// Script commands 0x23B to 0x23D, which drive overlay 133's gimmick. The name is a guess
+// Script commands 0x23B to 0x23D, which drive overlay 133's gimmick (gimmick_nuvema.c). The name is a guess
 #include "types.h"
 #include "field/field.h"
 #include "field/field_map.h"
 #include "field/field_script.h"
-#include "field/ov133.h"
+#include "field/gimmick_nuvema.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/vm.h"
-
-// Overlay 133's gimmick
-#define GIMMICK_OV133 0x20
 
 static void func_ov012_02169c64(GameSystem *gsys);
 
@@ -31,7 +28,7 @@ BOOL func_ov012_02169c40(VM *vm, FieldScriptEnv *env) {
 }
 
 static void func_ov012_02169c64(GameSystem *gsys) {
-    u32 *state = GimmickState_GetUserData(GameData_GetGimmickState(GSYS_GetGameData(gsys)), GIMMICK_OV133);
+    u32 *state = GimmickState_GetUserData(GameData_GetGimmickState(GSYS_GetGameData(gsys)), GIMMICK_NUVEMA);
 
     *state = TRUE;
 }

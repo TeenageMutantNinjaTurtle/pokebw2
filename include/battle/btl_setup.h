@@ -176,6 +176,8 @@ void adjustPkmLvForChallengeKeys(BtlSetup *setup, GameData *gameData, u16 zoneId
 void func_02017cac(BtlSetup *setup);
 void func_02017cfc(BtlSetup *setup, PokeParty *party, u32 a2);
 void func_02017d30(BtlSetup *setup, Regulation *regulation, HeapID heapId);
+void func_02018540(BtlSetup *setup, GameData *gameData, HeapID heapId);
+void func_020185b4(BtlSetup *setup);
 void func_020186b0(BtlSetup *setup, u32 a1);
 void func_0201f63c(Regulation *regulation, PokeParty *party);
 void func_0200bb24(HeapID heapId);

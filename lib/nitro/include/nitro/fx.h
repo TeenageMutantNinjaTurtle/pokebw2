@@ -141,6 +141,8 @@ fx32 fx_mul_round(fx32 v1, fx32 v2);
 u16 fx_atan2(fx32 y, fx32 x);
 // NitroSDK's FX_AcosIdx
 u16 fx_acos(fx32 x);
+// Returns the fraction of x and writes its whole part, both with the sign of x
+fx32 fx_fract(fx32 x, fx32 *whole);
 fx32 FX_Sqrt(fx32 x);
 fx32 FX_InvSqrt(fx32 x);
 

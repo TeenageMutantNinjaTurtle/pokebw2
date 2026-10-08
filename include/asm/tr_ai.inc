@@ -11,6 +11,9 @@
 #include "constants/tr_ai.h"
 #include "constants/types.h"
 
+    // In .data, which LLVM pads with zeros: in .text, clang 18 pads `.balign 4, 0` with ARM NOPs
+    .data
+
     .set FALSE, 0
     .set TRUE, 1
 

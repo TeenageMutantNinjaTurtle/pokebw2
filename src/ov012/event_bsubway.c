@@ -100,16 +100,12 @@ typedef struct {
     StrBuf *strbuf;
 } BSubwayLeaderMsgData;
 
-// A leader of the Battle Subway, as the save keeps it
-typedef struct {
-    PMSData message;
-    u8 unk08[0x1a];
-} BSubwayLeader;
-
+// A leader of the Battle Subway, as the save keeps it: an entry of block 0x3a's list
 typedef struct {
     u8 unk00[0x18];
-    BSubwayLeader leaders[];
-} BSubwayLeaderData;
+    PMSData message;
+    u8 unk20[2];
+} BSubwayLeader;
 
 static BOOL func_ov012_021662bc(GameProc *proc, u32 *state, void *param, void *work);
 static BOOL func_ov012_021662e4(GameProc *proc, u32 *state, void *param, void *work);
@@ -158,18 +154,34 @@ static GameEventReturnCode func_ov012_02165eb8(GameEvent *event, u32 *state, voi
     return GAMEEVENT_CONTINUE;
 }
 
+static inline void InitSummaryParam(BSubwayPokeSelectData *data, PokeParty *party, GameData *gameData) {
+    PStatusParam *param = &data->summaryParam;
+    PokeDexSave *pokedex = GameData_GetPokedex(gameData);
+
+    sys_memset(param, 0, sizeof(PStatusParam));
+    param->party = party;
+    param->dataType = PSTATUS_DATA_PARTY;
+    param->partyCount = PokeParty_GetPkmCount(party);
+    param->mode = PSTATUS_MODE_NORMAL;
+    param->page = PSTATUS_PAGE_INFO;
+    param->gameData = gameData;
+    param->isNationalDex = PokeDex_IsNationalObtained(pokedex);
+}
+
 GameEvent *func_ov012_02165f70(BSubwayScrWork *bsw, GameSystem *gsys, u8 rental) {
-    GameData *gameData = GSYS_GetGameData(gsys);
-    Field *field = GSYS_GetField(gsys);
-    GameEvent *event = GameEvent_Create(gsys, NULL, func_ov012_02165eb8, sizeof(BSubwayPokeSelectData));
-    BSubwayPokeSelectData *data = GameEvent_GetData(event);
+    Field *field;
+    GameEvent *event;
+    GameData *gameData;
+    BSubwayPokeSelectData *data;
     PokeParty *party;
     u32 regulationId;
     PokeListParam *partyParam;
     u32 mode;
-    PStatusParam *summaryParam;
-    PokeDexSave *pokedex;
 
+    gameData = GSYS_GetGameData(gsys);
+    field = GSYS_GetField(gsys);
+    event = GameEvent_Create(gsys, NULL, func_ov012_02165eb8, sizeof(BSubwayPokeSelectData));
+    data = GameEvent_GetData(event);
     data->gsys = gsys;
     data->field = field;
     data->picked = bsw->memberChoices;
@@ -180,9 +192,9 @@ GameEvent *func_ov012_02165f70(BSubwayScrWork *bsw, GameSystem *gsys, u8 rental)
     } else {
         party = bsw->allocatedBuffer;
     }
+    mode = 0;
     regulationId = 20;
     partyParam = &data->partyParam;
-    mode = 0;
     switch (bsw->playMode) {
     case 1:
     case 6:
@@ -199,17 +211,8 @@ GameEvent *func_ov012_02165f70(BSubwayScrWork *bsw, GameSystem *gsys, u8 rental)
     }
     PokeListParam_Setup(partyParam, gameData, 0x16, party);
     partyParam->regulation = func_0201f734(regulationId, HEAPID_GAMEEVENT);
-    summaryParam = &data->summaryParam;
     partyParam->unk48 = mode;
-    pokedex = GameData_GetPokedex(gameData);
-    sys_memset(summaryParam, 0, sizeof(PStatusParam));
-    data->summaryParam.party = party;
-    summaryParam->dataType = PSTATUS_DATA_PARTY;
-    summaryParam->partyCount = PokeParty_GetPkmCount(party);
-    summaryParam->mode = PSTATUS_MODE_NORMAL;
-    summaryParam->page = PSTATUS_PAGE_INFO;
-    summaryParam->gameData = gameData;
-    summaryParam->isNationalDex = PokeDex_IsNationalObtained(pokedex);
+    InitSummaryParam(data, party, gameData);
     return event;
 }
 
@@ -251,11 +254,12 @@ static GameEventReturnCode func_ov012_021660b0(GameEvent *event, u32 *state, voi
 }
 
 GameEvent *func_ov012_02166118(BSubwayScrWork *bsw, GameSystem *gsys, u16 index, u16 actorId, u8 winPos) {
-    GameData *gameData = GSYS_GetGameData(gsys);
-    Field *field = GSYS_GetField(gsys);
-    void *msgBGSys = Field_GetMsgBGSys(field);
-    GameEvent *event = GameEvent_Create(gsys, NULL, func_ov012_021660b0, sizeof(BSubwayTrainerMsgData));
-    BSubwayTrainerMsgData *data = GameEvent_GetData(event);
+    GameEvent *event;
+    GameData *gameData;
+    void *msgBGSys;
+    Field *field;
+    BSubwayTrainerMsgData *data;
+    PMSData *message;
     MsgData *msgData;
     u16 messageId;
     FieldCamera *camera;
@@ -263,9 +267,15 @@ GameEvent *func_ov012_02166118(BSubwayScrWork *bsw, GameSystem *gsys, u16 index,
     u32 winX;
     u32 winY;
 
-    data->gsys = gsys;
+    gameData = GSYS_GetGameData(gsys);
+    field = GSYS_GetField(gsys);
+    msgBGSys = Field_GetMsgBGSys(field);
+    event = GameEvent_Create(gsys, NULL, func_ov012_021660b0, sizeof(BSubwayTrainerMsgData));
+    data = GameEvent_GetData(event);
     data->actorId = actorId;
-    if (bsw->trainers[index].message.type == 0xffff) {
+    data->gsys = gsys;
+    message = &bsw->trainers[index].message;
+    if (message->type == 0xffff) {
         data->strbuf = GFL_StrBufCreate(0x300, HEAPID_GAMEEVENT);
         msgData = GFL_MsgSysLoadData(FALSE, 2, 0x178, HEAPID_GAMEEVENT);
         messageId = bsw->trainers[index].message.id;
@@ -275,7 +285,7 @@ GameEvent *func_ov012_02166118(BSubwayScrWork *bsw, GameSystem *gsys, u16 index,
         GFL_MsgDataLoadStrbuf(msgData, messageId, data->strbuf);
         GFL_MsgDataFree(msgData);
     } else {
-        data->strbuf = PMSData_ToString(&bsw->trainers[index].message, HEAPID_GAMEEVENT);
+        data->strbuf = PMSData_ToString(message, HEAPID_GAMEEVENT);
     }
     CopyActorWPos(FindFieldActor(GameData_GetMMSys(gameData), data->actorId), &data->pos);
     camera = Field_GetCameraSystem(field);
@@ -510,7 +520,7 @@ GameEvent *func_ov012_0216657c(GameSystem *gsys, u16 index, u16 actorId) {
     u8 winPos;
     FieldCamera *camera;
     VecFx32 offset;
-    BSubwayLeaderData *leaderData;
+    BSubwayLeader *leaders;
     u32 winX;
     u32 winY;
 
@@ -524,9 +534,9 @@ GameEvent *func_ov012_0216657c(GameSystem *gsys, u16 index, u16 actorId) {
     data->pos.x += offset.x;
     data->pos.y += offset.y;
     data->pos.z += offset.z;
-    leaderData = func_0200e7f0(SaveControl_GetBlockPtr(GameData_GetSaveControl(gameData), 0x3a), HEAPID_GAMEEVENT);
-    data->strbuf = PMSData_ToString(&leaderData->leaders[index].message, HEAPID_GAMEEVENT);
-    GFL_HeapFree(leaderData);
+    leaders = func_0200e7f0(SaveControl_GetBlockPtr(GameData_GetSaveControl(gameData), 0x3a), HEAPID_GAMEEVENT);
+    data->strbuf = PMSData_ToString(&leaders[index].message, HEAPID_GAMEEVENT);
+    GFL_HeapFree(leaders);
     func_ov036_021a8c00(winPos, &winX, &winY);
     data->msgWin = ActorMsgWin_CheckAndCreate(msgBGSys, winX, &data->pos, data->strbuf, 0, winY);
     return event;

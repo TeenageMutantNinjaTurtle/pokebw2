@@ -2,6 +2,7 @@
 #define POKEBW2_APP_BATTLE_RECORDER_H
 
 #include "types.h"
+#include "gfl/proc.h"
 #include "struct_decls.h"
 
 // The Battle Recorder, whose proc is overlay 272's br_main.c. It runs overlay 271's core proc (app/battle_recorder/),
@@ -25,5 +26,7 @@ typedef struct {
     // 2 when the online connection failed
     u32 result;
 } BattleRecorderParam;
+
+extern const GameProcFunctions BR_MAIN_PROC_FUNCTIONS;
 
 #endif // POKEBW2_APP_BATTLE_RECORDER_H

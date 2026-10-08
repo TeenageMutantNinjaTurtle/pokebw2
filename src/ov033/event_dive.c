@@ -138,7 +138,7 @@ GameEvent *func_ov033_0217a0f4(GameSystem *gsys, Field *field, u32 direction) {
     player = Field_GetPlayer(field);
     actor = FieldPlayer_GetActor(player);
     FieldPlayer_SetDirection(player, direction);
-    *data = func_ov131_021eec80(gsys, field, actor, TRUE);
+    *data = RailSlipdown_Create(gsys, field, actor, TRUE);
     return event;
 }
 
@@ -149,15 +149,15 @@ GameEvent *func_ov033_0217a148(GameSystem *gsys, Field *field, FieldActor *actor
     event = GameEvent_Create(gsys, NULL, func_ov033_0217a184, sizeof(void *));
     data = GameEvent_GetData(event);
     GFL_OvlLoad(OVERLAY_ID(131));
-    *data = func_ov131_021eec80(gsys, field, actor, FALSE);
+    *data = RailSlipdown_Create(gsys, field, actor, FALSE);
     return event;
 }
 
 GameEventReturnCode func_ov033_0217a184(GameEvent *event, u32 *state, void *data) {
     void **work = GameEvent_GetData(event);
 
-    if (func_ov131_021eed2c(*work)) {
-        func_ov131_021eed18(*work);
+    if (RailSlipdown_IsDone(*work)) {
+        RailSlipdown_Delete(*work);
         GFL_OvlUnload(OVERLAY_ID(131));
         return GAMEEVENT_DONE;
     }

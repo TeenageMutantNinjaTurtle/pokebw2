@@ -85,11 +85,11 @@ TCBManager *GFL_TCBMgrCreate(u32 count, void *buffer) {
     TCB **ready = (TCB **)(manager + 1);
     TCB *tasks = (TCB *)(ready + count);
 
+    manager->ready = ready;
+    manager->tasks = tasks;
     manager->count = count;
     manager->used = 0;
     manager->adding = FALSE;
-    manager->ready = ready;
-    manager->tasks = tasks;
     GFL_TCBMgrSetup(manager);
     return manager;
 }

@@ -34,8 +34,8 @@ typedef enum {
 
 static void BtlSetup_SetTrialHouseParty(BtlSetup *setup, BSubwayTrainer *trainer, int client, u32 mode, int count,
                                         HeapID heapId);
-static void func_ov012_02162394(u32 mode, u32 trainerId, BSubwayTrainer *trainer, BtlSetupTrainer *dest, u32 aiFlags,
-                                BOOL clearWords, BOOL copyWords);
+static void func_ov012_02162394(u32 mode, u32 trainerId, const BSubwayTrainer *trainer, BtlSetupTrainer *dest,
+                                u32 aiFlags, BOOL clearWords, BOOL copyWords);
 static BtlSetup *BtlSetup_SetTrainerTrialHouse(GameSystem *gsys, u16 mode, BtlFieldStatus *status, BOOL a3,
                                                HeapID heapId);
 static void RestrictPlayerParty(PokeParty *src, PokeParty *dest, int count, u16 level, HeapID heapId);
@@ -44,7 +44,7 @@ static void genSubwayBtlInstitutePoke(const BSubwayPokemon *src, PartyPkm *pkm, 
 static void func_ov012_021627b0(u32 arcId, BSubwayPokemonData *data, u32 file);
 static u16 func_ov012_021627d4(MATHRandContext32 *rand);
 static u8 func_ov012_02162828(u32 trainerId);
-static BOOL func_ov012_02162ae8(BSubwayTrainer *trainer);
+static BOOL func_ov012_02162ae8(const BSubwayTrainer *trainer);
 
 // The items of the rental Pokémon
 static const u16 data_ov012_0216d9ac[4] = {213, 157, 234, 217};
@@ -87,14 +87,15 @@ static void BtlSetup_SetTrialHouseParty(BtlSetup *setup, BSubwayTrainer *trainer
 }
 
 BtlSetup *SetupTrialHouseBattle(GameSystem *gsys, PokeParty *party, u32 mode, BSubwayTrainer *trainers,
-                                BSubwayTrainer *partner, u32 count) {
+                                BSubwayTrainer *partner, int count) {
     GameData *gameData = GSYS_GetGameData(gsys);
     u16 type = mode;
     BtlFieldStatus status;
     BtlSetup *setup = BtlSetup_SetTrainerTrialHouse(gsys, type, &status, TRUE, 4);
     SetupClient client = CLIENT_PLAYER;
+    PlayerInfo *info = GetGameDataPlayerInfo(gameData);
 
-    setup->unk34[client] = GetGameDataPlayerInfo(gameData);
+    setup->unk34[client] = info;
     RestrictPlayerParty(party, setup->party[client], count, 50, 4);
     BtlSetup_SetTrialHouseParty(setup, trainers, 1, type, count, 4);
     if (setup->fieldSituation.unk1a != 0) {
@@ -244,12 +245,10 @@ static void RestrictPlayerParty(PokeParty *src, PokeParty *dest, int count, u16 
     GFL_HeapFree(pkm);
 }
 
-static void func_ov012_02162394(u32 mode, u32 trainerId, BSubwayTrainer *trainer, BtlSetupTrainer *dest, u32 aiFlags,
-                                BOOL clearWords, BOOL copyWords) {
-    u32 trainerClass = trainer->trainerId;
-
+static void func_ov012_02162394(u32 mode, u32 trainerId, const BSubwayTrainer *trainer, BtlSetupTrainer *dest,
+                                u32 aiFlags, BOOL clearWords, BOOL copyWords) {
     dest->trainerId = trainerId;
-    dest->trainerClass = trainerClass;
+    dest->trainerClass = trainer->trainerId;
     dest->aiFlags = aiFlags;
     GFL_StrBufLoadString(dest->name, trainer->name);
     if (clearWords == TRUE) {
@@ -259,11 +258,11 @@ static void func_ov012_02162394(u32 mode, u32 trainerId, BSubwayTrainer *trainer
     if (copyWords == TRUE) {
         // The trainer keeps its phrases as four words each, which func_ov012_02162ae8 checks one by one
         if (mode == 4) {
-            dest->unk18 = *(PMSData *)trainer->winWords;
-            dest->unk20 = *(PMSData *)trainer->loseWords;
+            dest->unk18 = *(const PMSData *)trainer->winWords;
+            dest->unk20 = *(const PMSData *)trainer->loseWords;
         } else if (func_ov012_02162ae8(trainer)) {
-            dest->unk18 = *(PMSData *)trainer->winWords;
-            dest->unk20 = *(PMSData *)trainer->loseWords;
+            dest->unk18 = *(const PMSData *)trainer->winWords;
+            dest->unk20 = *(const PMSData *)trainer->loseWords;
         }
     }
 }
@@ -357,8 +356,10 @@ u32 func_ov012_02162490(BSubwayPokemon *pkm, u32 arcId, u16 file, u32 id, u32 pi
 
 static void genSubwayBtlInstitutePoke(const BSubwayPokemon *src, PartyPkm *pkm, u16 level) {
     StrBuf *strbuf;
+    const u16 *name;
     u16 nickname[11];
     int i;
+    u8 pp;
     u16 terminator;
 
     PokeParty_ClearPkm(pkm);
@@ -368,7 +369,8 @@ static void genSubwayBtlInstitutePoke(const BSubwayPokemon *src, PartyPkm *pkm, 
     for (i = 0; i < 4; i++) {
         PokeParty_SetParam(pkm, PKM_PARAM_MOVE1 + i, src->moves[i]);
         PokeParty_SetParam(pkm, PKM_PARAM_MOVE1_PP_UP + i, (u8)((src->ppUps >> (i * 2)) & 3));
-        PokeParty_SetParam(pkm, PKM_PARAM_MOVE1_PP + i, (u8)PokeParty_GetParam(pkm, PKM_PARAM_MOVE1_MAX_PP + i, NULL));
+        pp = PokeParty_GetParam(pkm, PKM_PARAM_MOVE1_MAX_PP + i, NULL);
+        PokeParty_SetParam(pkm, PKM_PARAM_MOVE1_PP + i, pp);
     }
     PokeParty_SetParam(pkm, PKM_PARAM_ID, src->id);
     PokeParty_SetParam(pkm, PKM_PARAM_EV_HP, src->evs[0]);
@@ -382,8 +384,9 @@ static void genSubwayBtlInstitutePoke(const BSubwayPokemon *src, PartyPkm *pkm, 
     PokeParty_SetNature(pkm, src->nature);
     strbuf = GFL_StrBufCreate(NELEMS(nickname), HEAPID_GAMEEVENT);
     terminator = GFL_StrBufGetTerminator();
+    name = src->nickname;
     for (i = 0; i < 11; i++) {
-        nickname[i] = src->nickname[i];
+        nickname[i] = name[i];
     }
     nickname[i - 1] = terminator;
     GFL_StrBufLoadString(strbuf, nickname);
@@ -554,7 +557,7 @@ BOOL func_ov012_0216292c(const u16 *trainerData, u16 trainerId, BSubwayPokemon *
     return failed;
 }
 
-static BOOL func_ov012_02162ae8(BSubwayTrainer *trainer) {
+static BOOL func_ov012_02162ae8(const BSubwayTrainer *trainer) {
     int i;
 
     for (i = 0; i < 4; i++) {

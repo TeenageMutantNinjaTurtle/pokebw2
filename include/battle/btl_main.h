@@ -193,9 +193,6 @@ struct BtlMainModule {
     PokewoodCutin *cutin;
 };
 
-// An overlay 338 function that btl_main.c calls
-BOOL func_ov338_0217caf8(void);
-
 // Swan's names for these two take the main module, whose first field points to the BtlSetup
 u32 BtlSetup_GetBattleStyle(BtlMainModule *mainModule);
 u32 func_ov167_0219bd88(BtlMainModule *mainModule);
@@ -261,6 +258,8 @@ u8 func_ov167_0219a180(BtlMainModule *mainModule, u8 clientId);
 // the first Pokemon waiting to switch in
 u8 GetClientBattlerCount(BtlMainModule *mainModule, u8 clientId);
 BOOL IsAllyMonID(u8 monId1, u8 monId2);
+// The side of the battle a mon ID is on: IDs from 12 are the second side's
+typedef enum { BTL_SIDE_1ST, BTL_SIDE_2ND } BtlSide;
 u8 GetSideFromMonID(u8 monId);
 u8 GetSideFromOpposingMonID(u8 monId);
 u8 func_ov167_0219d338(u8 side);

@@ -1230,7 +1230,7 @@ static void PokeList_OpenMenu(PokeListWork *wk) {
         }
         break;
     case 25:
-        if (func_ov210_021eec80(wk->pkm) == TRUE) {
+        if (MusicalSystem_CanJoin(wk->pkm) == TRUE) {
             items[0] = 11;
             items[1] = 0;
             items[2] = 6;
@@ -2523,6 +2523,7 @@ static BOOL func_ov165_0219da88(PokeListWork *wk) {
 u32 PokeList_CheckLearnMove(PokeListWork *wk, PartyPkm *pkm, u8 pos) {
     u8 i;
     BOOL hasEmptySlot = FALSE;
+    u32 ret;
 
     if (wk->wasMode18 == TRUE) {
         u32 moveA = wk->param->move;
@@ -2573,17 +2574,19 @@ u32 PokeList_CheckLearnMove(PokeListWork *wk, PartyPkm *pkm, u8 pos) {
         u8 tm = PML_ItemGetTMBitMask(wk->param->item);
 
         if (tm != 0xff && canPkmLearnTM_Wrapper(pkm, tm) == TRUE) {
-            if (hasEmptySlot == TRUE) {
-                return 0;
+            ret = 0;
+            if (hasEmptySlot != TRUE) {
+                ret = 1;
             }
-            return 1;
+            return ret;
         }
         return 2;
     }
-    if (hasEmptySlot == TRUE) {
-        return 0;
+    ret = 0;
+    if (hasEmptySlot != TRUE) {
+        ret = 1;
     }
-    return 1;
+    return ret;
 }
 
 BOOL PokeList_CanEvolveWithItem(PokeListWork *wk, PartyPkm *pkm, u16 item) {
