@@ -740,6 +740,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `if`/`else` that the original has in each branch. MWCC merges the copies with the later one but the jump
   from the first branch then targets the end of the second: the summary screen's `PStaSkill_HandleForgetKeys`
   matches with `GFL_SndSEPlay(SEQ_SE_DECIDE1);` at the end of both branches of its `move == MOVE_NONE` test.
+- A call whose one argument differs by branch, such as the BG map's file ID, is written out in full in each branch:
+  `if (c) { LoadMap(..., FileId(0x16a), ...); } else { LoadMap(..., FileId(0x169), ...); }`. MWCC merges the identical
+  tails, but a `file` local or a ternary argument allocates the registers differently, by 25 lines in
+  `btlv_input.c`'s standby-to-moves task.
 - An `if`/`else` that assigns one field a constant in each branch can still end in one store after the branches, with
   `b` over the else branch, as the trade's key cursor wraps its row to 2 or 4 in `pokemontrade_proc.c`. The
   conditional expression gives `mov`, a conditional branch over a second `mov`, and no `b`.
@@ -835,6 +839,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A short chain of tests whose first value does nothing, `cmp r5, #1; beq end; cmp r5, #3; bne next`, with each body
   after its test, is `if (x == 1) { } else if (x == 3) { ... } else if (x == 4) { ... }`; a switch of the same values
   branches to its cases instead. The Pokédex habitat map's state changes test the new state so.
+- A trailing `case N: default:` sharing one body gives `cmp rN, #N; b body` before the jump table, and a switch with
+  no `default:` returns on an out-of-range value with no code for it, as `btlv_input.c`'s target-to-moves task does.
+- Two equality tests that branch away with `beq; beq; b`, with each body after, are a `switch` on those two values, as
+  `btlv_input.c`'s PP colour pick is a `switch (pp)`. An `if`/`else if` tests each before its body.
 
 ## Floats and runtime helpers
 
@@ -969,6 +977,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   the named 0 changes what the compiler reuses, and `u8` locals for its index bases fixed two swapped stack slots in
   `BPlistObj_ShowMoveTypes`.
 
+- Before blaming registers, check every literal argument, mask and field offset against the original: 11 of 18
+  leftovers of `btlv_input.c` were a swapped argument pair, a wrong mask width, an 8-byte struct that is 12 in the
+  game, a `?:` argument that is two calls, or a missing `case 0: break;`, each read as an allocation difference.
 - When the order of instructions differs and no source change moves it, try `tools/scripts/permuter_setup.py`, which
   prepares a function for [decomp-permuter](https://github.com/simonlindholm/decomp-permuter). Its result can point to
   a plain change: `GFL_BGSysAllocChar`'s registers only matched with its tile size, a `u8` from a call, in an `int`.

@@ -165,6 +165,8 @@ typedef struct BPlistWork BPlistWork;
 typedef struct FieldSoundEmitter FieldSoundEmitter;
 typedef struct BtlvCore BtlvCore;
 typedef struct BtlvFingerCursor BtlvFingerCursor;
+typedef struct BtlvInput BtlvInput;
+typedef struct BtlvInputKeyStop BtlvInputKeyStop;
 typedef struct BtlvScu BtlvScu;
 typedef struct PokewoodCutin PokewoodCutin;
 typedef struct BtlvPokeListCmd BtlvPokeListCmd;
