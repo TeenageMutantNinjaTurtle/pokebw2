@@ -3,6 +3,7 @@
 #include "types.h"
 #include "field/field_script.h"
 #include "field/field_sound.h"
+#include "field/gym_driftveil_lift.h"
 #include "field/gym_gimmick.h"
 #include "field/scrcmd_gym.h"
 #include "system/game_data.h"

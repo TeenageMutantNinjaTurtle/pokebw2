@@ -107,7 +107,7 @@ static int FieldTerrainTexPatAnimation_GetTextureSize(void *textures, u32 textur
 static void *FieldTerrainTexPatAnimation_GetTextureAddress(void *textures, u32 textureIndex);
 static void *FieldTerrainTexPatAnimationPack_GetGFBTP(FieldTerrainTexPatAnimationPack *pack, u32 index);
 static void *FieldTerrainTexPatAnimationPack_GetNSBTX(FieldTerrainTexPatAnimationPack *pack, u32 index);
-static GFBTPValue GFBTPController_GetValue(GFBTPController *controller, u32 target, u32 frame);
+static GFBTPValue GFBTPController_GetValue(const GFBTPController *controller, u32 target, u32 frame);
 static u32 GFBTPController_GetTargetCount(GFBTPController *controller);
 static u32 GFBTPController_GetFrameCount(GFBTPController *controller);
 static u16 GFBTPController_GetLastTargetKeyFrame(GFBTPController *controller, u32 target);
@@ -425,7 +425,7 @@ static void *FieldTerrainTexPatAnimationPack_GetNSBTX(FieldTerrainTexPatAnimatio
     return (u8 *)pack + pack->offsets[index].nsbtxOffset;
 }
 
-static GFBTPValue GFBTPController_GetValue(GFBTPController *controller, u32 target, u32 frame) {
+static GFBTPValue GFBTPController_GetValue(const GFBTPController *controller, u32 target, u32 frame) {
     GFBTPValue value;
     u32 key = controller->targets[target];
     u32 end;

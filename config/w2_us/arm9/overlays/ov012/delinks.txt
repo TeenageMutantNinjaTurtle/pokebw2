@@ -5,6 +5,7 @@
     .bss        start:0x0216e680 end:0x0216e6a0 kind:bss align:32
 
 src/ov012/event_ircbattle.c:
+    complete
     .text       start:0x02150400 end:0x02150d38
     .rodata     start:0x0216ae0c end:0x0216ae24
     .data       start:0x0216dfe0 end:0x0216dff4
@@ -29,6 +30,7 @@ src/ov012/musical_program.c:
     .data       start:0x0216e048 end:0x0216e05c
 
 src/ov012/event_colosseum_battle.c:
+    complete
     .text       start:0x0215268c end:0x0215295c
     .data       start:0x0216e05c end:0x0216e074
 
@@ -38,6 +40,7 @@ src/ov012/delivery_beacon.c:
     .data       start:0x0216e074 end:0x0216e150
 
 src/ov012/delivery_irc.c:
+    complete
     .text       start:0x02152c4c end:0x021531a0
     .rodata     start:0x0216af7c end:0x0216af9c
     .data       start:0x0216e150 end:0x0216e1d0
@@ -103,6 +106,7 @@ src/ov012/scrcmd_game_state.c:
     .rodata     start:0x0216ca20 end:0x0216ca44
 
 src/ov012/scrcmd_pokemon.c:
+    complete
     .text       start:0x021561b4 end:0x021574e4
     .data       start:0x0216e234 end:0x0216e248
 
@@ -257,6 +261,7 @@ src/ov012/comm_player.c:
     .data       start:0x0216e324 end:0x0216e3ac
 
 src/ov012/bsubway_comm.c:
+    complete
     .text       start:0x02161884 end:0x02161cc8
     .rodata     start:0x0216d93c end:0x0216d9ec
 
@@ -277,6 +282,7 @@ src/ov012/event_trial_house.c:
     .text       start:0x02162c88 end:0x02162f84
 
 src/ov012/ev_time.c:
+    complete
     .text       start:0x02162f84 end:0x02163208
 
 src/ov012/field_g3d_map.c:
@@ -285,6 +291,7 @@ src/ov012/field_g3d_map.c:
     .data       start:0x0216e3c0 end:0x0216e3d0
 
 src/ov012/report_event.c:
+    complete
     .text       start:0x02163b78 end:0x02164370
     .data       start:0x0216e3d0 end:0x0216e3e0
 
@@ -336,6 +343,7 @@ src/ov012/event_bsubway.c:
     .rodata     start:0x0216dc9c end:0x0216dca8
 
 src/ov012/fldmmdl.c:
+    complete
     .text       start:0x021666a4 end:0x02168360
     .data       start:0x0216e3f0 end:0x0216e60c
 
@@ -391,9 +399,15 @@ src/ov012/event_field_open_lcd.c:
     complete
     .text       start:0x0216ad7c end:0x0216ae0c
 
+src/ov012/burmy_form.c:
+    complete
+    .text       start:0x021684a8 end:0x021684fc
+    .rodata     start:0x0216dcd0 end:0x0216dd5c
+
 src/ov012/event_battle.c:
-    .text       start:0x021684a8 end:0x021691dc
-    .rodata     start:0x0216dcd0 end:0x0216dda0
+    complete
+    .text       start:0x021684fc end:0x021691dc
+    .rodata     start:0x0216dd5c end:0x0216dda0
     .data       start:0x0216e60c end:0x0216e62c
 
 src/ov012/pair_sys.c:

@@ -125,7 +125,7 @@ BOOL func_ov012_0215f5b4(u32 *seq, void *param, void *work) {
     switch (*seq) {
     case 0:
         GFL_HeapDumpOnFailure(HEAPID_DLP);
-        func_020425ec((GFLNetInitData *)&data_ov012_0216d6a8, func_ov012_0215f5f4, search);
+        func_020425ec(&data_ov012_0216d6a8, func_ov012_0215f5f4, search);
         (*seq)++;
         break;
     case 1:

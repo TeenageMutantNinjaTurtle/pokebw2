@@ -3,23 +3,34 @@
 
 #include "types.h"
 #include "gfl/clact.h"
-#include "gfl/overlay.h"
+#include "gfl/heap.h"
+#include "struct_decls.h"
 #include "system/cursor_move.h"
 #include "system/printsys.h"
 
-// Overlay 285, b_app_tool.c by the ROM's embedded string: helpers for the battle's apps, of which the battle party
-// list uses the cursor and print window functions. The overlay is not decompiled yet, and every name here is ours.
+// Tools shared by the battle's menus (b_app_tool.c, overlay 285), which overlays 286 and 287 call: a cursor of four
+// corner actors that frames a CursorMove position, and the flushing of PrintWindows. The type names are ours
 
-#define OVERLAY_OV285 OVERLAY_ID(285)
+typedef struct {
+    // Top left, bottom left, top right and bottom right
+    ClActor *corners[4];
+    u16 heapId;
+    BOOL visible;
+} BAppCursor;
 
-void *func_ov285_021f4260(HeapID heapId);
-void func_ov285_021f4284(void *cursor);
-void func_ov285_021f428c(void *cursor, ClActUnit *unit, u32 chars, u32 palette, u32 cellAnims);
-void func_ov285_021f42e4(void *cursor);
-void func_ov285_021f42fc(void *cursor, BOOL visible);
-void func_ov285_021f4320(void *cursor, const CursorMoveData *data); // places it at the data's corners
-void func_ov285_021f439c(PrintWindow *printWindow);
-void func_ov285_021f43b4(PrintWindow *windows, const u8 *list);
-void func_ov285_021f43d0(PrintWindow *windows, PrintQueue *queue, u8 count);
+BAppCursor *BAppCursor_Create(HeapID heapId);
+void BAppCursor_Delete(BAppCursor *cursor);
+// The corners use the animation sequences 0 to 3 of the resources
+void BAppCursor_CreateActors(BAppCursor *cursor, ClActUnit *unit, u32 chars, u32 palette, u32 cellAnims);
+void BAppCursor_DeleteActors(BAppCursor *cursor);
+void BAppCursor_SetVisible(BAppCursor *cursor, BOOL visible);
+// Puts the corners around the position, x and y being its center
+void BAppCursor_SetPos(BAppCursor *cursor, const CursorMoveData *pos);
+// Copies a window's screen at the next VBlank
+void BAppTool_QueueWindowScreen(PrintWindow *printWindow);
+// BAppTool_QueueWindowScreen on the windows of a list of indices that ends with 0xff
+void BAppTool_QueueWindowScreens(PrintWindow *printWindows, const u8 *list);
+// Runs the print queue and flushes the count windows that it has printed
+void BAppTool_FlushPrintWindows(PrintWindow *printWindows, PrintQueue *queue, u32 count);
 
 #endif // POKEBW2_BATTLE_B_APP_TOOL_H

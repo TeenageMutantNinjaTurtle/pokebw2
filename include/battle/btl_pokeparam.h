@@ -353,7 +353,7 @@ void func_ov167_021bbff4(BattleMon *mon);
 void func_ov167_021bc024(BattleMon *mon);
 void func_ov167_021bc048(BattleMon *mon, const BattleMonDamageRecord *record);
 u8 func_ov167_021bc120(BattleMon *mon, u8 turnsAgo);
-BOOL GetDamageReceived(BattleMon *mon, u8 turnsAgo, u8 index, BattleMonDamageRecord *record);
+BOOL GetDamageReceived(const BattleMon *mon, u8 turnsAgo, u8 index, BattleMonDamageRecord *record);
 void COUNTER_Set(BattleMon *mon, u32 index, u8 value);
 BOOL func_ov167_021bc1b8(BattleMon *mon, u32 *exp, BattleMonLevelUp *levelUp);
 u32 GetExpForLv100(BattleMon *mon);

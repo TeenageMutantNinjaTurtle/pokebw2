@@ -147,15 +147,17 @@ def apply_fix(version: str, module: str, addr: int, action: str, argument: str):
         return
     if action == "add_label":
         # A label with the instruction mode of the function at the address, for code that the compiler calls by
-        # two names, such as the runtime's _ll_mul and _ull_mul
+        # two names, such as the runtime's _ll_mul and _ull_mul, or of the label dsd found there, for a second entry
+        # point inside a function, such as _ll_sdiv inside _ll_mod
         path = config_dir(version, module) / "symbols.txt"
         lines = path.read_text().splitlines()
         at = [i for i, line in enumerate(lines) if (m := SYMBOL_ADDR_RE.search(line)) and int(m.group(1), 16) == addr]
         if any(lines[i].split()[0] == argument for i in at):
             return
-        mode = next((m.group(1) for i in at if (m := re.search(r"kind:function\((arm|thumb)", lines[i]))), None)
+        mode = next((m.group(1) for i in at
+                     if (m := re.search(r"kind:(?:function|label)\((arm|thumb)", lines[i]))), None)
         if mode is None:
-            sys.exit(f"{version}: no function at {module} {addr:#010x}")
+            sys.exit(f"{version}: no function or label at {module} {addr:#010x}")
         lines.insert(at[-1] + 1, f"{argument} kind:label({mode}) addr:{addr:#010x}")
         path.write_text("\n".join(lines) + "\n")
         return

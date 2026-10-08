@@ -645,8 +645,7 @@ BOOL CheckBlockedCollPathToPosition(FieldActor *actor, u16 dir, VecFx32 position
         height = GetActorCollHeight(actor);
         rowPosition = position;
         for (j = 0; j < height; j++, rowPosition.z -= FX32_CONST(16)) {
-            tilePosition = rowPosition;
-            for (i = 0; i < width; i++, tilePosition.x += FX32_CONST(16)) {
+            for (i = 0, tilePosition = rowPosition; i < width; i++, tilePosition.x += FX32_CONST(16)) {
                 if (GetTileTypeAtPosByActor(actor, &tilePosition, &tileType) == FALSE) {
                     return TRUE;
                 }

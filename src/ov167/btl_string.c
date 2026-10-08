@@ -440,6 +440,7 @@ static void func_ov167_021d5440(StrBuf *strbuf, u16 message, const u32 *args) {
     u8 stat = args[2] - 1;
     int degree = 0;
     int variant;
+    int base;
 
     if ((int)args[3] >= 3) {
         degree = 2;
@@ -451,7 +452,9 @@ static void func_ov167_021d5440(StrBuf *strbuf, u16 message, const u32 *args) {
     variant = GetMonVariant(args[0]);
     func_ov167_021d4d7c(args[0], 0);
     loadItemNameToStrbuf(sWork.wordSet, 1, args[1]);
-    GFL_MsgDataLoadStrbuf(sWork.msgData[1], (u16)(message + stat * 3 + variant), sWork.strbuf);
+    // The stat's message, before the variant is added: only a variable of its own puts the variant second in the add
+    base = message + stat * 3;
+    GFL_MsgDataLoadStrbuf(sWork.msgData[1], (u16)(base + variant), sWork.strbuf);
     GFL_WordSetFormatStrbuf(sWork.wordSet, strbuf, sWork.strbuf);
 }
 

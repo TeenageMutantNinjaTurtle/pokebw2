@@ -114,7 +114,7 @@ struct WbtSystem {
     // One for each round. Tournaments 1 and 10 award their total as Battle Points
     u8 unk13DC[3];
     u8 unk13DF;
-    // The script variable that plugin 6 passes with func_ov022_0216e6e8's event
+    // The script variable that plugin 6 passes with EventWbtPokeSelect_Create's event
     u16 *unk13E0;
     u32 unk13E4;
 };

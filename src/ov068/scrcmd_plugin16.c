@@ -1,7 +1,7 @@
 #include "types.h"
 #include "field/field.h"
 #include "field/field_script.h"
-#include "field/ov114.h"
+#include "field/gimmick_underground_ruins.h"
 #include "field/ov129.h"
 #include "system/game_event.h"
 #include "system/game_system.h"

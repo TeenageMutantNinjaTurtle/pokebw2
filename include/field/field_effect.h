@@ -29,11 +29,11 @@ FieldEffectTask *func_ov036_021a58e0(FieldEffects *effects, const VecFx32 *pos, 
 void func_ov036_021a5968(FieldEffectTask *task, u16 speed);
 // The festival's sparkles: start their task, show one at pos, hide one or all, and whether one shows and its value
 FieldEffectTask *func_ov036_021a5bb4(FieldEffects *effects);
-void func_ov036_021a5c04(FieldEffectTask *task, u32 idx, u16 value, const VecFx32 *pos);
-void func_ov036_021a5c2c(FieldEffectTask *task, u32 idx);
+void func_ov036_021a5c04(FieldEffectTask *task, u8 idx, u16 value, const VecFx32 *pos);
+void func_ov036_021a5c2c(FieldEffectTask *task, u8 idx);
 void func_ov036_021a5c44(FieldEffectTask *task);
-u16 func_ov036_021a5c5c(FieldEffectTask *task, u32 idx);
-u16 func_ov036_021a5c74(FieldEffectTask *task, u32 idx);
+u16 func_ov036_021a5c5c(FieldEffectTask *task, u8 idx);
+u16 func_ov036_021a5c74(FieldEffectTask *task, u8 idx);
 // The field effect of a phenomenon, which fldeff_encount.c plays
 FieldEffectTask *func_ov036_021a53f8(EncountSystem *system, FieldEffects *effects, u16 x, u16 z, fx32 height,
                                      u32 kind);

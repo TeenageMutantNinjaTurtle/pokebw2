@@ -844,7 +844,7 @@ static void JpegEnc_ConvertYUV422(const void *src, u32 width, u32 height, u8 *ds
     u16 *cbPlane;
     u16 *yPlane = (u16 *)dst;
     cbPlane = yPlane + count;
-    crPlane = cbPlane + count;
+    crPlane = yPlane + count + count;
     u32 i;
     u32 pair;
 

@@ -10,6 +10,7 @@ u64 clock(void);
 #define OS_SYSTEM_CLOCK 33514000
 #define OS_TicksToSeconds(tick) (((tick) * 64) / OS_SYSTEM_CLOCK)
 #define OS_TicksToMilliSeconds(tick) (((tick) * 64) / (OS_SYSTEM_CLOCK / 1000))
+#define OS_TicksToMicroSeconds(tick) (((tick) * 64 * 1000) / (OS_SYSTEM_CLOCK / 1000))
 // Restarts the game, which swan names sys_reset
 void sys_reset(u32 parameter);
 // Stops the game after a fatal error, calling the registered handler first
@@ -62,6 +63,9 @@ void free_device(int arena, int heap, void *ptr);
 
 s32 cart_key_create(void);
 void cart_key_release(u16 lockId);
+// NitroSDK's OS_LockCard and OS_UnlockCard
+s32 func_0207a178(u16 lockId);
+s32 func_0207a1a0(u16 lockId);
 
 // NitroSDK's OS_DisableInterrupts and OS_RestoreInterrupts, under swan's names
 u32 CPU_IRQDisable(void);

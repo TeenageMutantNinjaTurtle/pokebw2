@@ -140,9 +140,11 @@ src/gfl/gf_standard.c:
     .bss        start:0x021418c0 end:0x021418c4
 
 src/gfl/tcb.c:
+    complete
     .text       start:0x0203a4fc end:0x0203a6d4
 
 src/gfl/tcbl.c:
+    complete
     .text       start:0x0203a6d4 end:0x0203a918
     .data       start:0x0209a86c end:0x0209a874
 
@@ -201,6 +203,7 @@ src/gfl/wm_icon.c:
     .bss        start:0x02141890 end:0x02141898
 
 src/gfl/net_system.c:
+    complete
     .text       start:0x0203e8c8 end:0x020401dc
     .data       start:0x0209aa54 end:0x0209aaa0
     .bss        start:0x02141898 end:0x0214189c
@@ -212,12 +215,14 @@ src/gfl/net_handle.c:
     .bss        start:0x0214189c end:0x021418a0
 
 src/gfl/net_command.c:
+    complete
     .text       start:0x02040b94 end:0x02041154
     .rodata     start:0x020932f0 end:0x02093378
     .data       start:0x0209ab24 end:0x0209abe8
     .bss        start:0x021418a0 end:0x021418a4
 
 src/gfl/net_state.c:
+    complete
     .text       start:0x02041154 end:0x020425a0
     .data       start:0x0209abe8 end:0x0209ace4
     .bss        start:0x021418a4 end:0x021418a8
@@ -282,6 +287,7 @@ src/gfl/billboard.c:
     .data       start:0x0209b00c end:0x0209b018
 
 src/gfl/billboard_act.c:
+    complete
     .text       start:0x0204f0f8 end:0x0204f864
     .rodata     start:0x0209401c end:0x02094038
     .data       start:0x0209b018 end:0x0209b028
@@ -390,6 +396,7 @@ src/system/bmp_menulist.c:
     .data       start:0x0209a454 end:0x0209a464
 
 src/system/palanm.c:
+    complete
     .text       start:0x02026dc0 end:0x020279b4
     .data       start:0x0209a480 end:0x0209a498
 

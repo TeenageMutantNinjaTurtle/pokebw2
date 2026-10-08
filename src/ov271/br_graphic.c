@@ -229,7 +229,7 @@ static ClActUnit *BrGraphic_OBJ_GetClunit(const BrGraphicOBJ *p_wk) {
 }
 
 // Releases the main engine's BGs and makes BG0 3D, for the musical photos
-void BrGraphic_StartMain3D(BrGraphic *p_wk) {
+void BrGraphic_StartMain3D(BrGraphic *p_wk, HeapID heapId) {
     u32 i;
 
     for (i = 0; i < BR_GRAPHIC_BG_NUM; i++) {
@@ -240,7 +240,7 @@ void BrGraphic_StartMain3D(BrGraphic *p_wk) {
     gfxSetEngineModeA(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_3D);
 }
 
-void BrGraphic_EndMain3D(BrGraphic *p_wk) {
+void BrGraphic_EndMain3D(BrGraphic *p_wk, HeapID heapId) {
     u32 i;
 
     G2_BlendNone();

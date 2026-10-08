@@ -254,7 +254,7 @@ BlActScene *BlActSys_GetScene(BlActSys *sys);
 // Load materials or actors and return the first's index, or BLACT_NONE for actors that do not fit
 u16 BlActSys_ExecMatLoadRequests(BlActSys *sys, const BlActMatRequest *requests, u32 count);
 u16 func_0204f31c(BlActSys *sys, u16 material, void *texResource);
-void BlActSys_FreeMaterials(BlActSys *sys, u32 first, u32 count);
+void BlActSys_FreeMaterials(BlActSys *sys, u16 first, u32 count);
 void func_0204f3a0(BlActSys *sys, u32 texMat);
 u16 func_0204f3bc(BlActSys *sys, u32 texMat);
 u16 BlActSys_ExecActorRequests(BlActSys *sys, u16 firstTexMat, const BlActActorRequest *requests, u32 count, u32 type);

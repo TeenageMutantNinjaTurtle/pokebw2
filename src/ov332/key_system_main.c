@@ -19,6 +19,7 @@
 #include "nitro/os.h"
 #include "save/key_info.h"
 #include "save/save_control.h"
+#include "save/save_outside.h"
 #include "system/bmp_winframe.h"
 #include "system/game_data.h"
 #include "system/gf_font.h"
@@ -732,8 +733,8 @@ void KeySystem_Setup(KeySystemWork *wk, HeapID heapId) {
 
     GFL_OvlLoad(OVERLAY_ID(331));
     GFL_OvlLoad(OVERLAY_ID(139));
-    wk->ov331Work = func_ov331_021bea20(heapId);
-    data = func_ov331_021bee80(wk->ov331Work);
+    wk->ov331Work = SaveOutside_Load(heapId);
+    data = SaveOutside_GetKeyData(wk->ov331Work);
     save = GameData_GetSaveControl(wk->param->gameData);
     wk->memoryLink = func_02010470(data);
     if (SaveControl_IsDataAlreadyPresent(save)) {
@@ -789,7 +790,7 @@ void KeySystem_Teardown(KeySystemWork *wk, BOOL keepSounds) {
     KeySystemClAct_FreeResources(&wk->clact);
     KeySystemGraphic_Free(wk->graphic);
     wk->graphic = NULL;
-    func_ov331_021bec1c(wk->ov331Work);
+    SaveOutside_Free(wk->ov331Work);
     wk->ov331Work = NULL;
     GFL_StrBufFree(wk->strBuf);
     wk->strBuf = NULL;

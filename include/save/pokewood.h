@@ -41,6 +41,9 @@ int func_020111ec(int value);
 // A bit for each of those levels
 BOOL func_0201122c(PokewoodSave *save, u32 bit);
 void func_02011240(PokewoodSave *save, u32 bit, u32 value);
+// The series (plus 1, 0 for none) of the last four movies filmed, from the newest (0) to the oldest (3), which
+// func_0201127c pushes a2 onto
+u8 func_02011270(PokewoodSave *save, u32 index);
 void func_0201127c(PokewoodSave *save, u32 a1, u32 a2, u8 *a3);
 // How many movies have their flag set in a list
 u32 func_020112d8(PokewoodSave *save, u32 list);

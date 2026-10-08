@@ -13,6 +13,15 @@ void func_0200c668(HighLinkSave *save, u32 passPower, int index);
 u32 func_0200c6a0(HighLinkSave *save, u32 id);
 // Copies two bytes of the save into dest
 void func_0200c6d8(HighLinkSave *save, u8 *dest, u32 a2);
+BOOL PassPower_IsIDValid(u32 passPower);
+// Starts a pass power, bought with Pass Orbs when paid is set
+void PassPower_Activate(u32 passPower, void *data, u32 paid);
+// A pass power's effect and its price in Pass Orbs, from the table of PassPowerData_Create
+u8 PassPowerData_GetEffect(void *data, u32 passPower);
+u16 PassPowerData_GetPrice(void *data, u32 passPower);
+// The pass powers that act at once: they restore the party's HP or PP
+void PassPower_ApplyHPRestore(PokeParty *party);
+void PassPower_ApplyPPRestore(PokeParty *party);
 u32 PassPower_GetUsedIDByEffect(int effect);
 BOOL PassPower_IsBW1Compatible(u32 passPower);
 u32 PassPower_GetRemainingSeconds(int effect);

@@ -23,8 +23,8 @@ void BrGraphic_Exit(BrGraphic *p_wk);
 void BrGraphic_Main(BrGraphic *p_wk);
 ClActUnit *BrGraphic_GetClunit(const BrGraphic *p_wk);
 // Releases the main screen's BGs to draw BG0 in 3D, and sets them up again
-void BrGraphic_StartMain3D(BrGraphic *p_wk);
-void BrGraphic_EndMain3D(BrGraphic *p_wk);
+void BrGraphic_StartMain3D(BrGraphic *p_wk, HeapID heapId);
+void BrGraphic_EndMain3D(BrGraphic *p_wk, HeapID heapId);
 
 // Reconstructed, not known from the ROM. MWCC puts BR_GRAPHIC_LCD_CONFIG_3D in the section of br_graphic.c's other
 // data, as the ROM has it, only when some code reads it before its definition. Nothing calls this

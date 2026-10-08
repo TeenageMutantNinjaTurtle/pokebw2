@@ -21,6 +21,7 @@ src/ov271/br_btn_data.c:
     .data       start:0x021f7d18 end:0x021f7d90
 
 src/ov271/br_btn.c:
+    complete
     .text       start:0x021f0aac end:0x021f23f8
     .rodata     start:0x021f71f0 end:0x021f7210
     .data       start:0x021f7c44 end:0x021f7d18
@@ -48,6 +49,7 @@ src/ov271/br_fade.c:
     .data       start:0x021f7ef0 end:0x021f7efc
 
 src/ov271/br_sidebar.c:
+    complete
     .text       start:0x021f5ba8 end:0x021f6264
     .rodata     start:0x021f7a0c end:0x021f7b2c
     .data       start:0x021f7efc end:0x021f7f14

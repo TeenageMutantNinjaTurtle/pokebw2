@@ -298,7 +298,7 @@ void func_ov167_021a43c0(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon
                          u32 arg5);
 void ServerControl_SimpleEffect(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets);
 void ServerControl_SimpleCondition(BtlServerFlow *flow, u16 move, BattleMon *mon, void *targets);
-void func_ov167_021a6c34(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets);
+void func_ov167_021a6c34(BtlServerFlow *flow, const BtlFlowMoveParam *param, BattleMon *mon, void *targets);
 void func_ov167_021a6d24(BtlServerFlow *flow, u16 move, BattleMon *mon, void *targets);
 void ServerControl_OHKO(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *mon, void *targets);
 void ServerControl_ForceSwitch(BtlServerFlow *flow, u16 move, BattleMon *mon, void *targets);
@@ -338,7 +338,7 @@ BOOL func_ov167_021a3cf0(BtlServerFlow *flow, BattleMon *mon, u16 move);
 void func_ov167_021a3ef4(BtlServerFlow *flow, BattleMon *mon, u16 move, s32 cause);
 void func_ov167_021a4250(BtlServerFlow *flow, BattleMon *mon, u16 move, u8 moveSlot, void *targets);
 u32 func_ov167_021a4278(BtlServerFlow *flow, BattleMon *mon, u8 moveSlot, u16 move, void *targets);
-void func_ov167_021a44f0(BtlServerFlow *flow, BattleMon *attacker, void *targets, BtlFlowMoveParam *param,
+void func_ov167_021a44f0(BtlServerFlow *flow, BattleMon *attacker, void *targets, const BtlFlowMoveParam *param,
                          void *effectiveness, u32 arg5, BtlFlowDamageList *list);
 u32 func_ov167_021a46d4(BtlFlowDamageList *list);
 u32 func_ov167_021a4754(BtlServerFlow *flow, BtlFlowDamageList *list, BattleMon **mons);
@@ -463,7 +463,7 @@ u32 ServerEvent_CheckMoveAddCondition(BtlServerFlow *flow, u16 move, BattleMon *
 BOOL ServerControl_MoveConditionCore(BtlServerFlow *flow, BattleMon *attacker, BattleMon *target, u16 move,
                                      u32 condition, BattleCondition value, BOOL flag);
 void ServerEvent_DamageAddEffect(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, BattleMon *target);
-void ServerControl_DamageAddCondition(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker,
+void ServerControl_DamageAddCondition(BtlServerFlow *flow, const BtlFlowMoveParam *param, BattleMon *attacker,
                                       BattleMon *target);
 void func_ov167_021a5198(BtlServerFlow *flow, BattleMon *mon, u32 cause);
 void func_ov167_021a5228(BtlServerFlow *flow, BtlFlowMoveParam *param, BattleMon *attacker, u8 count, BattleMon **mons);

@@ -63,7 +63,7 @@ static BOOL KeySystemNet_CheckBeacon(u32 gameId, u32 value);
 static void KeySystemNet_OnConnect(void *work);
 static void KeySystemNet_OnStart(void *work, BOOL a1);
 static void KeySystemNet_OnDisconnect(void *work);
-static void KeySystemNet_Receive(int netId, int size, void *data, void *work, NetHandle *handle);
+static void KeySystemNet_Receive(int netId, int size, const void *data, void *work, NetHandle *handle);
 static BOOL KeySystemNet_CanRequest(KeySystemNet *net, u32 request);
 static void KeySystemNet_Stop(KeySystemNet *net);
 static void KeySystemNet_OnError(KeySystemNet *net);
@@ -806,7 +806,7 @@ static void KeySystemNet_OnDisconnect(void *work) {
     }
 }
 
-static void KeySystemNet_Receive(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void KeySystemNet_Receive(int netId, int size, const void *data, void *work, NetHandle *handle) {
     KeySystemNet *net = work;
 
     if (handle == func_02040440() && netId != func_0203ffc4() && size < NET_BUFFER_SIZE) {

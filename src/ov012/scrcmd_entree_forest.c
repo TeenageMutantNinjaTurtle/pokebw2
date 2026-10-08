@@ -1,6 +1,7 @@
 // The Entree Forest's script commands and events: its Pokémon, catching one, and the warps between its areas. Names
 // from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0); the file's name is descriptive
 #include "types.h"
+#include "app/event_pdc_return.h"
 #include "app/pdc.h"
 #include "constants/pokemon.h"
 #include "field/entree_forest.h"
@@ -309,13 +310,13 @@ static GameEventReturnCode EventEntreeForestBattleCall_Callback(GameEvent *event
         }
         GFL_OvlUnload(OVERLAY_ID(172));
         GFL_OvlLoad(OVERLAY_ID(330));
-        data->returnWork = func_ov330_0219ce80(gameData, caught, data->pkm, data->heapId);
-        GSYS_QueueProcAsEvent(event, -1, &data_ov330_0219d1b4, data->returnWork);
+        data->returnWork = EventPdcReturn_CreateParam(gameData, caught, data->pkm, data->heapId);
+        GSYS_QueueProcAsEvent(event, -1, &EVENT_PDC_RETURN_PROC_FUNCTIONS, data->returnWork);
         BagSave_SubItem(GameData_GetBag(gameData), ITEM_DREAM_BALL, 1, data->heapId);
         (*state)++;
         break;
     case 6:
-        func_ov330_0219cea8(data->returnWork);
+        EventPdcReturn_FreeParam(data->returnWork);
         GFL_OvlUnload(OVERLAY_ID(330));
         GameEvent_ChainNext(event, EventBGMFadePop_Create(gsys));
         (*state)++;

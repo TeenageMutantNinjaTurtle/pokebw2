@@ -360,7 +360,7 @@ static void PokeListPlate_DrawInfo(PokeListWork *wk, PokeListPlate *plate, BOOL 
         PokeList_PrintString(wk, plate->window, msgId, 46, 31, 0x440);
         func_0204c124(plate->hpBar, FALSE);
     } else if (wk->wasMode19 == TRUE) {
-        u32 msgId = func_ov210_021eec80(plate->pkm) == TRUE ? 0x9a : 0x9b;
+        u32 msgId = MusicalSystem_CanJoin(plate->pkm) == TRUE ? 0x9a : 0x9b;
 
         PokeList_PrintString(wk, plate->window, msgId, 46, 31, 0x440);
     } else {
