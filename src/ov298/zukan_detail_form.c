@@ -1513,7 +1513,7 @@ static void ZukanDetailForm_CreateSprite(Sprite *sprite, HeapID heapId, MCSSSyst
                                          u32 sex, u32 rare, u32 a6, u32 back, u32 personality) {
     sprite->mcss = ZukanDetailForm_AddMCSS(system, species, form, sex, rare, a6, back, personality);
     sprite->anim = GFL_HeapAllocate(heapId, sizeof(SpriteAnim), TRUE, "zukan_detail_form.c", 2737);
-    NNS_G2dSetAnimCtrlCallBackFunctor(func_0201adc4(sprite->mcss), NNS_G2D_ANMCALLBACKTYPE_LAST_FRM, (u32)sprite->anim,
+    NNS_G2dSetAnimCtrlCallBackFunctor(&func_0201adc4(sprite->mcss)->animCtrl, NNS_G2D_ANMCALLBACKTYPE_LAST_FRM, (u32)sprite->anim,
                                       ZukanDetailForm_SpriteAnimEnd);
     ZukanDetailForm_InitSpritePositions(sprite->pos, species, form, sex, rare, a6, back, personality);
 }
@@ -1538,11 +1538,11 @@ static void ZukanDetailForm_InitSpriteAnim(SpriteAnim *anim, int sprite, ZukanDe
 
 static void ZukanDetailForm_PlaySpriteAnim(Sprite *sprite) {
     if (sprite->mcss != NULL && sprite->anim != NULL) {
-        NNSG2dAnimController *controller = func_0201adc4(sprite->mcss);
+        NNSG2dMultiCellAnimation *mcAnim = func_0201adc4(sprite->mcss);
 
         sprite->anim->loops = 0;
         sprite->anim->stop = FALSE;
-        func_020618c0(controller);
+        NNS_G2dRestartMCAnimation(mcAnim);
         MCSS_ResumeAnimation(sprite->mcss);
     }
 }
@@ -1555,11 +1555,11 @@ static void ZukanDetailForm_StopSpriteAnim(Sprite *sprite) {
 
 static void ZukanDetailForm_UpdateSprite(Sprite *sprite) {
     if (sprite->mcss != NULL && sprite->anim != NULL) {
-        NNSG2dAnimController *controller = func_0201adc4(sprite->mcss);
+        NNSG2dMultiCellAnimation *mcAnim = func_0201adc4(sprite->mcss);
 
         if (sprite->anim->stop) {
             MCSS_PauseAnimation(sprite->mcss);
-            func_020618c0(controller);
+            NNS_G2dRestartMCAnimation(mcAnim);
             sprite->anim->stop = FALSE;
         }
     }

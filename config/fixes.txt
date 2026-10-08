@@ -69,6 +69,7 @@
 . 0x0205ffb4 reloc_addend 4
 . 0x0205ffe4 reloc_addend 4
 . 0x02060020 reloc_addend 4
+. 0x020619ac section_end lib/nnsys/src/g2d/g2d_MultiCellAnimation.c:.text
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
 . 0x0207e92c add_function func_0207e92c:arm:0x8
@@ -80,8 +81,8 @@
 . 0x0207e954 remove_symbol
 . 0x0207e958 add_function MIC_StopAutoSampling:thumb:0x18
 . 0x0207e970 add_function func_0207e970:arm:0x8
-. 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
 . 0x0207e974 remove_symbol
+. 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
 . 0x0207e978 add_function func_0207e978:thumb:0xa8
 . 0x0208c224 add_label _dadd
 . 0x0208c908 add_label _dmul
@@ -140,6 +141,7 @@
 . 0x020941b8 add_data NNSi_FndUnitHeapAllocatorFuncs
 . 0x020941c0 add_data NNSi_FndFrameHeapAllocatorFuncs
 . 0x020941d0 add_data NNSi_FndSystemHeapAllocatorFuncs
+. 0x020942d4 add_data data_020942d4
 . 0x020956bc remove_symbol
 . 0x02097bfc remove_symbol
 . 0x0209b1bc reloc_addend 0x48
@@ -151,6 +153,7 @@
 . 0x0209b204 remove_symbol
 . 0x0209b21c remove_symbol
 . 0x0209b234 remove_symbol
+. 0x0209b258 add_data data_0209b258
 . 0x0210000b remove_symbol
 . 0x0210020f remove_symbol
 . 0x02141668 remove_symbol
@@ -1722,9 +1725,9 @@ overlays/ov307 0x021df70c add_data EGG_DEMO_VIEW_UNK_FX32
 overlays/ov310 0x021a7021 remove_symbol
 overlays/ov310 0x021a7028 section_end src/ov310/research_list.c:.rodata
 overlays/ov310 0x021a7028 add_data data_ov310_021a7028
-overlays/ov310 0x021a773c section_end src/ov310/research_graph.c:.rodata
 overlays/ov310 0x021a773c add_data ResearchCommon_Unused
 overlays/ov310 0x021a773c section_start src/ov310/research_common.c:.rodata
+overlays/ov310 0x021a773c section_end src/ov310/research_graph.c:.rodata
 overlays/ov311 0x0219d93c reloc_module overlay(139)
 overlays/ov311 0x0219d97c reloc_module overlay(139)
 overlays/ov311 0x0219da74 reloc_module overlay(139)

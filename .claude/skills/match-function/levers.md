@@ -172,6 +172,7 @@ text to `grep -n` there. Entries without a key come from later work and still be
   function returns an enum. (matching.md: "returns an enum")
 - `bne` over a `b` to the end at the top: the body is in an `if`, not after an early return. (matching.md: "An early `return`")
 - A flag built before its tests (`movs rX, #0` first) from an inline's `return a && b;`: write `if (a && b) { return TRUE; } return FALSE;`. (matching.md: "An inline that returns a condition")
+- An inline's 0/1 result materialized then tested (`movs r0, #1; b; movs r0, #0; cmp r0, #0`) where ours folds it into the branch: return `u32` with the if-form, or `return (BOOL)(a >= b);`. (matching.md: "An inline's 0/1 result")
 - A final boolean returned from a register shared with a `NULL` argument: `return f() == TRUE ? FALSE : TRUE;`.
   (matching.md: "ends in `return f(...) == TRUE")
 - Blocks are laid out in source order. A switch whose `default` code comes first had `default:` written first, and

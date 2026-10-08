@@ -85,6 +85,11 @@ typedef struct {
 } NNSG2dSVec2;
 
 typedef struct {
+    fx32 x;
+    fx32 y;
+} NNSG2dFVec2;
+
+typedef struct {
     NNSG2dSVec2 maxBounding;
     NNSG2dSVec2 minBounding;
 } NNSG2dCellBoundingRectS16;
@@ -110,9 +115,15 @@ static inline u8 NNSi_G2dGetCellBoundingSphereR(const NNSG2dCellData *cell) {
     return r << 2;
 }
 
+// Where each cell's characters are in the source data, for cell banks whose characters are transferred to VRAM
+typedef struct {
+    u32 srcDataOffset;
+    u32 szByte;
+} NNSG2dCellVramTransferData;
+
 typedef struct {
     u32 szByteMax;
-    void *pCellTransferDataArray;
+    NNSG2dCellVramTransferData *pCellTransferDataArray;
 } NNSG2dVramTransferData;
 
 // A cell bank's attributes: whether its cells are NNSG2dCellDataWithBR
@@ -128,8 +139,13 @@ typedef struct NNSG2dCellDataBank {
     NNSG2dUserExDataBlock *pExtendedData;
 } NNSG2dCellDataBank;
 
-static inline BOOL NNS_G2dCellDataBankHasVramTransferData(const NNSG2dCellDataBank *bank) {
-    return bank->pVramTransferData != NULL;
+// Returns u32 and tests with an if: as a BOOL, or returning the comparison, MWCC folds the 0/1 result into the test
+// that uses it, where g2d_CellAnimation.c's ApplyCurrentAnimResult_ builds it and tests it again
+static inline u32 NNS_G2dCellDataBankHasVramTransferData(const NNSG2dCellDataBank *bank) {
+    if (bank->pVramTransferData != NULL) {
+        return TRUE;
+    }
+    return FALSE;
 }
 
 // A multi-cell: its nodes, each a cell animation at a position
@@ -186,7 +202,7 @@ NNS_G2dGetUserExCellAttrBankFromMCBank(const NNSG2dMultiCellDataBank *bank) {
 }
 
 // Animations: banks of sequences of frames. A frame's content is an index, an NNSG2dAnimDataSRT or an
-// NNSG2dAnimDataT, by the sequence's animType (its low 16 bits)
+// NNSG2dAnimDataT, by the sequence's animType (its low 8 bits, as the multi-cell animation reads it)
 enum {
     NNS_G2D_ANIMELEM_INDEX,
     NNS_G2D_ANIMELEM_INDEX_SRT,
@@ -306,13 +322,65 @@ typedef struct {
     NNSG2dCallBackFunctor callbackFunctor;
 } NNSG2dAnimController;
 
+// The scale, rotation and translation of an animated cell, with flags for which of them are set. The flag and type
+// names, and the union with a matrix, which NNSi_G2dSrtcSetInitialValue's 0x18-byte clear suggests, are guesses
+enum {
+    NNS_G2D_SRTCONTROLTYPE_INVALID,
+    NNS_G2D_SRTCONTROLTYPE_SRT,
+};
+
+enum {
+    NNS_G2D_SRTFLAG_IDENTITY = 0,
+    NNS_G2D_SRTFLAG_SCALE = 1 << 1,
+    NNS_G2D_SRTFLAG_ROTZ = 1 << 2,
+    NNS_G2D_SRTFLAG_TRANS = 1 << 3,
+};
+
+typedef struct {
+    NNSG2dFVec2 scale;
+    NNSG2dSVec2 trans;
+    u16 rotZ;
+    u16 SRT_EnableFlag;
+} NNSG2dSRT;
+
+typedef struct {
+    u32 type;
+    union {
+        NNSG2dSRT srtData;
+        MtxFx32 affineMtx;
+    } data;
+} NNSG2dSRTControl;
+
+void NNSi_G2dSrtcSetTrans(NNSG2dSRTControl *srtCtrl, s16 x, s16 y);
+void NNSi_G2dSrtcSetSRTRotZ(NNSG2dSRTControl *srtCtrl, u16 rotZ);
+void NNSi_G2dSrtcSetSRTScale(NNSG2dSRTControl *srtCtrl, fx32 sx, fx32 sy);
+void NNSi_G2dSrtcInitControl(NNSG2dSRTControl *srtCtrl, u32 type);
+void NNSi_G2dSrtcSetInitialValue(NNSG2dSRTControl *srtCtrl);
+
+// A node of a multi-cell: its content, visible or not, at a position. The node type names are guesses
+enum {
+    NNS_G2D_NODETYPE_INVALID,
+    NNS_G2D_NODETYPE_CELL,
+};
+
+typedef struct {
+    void *pContent;
+    u32 type;
+    BOOL bVisible;
+    NNSG2dSRTControl srtCtrl;
+} NNSG2dNode;
+
+void NNSi_G2dInitializeNode(NNSG2dNode *node, u32 type);
+
 // A cell animation, and a multi-cell one, which animates cell animations together
+#define NNS_G2D_INVALID_CELL_TRANSFER_STATE_HANDLE 0xffffffff
+
 typedef struct {
     NNSG2dAnimController animCtrl;
     const NNSG2dCellData *pCurrentCell;
     const NNSG2dCellDataBank *pCellDataBank;
     u32 cellTransferStateHandle;
-    u8 srtCtrl[0x1c];
+    NNSG2dSRTControl srtCtrl;
 } NNSG2dCellAnimation;
 
 enum {
@@ -320,25 +388,30 @@ enum {
     NNS_G2D_MCTYPE_SHARE_CELLANIM,
 };
 
+// A multi-cell's cell animations: with NNS_G2D_MCTYPE_SHARE_CELLANIM, an array of NNSG2dMCCellAnimation that nodes
+// share by their cell animation index; otherwise an NNSG2dNode per node, each with its own cell animation
 typedef struct {
-    const void *pCurrentMultiCell;
-    const void *pAnimDataBank;
+    const NNSG2dMultiCellData *pCurrentMultiCell;
+    const NNSG2dAnimBankData *pAnimDataBank;
     u32 mcType;
     void *pCellAnimArray;
 } NNSG2dMultiCellInstance;
 
+// totalVideoFrame counts the frames of the multi-cells shown before the current one, for the nodes that play on
 typedef struct {
     NNSG2dAnimController animCtrl;
-    u32 unk30;
+    u16 totalVideoFrame;
+    u16 pad;
     NNSG2dMultiCellInstance multiCellInstance;
     const NNSG2dMultiCellDataBank *pMultiCellDataBank;
-    u8 srtCtrl[0x1c];
+    NNSG2dSRTControl srtCtrl;
 } NNSG2dMultiCellAnimation;
 
 // A cell animation of a multi-cell instance's array
 typedef struct {
     NNSG2dCellAnimation cellAnim;
-    u32 unk58;
+    // Whether the current multi-cell has set it up yet
+    BOOL bInited;
 } NNSG2dMCCellAnimation;
 
 // Find the block of their kind in a loaded graphics file and turn its offsets into pointers in place, returning FALSE
@@ -411,11 +484,20 @@ void NNS_G2dInitMCAnimationInstance(NNSG2dMultiCellAnimation *mcAnim, void *work
                                     const NNSG2dCellDataBank *cells, const NNSG2dMultiCellDataBank *mcBank,
                                     u32 mcType);
 void NNS_G2dSetAnimSequenceToMCAnimation(NNSG2dMultiCellAnimation *mcAnim, const NNSG2dAnimSequence *seq);
+void NNS_G2dTickMCInstance(NNSG2dMultiCellInstance *instance, fx32 frames);
 void NNS_G2dTickMCAnimation(NNSG2dMultiCellAnimation *mcAnim, fx32 frames);
 void NNS_G2dSetMCAnimationCurrentFrame(NNSG2dMultiCellAnimation *mcAnim, u16 frameIdx);
 void NNS_G2dSetMCAnimationSpeed(NNSG2dMultiCellAnimation *mcAnim, fx32 speed);
 // Restarts each cell animation of a multi-cell instance
 void NNS_G2dRestartMCCellAnimations(NNSG2dMultiCellInstance *instance);
+void NNS_G2dRestartMCAnimation(NNSG2dMultiCellAnimation *mcAnim);
+
+// Called for each node of a multi-cell instance with its cell animation; returning FALSE stops the traversal
+typedef BOOL (*NNSG2dMCTraverseNodeCallBack)(u32 param, const NNSG2dMultiCellHierarchyData *node,
+                                             NNSG2dCellAnimation *cellAnim, u16 nodeIdx);
+
+void NNS_G2dTraverseMCNodes(const NNSG2dMultiCellInstance *instance, NNSG2dMCTraverseNodeCallBack callback,
+                            u32 param);
 
 // Where an image or palette is in VRAM, for the 3D engine and each 2D engine, and loading one there
 typedef enum {
@@ -430,6 +512,11 @@ typedef enum {
 typedef struct {
     u32 baseAddrOfVram[NNS_G2D_VRAM_TYPE_MAX];
 } NNSG2dVRamLocation;
+
+// Sets every address of a location to NNS_G2D_VRAM_ADDR_NONE
+void NNSi_G2dInitializeVRamLocation(NNSG2dVRamLocation *location);
+void NNSi_G2dSetVramLocation(NNSG2dVRamLocation *location, NNSG2dVRamType type, u32 addr);
+u32 NNSi_G2dGetVramLocation(const NNSG2dVRamLocation *location, NNSG2dVRamType type);
 
 typedef struct {
     u32 sizeS;
@@ -452,9 +539,11 @@ typedef struct {
 } NNSG2dImagePaletteProxy;
 
 void NNS_G2dInitImageProxy(NNSG2dImageProxy *proxy);
+void NNS_G2dSetImageLocation(NNSG2dImageProxy *proxy, NNSG2dVRamType type, u32 addr);
 u32 NNS_G2dGetImageLocation(const NNSG2dImageProxy *proxy, NNSG2dVRamType type);
 BOOL NNS_G2dIsImageReadyToUse(const NNSG2dImageProxy *proxy, NNSG2dVRamType type);
 void NNS_G2dInitImagePaletteProxy(NNSG2dImagePaletteProxy *proxy);
+void NNS_G2dSetImagePaletteLocation(NNSG2dImagePaletteProxy *proxy, NNSG2dVRamType type, u32 addr);
 u32 NNS_G2dGetImagePaletteLocation(const NNSG2dImagePaletteProxy *proxy, NNSG2dVRamType type);
 BOOL NNS_G2dIsImagePaletteReadyToUse(const NNSG2dImagePaletteProxy *proxy, NNSG2dVRamType type);
 void NNS_G2dLoadImage1DMapping(const NNSG2dCharacterData *data, u32 baseAddr, NNSG2dVRamType type,
@@ -504,11 +593,6 @@ void NNS_G2dResetOamManagerBuffer(NNSG2dOamManagerInstance *man);
 
 // The renderer, which draws cells to the surfaces of the screens
 typedef struct {
-    fx32 x;
-    fx32 y;
-} NNSG2dFVec2;
-
-typedef struct {
     NNSG2dFVec2 posTopLeft;
     NNSG2dFVec2 sizeView;
 } NNSG2dViewRect;
@@ -550,10 +634,22 @@ void NNS_G2dInitRenderer(NNSG2dRendererInstance *rend);
 void NNS_G2dAddRendererTargetSurface(NNSG2dRendererInstance *rend, NNSG2dRenderSurface *surface);
 void NNS_G2dInitRenderSurface(NNSG2dRenderSurface *surface);
 
+// ab = a * b for 2D affine matrices; ab may be b. swan's name: the code shows no SDK name
+void MAT32_Mul(const MtxFx32 *a, const MtxFx32 *b, MtxFx32 *ab);
+
 // The cell transfer state manager, which transfers the characters of cell animations made with
 // NNS_G2dInitCellAnimationVramTransfered through a callback
 typedef struct {
-    u8 data[0x30];
+    NNSG2dVRamLocation dstVramLocation;
+    u32 szDst;
+    const void *pSrcNCGR;
+    const void *pSrcNCBR;
+    u32 szSrcData;
+    BOOL bActive;
+    u32 bDrawn;             // A bit per NNSG2dVRamType, set when the cell is drawn by that engine
+    u32 bTransferRequested; // A bit per NNSG2dVRamType
+    u32 srcOffset;
+    u32 szByte;
 } NNSG2dCellTransferState;
 
 typedef BOOL (*NNSG2dDmaCallBack)(u32 type, u32 dstAddr, void *pSrc, u32 szByte);
@@ -562,5 +658,203 @@ void NNS_G2dInitCellTransferStateManager(NNSG2dCellTransferState *states, u32 nu
 void NNS_G2dUpdateCellTransferStateManager(void);
 u32 NNS_G2dGetNewCellTransferStateHandle(void);
 void NNS_G2dFreeCellTransferStateHandle(u32 handle);
+NNSG2dCellTransferState *NNSi_G2dGetCellTransferState(u32 handle);
+void NNSi_G2dInitCellTransferState(u32 handle, u32 dstAddr3D, u32 dstAddr2DMain, u32 dstAddr2DSub, u32 szDst,
+                                   const void *pSrcNCGR, const void *pSrcNCBR, u32 szSrcData);
+void NNS_G2dSetCellTransferStateRequested(u32 handle, u32 srcOffset, u32 szByte);
+
+// Fonts: an NFTR file's font information (FINF), its glyph images (CGLP), their widths (CWDH) and the maps from
+// character codes to glyph indices (CMAP). The layouts are the SDK's; flags, which the glyph block's version 1.0 lacks,
+// says how the glyphs are rotated (the cases of NNS_G2dCharCanvasDrawChar)
+#define NNS_G2D_BINFILE_SIG_FONTDATA 0x4E465452 // 'NFTR'
+#define NNS_G2D_BINBLK_SIG_FINFDATA 0x46494E46  // 'FINF'
+#define NNS_G2D_BINBLK_SIG_CGLPDATA 0x43474C50  // 'CGLP'
+#define NNS_G2D_BINBLK_SIG_CWDHDATA 0x43574448  // 'CWDH'
+#define NNS_G2D_BINBLK_SIG_CMAPDATA 0x434D4150  // 'CMAP'
+
+#define NNS_G2D_GLYPH_INDEX_NOT_FOUND 0xffff
+
+typedef struct {
+    s8 left;
+    u8 glyphWidth;
+    s8 charWidth;
+} NNSG2dCharWidths;
+
+typedef struct {
+    u8 cellWidth;
+    u8 cellHeight;
+    u16 cellSize;
+    s8 baselinePos;
+    u8 maxCharWidth;
+    u8 bpp;
+    u8 flags;
+    u8 glyphTable[];
+} NNSG2dFontGlyph;
+
+typedef struct NNSG2dFontWidth {
+    u16 indexBegin;
+    u16 indexEnd;
+    struct NNSG2dFontWidth *pNext;
+    NNSG2dCharWidths widthTable[];
+} NNSG2dFontWidth;
+
+enum {
+    NNS_G2D_MAPMETHOD_DIRECT, // mapInfo[0] is the glyph index of ccodeBegin
+    NNS_G2D_MAPMETHOD_TABLE,  // mapInfo holds a glyph index per code
+    NNS_G2D_MAPMETHOD_SCAN,   // mapInfo is an NNSG2dCMapInfoScan
+};
+
+typedef struct {
+    u16 ccode;
+    u16 index;
+} NNSG2dCMapScanEntry;
+
+typedef struct {
+    u16 num;
+    NNSG2dCMapScanEntry entries[];
+} NNSG2dCMapInfoScan;
+
+typedef struct NNSG2dFontCodeMap {
+    u16 ccodeBegin;
+    u16 ccodeEnd;
+    u16 mappingMethod;
+    u16 reserved;
+    struct NNSG2dFontCodeMap *pNext;
+    u16 mapInfo[];
+} NNSG2dFontCodeMap;
+
+typedef struct {
+    u8 fontType;
+    s8 linefeed;
+    u16 alterCharIndex;
+    NNSG2dCharWidths defaultWidth;
+    u8 encoding;
+    NNSG2dFontGlyph *pGlyph;
+    NNSG2dFontWidth *pWidth;
+    NNSG2dFontCodeMap *pMap;
+} NNSG2dFontInformation;
+
+// Reads the next character of a string and moves past it
+typedef u16 (*NNSiG2dSplitCharCallback)(const void **ppChar);
+
+typedef struct {
+    NNSG2dFontInformation *pRes;
+    NNSiG2dSplitCharCallback cbCharSpliter;
+} NNSG2dFont;
+
+typedef struct {
+    const NNSG2dCharWidths *pWidths;
+    const u8 *image;
+} NNSG2dGlyph;
+
+typedef struct {
+    int width;
+    int height;
+} NNSG2dTextRect;
+
+// Loads a font: finds the font information in a loaded NFTR file and turns the file's offsets into pointers
+BOOL NNSi_G2dGetUnpackedFont(void *pNftrFile, NNSG2dFontInformation **ppFont);
+void NNSi_G2dUnpackNFT(NNSG2dBinaryFileHeader *pHeader);
+
+void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, void *pNftrFile);
+u16 NNSi_G2dSplitCharUTF16(const void **ppChar);
+u16 NNS_G2dFontFindGlyphIndex(const NNSG2dFont *pFont, u16 c);
+const NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(const NNSG2dFont *pFont, u16 idx);
+
+// A character's widths, or those of the font's alternate character when the font lacks it
+static inline const NNSG2dCharWidths *NNS_G2dFontGetCharWidths(const NNSG2dFont *pFont, u16 c) {
+    u16 idx = NNS_G2dFontFindGlyphIndex(pFont, c);
+
+    if (idx == NNS_G2D_GLYPH_INDEX_NOT_FOUND) {
+        idx = pFont->pRes->alterCharIndex;
+    }
+    return NNS_G2dFontGetCharWidthsFromIndex(pFont, idx);
+}
+
+static inline int NNS_G2dFontGetLineFeed(const NNSG2dFont *pFont) {
+    return pFont->pRes->linefeed;
+}
+
+// The width of the string up to its end or its first line feed, with hSpace between characters. *pPos is set to the
+// next line, or NULL at the end of the text
+int NNSi_G2dFontGetStringWidth(const NNSG2dFont *pFont, int hSpace, const void *str, const void **pPos);
+int NNSi_G2dFontGetTextHeight(const NNSG2dFont *pFont, int vSpace, const void *txt);
+NNSG2dTextRect NNSi_G2dFontGetTextRect(const NNSG2dFont *pFont, int hSpace, int vSpace, const void *txt);
+
+// Character canvases: text drawn into characters in VRAM or memory, laid out as a BG's characters or a 1D OBJ's. param
+// is the canvas's width in characters for a BG, and the log2 sizes of its largest OBJ for a 1D OBJ
+typedef struct NNSG2dCharCanvas NNSG2dCharCanvas;
+
+typedef void (*NNSiG2dDrawGlyphFunc)(const NNSG2dCharCanvas *pCC, const NNSG2dFont *pFont, int x, int y, int cl,
+                                     const NNSG2dGlyph *pGlyph);
+typedef void (*NNSiG2dClearFunc)(const NNSG2dCharCanvas *pCC, int cl);
+typedef void (*NNSiG2dClearAreaFunc)(const NNSG2dCharCanvas *pCC, int cl, int x, int y, int w, int h);
+
+typedef struct {
+    NNSiG2dDrawGlyphFunc pDrawGlyph;
+    NNSiG2dClearFunc pClear;
+    NNSiG2dClearAreaFunc pClearArea;
+} NNSiG2dCharCanvasVTable;
+
+struct NNSG2dCharCanvas {
+    u8 *charBase;
+    int areaWidth;
+    int areaHeight;
+    u8 dstBpp;
+    u32 param;
+    const NNSiG2dCharCanvasVTable *vtable;
+};
+
+typedef enum {
+    NNS_G2D_CHARA_COLORMODE_16 = 4,
+    NNS_G2D_CHARA_COLORMODE_256 = 8,
+} NNSG2dCharaColorMode;
+
+void NNS_G2dCharCanvasInitForBG(NNSG2dCharCanvas *pCC, void *charBase, int areaWidth, int areaHeight,
+                                NNSG2dCharaColorMode colorMode);
+void NNS_G2dCharCanvasInitForOBJ1D(NNSG2dCharCanvas *pCC, void *charBase, int areaWidth, int areaHeight,
+                                   NNSG2dCharaColorMode colorMode);
+// Draws a character with its top left at x, y in color cl and returns its width
+int NNS_G2dCharCanvasDrawChar(const NNSG2dCharCanvas *pCC, const NNSG2dFont *pFont, int x, int y, int cl, u16 ccode);
+void NNS_G2dMapScrToCharText(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth,
+                             int charNo, int cplt);
+int NNS_G2dCalcRequireOBJ1D(u32 areaWidth, u32 areaHeight);
+int NNS_G2dArrangeOBJ1D(GXOamAttr *oam, int areaWidth, int areaHeight, int x, int y, int color, int charName,
+                        int vramMode);
+
+// Text canvases: a font drawing into a character canvas, with spacing between characters and lines. Text is drawn in
+// the direction dir, (1, 0) for horizontal text, the line feed going 90 degrees clockwise from it. The flags place the
+// text's box at x, y and align its lines
+typedef struct {
+    const NNSG2dCharCanvas *pCanvas;
+    const NNSG2dFont *pFont;
+    int hSpace;
+    int vSpace;
+} NNSG2dTextCanvas;
+
+typedef struct {
+    s8 x;
+    s8 y;
+} NNSG2dTextDirection;
+
+#define NNS_G2D_VERTICALORIGIN_TOP 0x1
+#define NNS_G2D_VERTICALORIGIN_MIDDLE 0x2
+#define NNS_G2D_VERTICALORIGIN_BOTTOM 0x4
+#define NNS_G2D_HORIZONTALORIGIN_LEFT 0x8
+#define NNS_G2D_HORIZONTALORIGIN_CENTER 0x10
+#define NNS_G2D_HORIZONTALORIGIN_RIGHT 0x20
+#define NNS_G2D_VERTICALALIGN_TOP 0x40
+#define NNS_G2D_VERTICALALIGN_MIDDLE 0x80
+#define NNS_G2D_VERTICALALIGN_BOTTOM 0x100
+#define NNS_G2D_HORIZONTALALIGN_LEFT 0x200
+#define NNS_G2D_HORIZONTALALIGN_CENTER 0x400
+#define NNS_G2D_HORIZONTALALIGN_RIGHT 0x800
+
+void NNSi_G2dTextCanvasDrawString(const NNSG2dTextCanvas *pTxn, int x, int y, int cl, const void *str,
+                                  const void **ppEnd, NNSG2dTextDirection dir);
+void NNSi_G2dTextCanvasDrawText(const NNSG2dTextCanvas *pTxn, int x, int y, int cl, u32 flags, const void *txt,
+                                NNSG2dTextDirection dir);
+void NNSi_G2dTextCanvasDrawTextRect(const NNSG2dTextCanvas *pTxn, int x, int y, int w, int h, int cl, u32 flags,
+                                    const void *txt, NNSG2dTextDirection dir);
 
 #endif // POKEBW2_NNSYS_G2D_H

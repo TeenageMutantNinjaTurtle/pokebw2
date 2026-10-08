@@ -365,7 +365,7 @@ void ShinkaDemoView_Update(ShinkaDemoView *view) {
         ShinkaDemoView_SetMcssX(view, FX32_CONST(256));
         ShinkaDemoView_SetPiecesPosition(view, 0, FX32_CONST(-0.5), 0);
         view->mcssVisible = FALSE;
-        func_020618c0(func_0201adc4(view->mcss[view->current]));
+        NNS_G2dRestartMCAnimation(func_0201adc4(view->mcss[view->current]));
         break;
     case VIEW_UNUSED_7:
         if (view->frame >= 1) {
