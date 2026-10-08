@@ -153,6 +153,10 @@ Same instructions, registers swapped.
 
 ## Stack slots
 
+- Which of several locals of equal use MWCC spills follows where the group is declared among the function's other
+  locals, not their order among themselves; and a spilled local assigned last in both branches of an if/else has its
+  store merged into the join. `worldtrade.c`'s `WorldTrade_InitCellActor` declares `plttBuf` and then the four file
+  IDs in reverse before its other locals, and assigns the spilled `animFile` second in each branch.
 Same code, other `sp` offsets or frame size.
 
 - A pointer to an array element written to a local, `font = &app->fontOam[i]; font->bitmap = ...; font->oam = ...`,
