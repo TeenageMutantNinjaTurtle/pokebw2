@@ -2732,6 +2732,13 @@ overlays/ov168 0x021ef734 BtlvInput_PlayCancelSE
 overlays/ov168 0x021ef74c BtlvInput_PlayRotationSE
 overlays/ov168 0x021ef764 BtlvInput_PlayDecideSE2
 overlays/ov168 0x021ef77c BtlvInput_PlayBeepSE
+overlays/ov168 0x021f1c84 BtlvBGauge_Create
+overlays/ov168 0x021f1d34 BtlvBGauge_Delete
+overlays/ov168 0x021f1d4c BtlvBGauge_IsBusy
+overlays/ov168 0x021f1d5c BtlvBGauge_LoadResources
+overlays/ov168 0x021f1fb8 BtlvBGauge_FreeResources
+overlays/ov168 0x021f1ff4 BtlvBGauge_SlideTask
+overlays/ov168 0x021f2164 BtlvBGauge_SlideTaskEnd
 overlays/ov168 0x021f2d9c BtlvFingerCursor_Delete
 overlays/ov168 0x021f2dcc BtlvFingerCursor_Start
 overlays/ov168 0x021f2e84 BtlvFingerCursor_RemoveActor

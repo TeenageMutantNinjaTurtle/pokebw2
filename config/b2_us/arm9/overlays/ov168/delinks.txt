@@ -32,3 +32,14 @@ src/ov168/btlv_finger_cursor.c:
     .text       start:0x021f2cdc end:0x021f2f54
     .rodata     start:0x021f3ef4 end:0x021f3f0c
     .data       start:0x021f4214 end:0x021f4240
+
+src/ov168/btlv_b_gauge.c:
+    complete
+    .text       start:0x021f1c84 end:0x021f2174
+    .rodata     start:0x021f3e50 end:0x021f3e9c
+    .data       start:0x021f41e8 end:0x021f41f8
+
+src/ov168/btlv_bg.c:
+    complete
+    .text       start:0x021f26b8 end:0x021f2cdc
+    .data       start:0x021f4208 end:0x021f4214

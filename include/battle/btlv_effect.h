@@ -2,6 +2,7 @@
 #define POKEBW2_BATTLE_BTLV_EFFECT_H
 
 #include "types.h"
+#include "gfl/tcb.h"
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
@@ -35,6 +36,10 @@ typedef struct {
     u8 waitFrames;    // 0xd
     u16 color;        // 0xe
 } BtlvTexPaletteFade;
+
+// The effect's task slots: a task with its end function and group, and its end
+void func_ov168_021e035c(TCB *tcb, void (*endFunc)(TCB *tcb), u32 group);
+void func_ov168_021e03ac(TCB *tcb);
 
 // The effect tools at 0x021e0b7c-0x021e0d54
 void func_ov168_021e0b7c(const VecFx32 *start, const VecFx32 *end, VecFx32 *step, fx32 frames);

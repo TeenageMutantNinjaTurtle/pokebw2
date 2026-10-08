@@ -158,6 +158,8 @@ typedef struct BtlSetup BtlSetup;
 typedef struct BtlSetupTrainer BtlSetupTrainer;
 typedef struct FieldFollowWk FieldFollowWk;
 typedef struct FieldMenu FieldMenu;
+typedef struct BtlvBGauge BtlvBGauge;
+typedef struct BtlvBg BtlvBg;
 typedef struct BtlvCamera BtlvCamera;
 typedef struct BtlvCore BtlvCore;
 typedef struct BtlvField BtlvField;
