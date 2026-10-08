@@ -5879,11 +5879,11 @@ from:0x02198adc kind:thumb_call to:0x021ea8d4 module:overlay(87)
 from:0x02198ae2 kind:thumb_call to:0x0203cdc8 module:main
 from:0x02198af4 kind:load to:0x021ea8fd module:overlay(87)
 from:0x02198b00 kind:load to:0x021ea955 module:overlay(87)
-from:0x02198b0c kind:load to:0x021ea9e5 module:overlays(83,87)
+from:0x02198b0c kind:load to:0x021ea9e5 module:overlay(87)
 from:0x02198b18 kind:load to:0x021ea9f9 module:overlay(87)
 from:0x02198b24 kind:load to:0x021eaa5d module:overlay(87)
 from:0x02198b30 kind:load to:0x021eaa91 module:overlay(87)
-from:0x02198b3c kind:load to:0x021eaaa9 module:overlays(83,87)
+from:0x02198b3c kind:load to:0x021eaaa9 module:overlay(87)
 from:0x02198b48 kind:load to:0x021eaa3d module:overlays(87,168)
 from:0x02198b52 kind:thumb_call to:0x0203ce0c module:main
 from:0x02198b58 kind:thumb_call to:0x021804bc module:overlay(36)
