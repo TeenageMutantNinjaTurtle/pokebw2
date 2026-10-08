@@ -990,3 +990,76 @@ lib/nnsys/src/snd/snd_capture.c:
     complete
     .text       start:0x0206c838 end:0x0206c9bc
     .bss        start:0x02149874 end:0x02149910
+
+lib/nnsys/src/g3d/kernel.c:
+    .text       start:0x02064f8c end:0x02065698
+
+lib/nnsys/src/g3d/glbstate.c:
+    .text       start:0x02065698 end:0x02065c58
+    .bss        start:0x02143a0c end:0x02143c70
+
+lib/nnsys/src/g3d/anm.c:
+    .text       start:0x02065c58 end:0x02066144
+    .data       start:0x0209b284 end:0x0209b2f8
+
+lib/nnsys/src/g3d/cgtool.c:
+    .data       start:0x0209b2f8 end:0x0209b320
+
+lib/nnsys/src/g3d/sbc.c:
+    .text       start:0x02066144 end:0x02067b60
+    .rodata     start:0x02094414 end:0x02094458
+    .data       start:0x0209b320 end:0x0209b4a0
+    .bss        start:0x02143c70 end:0x02146974
+
+lib/nnsys/src/g3d/gecom.c:
+    .text       start:0x02067b60 end:0x02067da4
+    .bss        start:0x02146974 end:0x02146980
+
+lib/nnsys/src/g3d/util.c:
+    .text       start:0x02067da4 end:0x0206818c
+
+lib/nnsys/src/g3d/mem.c:
+    .text       start:0x0206818c end:0x020681c0
+
+lib/nnsys/src/g3d/model.c:
+    .text       start:0x020681c0 end:0x02068458
+
+lib/nnsys/src/g3d/res_struct_accessor.c:
+    .text       start:0x02068458 end:0x0206868c
+
+lib/nnsys/src/g3d/res_struct_accessor_anm.c:
+    .text       start:0x0206868c end:0x02068764
+
+lib/nnsys/src/g3d/nsbca.c:
+    .text       start:0x02068764 end:0x0206970c
+    .rodata     start:0x02094458 end:0x0209447c
+
+lib/nnsys/src/g3d/nsbma.c:
+    .text       start:0x0206970c end:0x02069a18
+
+lib/nnsys/src/g3d/nsbta.c:
+    .text       start:0x02069a18 end:0x02069d28
+
+lib/nnsys/src/g3d/nsbtp.c:
+    .text       start:0x02069d28 end:0x02069ee4
+
+lib/nnsys/src/g3d/nsbva.c:
+    .text       start:0x02069ee4 end:0x02069f40
+
+lib/nnsys/src/g3d/basic.c:
+    .text       start:0x02069f40 end:0x02069fbc
+
+lib/nnsys/src/g3d/maya.c:
+    .text       start:0x02069fbc end:0x0206a714
+    .data       start:0x0209b4a0 end:0x0209b4c0
+
+lib/nnsys/src/g3d/si3d.c:
+    .text       start:0x0206a714 end:0x0206ac28
+
+lib/nnsys/src/g3d/3dsmax.c:
+    .text       start:0x0206ac28 end:0x0206b26c
+    .data       start:0x0209b4c0 end:0x0209b4e0
+
+lib/nnsys/src/g3d/xsi.c:
+    .text       start:0x0206b26c end:0x0206b8d4
+    .data       start:0x0209b4e0 end:0x0209b500

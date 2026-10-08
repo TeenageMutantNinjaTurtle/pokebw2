@@ -8804,6 +8804,7 @@ NNS_G3D_JOINT_SCALE_FUNCS kind:data(any) addr:0x0209b304
 NNS_G3D_TEX_MATRIX_FUNCS kind:data(any) addr:0x0209b310
 data_0209b320 kind:data(any) addr:0x0209b320
 data_0209b324 kind:data(any) addr:0x0209b324
+sEnvMapCmd kind:data(any) addr:0x0209b328
 data_0209b32c kind:data(any) addr:0x0209b32c
 NNS_G3D_MATERIAL_APPLY_FUNCS kind:data(any) addr:0x0209b330
 data_0209b340 kind:data(any) addr:0x0209b340
@@ -9204,7 +9205,6 @@ data_02143bcc kind:bss addr:0x02143bcc
 data_02143c0c kind:bss addr:0x02143c0c
 g_NNSG3DModelRenderer kind:bss addr:0x02143c70
 g_NNSMaterials kind:bss addr:0x02143c74
-data_0214409a kind:bss addr:0x0214409a
 g_NNSG3DJointScales kind:bss addr:0x02144a74
 data_02144a78 kind:bss addr:0x02144a78
 data_02144a7c kind:bss addr:0x02144a7c
@@ -9215,6 +9215,7 @@ g_NNSG3DIBPMatrices kind:bss addr:0x02145074
 data_021450b4 kind:bss addr:0x021450b4
 data_02146974 kind:bss addr:0x02146974
 data_02146978 kind:bss addr:0x02146978
+NNS_G3dFlagUseFastDma kind:bss addr:0x0214697c
 sCurDriverInfo kind:bss addr:0x02146980
 sPreSleepCallback kind:bss addr:0x02146990
 sPostSleepCallback kind:bss addr:0x021469a0
