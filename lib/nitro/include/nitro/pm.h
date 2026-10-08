@@ -23,4 +23,28 @@ u32 PM_GetBattery(u32 *battery);
 u32 PM_GetBatteryLevel(u16 *level);
 void PM_GoSleepMode(u32 trigger, u32 logic, u16 keyPattern);
 
+// Callbacks run before the system sleeps and after it wakes, in lists ordered by priority: the TwlSDK's
+// PM_PrependPreSleepCallback, PM_AppendPostSleepCallback, PM_DeletePreSleepCallback and PM_DeletePostSleepCallback,
+// by their code
+typedef void (*PMGenCallback)(void *arg);
+
+typedef struct PMGenCallbackInfo {
+    PMGenCallback callback;
+    void *arg;
+    int priority;
+    struct PMGenCallbackInfo *next;
+} PMGenCallbackInfo;
+
+typedef PMGenCallbackInfo PMSleepCallbackInfo;
+
+static inline void PM_SetSleepCallbackInfo(PMSleepCallbackInfo *info, PMGenCallback callback, void *arg) {
+    info->callback = callback;
+    info->arg = arg;
+}
+
+void func_0207f5e8(PMSleepCallbackInfo *info);
+void func_0207f600(PMSleepCallbackInfo *info);
+void func_0207f62c(PMSleepCallbackInfo *info);
+void func_0207f63c(PMSleepCallbackInfo *info);
+
 #endif // POKEBW2_NITRO_PM_H

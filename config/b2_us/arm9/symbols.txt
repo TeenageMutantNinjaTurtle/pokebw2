@@ -9234,7 +9234,9 @@ data_021497a8 kind:bss addr:0x021497a8
 data_021497b4 kind:bss addr:0x021497b4
 data_021497f4 kind:bss addr:0x021497f4
 data_02149874 kind:bss addr:0x02149874
+sCaptureReserved kind:bss addr:0x02149878
 data_0214987c kind:bss addr:0x0214987c
+sCaptureMsgBuf kind:bss addr:0x0214989c
 data_021498bc kind:bss addr:0x021498bc
 data_02149910 kind:bss addr:0x02149910
 data_02149914 kind:bss addr:0x02149914
@@ -9245,8 +9247,6 @@ data_02149980 kind:bss addr:0x02149980
 data_02149b00 kind:bss addr:0x02149b00
 data_02149d00 kind:bss addr:0x02149d00
 data_0214a2f0 kind:bss addr:0x0214a2f0
-data_0214b3b8 kind:bss addr:0x0214b3b8
-data_0214b3d0 kind:bss addr:0x0214b3d0
 data_0214b3dc kind:bss addr:0x0214b3dc
 data_0214b3e0 kind:bss addr:0x0214b3e0
 data_0214b440 kind:bss addr:0x0214b440

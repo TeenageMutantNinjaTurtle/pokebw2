@@ -73,6 +73,10 @@
 . 0x02062088 reloc_addend 0x400
 . 0x02062090 reloc_addend 4
 . 0x0206269c reloc_addend 0x400
+. 0x0206e1dc reloc_addend 0x10c8
+. 0x0206e228 reloc_addend 0x10e0
+. 0x0206e3fc reloc_addend 0x10c8
+. 0x0206e4dc reloc_addend 0x10e0
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
 . 0x0207e92c add_function func_0207e92c:arm:0x8
@@ -84,8 +88,8 @@
 . 0x0207e954 add_reloc load,ltd_autoload(0),0x02703c60
 . 0x0207e958 add_function MIC_StopAutoSampling:thumb:0x18
 . 0x0207e970 add_function func_0207e970:arm:0x8
-. 0x0207e974 remove_symbol
 . 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
+. 0x0207e974 remove_symbol
 . 0x0207e978 add_function func_0207e978:thumb:0xa8
 . 0x0208c224 add_label _dadd
 . 0x0208c908 add_label _dmul
@@ -178,6 +182,10 @@
 . 0x021435dc remove_symbol
 . 0x021439d8 remove_symbol
 . 0x021439f8 add_data data_021439f8
+. 0x02149878 add_data sCaptureReserved
+. 0x0214989c add_data sCaptureMsgBuf
+. 0x0214b3b8 remove_symbol
+. 0x0214b3d0 remove_symbol
 overlays/ov000 0x0214f870 overlay_id 199
 overlays/ov000 0x0214f874 reloc_module overlay(199)
 overlays/ov000 0x0214f878 overlay_id 182

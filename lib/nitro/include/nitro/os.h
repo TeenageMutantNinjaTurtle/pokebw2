@@ -21,6 +21,8 @@ void cp15_halt(void);
 void cp15_flushDC(const void *addr, u32 size);
 // Discards a range of the data cache, after DMA writes it. NitroSDK's DC_InvalidateRange
 void cp15_invalidateDC(void *addr, u32 size);
+// Writes a range of the data cache back to memory, keeping it cached. NitroSDK's DC_StoreRange
+void cp15_cleanDC(const void *addr, u32 size);
 
 // The start of DTCM, where the linker places the DTCM module
 extern u32 SDK_AUTOLOAD_DTCM_START[];
@@ -155,5 +157,61 @@ typedef struct {
 void OS_GetOwnerInfo(OSOwnerInfo *info);
 
 int OS_SNPrintf(char *dst, u32 len, const char *format, ...);
+
+// NitroSDK's message queues: a ring of messages, with the threads waiting to send and to receive
+typedef void *OSMessage;
+
+#define OS_MESSAGE_NOBLOCK 0
+
+typedef struct OSThreadQueue {
+    struct OSThread *head;
+    struct OSThread *tail;
+} OSThreadQueue;
+
+typedef struct OSMessageQueue {
+    OSThreadQueue queueSend;
+    OSThreadQueue queueReceive;
+    OSMessage *msgArray;
+    s32 msgCount;
+    s32 firstIndex;
+    s32 usedCount;
+} OSMessageQueue;
+
+// OS_InitMessageQueue isn't in the game; only code the linker dropped calls it
+void OS_InitMessageQueue(OSMessageQueue *mq, OSMessage *msgArray, s32 msgCount);
+BOOL OS_ReceiveMessage(OSMessageQueue *mq, OSMessage *msg, s32 flags);
+
+// NitroSDK's threads, under swan's names: OS_CreateThread, whose stack is its top, OS_SleepThread, which sleeps on
+// queue until OS_WakeupThread wakes it, and OS_WakeupThreadDirect, which starts a new thread. The thread's fields
+// aren't known yet
+typedef struct OSThread {
+    u8 data[0xc0];
+} OSThread;
+
+static inline void OS_InitThreadQueue(OSThreadQueue *queue) {
+    queue->head = queue->tail = NULL;
+}
+
+void scheduler_init_thread(OSThread *thread, void (*func)(void *), void *arg, void *stack, u32 stackSize, u32 prio);
+void scheduler_yield(OSThreadQueue *queue);
+void OS_WakeupThread(OSThreadQueue *queue);
+void scheduler_start_thread(OSThread *thread);
+
+// NitroSDK's mutexes, which a thread may lock again; OS_LockMutex sleeps until the mutex is free
+typedef struct OSMutexLink {
+    struct OSMutex *next;
+    struct OSMutex *prev;
+} OSMutexLink;
+
+typedef struct OSMutex {
+    OSThreadQueue queue;
+    OSThread *thread;
+    s32 count;
+    OSMutexLink link;
+} OSMutex;
+
+void OS_InitMutex(OSMutex *mutex);
+void OS_LockMutex(OSMutex *mutex);
+void OS_UnlockMutex(OSMutex *mutex);
 
 #endif // POKEBW2_NITRO_OS_H
