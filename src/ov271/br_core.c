@@ -89,7 +89,7 @@ static const BrProcData sBrProcTable[BR_PROCID_MAX] = {
                             BrCore_BvSaveAfter },
     [BR_PROCID_MUSICAL_LOOK] = { &data_ov270_021efe00, sizeof(BrMusicalLookProcParam), OVERLAY_ID(270),
                                  BrCore_MusicalLookBefore, BrCore_MusicalLookAfter },
-    [BR_PROCID_MUSICAL_SEND] = { &data_ov269_021ef77c, sizeof(BrMusicalSendProcParam), OVERLAY_ID(269),
+    [BR_PROCID_MUSICAL_SEND] = { &BR_MUSICAL_SEND_PROC_FUNCTIONS, sizeof(BrMusicalSendProcParam), OVERLAY_ID(269),
                                  BrCore_MusicalSendBefore, BrCore_MusicalSendAfter },
 };
 
@@ -303,7 +303,7 @@ static void BrCore_MenuBefore(void *param, void *work, const void *preParam, u32
         case BR_PROCID_MUSICAL_SEND: {
             const BrMusicalSendProcParam *musicalParam = preParam;
 
-            if (musicalParam->unk1C == 0) {
+            if (!musicalParam->isSend) {
                 p->fadeType = 4;
             }
             p->menuID = 10;

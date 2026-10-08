@@ -305,6 +305,13 @@ void func_ov036_021878d0(void *msgBGSys);
 void func_ov036_0218796c(void *msgBGSys);
 void func_ov036_02187760(void *msgBGSys);
 void func_ov036_0218776c(void *msgBGSys);
+// Releases the BG of the field's message BG and returns TRUE, or returns FALSE if it has none
+BOOL func_ov036_02187868(void *msgBGSys);
+void func_ov036_021879c0(void *msgBGSys);
+// The state of a message window of the field's message BG. fld_faceup.c moves the mouth from state 0 to state 2,
+// which looks like printing and finished
+u32 func_ov036_02188cbc(void *window);
+void func_ov036_021b5180(PlaceName *placeName);
 // Overlay 34, which the Union Room and the Entralink load
 void *func_ov034_0217b768(HeapID heapId);
 void func_ov034_0217b794(void *work);

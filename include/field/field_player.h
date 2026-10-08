@@ -41,5 +41,8 @@ BOOL CheckCanInteractWaterfall(FieldPlayer *player, u32 tileUnder, u32 tileInFro
 FieldPlayer *FieldPlayer_Create(PlayerState *state, Field *field, const VecFx32 *pos, u32 sex, HeapID heapId);
 void FieldPlayer_Free(FieldPlayer *player);
 void FieldPlayer_SyncState(FieldPlayer *player);
+void FieldPlayer_ForceBrake(FieldPlayer *player);
+void FieldPlayer_SetRailPos(FieldPlayer *player, const RailPosition *pos);
+void FieldPlayer_GetRailWorldPos(FieldPlayer *player, VecFx32 *pos);
 
 #endif // POKEBW2_FIELD_FIELD_PLAYER_H

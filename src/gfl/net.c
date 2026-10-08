@@ -330,7 +330,7 @@ BOOL func_02042a80(int netId) {
     return func_0204044c(func_02040414(netId));
 }
 
-void func_02042a9c(int unused, int a1) {
+void func_02042a9c(NetHandle *handle, int a1) {
     GFLNetSys *pNet = func_02042e78();
 
     if (pNet->pDevTable->unkB8 != NULL) {

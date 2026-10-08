@@ -159,6 +159,7 @@ void func_ov036_0219634c(FieldActor *actor, u16 *a1, u16 *a2);
 void func_ov036_021963a4(FieldActor *actor, u16 a1, u16 a2);
 // The unit vector of a direction along the actor's rail
 void func_ov036_02195a78(FieldActor *actor, u16 dir, VecFx16 *dest);
+void func_ov036_02195a58(FieldActor *actor, VecFx16 *dest);
 u32 GetIndexOfObjID(u16 objCode);
 
 // Overlay 36's table that func_ov036_02194650 indexes, by a record's unk9

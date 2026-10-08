@@ -237,7 +237,7 @@ from:0x021511fe kind:thumb_call to:0x02151fc8 module:overlay(12)
 from:0x02151208 kind:thumb_call to:0x02152288 module:overlay(12)
 from:0x02151214 kind:thumb_call to:0x0203a278 module:main
 from:0x0215121a kind:thumb_call to:0x0203a278 module:main
-from:0x02151224 kind:thumb_call to:0x021eee18 module:overlays(97,210)
+from:0x02151224 kind:thumb_call to:0x021eee18 module:overlay(210)
 from:0x0215122e kind:thumb_call to:0x0203a278 module:main
 from:0x02151238 kind:thumb_call to:0x0215245c module:overlay(12)
 from:0x0215124e kind:thumb_call to:0x02151f9c module:overlay(12)
@@ -250,7 +250,7 @@ from:0x021512dc kind:thumb_call to:0x021522f0 module:overlay(12)
 from:0x021512f0 kind:thumb_call to:0x021525d4 module:overlay(12)
 from:0x02151316 kind:thumb_call to:0x02152464 module:overlay(12)
 from:0x0215133a kind:thumb_call to:0x021f0540 module:overlay(211)
-from:0x02151360 kind:thumb_call to:0x021eef78 module:overlays(109,130,210)
+from:0x02151360 kind:thumb_call to:0x021eef78 module:overlay(210)
 from:0x0215138e kind:thumb_call to:0x021ef1a4 module:overlay(210)
 from:0x02151398 kind:thumb_call to:0x02152684 module:overlay(12)
 from:0x021513bc kind:thumb_call to:0x021eefa4 module:overlays(99,210)
@@ -283,7 +283,7 @@ from:0x021516ee kind:thumb_call to:0x0200ae84 module:main
 from:0x02151700 kind:thumb_call to:0x0200aea4 module:main
 from:0x02151708 kind:thumb_call to:0x0200aedc module:main
 from:0x02151710 kind:thumb_call to:0x0200af1c module:main
-from:0x02151722 kind:thumb_call to:0x021eef78 module:overlays(109,130,210)
+from:0x02151722 kind:thumb_call to:0x021eef78 module:overlay(210)
 from:0x02151744 kind:thumb_call to:0x021ef1a4 module:overlay(210)
 from:0x02151766 kind:thumb_call to:0x0200aec8 module:main
 from:0x02151776 kind:thumb_call to:0x021eefa4 module:overlays(99,210)
@@ -458,7 +458,7 @@ from:0x0215240c kind:thumb_call to:0x02043f58 module:main
 from:0x0215241a kind:thumb_call_arm to:0x0208d638 module:main
 from:0x02152458 kind:load to:0x0216e048 module:overlay(12)
 from:0x02152460 kind:load to:0x0203a279 module:main
-from:0x0215246c kind:thumb_call to:0x021eef78 module:overlays(109,130,210)
+from:0x0215246c kind:thumb_call to:0x021eef78 module:overlay(210)
 from:0x021524ba kind:thumb_call to:0x021ef1a4 module:overlay(210)
 from:0x021524f0 kind:thumb_call_arm to:0x0208d688 module:main
 from:0x02152544 kind:thumb_call to:0x021eefa4 module:overlays(99,210)
