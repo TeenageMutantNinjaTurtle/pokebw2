@@ -5,7 +5,7 @@
 #include "types.h"
 #include "battle/btl_main.h"
 #include "battle/btl_pokeparam.h"
-#include "battle/btlv.h"
+#include "battle/btlv_effect.h"
 #include "constants/battle.h"
 #include "constants/pokemon.h"
 #include "constants/sound.h"
@@ -194,7 +194,7 @@ BtlvGauge *BtlvGauge_Create(Font *font, u32 mode, HeapID heapId) {
     gauge->bgm = GFL_SndBGMGetID();
     flash = GFL_HeapAllocate(heapId, sizeof(BtlvGaugeFlashTask), TRUE, "btlv_gauge.c", 355);
     flash->gauge = gauge;
-    gauge->flashTask = GFL_TCBMgrAddTask(func_ov168_021e00ac(), BtlvGauge_FlashTask, flash, 0);
+    gauge->flashTask = GFL_TCBMgrAddTask(BtlvEffect_GetTCBManager(), BtlvGauge_FlashTask, flash, 0);
     gauge->mode = mode;
     if (mode != 2) {
         BtlvGauge_LoadResources(gauge);
@@ -222,7 +222,7 @@ void BtlvGauge_Update(BtlvGauge *gauge) {
 
     GCTX_HIDGetPressedKeys();
     if (gauge->toggleRequest) {
-        u32 rule = func_ov168_021e00e8();
+        u32 rule = BtlvEffect_GetBattleStyle();
 
         gauge->toggleRequest = FALSE;
         if (rule != BTL_STYLE_SINGLE && rule != BTL_STYLE_DOUBLE) {
@@ -396,7 +396,7 @@ static void BtlvGauge_LoadResources(BtlvGauge *gauge) {
     for (i = 0; i < 6; i++) {
         gauge->palettes[i] =
             func_0204bba0(gauge->arc, BtlvGauge_PaletteFile(), CLACT_VRAM_MAIN, i * 0x20, gauge->heapId);
-        PaletteFade_LoadFromVRAM(func_ov168_021e00b8(), PALFADE_VRAM_MAIN_OBJ,
+        PaletteFade_LoadFromVRAM(BtlvEffect_GetPaletteFade(), PALFADE_VRAM_MAIN_OBJ,
                                  func_0204bdc0(gauge->palettes[i], FALSE) / 2, 0x20);
     }
     arc = GFL_ArcSysCreateFileHandle(getUINarcIdx(), HEAPID_TAIL(gauge->heapId));
@@ -404,15 +404,15 @@ static void BtlvGauge_LoadResources(BtlvGauge *gauge) {
     gauge->statusCellAnims = func_0204bde0(arc, func_0202d8b8(1), func_0202d8bc(1), gauge->heapId);
     gauge->statusPalette = func_0204bba0(arc, func_0202d8b0(), CLACT_VRAM_MAIN, 0x100, gauge->heapId);
     gauge->statusPaletteDark = func_0204bba0(arc, func_0202d8b0(), CLACT_VRAM_MAIN, 0x120, gauge->heapId);
-    PaletteFade_LoadFromVRAM(func_ov168_021e00b8(), PALFADE_VRAM_MAIN_OBJ,
+    PaletteFade_LoadFromVRAM(BtlvEffect_GetPaletteFade(), PALFADE_VRAM_MAIN_OBJ,
                              func_0204bdc0(gauge->statusPalette, FALSE) / 2, 0x20);
-    PaletteFade_LoadFromVRAM(func_ov168_021e00b8(), PALFADE_VRAM_MAIN_OBJ,
+    PaletteFade_LoadFromVRAM(BtlvEffect_GetPaletteFade(), PALFADE_VRAM_MAIN_OBJ,
                              func_0204bdc0(gauge->statusPaletteDark, FALSE) / 2, 0x20);
-    PaletteFade_BlendPalettes(func_ov168_021e00b8(), PALFADE_BUFFER_MAIN_OBJ, 1 << 9, 8, 0);
+    PaletteFade_BlendPalettes(BtlvEffect_GetPaletteFade(), PALFADE_BUFFER_MAIN_OBJ, 1 << 9, 8, 0);
     GFL_ArcToolFree(arc);
     gauge->charFile = GFL_G2DIOReadOBJNCGRArc(gauge->arc, 0x1b2, FALSE, &character, gauge->heapId);
     gauge->chars = character->rawData;
-    switch (func_ov168_021e00e8()) {
+    switch (BtlvEffect_GetBattleStyle()) {
     case BTL_STYLE_SINGLE:
         start = 0;
         end = 1;
@@ -509,7 +509,7 @@ static void BtlvGauge_CreateActors(BtlvGauge *gauge, u32 type, int index) {
         func_0204bcd0(gauge->palettes[slot]);
         gauge->palettes[slot] =
             func_0204bbb8(gauge->arc, paletteFile, CLACT_VRAM_MAIN, slot * 0x20, 0, 1, gauge->heapId);
-        PaletteFade_LoadFromVRAM(func_ov168_021e00b8(), PALFADE_VRAM_MAIN_OBJ,
+        PaletteFade_LoadFromVRAM(BtlvEffect_GetPaletteFade(), PALFADE_VRAM_MAIN_OBJ,
                                  func_0204bdc0(gauge->palettes[slot], FALSE) / 2, 0x20);
     }
     gauge->entries[index].nameChars = func_0204b81c(gauge->arc, charsFile, FALSE, CLACT_VRAM_MAIN, gauge->heapId);
@@ -550,7 +550,7 @@ static void BtlvGauge_CreateActors(BtlvGauge *gauge, u32 type, int index) {
         gauge->entries[index].hpBarActor =
             func_0204c040(gauge->unit, gauge->entries[index].hpBarChars, gauge->palettes[slot],
                           gauge->entries[index].hpBarCellAnims, &setup, CLACT_SURFACE_MAIN, gauge->heapId);
-        if (func_ov168_021e00e8() == BTL_STYLE_ROTATION && index >= 4) {
+        if (BtlvEffect_GetBattleStyle() == BTL_STYLE_ROTATION && index >= 4) {
             gauge->entries[index].statusActor =
                 func_0204c040(gauge->unit, gauge->statusChars, gauge->statusPaletteDark, gauge->statusCellAnims, &setup,
                               CLACT_SURFACE_MAIN, gauge->heapId);
@@ -617,13 +617,13 @@ static void BtlvGauge_Show(BtlvGauge *gauge, u32 type, int index, PartyPkm *pkm)
     BtlvGauge_DrawSex(gauge, &gauge->entries[index]);
     BtlvGauge_DrawHpNumbers(gauge, &gauge->entries[index], gauge->entries[index].mon.hp);
     BtlvGauge_DrawLevel(gauge, &gauge->entries[index]);
-    if (gauge->entries[index].mon.side && !func_ov168_021e00f8()) {
+    if (gauge->entries[index].mon.side && !BtlvEffect_GetBattleType()) {
         BtlvGauge_DrawCaughtMark(gauge, &gauge->entries[index]);
     }
     gauge->entries[index].mon.shown = TRUE;
     gauge->entries[index].mon.slideFrames = 2;
     gauge->entries[index].mon.slideTask =
-        GFL_TCBMgrAddTask(func_ov168_021e00ac(), BtlvGauge_SlideInTask, &gauge->entries[index], 0);
+        GFL_TCBMgrAddTask(BtlvEffect_GetTCBManager(), BtlvGauge_SlideInTask, &gauge->entries[index], 0);
 }
 
 static void BtlvGauge_CalcHpDots(BtlvGaugeEntry *entry) {
@@ -1459,7 +1459,7 @@ static void BtlvGauge_UpdatePinchBgm(BtlvGauge *gauge) {
         gauge->bgmFading = FALSE;
         if (gauge->pinch) {
             GFL_SndBGMPop();
-            if (!gauge->bgmReplayed && func_ov168_021e021c()) {
+            if (!gauge->bgmReplayed && BtlvEffect_IsBgmChanged()) {
                 GFL_SndBGMPlay(gauge->bgm, 0xffff);
                 gauge->bgmReplayed = TRUE;
             } else {
@@ -1547,20 +1547,20 @@ static void BtlvGauge_FlashTask(TCB *tcb, void *data) {
             }
         }
         if (work->paletteMask != 0) {
-            PaletteFade_StartFade(func_ov168_021e00b8(), 1 << PALFADE_BUFFER_MAIN_OBJ, work->paletteMask, 0, 0, 8, 0x10,
-                                  func_ov168_021e00ac());
+            PaletteFade_StartFade(BtlvEffect_GetPaletteFade(), 1 << PALFADE_BUFFER_MAIN_OBJ, work->paletteMask, 0, 0, 8, 0x10,
+                                  BtlvEffect_GetTCBManager());
             work->seq = 1;
         }
         break;
     case 1:
-        if (PaletteFade_GetActiveMask(func_ov168_021e00b8()) == 0) {
-            PaletteFade_StartFade(func_ov168_021e00b8(), 1 << PALFADE_BUFFER_MAIN_OBJ, work->paletteMask, 0, 8, 0, 0x10,
-                                  func_ov168_021e00ac());
+        if (PaletteFade_GetActiveMask(BtlvEffect_GetPaletteFade()) == 0) {
+            PaletteFade_StartFade(BtlvEffect_GetPaletteFade(), 1 << PALFADE_BUFFER_MAIN_OBJ, work->paletteMask, 0, 8, 0, 0x10,
+                                  BtlvEffect_GetTCBManager());
             work->seq = 2;
         }
         break;
     case 2:
-        if (PaletteFade_GetActiveMask(func_ov168_021e00b8()) == 0) {
+        if (PaletteFade_GetActiveMask(BtlvEffect_GetPaletteFade()) == 0) {
             if (++work->count == 3) {
                 work->count = 0;
                 work->seq = 3;

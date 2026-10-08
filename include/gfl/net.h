@@ -181,6 +181,8 @@ void GFL_NetErrAbort(void);
 // The device table for a GFL_NET_TYPE_*, from outside the library
 const GFLNetDevTable *func_020116c0(int type);
 void func_02011778(int type);
+// GFL_SndBGMSetVolume, unless a connection is up and overlay 11's func_ov011_02151dec returns TRUE
+void func_02011bdc(u16 trackMask, s32 volume);
 
 // net.c: starts and ends the network, and passes calls to the device and the other parts of the library
 void func_020425a0(int a0, int a1, HeapID parentHeapId, HeapID heapId);

@@ -3,6 +3,7 @@
 #include "battle/btl_pokeparam.h"
 #include "battle/btl_string.h"
 #include "battle/btlv.h"
+#include "battle/btlv_effect.h"
 #include "constants/battle.h"
 #include "constants/sound.h"
 #include "gfl/arc.h"
@@ -54,7 +55,7 @@ typedef struct BtlvScuGauge {
     BtlvScu *scu;   // 0x04
     u8 pos;         // 0x08
     u8 viewPos;     // 0x09 func_ov167_0219c6dc of pos
-    u8 shown;       // 0x0A set once func_ov168_021dfa04 shows it, cleared with func_ov168_021dfaac
+    u8 shown;       // 0x0A set once BtlvEffect_AddGauge shows it, cleared with BtlvEffect_DelGauge
     u8 active;      // 0x0B the position exists in this battle style
 } BtlvScuGauge;     // size 0x0C
 
@@ -195,18 +196,18 @@ typedef struct BtlvScuMonTask {
     u8 pos;       // 0x04
     u32 viewPos;  // 0x08
     s32 seq;      // 0x0C
-    u32 arg2;     // 0x10 func_ov168_021df76c rather than 021df6b4 if set
+    u32 arg2;     // 0x10 BtlvEffect_ChangeSprite rather than 021df6b4 if set
     u8 *count;    // 0x14 &scu->taskCount
 } BtlvScuMonTask; // size 0x18
 
 // func_ov167_021d35e0, func_ov167_021d363c and their task func_ov167_021d36a4
 typedef struct BtlvScuPkmTask {
     BtlvScu *scu;  // 0x00
-    u32 arg1;      // 0x04 the second argument of func_ov168_021df6b4 or 021df76c
+    u32 arg1;      // 0x04 the second argument of BtlvEffect_StartChangeSprite or 021df76c
     PartyPkm *pkm; // 0x08
     s32 seq;       // 0x0C
     u8 unk10;      // 0x10 never accessed
-    u8 flag;       // 0x11 func_ov168_021df76c rather than 021df6b4 if set
+    u8 flag;       // 0x11 BtlvEffect_ChangeSprite rather than 021df6b4 if set
     u8 *count;     // 0x14 &scu->taskCount
 } BtlvScuPkmTask;  // size 0x18
 
@@ -288,7 +289,7 @@ static void func_ov167_021d3ed4(BtlvScuAbilityWin *win);
 static BOOL func_ov167_021d3f00(BtlvScuAbilityWin *win);
 static void func_ov167_021d3f04(BtlvScuAbilityWin *win, u8 pos);
 static BOOL func_ov167_021d3f4c(BtlvScuAbilityWin *win);
-static void func_ov167_021d408c(BtlvScu *scu, BtlvScuPartyStatus *status, u8 clientId1, u8 clientId2, s32 arg4);
+static void func_ov167_021d408c(BtlvScu *scu, BtlvBGaugeParam *status, u8 clientId1, u8 clientId2, s32 arg4);
 static BOOL func_ov167_021d437c(s32 *seq, void *arg);
 static BOOL func_ov167_021d4448(s32 *seq, void *arg);
 static BOOL func_ov167_021d44d8(s32 *seq, void *arg);
@@ -389,10 +390,10 @@ void func_ov167_021d0cd4(BtlvScu *scu) {
     GFL_BGSysCreateBG(1, &sMsgBGSetup, 0);
     GFL_BGSysCreateBG(2, &sAbilityBG2Setup, 0);
     GFL_BGSysCreateBG(3, &sAbilityBG3Setup, 0);
-    PaletteFade_LoadNCLREx(func_ov168_021e00b8(), 11, 0x165, scu->heapId, 0, 0x20, 0, 0);
-    PaletteFade_LoadNCLREx(func_ov168_021e00b8(), 11, 0x1e4, scu->heapId, 0, 0x60, 0x10, 0x10);
+    PaletteFade_LoadNCLREx(BtlvEffect_GetPaletteFade(), 11, 0x165, scu->heapId, 0, 0x20, 0, 0);
+    PaletteFade_LoadNCLREx(BtlvEffect_GetPaletteFade(), 11, 0x1e4, scu->heapId, 0, 0x60, 0x10, 0x10);
     black = 0;
-    PaletteFade_LoadData(func_ov168_021e00b8(), &black, 0, 0, sizeof(black));
+    PaletteFade_LoadData(BtlvEffect_GetPaletteFade(), &black, 0, 0, sizeof(black));
     GFL_BGSysFillScrArea(1, 0, 0, 0, 32, 32, 0x11);
     GFL_BGSysFillChar(1, 0, 1, 0);
     frameChar = func_ov167_021d0f28(scu, 11, 0x164, 1);
@@ -578,7 +579,7 @@ static BOOL func_ov167_021d1328(BtlvScu *scu, s32 *seq, const u8 *viewPos, u16 c
         for (i = 0; i < count; i++) {
             view = viewPos[i];
             pos = func_ov167_0219c744(scu->mainModule, view);
-            func_ov168_021df81c(func_ov167_021bb064(func_ov167_0219d188(scu->pokeCon, pos)), view);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(func_ov167_0219d188(scu->pokeCon, pos)), view);
             func_ov167_021d398c(&scu->gauges[pos]);
         }
         (*seq)++;
@@ -591,7 +592,7 @@ static BOOL func_ov167_021d1328(BtlvScu *scu, s32 *seq, const u8 *viewPos, u16 c
         (*seq)++;
         break;
     case 2:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             return TRUE;
         }
         break;
@@ -630,17 +631,17 @@ static BOOL func_ov167_021d1404(s32 *seq, void *arg) {
         break;
     case 1:
         if (func_ov167_021d3798(&scu->msgFade)) {
-            func_ov168_021df81c(func_ov167_021bb064(work->mon), work->viewPos);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mon), work->viewPos);
             (*seq)++;
         }
         break;
     case 2:
-        func_ov168_021df35c(work->viewPos, 0x231);
+        BtlvEffect_StartPos(work->viewPos, 0x231);
         func_ov167_021d12f8(2);
         (*seq)++;
         break;
     case 3:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d4ec0(scu->strbuf, func_ov167_021d1598(scu), 1, work->monId);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
             (*seq)++;
@@ -655,18 +656,18 @@ static BOOL func_ov167_021d1404(s32 *seq, void *arg) {
         break;
     case 5:
         if (func_ov167_021d3798(&scu->msgFade)) {
-            func_ov168_021df2c8(BtlSetup_GetBattleType(scu->mainModule) == 4 ? 0x23c : 0x232);
+            BtlvEffect_Start(BtlSetup_GetBattleType(scu->mainModule) == 4 ? 0x23c : 0x232);
             (*seq)++;
         }
         break;
     case 6:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             work->viewPos = 0;
             work->pos = func_ov167_0219c744(scu->mainModule, work->viewPos);
             work->mon = func_ov167_0219d188(scu->pokeCon, work->pos);
             work->monId = GetMonID(work->mon);
-            func_ov168_021df81c(func_ov167_021bb064(work->mon), work->viewPos);
-            func_ov168_021df2c8(0x234);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mon), work->viewPos);
+            BtlvEffect_Start(0x234);
             func_ov167_021d4ec0(scu->strbuf, 11, 1, work->monId);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
             (*seq)++;
@@ -684,7 +685,7 @@ static BOOL func_ov167_021d1404(s32 *seq, void *arg) {
         }
         break;
     case 9:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d398c(&scu->gauges[work->pos]);
             return TRUE;
         }
@@ -726,8 +727,8 @@ static BOOL func_ov167_021d15f8(s32 *seq, void *arg) {
         u8 pos = func_ov167_0219c744(scu->mainModule, 1);
         u8 clientId = func_ov167_0219c650(scu->mainModule, pos);
 
-        func_ov168_021df88c(func_ov167_0219d938(scu->mainModule, clientId), 9, 0, 0, 0);
-        func_ov168_021df9e8(9, 0);
+        BtlvEffect_SetTrainer(func_ov167_0219d938(scu->mainModule, clientId), 9, 0, 0, 0);
+        BtlvEffect_SetPokeAnimeSpeed(9, 0);
         work->viewPos = 1;
         work->clientId = clientId;
         work->pos = pos;
@@ -739,17 +740,17 @@ static BOOL func_ov167_021d15f8(s32 *seq, void *arg) {
     }
     case 1:
         if (func_ov167_021d3798(&scu->msgFade)) {
-            func_ov168_021df35c(work->viewPos, 0x237);
+            BtlvEffect_StartPos(work->viewPos, 0x237);
             func_ov167_021d12f8(2);
             (*seq)++;
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8()) {
-            BtlvScuPartyStatus balls;
+        if (!BtlvEffect_IsBusy()) {
+            BtlvBGaugeParam balls;
 
             func_ov167_021d408c(scu, &balls, work->clientId, 4, 1);
-            func_ov168_021dfc14(&balls);
+            BtlvEffect_AddBallGauge(&balls);
             func_ov167_021d4ec0(scu->strbuf, 7, 1, work->clientId);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
             (*seq)++;
@@ -757,13 +758,13 @@ static BOOL func_ov167_021d15f8(s32 *seq, void *arg) {
         break;
     case 3:
         if (func_ov167_021d2edc(scu)) {
-            func_ov168_021df35c(work->viewPos, 0x238);
+            BtlvEffect_StartPos(work->viewPos, 0x238);
             func_ov167_021d3718(&scu->msgFade);
             (*seq)++;
         }
         break;
     case 4:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
             func_ov167_021d4ec0(scu->strbuf, 14, 2, 1, work->monId);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
             (*seq)++;
@@ -771,35 +772,35 @@ static BOOL func_ov167_021d15f8(s32 *seq, void *arg) {
         break;
     case 5:
         if (func_ov167_021d2edc(scu)) {
-            func_ov168_021df81c(func_ov167_021bb064(work->mon), work->viewPos);
-            func_ov168_021df35c(work->viewPos, 0x239);
-            func_ov168_021dfc38(1);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mon), work->viewPos);
+            BtlvEffect_StartPos(work->viewPos, 0x239);
+            BtlvEffect_DelBallGauge(1);
             func_ov167_021d3718(&scu->msgFade);
             (*seq)++;
         }
         break;
     case 6:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
-            BtlvScuPartyStatus balls;
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
+            BtlvBGaugeParam balls;
 
             func_ov167_021d408c(scu, &balls, GetPlayerClientID(scu->mainModule), 4, 0);
-            func_ov168_021dfc14(&balls);
+            BtlvEffect_AddBallGauge(&balls);
             (*seq)++;
         }
         break;
     case 7:
         func_ov167_021d398c(&scu->gauges[work->pos]);
-        func_ov168_021df2c8(0x232);
+        BtlvEffect_Start(0x232);
         (*seq)++;
         break;
     case 8:
-        if (!func_ov168_021df7e8() && !func_ov168_021dfc54(0)) {
+        if (!BtlvEffect_IsBusy() && !BtlvEffect_IsBallGaugeBusy(0)) {
             work->viewPos = 0;
             work->pos = func_ov167_0219c744(scu->mainModule, work->viewPos);
             work->mon = func_ov167_0219d188(scu->pokeCon, work->pos);
             work->monId = GetMonID(work->mon);
-            func_ov168_021df81c(func_ov167_021bb064(work->mon), work->viewPos);
-            func_ov168_021df2c8(0x234);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mon), work->viewPos);
+            BtlvEffect_Start(0x234);
             func_ov167_021d4ec0(scu->strbuf, 11, 1, work->monId);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
             (*seq)++;
@@ -807,7 +808,7 @@ static BOOL func_ov167_021d15f8(s32 *seq, void *arg) {
         break;
     case 9:
         if (func_ov167_021d2edc(scu)) {
-            func_ov168_021dfc38(0);
+            BtlvEffect_DelBallGauge(0);
             func_ov167_021d3718(&scu->msgFade);
             (*seq)++;
         }
@@ -819,7 +820,7 @@ static BOOL func_ov167_021d15f8(s32 *seq, void *arg) {
         }
         break;
     case 11:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d398c(&scu->gauges[work->pos]);
             return TRUE;
         }
@@ -870,21 +871,21 @@ static BOOL func_ov167_021d18b8(s32 *seq, void *arg) {
     case 1:
         if (func_ov167_021d3798(&scu->msgFade)) {
             viewPos = func_ov167_0219c6dc(scu->mainModule, work->pos[0]);
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[0]), viewPos);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[0]), viewPos);
             (*seq)++;
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             viewPos = func_ov167_0219c6dc(scu->mainModule, work->pos[1]);
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[1]), viewPos);
-            func_ov168_021df35c(viewPos, 0x231);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[1]), viewPos);
+            BtlvEffect_StartPos(viewPos, 0x231);
             func_ov167_021d12f8(2);
             (*seq)++;
         }
         break;
     case 3:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d4ec0(scu->strbuf, 2, 2, work->monIds[0], work->monIds[1]);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
             (*seq)++;
@@ -900,12 +901,12 @@ static BOOL func_ov167_021d18b8(s32 *seq, void *arg) {
         break;
     case 5:
         if (func_ov167_021d3798(&scu->msgFade)) {
-            func_ov168_021df2c8(0x232);
+            BtlvEffect_Start(0x232);
             (*seq)++;
         }
         break;
     case 6:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             work->viewPos[0] = 2;
             work->viewPos[1] = 4;
             work->clientId = GetPlayerClientID(scu->mainModule);
@@ -916,9 +917,9 @@ static BOOL func_ov167_021d18b8(s32 *seq, void *arg) {
                     work->monIds[i] = GetMonID(work->mons[i]);
                 }
             }
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
-            func_ov168_021df2c8(0x234);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
+            BtlvEffect_Start(0x234);
             func_ov167_021d4ec0(scu->strbuf, 12, 2, work->monIds[0], work->monIds[1]);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
             (*seq)++;
@@ -931,14 +932,14 @@ static BOOL func_ov167_021d18b8(s32 *seq, void *arg) {
         }
         break;
     case 8:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
             func_ov167_021d398c(&scu->gauges[work->pos[0]]);
             func_ov167_021d398c(&scu->gauges[work->pos[1]]);
             (*seq)++;
         }
         break;
     case 9:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             return TRUE;
         }
         break;
@@ -1078,21 +1079,21 @@ static BOOL func_ov167_021d1d64(BtlvScu *scu, s32 *seq) {
     case 1:
         if (func_ov167_021d3798(&scu->msgFade)) {
             viewPos = func_ov167_0219c6dc(scu->mainModule, work->pos[0]);
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[0]), viewPos);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[0]), viewPos);
             (*seq)++;
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             viewPos = func_ov167_0219c6dc(scu->mainModule, work->pos[1]);
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[1]), viewPos);
-            func_ov168_021df35c(viewPos, 0x231);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[1]), viewPos);
+            BtlvEffect_StartPos(viewPos, 0x231);
             func_ov167_021d12f8(2);
             (*seq)++;
         }
         break;
     case 3:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d4ec0(scu->strbuf, 2, 2, work->monIds[0], work->monIds[1]);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
             (*seq)++;
@@ -1132,25 +1133,25 @@ static BOOL func_ov167_021d1ee0(BtlvScu *scu, s32 *seq) {
 // One opposing trainer sends out a mon
 static BOOL func_ov167_021d1f1c(BtlvScu *scu, s32 *seq, u8 clientId) {
     BtlvScuTrainerWork *work = (BtlvScuTrainerWork *)scu->work;
-    BtlvScuPartyStatus balls;
+    BtlvBGaugeParam balls;
 
     switch (*seq) {
     case 0:
         work->viewPos[1] = 9;
-        func_ov168_021df88c(func_ov167_0219d938(scu->mainModule, clientId), work->viewPos[1], 0, 0, 0);
-        func_ov168_021df9e8(work->viewPos[1], 0);
+        BtlvEffect_SetTrainer(func_ov167_0219d938(scu->mainModule, clientId), work->viewPos[1], 0, 0, 0);
+        BtlvEffect_SetPokeAnimeSpeed(work->viewPos[1], 0);
         func_ov167_021d3718(&scu->msgFade);
         (*seq)++;
         break;
     case 1:
         if (func_ov167_021d3798(&scu->msgFade)) {
-            func_ov168_021df35c(work->viewPos[1], 0x237);
+            BtlvEffect_StartPos(work->viewPos[1], 0x237);
             func_ov167_021d12f8(2);
             (*seq)++;
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             u32 battleType = BtlSetup_GetBattleType(scu->mainModule);
             u32 message = 7;
 
@@ -1159,7 +1160,7 @@ static BOOL func_ov167_021d1f1c(BtlvScu *scu, s32 *seq, u8 clientId) {
             }
 
             func_ov167_021d408c(scu, &balls, clientId, 4, 1);
-            func_ov168_021dfc14(&balls);
+            BtlvEffect_AddBallGauge(&balls);
             func_ov167_021d4ec0(scu->strbuf, message, 1, clientId);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
             (*seq)++;
@@ -1167,13 +1168,13 @@ static BOOL func_ov167_021d1f1c(BtlvScu *scu, s32 *seq, u8 clientId) {
         break;
     case 3:
         if (func_ov167_021d2edc(scu)) {
-            func_ov168_021df35c(work->viewPos[1], 0x238);
+            BtlvEffect_StartPos(work->viewPos[1], 0x238);
             func_ov167_021d3718(&scu->msgFade);
             (*seq)++;
         }
         break;
     case 4:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
             return TRUE;
         }
         break;
@@ -1184,28 +1185,28 @@ static BOOL func_ov167_021d1f1c(BtlvScu *scu, s32 *seq, u8 clientId) {
 // Two opposing trainers
 static BOOL func_ov167_021d2028(BtlvScu *scu, s32 *seq, u8 clientId1, u8 clientId2) {
     BtlvScuTrainerWork *work = (BtlvScuTrainerWork *)scu->work;
-    BtlvScuPartyStatus balls;
+    BtlvBGaugeParam balls;
 
     switch (*seq) {
     case 0:
         work->viewPos[0] = 11;
         work->viewPos[1] = 13;
-        func_ov168_021df88c(func_ov167_0219d938(scu->mainModule, clientId1), work->viewPos[0], 0, 0, 0);
-        func_ov168_021df9e8(work->viewPos[0], 0);
-        func_ov168_021df88c(func_ov167_0219d938(scu->mainModule, clientId2), work->viewPos[1], 0, 0, 0);
-        func_ov168_021df9e8(work->viewPos[1], 0);
+        BtlvEffect_SetTrainer(func_ov167_0219d938(scu->mainModule, clientId1), work->viewPos[0], 0, 0, 0);
+        BtlvEffect_SetPokeAnimeSpeed(work->viewPos[0], 0);
+        BtlvEffect_SetTrainer(func_ov167_0219d938(scu->mainModule, clientId2), work->viewPos[1], 0, 0, 0);
+        BtlvEffect_SetPokeAnimeSpeed(work->viewPos[1], 0);
         func_ov167_021d3718(&scu->msgFade);
         (*seq)++;
         break;
     case 1:
         if (func_ov167_021d3798(&scu->msgFade)) {
-            func_ov168_021df35c(work->viewPos[0], 0x237);
+            BtlvEffect_StartPos(work->viewPos[0], 0x237);
             func_ov167_021d12f8(2);
             (*seq)++;
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             u32 battleType = BtlSetup_GetBattleType(scu->mainModule);
             u32 message = 9;
 
@@ -1214,7 +1215,7 @@ static BOOL func_ov167_021d2028(BtlvScu *scu, s32 *seq, u8 clientId1, u8 clientI
             }
 
             func_ov167_021d408c(scu, &balls, clientId1, clientId2, 1);
-            func_ov168_021dfc14(&balls);
+            BtlvEffect_AddBallGauge(&balls);
             func_ov167_021d4ec0(scu->strbuf, message, 2, clientId1, clientId2);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
             (*seq)++;
@@ -1222,13 +1223,13 @@ static BOOL func_ov167_021d2028(BtlvScu *scu, s32 *seq, u8 clientId1, u8 clientI
         break;
     case 3:
         if (func_ov167_021d2edc(scu)) {
-            func_ov168_021df35c(work->viewPos[0], 0x238);
+            BtlvEffect_StartPos(work->viewPos[0], 0x238);
             func_ov167_021d3718(&scu->msgFade);
             (*seq)++;
         }
         break;
     case 4:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
             return TRUE;
         }
         break;
@@ -1258,13 +1259,13 @@ static BOOL func_ov167_021d215c(BtlvScu *scu, s32 *seq) {
         }
         break;
     case 2:
-        func_ov168_021df81c(func_ov167_021bb064(work->mon), work->viewPos);
-        func_ov168_021df35c(work->viewPos, 0x239);
-        func_ov168_021dfc38(1);
+        BtlvEffect_AddPokemon(func_ov167_021bb064(work->mon), work->viewPos);
+        BtlvEffect_StartPos(work->viewPos, 0x239);
+        BtlvEffect_DelBallGauge(1);
         (*seq)++;
         break;
     case 3:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
             func_ov167_021d398c(&scu->gauges[work->pos]);
             (*seq)++;
         }
@@ -1316,16 +1317,16 @@ static BOOL func_ov167_021d2284(BtlvScu *scu, s32 *seq, u8 clientId) {
         }
         break;
     case 2:
-        func_ov168_021df81c(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
+        BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
         if (work->count == 2) {
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
         }
-        func_ov168_021df35c(work->viewPos[0], 0x239);
-        func_ov168_021dfc38(1);
+        BtlvEffect_StartPos(work->viewPos[0], 0x239);
+        BtlvEffect_DelBallGauge(1);
         (*seq)++;
         break;
     case 3:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
             func_ov167_021d398c(&scu->gauges[work->pos[0]]);
             if (work->count == 2) {
                 func_ov167_021d398c(&scu->gauges[work->pos[1]]);
@@ -1371,16 +1372,16 @@ static BOOL func_ov167_021d23d4(BtlvScu *scu, s32 *seq, u8 clientId1, u8 clientI
         break;
     case 3:
         if (func_ov167_021d2edc(scu)) {
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
-            func_ov168_021df35c(work->viewPos[0], 0x239);
-            func_ov168_021dfc38(1);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
+            BtlvEffect_StartPos(work->viewPos[0], 0x239);
+            BtlvEffect_DelBallGauge(1);
             func_ov167_021d3718(&scu->msgFade);
             (*seq)++;
         }
         break;
     case 4:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
             func_ov167_021d398c(&scu->gauges[work->pos[0]]);
             func_ov167_021d398c(&scu->gauges[work->pos[1]]);
             (*seq)++;
@@ -1424,19 +1425,19 @@ static BOOL func_ov167_021d252c(BtlvScu *scu, s32 *seq) {
         }
         break;
     case 2:
-        func_ov168_021df81c(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
+        BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
         if (work->count > 1) {
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
         }
         if (work->count > 2) {
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[2]), work->viewPos[2]);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[2]), work->viewPos[2]);
         }
-        func_ov168_021df35c(work->viewPos[0], 0x239);
-        func_ov168_021dfc38(1);
+        BtlvEffect_StartPos(work->viewPos[0], 0x239);
+        BtlvEffect_DelBallGauge(1);
         (*seq)++;
         break;
     case 3:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
             func_ov167_021d398c(&scu->gauges[work->pos[0]]);
             if (work->count > 1) {
                 func_ov167_021d398c(&scu->gauges[work->pos[1]]);
@@ -1456,30 +1457,30 @@ static BOOL func_ov167_021d252c(BtlvScu *scu, s32 *seq) {
 // The player sends out one mon
 static BOOL func_ov167_021d26c4(BtlvScu *scu, s32 *seq) {
     BtlvScuSingleWork *work = (BtlvScuSingleWork *)scu->work;
-    BtlvScuPartyStatus balls;
+    BtlvBGaugeParam balls;
 
     switch (*seq) {
     case 0:
         work->clientId = GetPlayerClientID(scu->mainModule);
         func_ov167_021d408c(scu, &balls, work->clientId, 4, 0);
-        func_ov168_021dfc14(&balls);
+        BtlvEffect_AddBallGauge(&balls);
         (*seq)++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
-            func_ov168_021df2c8(0x232);
+        if (!BtlvEffect_IsBusy()) {
+            BtlvEffect_Start(0x232);
             (*seq)++;
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8() && !func_ov168_021dfc54(0)) {
+        if (!BtlvEffect_IsBusy() && !BtlvEffect_IsBallGaugeBusy(0)) {
             work->viewPos = 0;
             work->clientId = GetPlayerClientID(scu->mainModule);
             work->pos = func_ov167_0219c744(scu->mainModule, work->viewPos);
             work->mon = func_ov167_0219d188(scu->pokeCon, work->pos);
             work->monId = GetMonID(work->mon);
-            func_ov168_021df81c(func_ov167_021bb064(work->mon), work->viewPos);
-            func_ov168_021df2c8(0x234);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mon), work->viewPos);
+            BtlvEffect_Start(0x234);
             func_ov167_021d4ec0(scu->strbuf, 11, 1, work->monId);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
             (*seq)++;
@@ -1487,13 +1488,13 @@ static BOOL func_ov167_021d26c4(BtlvScu *scu, s32 *seq) {
         break;
     case 3:
         if (func_ov167_021d2edc(scu)) {
-            func_ov168_021dfc38(0);
+            BtlvEffect_DelBallGauge(0);
             func_ov167_021d3718(&scu->msgFade);
             (*seq)++;
         }
         break;
     case 4:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
             func_ov167_021d398c(&scu->gauges[work->pos]);
             (*seq)++;
         }
@@ -1518,23 +1519,23 @@ static BOOL func_ov167_021d27e8(BtlvScu *scu, s32 *seq) {
 static BOOL func_ov167_021d2820(BtlvScu *scu, s32 *seq, u8 clientId) {
     BtlvScuDoubleWork *work = (BtlvScuDoubleWork *)scu->work;
     u32 i;
-    BtlvScuPartyStatus balls;
+    BtlvBGaugeParam balls;
 
     switch (*seq) {
     case 0:
         work->clientId = clientId;
         func_ov167_021d408c(scu, &balls, work->clientId, 4, 0);
-        func_ov168_021dfc14(&balls);
+        BtlvEffect_AddBallGauge(&balls);
         (*seq)++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
-            func_ov168_021df2c8(0x232);
+        if (!BtlvEffect_IsBusy()) {
+            BtlvEffect_Start(0x232);
             (*seq)++;
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8() && !func_ov168_021dfc54(0)) {
+        if (!BtlvEffect_IsBusy() && !BtlvEffect_IsBallGaugeBusy(0)) {
             u16 message;
 
             work->viewPos[0] = 2;
@@ -1551,11 +1552,11 @@ static BOOL func_ov167_021d2820(BtlvScu *scu, s32 *seq, u8 clientId) {
                     }
                 }
             }
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
             if (work->count > 1) {
-                func_ov168_021df81c(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
+                BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
             }
-            func_ov168_021df2c8(0x234);
+            BtlvEffect_Start(0x234);
             message = work->count == 2 ? 12 : 11;
             func_ov167_021d4ec0(scu->strbuf, message, 2, work->monIds[0], work->monIds[1]);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
@@ -1564,13 +1565,13 @@ static BOOL func_ov167_021d2820(BtlvScu *scu, s32 *seq, u8 clientId) {
         break;
     case 3:
         if (func_ov167_021d2edc(scu)) {
-            func_ov168_021dfc38(0);
+            BtlvEffect_DelBallGauge(0);
             func_ov167_021d3718(&scu->msgFade);
             (*seq)++;
         }
         break;
     case 4:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
             func_ov167_021d398c(&scu->gauges[work->pos[0]]);
             if (work->count > 1) {
                 func_ov167_021d398c(&scu->gauges[work->pos[1]]);
@@ -1588,7 +1589,7 @@ static BOOL func_ov167_021d2820(BtlvScu *scu, s32 *seq, u8 clientId) {
 static BOOL func_ov167_021d29bc(BtlvScu *scu, s32 *seq, u8 clientId, u8 partnerId) {
     BtlvScuDoubleWork *work = (BtlvScuDoubleWork *)scu->work;
     u8 partnerIdx;
-    BtlvScuPartyStatus balls;
+    BtlvBGaugeParam balls;
     u32 i;
     u8 playerIdx;
 
@@ -1599,17 +1600,17 @@ static BOOL func_ov167_021d29bc(BtlvScu *scu, s32 *seq, u8 clientId, u8 partnerI
         } else {
             func_ov167_021d408c(scu, &balls, partnerId, clientId, 0);
         }
-        func_ov168_021dfc14(&balls);
+        BtlvEffect_AddBallGauge(&balls);
         (*seq)++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
-            func_ov168_021df2c8(0x233);
+        if (!BtlvEffect_IsBusy()) {
+            BtlvEffect_Start(0x233);
             (*seq)++;
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8() && !func_ov168_021dfc54(0)) {
+        if (!BtlvEffect_IsBusy() && !BtlvEffect_IsBallGaugeBusy(0)) {
             u16 message;
 
             work->viewPos[0] = 2;
@@ -1629,7 +1630,7 @@ static BOOL func_ov167_021d29bc(BtlvScu *scu, s32 *seq, u8 clientId, u8 partnerI
         break;
     case 3:
         if (func_ov167_021d2edc(scu)) {
-            func_ov168_021dfc38(0);
+            BtlvEffect_DelBallGauge(0);
             func_ov167_021d3718(&scu->msgFade);
             (*seq)++;
         }
@@ -1637,9 +1638,9 @@ static BOOL func_ov167_021d29bc(BtlvScu *scu, s32 *seq, u8 clientId, u8 partnerI
     case 4:
         if (func_ov167_021d3798(&scu->msgFade)) {
             playerIdx = func_ov167_0219c850(scu->mainModule);
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
-            func_ov168_021df2c8(0x234);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
+            BtlvEffect_Start(0x234);
             func_ov167_021d4ec0(scu->strbuf, 11, 1, work->monIds[playerIdx]);
             func_ov167_021d2e20(scu, scu->strbuf, 80, NULL);
             (*seq)++;
@@ -1652,7 +1653,7 @@ static BOOL func_ov167_021d29bc(BtlvScu *scu, s32 *seq, u8 clientId, u8 partnerI
         }
         break;
     case 6:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
             func_ov167_021d398c(&scu->gauges[work->pos[0]]);
             func_ov167_021d398c(&scu->gauges[work->pos[1]]);
             return TRUE;
@@ -1666,23 +1667,23 @@ static BOOL func_ov167_021d29bc(BtlvScu *scu, s32 *seq, u8 clientId, u8 partnerI
 static BOOL func_ov167_021d2b88(BtlvScu *scu, s32 *seq) {
     BtlvScuTripleWork *work = (BtlvScuTripleWork *)scu->work;
     u32 i;
-    BtlvScuPartyStatus balls;
+    BtlvBGaugeParam balls;
 
     switch (*seq) {
     case 0:
         work->clientId = GetPlayerClientID(scu->mainModule);
         func_ov167_021d408c(scu, &balls, work->clientId, 4, 0);
-        func_ov168_021dfc14(&balls);
+        BtlvEffect_AddBallGauge(&balls);
         (*seq)++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
-            func_ov168_021df2c8(0x232);
+        if (!BtlvEffect_IsBusy()) {
+            BtlvEffect_Start(0x232);
             (*seq)++;
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8() && !func_ov168_021dfc54(0)) {
+        if (!BtlvEffect_IsBusy() && !BtlvEffect_IsBallGaugeBusy(0)) {
             u16 message;
 
             work->viewPos[0] = 2;
@@ -1698,14 +1699,14 @@ static BOOL func_ov167_021d2b88(BtlvScu *scu, s32 *seq) {
                     work->count++;
                 }
             }
-            func_ov168_021df81c(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
+            BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[0]), work->viewPos[0]);
             if (work->count > 1) {
-                func_ov168_021df81c(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
+                BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[1]), work->viewPos[1]);
             }
             if (work->count > 2) {
-                func_ov168_021df81c(func_ov167_021bb064(work->mons[2]), work->viewPos[2]);
+                BtlvEffect_AddPokemon(func_ov167_021bb064(work->mons[2]), work->viewPos[2]);
             }
-            func_ov168_021df2c8(0x234);
+            BtlvEffect_Start(0x234);
             if (work->count == 3) {
                 message = 13;
             } else {
@@ -1718,13 +1719,13 @@ static BOOL func_ov167_021d2b88(BtlvScu *scu, s32 *seq) {
         break;
     case 3:
         if (func_ov167_021d2edc(scu)) {
-            func_ov168_021dfc38(0);
+            BtlvEffect_DelBallGauge(0);
             func_ov167_021d3718(&scu->msgFade);
             (*seq)++;
         }
         break;
     case 4:
-        if (func_ov167_021d3798(&scu->msgFade) && !func_ov168_021df7e8()) {
+        if (func_ov167_021d3798(&scu->msgFade) && !BtlvEffect_IsBusy()) {
             func_ov167_021d398c(&scu->gauges[work->pos[0]]);
             if (work->count > 1) {
                 func_ov167_021d398c(&scu->gauges[work->pos[1]]);
@@ -1927,12 +1928,12 @@ static BOOL func_ov167_021d30d4(s32 *seq, void *arg) {
     case 1:
         if (func_ov167_021d3798(&scu->msgFade)) {
             func_ov167_021d4590(scu);
-            func_ov168_021df460((BtlvMoveEffectParam *)scu->work);
+            BtlvEffect_StartMove((BtlvMoveEffectParam *)scu->work);
             (*seq)++;
         }
         break;
     case 2:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             GFL_SndStop();
             (*seq)++;
         }
@@ -1953,26 +1954,26 @@ void func_ov167_021d3188(BtlvScu *scu, u8 pos, u16 move, BOOL arg3) {
     u8 viewPos = func_ov167_0219c6dc(scu->mainModule, pos);
 
     if (!arg3) {
-        func_ov168_021dfac4(viewPos, hp);
-        func_ov168_021df560(viewPos, move);
+        BtlvEffect_CalcGaugeHP(viewPos, hp);
+        BtlvEffect_StartDamage(viewPos, move);
     } else {
-        func_ov168_021dfae0(viewPos, hp);
+        BtlvEffect_CalcGaugeHPAtOnce(viewPos, hp);
     }
 }
 
 BOOL func_ov167_021d31d0(BtlvScu *scu) {
-    if ((func_ov168_021df7e8() | func_ov168_021dfb58()) == FALSE) {
+    if ((BtlvEffect_IsBusy() | BtlvEffect_CheckExecuteGauge()) == FALSE) {
         return TRUE;
     }
     return FALSE;
 }
 
 void func_ov167_021d31e8(BtlvScu *scu, u8 pos, u16 move) {
-    func_ov168_021df560(func_ov167_0219c6dc(scu->mainModule, pos), move);
+    BtlvEffect_StartDamage(func_ov167_0219c6dc(scu->mainModule, pos), move);
 }
 
 BOOL func_ov167_021d3200(BtlvScu *scu) {
-    if (!func_ov168_021df7e8()) {
+    if (!BtlvEffect_IsBusy()) {
         return TRUE;
     }
     return FALSE;
@@ -1981,16 +1982,16 @@ BOOL func_ov167_021d3200(BtlvScu *scu) {
 void func_ov167_021d3214(BtlvScu *scu, u8 pos, BOOL arg2) {
     u8 viewPos = func_ov167_0219c6dc(scu->mainModule, pos);
 
-    func_ov168_021dfaac(viewPos);
+    BtlvEffect_DelGauge(viewPos);
     if (!arg2) {
-        func_ov168_021df618(viewPos);
+        BtlvEffect_StartEffect23B(viewPos);
     } else {
-        func_ov168_021df838(viewPos);
+        BtlvEffect_DelPokemon(viewPos);
     }
 }
 
 BOOL func_ov167_021d323c(BtlvScu *scu) {
-    if (!func_ov168_021df7e8()) {
+    if (!BtlvEffect_IsBusy()) {
         return TRUE;
     }
     return FALSE;
@@ -2000,12 +2001,12 @@ BOOL func_ov167_021d323c(BtlvScu *scu) {
 void func_ov167_021d3250(BtlvScu *scu, u8 pos) {
     u8 viewPos = func_ov167_0219c6dc(scu->mainModule, pos);
 
-    func_ov168_021df81c(func_ov167_021bb064(func_ov167_0219d188(scu->pokeCon, pos)), viewPos);
+    BtlvEffect_AddPokemon(func_ov167_021bb064(func_ov167_0219d188(scu->pokeCon, pos)), viewPos);
     func_ov167_021d398c(&scu->gauges[pos]);
 }
 
 BOOL func_ov167_021d3284(BtlvScu *scu) {
-    if (!func_ov168_021df7e8()) {
+    if (!BtlvEffect_IsBusy()) {
         return TRUE;
     }
     return FALSE;
@@ -2015,8 +2016,8 @@ void func_ov167_021d3298(BtlvScu *scu, u8 pos, u16 effect, BOOL immediate) {
     BtlvScuGaugeHideTask *work;
 
     if (immediate || effect == 0) {
-        func_ov168_021dfaac(pos);
-        func_ov168_021df838(pos);
+        BtlvEffect_DelGauge(pos);
+        BtlvEffect_DelPokemon(pos);
     } else {
         work = GFL_TCBExGetData(
             GFL_TCBExMgrAddTask(scu->tcbManager, func_ov167_021d3304, sizeof(BtlvScuGaugeHideTask), 1));
@@ -2045,13 +2046,13 @@ static void func_ov167_021d3304(TCBEx *task, void *data) {
 
     switch (work->seq) {
     case 0:
-        func_ov168_021df35c(work->pos, work->effect);
+        BtlvEffect_StartPos(work->pos, work->effect);
         work->seq++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
-            func_ov168_021dfaac(work->pos);
-            func_ov168_021df838(work->pos);
+        if (!BtlvEffect_IsBusy()) {
+            BtlvEffect_DelGauge(work->pos);
+            BtlvEffect_DelPokemon(work->pos);
             work->seq++;
         }
         break;
@@ -2074,9 +2075,9 @@ void func_ov167_021d3354(BtlvScu *scu, u8 pos, u8 clientId, u8 monId, BOOL noEff
     (*work->count)++;
     mon = GetClientMonData(scu->pokeCon, clientId, monId);
     viewPos = func_ov167_0219c6dc(scu->mainModule, pos);
-    func_ov168_021df81c(func_ov167_021bb064(mon), viewPos);
+    BtlvEffect_AddPokemon(func_ov167_021bb064(mon), viewPos);
     if (!noEffect) {
-        func_ov168_021df35c(viewPos, 0x26D);
+        BtlvEffect_StartPos(viewPos, 0x26D);
     }
 }
 
@@ -2092,7 +2093,7 @@ static void func_ov167_021d33e0(TCBEx *task, void *data) {
 
     switch (work->seq) {
     case 0:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             func_ov167_021d398c(work->gauge);
             work->seq++;
         }
@@ -2109,14 +2110,14 @@ void func_ov167_021d3414(BtlvScu *scu, u8 pos, BOOL arg2) {
     u8 viewPos = func_ov167_0219c6dc(scu->mainModule, pos);
 
     if (arg2) {
-        func_ov168_021dfae0(viewPos, hp);
+        BtlvEffect_CalcGaugeHPAtOnce(viewPos, hp);
     } else {
-        func_ov168_021dfac4(viewPos, hp);
+        BtlvEffect_CalcGaugeHP(viewPos, hp);
     }
 }
 
 BOOL func_ov167_021d3450(BtlvScu *scu) {
-    if (!func_ov168_021dfb58()) {
+    if (!BtlvEffect_CheckExecuteGauge()) {
         return TRUE;
     }
     return FALSE;
@@ -2125,33 +2126,33 @@ BOOL func_ov167_021d3450(BtlvScu *scu) {
 void func_ov167_021d3464(BtlvScu *scu, u8 pos1, u8 pos2) {
     func_ov167_021d3974(&scu->gauges[pos1]);
     func_ov167_021d3974(&scu->gauges[pos2]);
-    func_ov168_021e01ac(1);
+    BtlvEffect_SetNoPinchBgm(1);
 }
 
 BOOL func_ov167_021d3490(BtlvScu *scu, u8 pos1, u8 pos2) {
     func_ov167_021d398c(&scu->gauges[pos1]);
     func_ov167_021d398c(&scu->gauges[pos2]);
-    func_ov168_021e01ac(0);
+    BtlvEffect_SetNoPinchBgm(0);
     return TRUE;
 }
 
 void func_ov167_021d34bc(BtlvScu *scu, u8 pos) {
     func_ov167_021d3974(&scu->gauges[pos]);
-    func_ov168_021e01ac(1);
+    BtlvEffect_SetNoPinchBgm(1);
 }
 
 BOOL func_ov167_021d34d4(BtlvScu *scu, u8 pos) {
     func_ov167_021d398c(&scu->gauges[pos]);
-    func_ov168_021e01ac(0);
+    BtlvEffect_SetNoPinchBgm(0);
     return TRUE;
 }
 
 void func_ov167_021d34ec(BtlvScu *scu, u8 viewPos) {
-    func_ov168_021df35c(viewPos, 0x25F);
+    BtlvEffect_StartPos(viewPos, 0x25F);
 }
 
 BOOL func_ov167_021d34fc(BtlvScu *scu, u8 viewPos) {
-    if (!func_ov168_021df7e8()) {
+    if (!BtlvEffect_IsBusy()) {
         return TRUE;
     }
     return FALSE;
@@ -2188,16 +2189,16 @@ static void func_ov167_021d3568(TCBEx *task, void *data) {
     case 0:
         pkm = GetSrcData(func_ov167_0219d188(work->scu->pokeCon, work->pos));
         if (!work->arg2) {
-            func_ov168_021df6b4(pkm, work->viewPos);
+            BtlvEffect_StartChangeSprite(pkm, work->viewPos);
         } else {
-            func_ov168_021df76c(pkm, work->viewPos);
+            BtlvEffect_ChangeSprite(pkm, work->viewPos);
         }
-        func_ov168_021dfaac(work->viewPos);
+        BtlvEffect_DelGauge(work->viewPos);
         work->seq++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
-            func_ov168_021dfa04(work->scu->mainModule, func_ov167_0219d188(work->scu->pokeCon, work->pos),
+        if (!BtlvEffect_IsBusy()) {
+            BtlvEffect_AddGauge(work->scu->mainModule, func_ov167_0219d188(work->scu->pokeCon, work->pos),
                                 work->viewPos);
             (*work->count)--;
             GFL_TCBExRequestEnd(task);
@@ -2245,14 +2246,14 @@ static void func_ov167_021d36a4(TCBEx *task, void *data) {
     switch (work->seq) {
     case 0:
         if (!work->flag) {
-            func_ov168_021df6b4(work->pkm, work->arg1);
+            BtlvEffect_StartChangeSprite(work->pkm, work->arg1);
         } else {
-            func_ov168_021df76c(work->pkm, work->arg1);
+            BtlvEffect_ChangeSprite(work->pkm, work->arg1);
         }
         work->seq++;
         break;
     case 1:
-        if (!func_ov168_021df7e8()) {
+        if (!BtlvEffect_IsBusy()) {
             (*work->count)--;
             GFL_TCBExRequestEnd(task);
         }
@@ -2413,7 +2414,7 @@ static void func_ov167_021d392c(BtlvScuGauge *gauge, BtlvScu *scu, u8 pos) {
 static void func_ov167_021d3950(BtlvScuGauge *gauge) {
     if (gauge->active) {
         if (gauge->shown) {
-            func_ov168_021dfaac(gauge->viewPos);
+            BtlvEffect_DelGauge(gauge->viewPos);
             gauge->shown = FALSE;
         }
         gauge->mon = NULL;
@@ -2423,7 +2424,7 @@ static void func_ov167_021d3950(BtlvScuGauge *gauge) {
 
 static void func_ov167_021d3974(BtlvScuGauge *gauge) {
     if (gauge->shown) {
-        func_ov168_021dfaac(gauge->viewPos);
+        BtlvEffect_DelGauge(gauge->viewPos);
         gauge->shown = FALSE;
     }
 }
@@ -2432,7 +2433,7 @@ static void func_ov167_021d398c(BtlvScuGauge *gauge) {
     if (gauge->active) {
         gauge->mon = func_ov167_0219d188(gauge->scu->pokeCon, gauge->pos);
         if (!IsFainted(gauge->mon)) {
-            func_ov168_021dfa04(gauge->scu->mainModule, gauge->mon, gauge->viewPos);
+            BtlvEffect_AddGauge(gauge->scu->mainModule, gauge->mon, gauge->viewPos);
             gauge->shown = TRUE;
         }
     }
@@ -2449,9 +2450,9 @@ void func_ov167_021d39e4(BtlvScu *scu, u8 pos, BOOL flash) {
     BtlvScuSide side = func_ov167_021d39c4(scu->mainModule, pos);
 
     if (side == BTLV_SCU_SIDE_PLAYER) {
-        func_ov168_021dfedc(0, 0, 0);
+        BtlvEffect_SetTimerVisible(0, 0, 0);
     }
-    func_ov168_021e0518();
+    BtlvEffect_ClearVoices();
     func_ov167_021d3bb4(&scu->abilityWins[side], pos, flash);
 }
 
@@ -2464,7 +2465,7 @@ void func_ov167_021d3a38(BtlvScu *scu, u8 pos) {
 
     func_ov167_021d3ed4(&scu->abilityWins[side]);
     if (side == BTLV_SCU_SIDE_PLAYER) {
-        func_ov168_021dfedc(0, 1, 0);
+        BtlvEffect_SetTimerVisible(0, 1, 0);
     }
 }
 
@@ -2532,7 +2533,7 @@ static void func_ov167_021d3bb4(BtlvScuAbilityWin *win, u8 pos, BOOL flash) {
     }
     win->flash = flash;
     win->seq = 0;
-    func_ov168_021e04d8(pos, ability);
+    BtlvEffect_SetAbility(pos, ability);
 }
 
 static BOOL func_ov167_021d3c34(BtlvScuAbilityWin *win) {
@@ -2592,15 +2593,15 @@ static BOOL func_ov167_021d3c34(BtlvScuAbilityWin *win) {
         }
         break;
     case 4:
-        palFade = func_ov168_021e00b8();
-        tcbManager = func_ov168_021e00ac();
+        palFade = BtlvEffect_GetPaletteFade();
+        tcbManager = BtlvEffect_GetTCBManager();
         palettes = 1 << (win->side + 1);
         GFL_SndSEPlay(SEQ_SE_DECIDE6);
         PaletteFade_StartFade(palFade, 1, palettes, 0, 16, 0, 0x7FFF, tcbManager);
         win->seq++;
         break;
     case 5:
-        if (PaletteFade_GetActiveMask(func_ov168_021e00b8()) == 0) {
+        if (PaletteFade_GetActiveMask(BtlvEffect_GetPaletteFade()) == 0) {
             win->seq++;
         }
         break;
@@ -2684,7 +2685,7 @@ static void func_ov167_021d3f04(BtlvScuAbilityWin *win, u8 pos) {
         func_ov167_021d3ddc(win);
     }
     win->seq = 0;
-    func_ov168_021e04d8(pos, ability);
+    BtlvEffect_SetAbility(pos, ability);
 }
 
 static BOOL func_ov167_021d3f4c(BtlvScuAbilityWin *win) {
@@ -2746,7 +2747,7 @@ static BOOL func_ov167_021d3f4c(BtlvScuAbilityWin *win) {
     return FALSE;
 }
 
-static void func_ov167_021d408c(BtlvScu *scu, BtlvScuPartyStatus *status, u8 clientId1, u8 clientId2, s32 arg4) {
+static void func_ov167_021d408c(BtlvScu *scu, BtlvBGaugeParam *status, u8 clientId1, u8 clientId2, s32 arg4) {
     BattleParty *parties[2] = {NULL, NULL};
     int counts[2] = {0, 0};
     BattleMon *mon;
@@ -2754,7 +2755,7 @@ static void func_ov167_021d408c(BtlvScu *scu, BtlvScuPartyStatus *status, u8 cli
     s8 index;
     int i;
 
-    sys_memset(status, 0, sizeof(BtlvScuPartyStatus));
+    sys_memset(status, 0, sizeof(BtlvBGaugeParam));
     parties[0] = GetClientParty(scu->pokeCon, clientId1);
     counts[0] = GetNumMonsInParty(parties[0]);
     if (clientId2 < 4) {
@@ -2767,8 +2768,8 @@ static void func_ov167_021d408c(BtlvScu *scu, BtlvScuPartyStatus *status, u8 cli
             counts[1] = 3;
         }
     }
-    status->unk00 = arg4;
-    status->unk1C = func_ov167_0219c988(scu->mainModule);
+    status->side = arg4;
+    status->mode = func_ov167_0219c988(scu->mainModule);
     for (i = 0; i < 6; i++) {
         if (i < counts[0] + counts[1]) {
             if (i < counts[0]) {
@@ -2780,13 +2781,13 @@ static void func_ov167_021d408c(BtlvScu *scu, BtlvScuPartyStatus *status, u8 cli
             }
             mon = GetBattleMonFromParty(parties[side], index);
             if (IsFainted(mon)) {
-                status->status[side * 3 + index] = 2;
+                status->balls[side * 3 + index] = 2;
             } else if (GetBattleMonStatus(mon)) {
-                status->status[side * 3 + index] = 3;
+                status->balls[side * 3 + index] = 3;
             } else if (!CanPokemonBattle(mon)) {
-                status->status[side * 3 + index] = 0;
+                status->balls[side * 3 + index] = 0;
             } else {
-                status->status[side * 3 + index] = 1;
+                status->balls[side * 3 + index] = 1;
             }
         }
     }

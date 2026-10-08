@@ -14,9 +14,14 @@ void func_0206b954(int volume);
 // A handle to a sound player, which plays one sequence
 typedef struct NNSSndHandle NNSSndHandle;
 
+// Sets a sound player's volume, 0 to 127
+void func_0206be44(NNSSndHandle *handle, int volume);
 // Sets the pitch of the tracks in trackBitMask, in 64ths of a semitone; NitroSystem's NNS_SndPlayerSetTrackPitch by
 // its code
 void func_0206bee0(NNSSndHandle *handle, u32 trackBitMask, int pitch);
+// Set a value of the tracks in trackBitMask, as func_0206bee0 does the pitch
+void func_0206bf08(NNSSndHandle *handle, u32 trackBitMask, int value);
+void func_0206bf1c(NNSSndHandle *handle, u32 trackBitMask, int value);
 
 // NitroSystem's wave output, which plays raw samples on a channel of its own, under swan's names:
 // NNS_SndWaveOutAllocChannel, NNS_SndWaveOutFreeChannel, NNS_SndWaveOutStart, NNS_SndWaveOutStop and

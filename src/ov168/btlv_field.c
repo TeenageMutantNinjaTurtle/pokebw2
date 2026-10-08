@@ -285,7 +285,7 @@ void BtlvField_Main(BtlvField *field) {
             }
         }
     }
-    func_ov168_021e0d54(&field->palFade);
+    BtlvEffect_UpdateTexPaletteFade(&field->palFade);
 }
 
 void BtlvField_Draw(BtlvField *field) {

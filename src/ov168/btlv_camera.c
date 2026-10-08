@@ -98,14 +98,14 @@ void BtlvCamera_MoveTo(BtlvCamera *camera, const VecFx32 *pos, const VecFx32 *ta
         camera->posGoal.x = pos->x;
         camera->posGoal.y = pos->y;
         camera->posGoal.z = pos->z;
-        func_ov168_021e0b7c(&camera->pos, pos, &camera->posStep, FX32_CONST(frames));
+        BtlvEffTool_CalcStepVec(&camera->pos, pos, &camera->posStep, FX32_CONST(frames));
         camera->flags |= CAMERA_MOVE_POS;
     }
     if (target != NULL) {
         camera->targetGoal.x = target->x;
         camera->targetGoal.y = target->y;
         camera->targetGoal.z = target->z;
-        func_ov168_021e0b7c(&camera->target, target, &camera->targetStep, FX32_CONST(frames));
+        BtlvEffTool_CalcStepVec(&camera->target, target, &camera->targetStep, FX32_CONST(frames));
         camera->flags |= CAMERA_MOVE_TARGET;
     }
 }
@@ -203,23 +203,23 @@ static void BtlvCamera_Update(BtlvCamera *camera) {
                 }
             }
             if (camera->flags & CAMERA_MOVE_POS) {
-                func_ov168_021e0c10(&camera->pos.x, &camera->posStep.x, &camera->posGoal.x, &done);
-                func_ov168_021e0c10(&camera->pos.y, &camera->posStep.y, &camera->posGoal.y, &done);
-                func_ov168_021e0c10(&camera->pos.z, &camera->posStep.z, &camera->posGoal.z, &done);
+                BtlvEffTool_Step(&camera->pos.x, &camera->posStep.x, &camera->posGoal.x, &done);
+                BtlvEffTool_Step(&camera->pos.y, &camera->posStep.y, &camera->posGoal.y, &done);
+                BtlvEffTool_Step(&camera->pos.z, &camera->posStep.z, &camera->posGoal.z, &done);
                 if (done == TRUE) {
                     camera->flags &= ~CAMERA_MOVE_POS;
                 }
             }
             if (camera->flags & CAMERA_MOVE_TARGET) {
-                func_ov168_021e0c10(&camera->target.x, &camera->targetStep.x, &camera->targetGoal.x, &done);
-                func_ov168_021e0c10(&camera->target.y, &camera->targetStep.y, &camera->targetGoal.y, &done);
-                func_ov168_021e0c10(&camera->target.z, &camera->targetStep.z, &camera->targetGoal.z, &done);
+                BtlvEffTool_Step(&camera->target.x, &camera->targetStep.x, &camera->targetGoal.x, &done);
+                BtlvEffTool_Step(&camera->target.y, &camera->targetStep.y, &camera->targetGoal.y, &done);
+                BtlvEffTool_Step(&camera->target.z, &camera->targetStep.z, &camera->targetGoal.z, &done);
                 if (done == TRUE) {
                     camera->flags &= ~CAMERA_MOVE_TARGET;
                 }
             }
             if (camera->flags & CAMERA_SHAKE) {
-                done = func_ov168_021e0c50(&camera->shake, &camera->shakeOffset);
+                done = BtlvEffTool_Move(&camera->shake, &camera->shakeOffset);
                 if (done == TRUE) {
                     camera->flags &= ~CAMERA_SHAKE;
                 }

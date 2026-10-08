@@ -4,7 +4,6 @@
 #include "battle/btlv_b_gauge.h"
 #include "types.h"
 #include "battle/btl_pokeparam.h"
-#include "battle/btlv.h"
 #include "battle/btlv_effect.h"
 #include "constants/sound.h"
 #include "gfl/arc.h"
@@ -75,7 +74,7 @@ BtlvBGauge *BtlvBGauge_Create(const BtlvBGaugeParam *param, HeapID heapId) {
 
     task = GFL_HeapAllocate(HEAPID_TAIL(heapId), sizeof(BtlvBGaugeTask), FALSE, "btlv_b_gauge.c", 0x8b);
     task->gauge = work;
-    func_ov168_021e035c(GFL_TCBMgrAddTask(func_ov168_021e00ac(), BtlvBGauge_SlideTask, task, 0),
+    BtlvEffect_AddTask(GFL_TCBMgrAddTask(BtlvEffect_GetTCBManager(), BtlvBGauge_SlideTask, task, 0),
                         BtlvBGauge_SlideTaskEnd, 0);
     work->busy = TRUE;
     GFL_SndSEPlay(SEQ_SE_TB_START);
@@ -106,7 +105,7 @@ static void BtlvBGauge_LoadResources(BtlvBGauge *work) {
     work->chars = func_0204b81c(arc, 0x1cb, FALSE, 0, work->heapId);
     work->cellAnims = func_0204bde0(arc, 0x1cd, 0x1ce, work->heapId);
     work->palette = func_0204bba0(arc, 0x1cc, 0, 0xc0, work->heapId);
-    PaletteFade_LoadFromVRAM(func_ov168_021e00b8(), 2, func_0204bdc0(work->palette, FALSE) / 2, 0x20);
+    PaletteFade_LoadFromVRAM(BtlvEffect_GetPaletteFade(), 2, func_0204bdc0(work->palette, FALSE) / 2, 0x20);
 
     {
         ClActorSetup setup = { 0, 0, 0, 0, 0 };
@@ -166,7 +165,7 @@ static void BtlvBGauge_SlideTask(TCB *tcb, void *data) {
     u32 se;
 
     if (task->gauge->loaded == FALSE) {
-        func_ov168_021e03ac(tcb);
+        BtlvEffect_EndTask(tcb);
         return;
     }
 
@@ -232,7 +231,7 @@ static void BtlvBGauge_SlideTask(TCB *tcb, void *data) {
             func_0204c140(task->gauge->balls[i].actor, &task->gauge->balls[i].pos, 0);
         }
         if (moving == FALSE) {
-            func_ov168_021e03ac(tcb);
+            BtlvEffect_EndTask(tcb);
         }
         break;
     }

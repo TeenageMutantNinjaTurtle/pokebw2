@@ -123,7 +123,10 @@ typedef struct {
     s16 species1;
     s16 species2;
     s16 unk16;
-    u8 unk18[0x18];
+    u8 unk18[0xc];
+    // btlv_effect.c passes it to the field
+    s16 unk24;
+    u8 unk26[0xa];
     BtlStudioTurnEvent turnEvents[3];
     u8 unk3C[0x6c];
     // Messages by turn

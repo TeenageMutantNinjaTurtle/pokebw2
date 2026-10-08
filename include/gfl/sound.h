@@ -36,6 +36,8 @@ void GFL_SndDestroyHeap(void);
 void GFL_SndInit(void);
 // The player that plays a sequence
 s32 GFL_SndSeqGetPlayerIndex(u32 seq);
+// A sound player's handle
+NNSSndHandle *func_020061a8(s32 player);
 BOOL GFL_SndPlayerIsActive(s32 player);
 BOOL GFL_SndPlayerIsActiveAny(void);
 void GFL_SndPlayerStop(s32 player);
@@ -89,8 +91,13 @@ u32 PokeVoice_Load(u32 species, u32 form, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6
 u32 PokeVoice_Play(u32 species, u32 form, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
                    const PokeVoiceChatterInfo *chatterInfo);
 BOOL PokeVoice_StartPlayback(u32 handle);
+void PokeVoice_AdjustVolume(u32 handle, s8 volume);
+void PokeVoice_AdjustSpeed(u32 handle, s32 speed);
 BOOL PokeVoice_IsPlaying(u32 handle);
 BOOL PokeVoice_IsPlayingAny(void);
+// Room for count cries at once, and its release
+void PokeVoice_AllocMulti(u32 count, HeapID heapId);
+void PokeVoice_FreeMulti(void);
 void PokeVoice_ReleaseAll(void);
 void PokeVoice_Release(u32 handle);
 // What a handle plays: its volume, speed, samples, count of samples and sample rate

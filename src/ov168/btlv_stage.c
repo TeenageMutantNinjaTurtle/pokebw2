@@ -244,7 +244,7 @@ void BtlvStage_Main(BtlvStage *stage) {
             }
         }
     }
-    func_ov168_021e0d54(&stage->fade);
+    BtlvEffect_UpdateTexPaletteFade(&stage->fade);
 }
 
 void BtlvStage_Draw(BtlvStage *stage) {

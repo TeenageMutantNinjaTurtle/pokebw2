@@ -92,6 +92,7 @@ void MAT2_Rotation(MtxFx22 *mtx, fx32 sin, fx32 cos);
 void MAT2_Identity(MtxFx22 *mtx);
 void MAT2_Scaling(MtxFx22 *mtx, fx32 x, fx32 y);
 void MAT43_RotationY(MtxFx43 *mtx, fx32 sin, fx32 cos);
+void MAT43_RotationAxisAngle(MtxFx43 *mtx, const VecFx32 *axis, fx16 sin, fx16 cos);
 void MAT3_RotationY(MtxFx33 *mtx, fx32 sin, fx32 cos);
 void MAT3_RotationX(MtxFx33 *mtx, fx32 sin, fx32 cos);
 void MAT3_RotationY(MtxFx33 *mtx, fx32 sin, fx32 cos);
@@ -138,6 +139,8 @@ fx32 FX_Inv(fx32 x);
 // NitroSDK's FX_Mul as a function, rounding, and FX_Atan2Idx
 fx32 fx_mul_round(fx32 v1, fx32 v2);
 u16 fx_atan2(fx32 y, fx32 x);
+// NitroSDK's FX_AcosIdx
+u16 fx_acos(fx32 x);
 fx32 FX_Sqrt(fx32 x);
 fx32 FX_InvSqrt(fx32 x);
 

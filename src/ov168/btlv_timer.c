@@ -4,7 +4,7 @@
 #include "battle/btlv_timer.h"
 #include "types.h"
 #include "battle/btl_pokeparam.h"
-#include "battle/btlv.h"
+#include "battle/btlv_effect.h"
 #include "battle/btlv_gauge.h"
 #include "gfl/arc.h"
 #include "gfl/clact.h"
@@ -48,7 +48,7 @@ BtlvTimer *BtlvTimer_Create(HeapID heapId) {
     timer->chars = func_0204b81c(arc, 0x1ab, FALSE, CLACT_VRAM_MAIN, timer->heapId);
     timer->cellAnims = func_0204bde0(arc, 0x1ac, 0x1ad, timer->heapId);
     timer->palette = func_0204bba0(arc, BtlvGauge_PaletteFile(), CLACT_VRAM_MAIN, 0xe0, timer->heapId);
-    PaletteFade_LoadFromVRAM(func_ov168_021e00b8(), PALFADE_VRAM_MAIN_OBJ, func_0204bdc0(timer->palette, FALSE) / 2,
+    PaletteFade_LoadFromVRAM(BtlvEffect_GetPaletteFade(), PALFADE_VRAM_MAIN_OBJ, func_0204bdc0(timer->palette, FALSE) / 2,
                              0x20);
     GFL_ArcToolFree(arc);
     return timer;
@@ -94,7 +94,7 @@ void BtlvTimer_Start(BtlvTimer *timer, s32 battleLimit, s32 commandLimit) {
     timer->startTicks[0] = timer->startTicks[1] = clock();
     BtlvTimer_SetVisible(timer, 0, FALSE, FALSE);
     BtlvTimer_SetVisible(timer, 1, FALSE, FALSE);
-    timer->task = GFL_TCBMgrAddTask(func_ov168_021e00ac(), BtlvTimer_Task, timer, 0);
+    timer->task = GFL_TCBMgrAddTask(BtlvEffect_GetTCBManager(), BtlvTimer_Task, timer, 0);
 }
 
 static void BtlvTimer_DeleteActors(BtlvTimer *timer) {

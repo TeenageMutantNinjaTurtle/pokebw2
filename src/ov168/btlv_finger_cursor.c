@@ -4,7 +4,7 @@
 #include "battle/btlv_finger_cursor.h"
 #include "types.h"
 #include "battle/btl_pokeparam.h"
-#include "battle/btlv.h"
+#include "battle/btlv_effect.h"
 #include "gfl/arc.h"
 #include "gfl/clact.h"
 #include "gfl/heap.h"
@@ -44,7 +44,7 @@ BtlvFingerCursor *BtlvFingerCursor_Create(PaletteFade *fade, u32 paletteRow, Hea
     PaletteFade_LoadFromVRAM(fade, PALFADE_VRAM_SUB_OBJ, func_0204bdc0(cursor->palette, TRUE) / 2, 0x20);
     cursor->unit = func_0204bf1c(1, 0, heapId);
     GFL_ArcToolFree(arc);
-    cursor->task = GFL_TCBMgrAddTask(func_ov168_021e00ac(), BtlvFingerCursor_Task, cursor, 0);
+    cursor->task = GFL_TCBMgrAddTask(BtlvEffect_GetTCBManager(), BtlvFingerCursor_Task, cursor, 0);
     return cursor;
 }
 

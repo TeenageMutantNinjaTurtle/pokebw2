@@ -73,7 +73,7 @@ void BtlvBg_SetOffsetReq(BtlvBg *work, s32 x, s32 y) {
     BtlvBgScroll *scroll = GFL_HeapAllocate(HEAPID_TAIL(work->heapId), sizeof(BtlvBgScroll), FALSE, "btlv_bg.c", 0x8e);
     scroll->x = x;
     scroll->y = y;
-    func_ov168_021e035c(GFL_VBlankTCBAdd(BtlvBg_SetOffsetVBlank, scroll, 0), NULL, 0);
+    BtlvEffect_AddTask(GFL_VBlankTCBAdd(BtlvBg_SetOffsetVBlank, scroll, 0), NULL, 0);
 }
 
 void BtlvBg_StartMove(BtlvBg *work, u32 pos, u32 mode, s32 x, s32 y, s32 frames, s32 wait, s32 count) {
@@ -124,7 +124,7 @@ void BtlvBg_StartWave(BtlvBg *work, u32 mode, fx32 amplitude, s32 step, s32 fram
     }
     wave->shift = 0;
     SinWaveTable_Make(wave->table, wave->lines, 0xffff * step / 360, amplitude);
-    func_ov168_021e035c(GFL_TCBMgrAddTask(work->tcbMgr, BtlvBg_WaveTask, wave, 0), BtlvBg_WaveTaskEnd, 0);
+    BtlvEffect_AddTask(GFL_TCBMgrAddTask(work->tcbMgr, BtlvBg_WaveTask, wave, 0), BtlvBg_WaveTaskEnd, 0);
     wave->hblankTcb = GFL_HBlankTCBAdd(BtlvBg_WaveHBlank, wave, 0);
     wave->vblankTcb = GFL_VBlankTCBAdd(BtlvBg_WaveVBlank, wave, 10);
     work->waving = TRUE;
@@ -160,7 +160,7 @@ static void BtlvBg_AddMoveTask(BtlvBg *work, u32 mode, VecFx32 *start, const Vec
     case 0:
         break;
     case 1:
-        func_ov168_021e0b7c(&move->move.start, end, &move->move.step, FX32_CONST(frames));
+        BtlvEffTool_CalcStepVec(&move->move.start, end, &move->move.step, FX32_CONST(frames));
         break;
     case 3:
         move->move.stepTimeReset *= 2;
@@ -171,7 +171,7 @@ static void BtlvBg_AddMoveTask(BtlvBg *work, u32 mode, VecFx32 *start, const Vec
         move->move.step.z = FX_Div(end->z, FX32_CONST(frames));
         break;
     }
-    func_ov168_021e035c(GFL_TCBMgrAddTask(work->tcbMgr, func, move, 0), BtlvBg_MoveTaskEnd, 0);
+    BtlvEffect_AddTask(GFL_TCBMgrAddTask(work->tcbMgr, func, move, 0), BtlvBg_MoveTaskEnd, 0);
 }
 
 static void BtlvBg_MoveTask(TCB *tcb, void *data) {
@@ -189,11 +189,11 @@ static void BtlvBg_MoveTask(TCB *tcb, void *data) {
             done = FALSE;
         }
     } else {
-        done = func_ov168_021e0c50(&move->move, &move->pos);
+        done = BtlvEffTool_Move(&move->move, &move->pos);
     }
     BtlvBg_SetOffsetReq(work, move->pos.x >> FX32_SHIFT, move->pos.y >> FX32_SHIFT);
     if (done == TRUE) {
-        func_ov168_021e03ac(tcb);
+        BtlvEffect_EndTask(tcb);
     }
 }
 
@@ -206,7 +206,7 @@ static void BtlvBg_SetOffsetVBlank(TCB *tcb, void *data) {
     BtlvBgScroll *scroll = GFL_TCBGetData(tcb);
     GFL_BGSysMoveBG(3, BG_MOVE_SET_X, scroll->x);
     GFL_BGSysMoveBG(3, BG_MOVE_SET_Y, scroll->y);
-    func_ov168_021e03ac(tcb);
+    BtlvEffect_EndTask(tcb);
 }
 
 static void BtlvBg_WaveTask(TCB *tcb, void *data) {
@@ -236,14 +236,14 @@ static void BtlvBg_WaveTask(TCB *tcb, void *data) {
     if (wave->counter >= wave->frames) {
         GFL_TCBRemove(wave->hblankTcb);
         GFL_TCBRemove(wave->vblankTcb);
-        func_ov168_021e03ac(tcb);
+        BtlvEffect_EndTask(tcb);
     }
 }
 
 static void BtlvBg_WaveTaskEnd(TCB *tcb) {
     BtlvBgWave *wave = GFL_TCBGetData(tcb);
     wave->bg->waving = FALSE;
-    // BUG: func_ov168_021e03ac, which calls this end function, frees the task's data again after it
+    // BUG: BtlvEffect_EndTask, which calls this end function, frees the task's data again after it
 #ifndef BUGFIX
     GFL_HeapFree(wave);
 #endif
