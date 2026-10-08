@@ -6333,6 +6333,15 @@ overlays/ov287 0x021f8520 BPlistObj_InitCursor
 overlays/ov287 0x021f8558 BPlistObj_MovePlate
 overlays/ov287 0x021f8608 BPlistObj_SwapPlates
 overlays/ov287 0x021fa40c BPlistMain_GetPartySlot
+overlays/ov287 0x021facd0 BPlistCursor_Create
+overlays/ov287 0x021fad20 BPlistCursor_Delete
+overlays/ov287 0x021fad30 BPlistCursor_ChangePage
+overlays/ov287 0x021fad48 BPlistCursor_SetVisible
+overlays/ov287 0x021fad5c BPlistCursor_Put
+overlays/ov287 0x021fad78 BPlistCursor_CallbackCursorOn
+overlays/ov287 0x021fad8c BPlistCursor_CallbackCursorOff
+overlays/ov287 0x021fad98 BPlistCursor_CallbackTouch
+overlays/ov287 0x021fada4 BPlistCursor_CallbackMove
 overlays/ov290 0x021fcf84 WIFIBATTLEMATCH_PROC_FUNCTIONS
 overlays/ov294 0x021a1b20 IntroProc_Init
 overlays/ov294 0x021a1bc4 IntroProc_Exit
