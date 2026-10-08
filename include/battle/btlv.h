@@ -2,7 +2,7 @@
 #define POKEBW2_BATTLE_BTLV_H
 
 #include "types.h"
-#include "app/ov287.h"
+#include "battle/b_plist_main.h"
 #include "battle/btl_action.h"
 #include "battle/btl_pokeparam.h"
 #include "gfl/bg_sys.h"
@@ -219,7 +219,7 @@ void func_ov167_021cf1e0(BtlvCore *core);
 void func_ov167_021cf1f0(BtlvCore *core);
 BOOL func_ov167_021cf200(BtlvCore *core);
 BOOL func_ov167_021cf210(BtlvCore *core);
-void func_ov167_021cf234(BtlvCore *core, Ov287Param *param, u8 mode, u8 partyIndex, u32 move);
+void func_ov167_021cf234(BtlvCore *core, BPlistParam *param, u8 mode, u8 partyIndex, u32 move);
 void BattleClientCmd_StartPokeList(BtlvCore *core, const BtlvPokeListCmd *cmd, s32 partyIndex, u16 move,
                                    BtlvPokeSelectParam *select);
 void BattleClientCmd_QuitPokeSelect(BtlvCore *core);

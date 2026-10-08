@@ -8,6 +8,8 @@ tools that show the differences.
 
 ## Registers
 
+- A loop that walks on from a parameter reuses the parameter as its cursor, with the start kept in a local
+  (`int start = pos;`), as `b_plist_main.c`'s `BPlistMain_GetNextPos` does; a separate counter swaps the registers.
 - A `const` pointer parameter lets MWCC keep a value loaded through it across a store through another pointer; the
   original reloads it, so `btlv_effect.c`'s `BtlvEffTool_Step` takes its step pointer non-const. The same decided
   several vector copies in `btlv_mcss.c` and `btlv_effvm.c`: field-by-field copies from non-const sources.
@@ -158,6 +160,8 @@ Same instructions, registers swapped.
 
 ## Stack slots
 
+- Local initializers declared in separate blocks are each copied to the stack just before their call, as the four BG
+  setups of `b_plist_main.c`'s `BPlistMain_InitBG`; one block copies them all at the top.
 - Which of several locals of equal use MWCC spills follows where the group is declared among the function's other
   locals, not their order among themselves; and a spilled local assigned last in both branches of an if/else has its
   store merged into the join. `worldtrade.c`'s `WorldTrade_InitCellActor` declares `plttBuf` and then the four file
@@ -805,6 +809,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Switches
 
+- A `switch` with no `default:` whose cases leave one value unassigned keeps the index in `r3` instead of `r2`, as
+  `b_plist_main.c`'s `BPlistMain_InitPageCursor` does, and writing `case 0:` last moves its block to the end of the
+  switch (`BPlistMain_CanSwitch`).
 - `*result = N; break;` in every case makes later cases branch to an earlier case's `b`, a branch to a branch. A local
   set in each case and stored once after the switch gives direct branches: `scrcmd_fldmmdl.c`'s `s0078`.
 - Switch cases are laid out in source order, not by value, so the layout shows the order the cases were written in.
@@ -973,6 +980,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   routine of `app/mystery/mystery_gift_data.h`.
 
 ## When nothing moves it
+
+- An index into a flat array of actors that the source names by ranges is written with the range's enum base even
+  when that base is 0: `b_plist_obj.c`'s `BPlistObj_ShowList` matches only as `actors[BPLIST_ACTOR_ITEM + slot]`, since
+  the named 0 changes what the compiler reuses, and `u8` locals for its index bases fixed two swapped stack slots in
+  `BPlistObj_ShowMoveTypes`.
 
 - Before blaming registers, check every literal argument, mask and field offset against the original: 11 of 18
   leftovers of `btlv_input.c` were a swapped argument pair, a wrong mask width, an 8-byte struct that is 12 in the

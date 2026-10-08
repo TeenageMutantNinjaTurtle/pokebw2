@@ -1,6 +1,6 @@
 #include "types.h"
 #include "app/bag.h"
-#include "app/ov287.h"
+#include "battle/b_plist_main.h"
 #include "battle/btl_client.h"
 #include "battle/btl_main.h"
 #include "battle/btl_pokeparam.h"
@@ -108,7 +108,7 @@ struct BtlvCore {
     u32 monId;
     u32 result;
     BtlvOv286Param ov286;
-    Ov287Param ov287;
+    BPlistParam ov287;
     BtlvOv288Param ov288;
     BtlvOv289Param ov289;
     BtlvPokeSelectParam *selectParam;
@@ -698,7 +698,7 @@ BOOL func_ov167_021cf210(BtlvCore *core) {
     return TRUE;
 }
 
-void func_ov167_021cf234(BtlvCore *core, Ov287Param *param, u8 mode, u8 partyIndex, u32 move) {
+void func_ov167_021cf234(BtlvCore *core, BPlistParam *param, u8 mode, u8 partyIndex, u32 move) {
     u8 clientId;
     u8 unk1C;
     u8 index;
@@ -738,7 +738,7 @@ void func_ov167_021cf234(BtlvCore *core, Ov287Param *param, u8 mode, u8 partyInd
     param->unk14 = BtlSetup_GetBattleStyle(core->mainModule);
     param->usingKeys = func_ov169_0689b7c8(core->unk1C4);
     param->tcbManager = BtlvEffect_GetTCBManager();
-    param->unk2C = BtlvEffect_GetPaletteFade();
+    param->paletteFade = BtlvEffect_GetPaletteFade();
     param->gameData = func_ov167_0219bf98(core->mainModule);
     param->unk30 = 0;
     param->unk40 = func_ov167_021cf210(core);
@@ -791,7 +791,7 @@ BOOL BattleClientCmd_WaitPokeSelect(BtlvCore *core) {
         if (func_ov169_06899dfc(core->unk1C4)) {
             func_ov169_06899e24(core->unk1C4);
             GFL_OvlLoad(OVERLAY_ID(287));
-            func_ov287_021f8714(&core->ov287);
+            BPlistMain_Start(&core->ov287);
             core->subSeq++;
         }
         break;
@@ -932,7 +932,7 @@ BOOL func_ov167_021cf73c(BtlvCore *core) {
         if (core->ov286.item != 0 && core->ov286.unk2A != 2 && !func_ov169_0689ca94(core->ov286.item)) {
             core->ov287.item = core->ov286.item;
             GFL_OvlLoad(OVERLAY_ID(287));
-            func_ov287_021f8714(&core->ov287);
+            BPlistMain_Start(&core->ov287);
             core->subSeq = 5;
         } else {
             core->subSeq = 6;
@@ -1704,7 +1704,7 @@ BOOL func_ov167_021d0854(BtlvCore *core, u8 *slot) {
         if (func_ov169_06899dfc(core->unk1C4)) {
             func_ov169_06899e24(core->unk1C4);
             GFL_OvlLoad(OVERLAY_ID(287));
-            func_ov287_021f8714(&core->ov287);
+            BPlistMain_Start(&core->ov287);
             core->subSeq++;
         }
         break;

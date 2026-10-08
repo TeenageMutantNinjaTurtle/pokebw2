@@ -1,7 +1,8 @@
 #include "types.h"
 #include "app/ov139.h"
-#include "app/ov287.h"
 #include "app/p_status.h"
+#include "battle/b_app_tool.h"
+#include "battle/b_plist_main.h"
 #include "constants/arc.h"
 #include "constants/items.h"
 #include "constants/pokemon.h"
@@ -181,7 +182,7 @@ typedef struct {
     PaletteFade *paletteFade;
     // Whether the player was using the keys rather than the touch screen, for overlay 287's screen
     u8 usingKeys;
-    Ov287Param ov287Param;
+    BPlistParam ov287Param;
     PStatusParam *pstatusParam;
     ShinkaDemoView *view;
     ShinkaDemoEffect *effect;
@@ -621,11 +622,11 @@ static BOOL ShinkaDemo_Main(GameProc *proc, u32 *state, void *param, void *work)
             wk->ov287Param.unk14 = 0;
             wk->ov287Param.usingKeys = &wk->usingKeys;
             wk->ov287Param.tcbManager = wk->tcbManager;
-            wk->ov287Param.unk2C = wk->paletteFade;
+            wk->ov287Param.paletteFade = wk->paletteFade;
             wk->ov287Param.unk40 = 1;
             GFL_OvlLoad(OVERLAY_OV285);
             GFL_OvlLoad(OVERLAY_OV287);
-            func_ov287_021f8714(&wk->ov287Param);
+            BPlistMain_Start(&wk->ov287Param);
             GFL_FadeSet(2, 16, 0, 0);
         }
         break;
