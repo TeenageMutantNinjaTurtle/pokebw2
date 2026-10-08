@@ -18,3 +18,8 @@ src/ov286/b_bag_anm.c:
     complete
     .text       start:0x021f4f04 end:0x021f5354
     .rodata     start:0x021f6e90 end:0x021f6ec8
+
+src/ov286/b_bag_obj.c:
+    complete
+    .text       start:0x021f5354 end:0x021f5b64
+    .rodata     start:0x021f6ec8 end:0x021f71fc
