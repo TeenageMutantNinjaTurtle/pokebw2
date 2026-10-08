@@ -8,3 +8,27 @@ src/ov168/btlv_input.c:
     .text       start:0x021ea2a8 end:0x021ef794
     .rodata     start:0x021f35cc end:0x021f3d80
     .data       start:0x021f41a4 end:0x021f41d8
+
+src/ov168/btlv_camera.c:
+    complete
+    .text       start:0x021de6b4 end:0x021dec68
+    .rodata     start:0x021f2f74 end:0x021f2f98
+    .data       start:0x021f3f40 end:0x021f3f50
+
+src/ov168/btlv_stage.c:
+    complete
+    .text       start:0x021dda60 end:0x021de0f0
+    .rodata     start:0x021f2f54 end:0x021f2f6c
+    .data       start:0x021f3f20 end:0x021f3f30
+
+src/ov168/btlv_field.c:
+    complete
+    .text       start:0x021de0f0 end:0x021de6b4
+    .rodata     start:0x021f2f6c end:0x021f2f74
+    .data       start:0x021f3f30 end:0x021f3f40
+
+src/ov168/btlv_finger_cursor.c:
+    complete
+    .text       start:0x021f2cdc end:0x021f2f54
+    .rodata     start:0x021f3ef4 end:0x021f3f0c
+    .data       start:0x021f4214 end:0x021f4240

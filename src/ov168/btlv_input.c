@@ -7,6 +7,7 @@
 #include "battle/btl_main.h"
 #include "battle/btl_pokeparam.h"
 #include "battle/btlv.h"
+#include "battle/btlv_finger_cursor.h"
 #include "constants/arc.h"
 #include "constants/moves.h"
 #include "constants/sound.h"
