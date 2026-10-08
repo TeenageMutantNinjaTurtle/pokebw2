@@ -168,17 +168,32 @@ void func_ov168_021df7b8(u8 pos);
 BOOL func_ov168_021df7e8(void);
 BOOL func_ov168_021df850(u8 pos);
 void func_ov168_021dfac4(u32 arg0, s32 arg1);
+void func_ov168_021dfb40(void);
 void func_ov168_021dfdec(u8 arg0, u32 arg1, u32 arg2);
 void func_ov168_021dfe8c(u8 arg0, u8 arg1);
 u32 func_ov168_021dff14(u8 pos);
+void func_ov168_021dff2c(u32 pos, u32 mode, u32 arg2, u32 arg3, u32 arg4);
+void *func_ov168_021e008c(void);
 TCBManager *func_ov168_021e00ac(void);
 void *func_ov168_021e00b8(void);
 void *func_ov168_021e00c8(void);
+BtlMainModule *func_ov168_021e012c(void);
+void func_ov168_021e0274(u32 state);
+u32 func_ov168_021e0298(void);
+BOOL func_ov168_021e02e4(void);
+BOOL func_ov168_021e0304(void);
 void func_ov168_021e0430(u32 arg0);
 void func_ov168_021e0468(void);
+void func_ov168_021e04b0(u32 arg0);
+BOOL func_ov168_021e8364(void *data, u32 pos);
 void func_ov168_021e9c24(void *data, u32 arg1, u32 arg2);
 BOOL func_ov168_021e9e88(void *data);
 void func_ov168_021ea1cc(void *data, u32 arg1, Font *font);
+BOOL func_ov168_021f0b74(void *data, u32 pos);
+BtlvFingerCursor *BtlvFingerCursor_Create(PaletteFade *fade, u32 arg1, HeapID heapId);
+void func_ov168_021f2d9c(BtlvFingerCursor *cursor);
+BOOL func_ov168_021f2dcc(BtlvFingerCursor *cursor, s32 x, s32 y, u32 arg3, s32 arg4, u32 arg5);
+BOOL func_ov168_021f2e98(BtlvFingerCursor *cursor);
 
 // The battle view's touch screen, in overlay 169
 void *func_ov169_06899af0(BtlvCore *core, BtlMainModule *mainModule, BtlPokeCon *pokeCon, TCBExManager *tcbManager, Font *font,
@@ -222,6 +237,11 @@ BOOL func_ov169_0689ca94(u16 item);
 void func_ov169_0689cc74(BtlvPokeSelectParam *param, u8 index, u8 slot);
 u32 func_ov169_0689cca0(BtlvPokeSelectParam *param);
 u8 func_ov169_0689ccb4(BtlvPokeSelectParam *param, u8 index);
+// The cursor stops of btlv_input.c's target screen and their counts, by [pokeIndex][range], for doubles and triples
+extern const u8 data_ov169_0689e218[2][15];
+extern const u8 data_ov169_0689e238[3][15];
+extern const BtlvInputKeyStop *const data_ov169_0689e6e0[2][15];
+extern const BtlvInputKeyStop *const data_ov169_0689e884[3][15];
 
 // The battle's bag and selection screens, which share an address range
 void func_ov286_021f5b64(void *param);
