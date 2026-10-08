@@ -100,7 +100,6 @@ extern const GameProcFunctions data_ov140_0219eecc;
 extern const GameProcFunctions TOWNMAP_PROC_FUNCTIONS;
 extern const GameProcFunctions data_ov189_021ae03c;
 extern const GameProcFunctions data_ov215_021ab01c;
-extern const GameProcFunctions data_ov272_021f82b8;
 extern const GameProcFunctions data_ov143_021a039c;
 extern const GameProcFunctions data_ov145_021a0fe0;
 

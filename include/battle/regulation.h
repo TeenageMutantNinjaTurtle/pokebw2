@@ -16,7 +16,10 @@ struct Regulation {
     u8 unk9;
     u8 unkA[0x52];
     u8 unk5C[0x4c];
-    u8 unkA8[0x12];
+    u8 unkA8[0x10];
+    // Whether the partners' teams are shown in the selection, and its time limit
+    u8 showPartners;
+    u8 timeLimit;
     u8 unkBA;
     u8 unkBB;
 };

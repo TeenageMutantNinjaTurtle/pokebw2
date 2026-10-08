@@ -213,7 +213,7 @@ void *func_02043c64(int netId, void *work, int size) {
     return NULL;
 }
 
-void func_02043ca0(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_02043ca0(int netId, int size, const void *data, void *work, NetHandle *handle) {
     GFLNetInitData *ini;
 
     if (netId == GFL_NET_NETID_SERVER) {
@@ -249,7 +249,7 @@ static BOOL func_02043d10(int type) {
     return func_02042c9c(handle, netLdataWork->dest, 15, sizeof(NetLdataHeader), &header, 0, TRUE, FALSE);
 }
 
-void func_02043d6c(int netId, int size, void *data, void *work, NetHandle *handle) {
+void func_02043d6c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     NetLdataHeader *header = data;
     GFLNetInitData *ini;
 

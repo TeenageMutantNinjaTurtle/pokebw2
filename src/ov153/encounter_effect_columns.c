@@ -6,7 +6,7 @@ GameEvent *func_ov153_021f6200(GameSystem *gsys, Field *field) {
     VecFx32 pos = { 0, 0, FX32_CONST(264) };
 
     func_ov036_021c5ea0(Field_GetEncEff(field));
-    return func_ov148_021f59e0(gsys, &pos, func_ov153_021f623c, func_ov150_021f5fac);
+    return EncEffCapture_CreateFlashEvent(gsys, &pos, func_ov153_021f623c, EncEffGrid_Draw);
 }
 
 GameEvent *func_ov153_021f623c(GameSystem *gsys) {
@@ -17,7 +17,7 @@ GameEvent *func_ov153_021f623c(GameSystem *gsys) {
     param.init = NULL;
     param.update = func_ov153_021f6268;
     param.cellUpdate = func_ov153_021f62c4;
-    return func_ov150_021f5da0(gsys, &param, 1);
+    return EncEffGrid_CreateEvent(gsys, &param, 1);
 }
 
 // Shows one column at a time

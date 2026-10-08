@@ -162,21 +162,21 @@ static void CtvtComm_UpdateMembers(CommTvtWork *sys, CtvtComm *comm);
 static void CtvtComm_ClearMember(CommTvtWork *sys, CtvtComm *comm, CtvtCommMember *member);
 static void CtvtComm_UpdateMember(CommTvtWork *sys, CtvtComm *comm, CtvtCommMember *member, u8 netId);
 static BOOL CtvtComm_IsMemberTalking(CommTvtWork *sys, CtvtComm *comm, CtvtCommMember *member, u8 netId);
-static void CtvtComm_RecvPacket(int netId, int size, void *data, void *work, NetHandle *handle);
+static void CtvtComm_RecvPacket(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void *CtvtComm_GetVoiceBuffer(int netId, void *work, int size);
-static void CtvtComm_RecvVoice(int netId, int size, void *data, void *work, NetHandle *handle);
+static void CtvtComm_RecvVoice(int netId, int size, const void *data, void *work, NetHandle *handle);
 static BOOL CtvtComm_SendDraw(CommTvtWork *sys, CtvtComm *comm);
-static void CtvtComm_RecvDraw(int netId, int size, void *data, void *work, NetHandle *handle);
+static void CtvtComm_RecvDraw(int netId, int size, const void *data, void *work, NetHandle *handle);
 static BOOL CtvtComm_SendInfo(CommTvtWork *sys, CtvtComm *comm);
-static void CtvtComm_RecvInfo(int netId, int size, void *data, void *work, NetHandle *handle);
+static void CtvtComm_RecvInfo(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void *CtvtComm_GetInfoBuffer(int netId, void *work, int size);
 static void CtvtComm_UpdateGame(CommTvtWork *sys, CtvtComm *comm);
 static BOOL CtvtComm_SendGameCommand(CommTvtWork *sys, CtvtComm *comm);
-static void CtvtComm_RecvGameCommand(int netId, int size, void *data, void *work, NetHandle *handle);
+static void CtvtComm_RecvGameCommand(int netId, int size, const void *data, void *work, NetHandle *handle);
 static BOOL CtvtComm_SendGamePacket(CommTvtWork *sys, CtvtComm *comm);
-static void CtvtComm_RecvGamePacket(int netId, int size, void *data, void *work, NetHandle *handle);
+static void CtvtComm_RecvGamePacket(int netId, int size, const void *data, void *work, NetHandle *handle);
 static BOOL CtvtComm_SendGameData(CommTvtWork *sys, CtvtComm *comm);
-static void CtvtComm_RecvGameData(int netId, int size, void *data, void *work, NetHandle *handle);
+static void CtvtComm_RecvGameData(int netId, int size, const void *data, void *work, NetHandle *handle);
 
 static const NetCommand sCtvtCommCommands[] = {
     { CtvtComm_RecvPacket, NULL },      { CtvtComm_RecvVoice, CtvtComm_GetVoiceBuffer },
@@ -862,9 +862,9 @@ BOOL CtvtComm_SendPacketData(CommTvtWork *sys, CtvtComm *comm, u8 type, const vo
                          FALSE);
 }
 
-static void CtvtComm_RecvPacket(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void CtvtComm_RecvPacket(int netId, int size, const void *data, void *work, NetHandle *handle) {
     CtvtComm *comm = work;
-    CtvtCommPacket *packet = data;
+    const CtvtCommPacket *packet = data;
     u8 selfNetId = func_02042a6c(func_02040440());
 
     switch (packet->type) {
@@ -1006,7 +1006,7 @@ static void *CtvtComm_GetVoiceBuffer(int netId, void *work, int size) {
     return comm->voicePacket;
 }
 
-static void CtvtComm_RecvVoice(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void CtvtComm_RecvVoice(int netId, int size, const void *data, void *work, NetHandle *handle) {
     CtvtComm *comm = work;
     CtvtMic *mic = CommTvt_GetMic(comm->sys);
     CtvtVoicePacket *packet = comm->voicePacket;
@@ -1057,7 +1057,7 @@ static BOOL CtvtComm_SendDraw(CommTvtWork *sys, CtvtComm *comm) {
     return TRUE;
 }
 
-static void CtvtComm_RecvDraw(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void CtvtComm_RecvDraw(int netId, int size, const void *data, void *work, NetHandle *handle) {
     CtvtComm *comm = work;
     DrawSystem *drawSystem = CommTvt_GetDrawSystem(comm->sys);
     u8 count = size / sizeof(DrawCommand);
@@ -1065,7 +1065,7 @@ static void CtvtComm_RecvDraw(int netId, int size, void *data, void *work, NetHa
 
     func_02042a6c(func_02040440());
     for (i = 0; i < count; i++) {
-        DrawSystem_AddCommand(drawSystem, (DrawCommand *)data + i);
+        DrawSystem_AddCommand(drawSystem, (const DrawCommand *)data + i);
     }
 }
 
@@ -1076,7 +1076,7 @@ static BOOL CtvtComm_SendInfo(CommTvtWork *sys, CtvtComm *comm) {
                          TRUE, TRUE, TRUE);
 }
 
-static void CtvtComm_RecvInfo(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void CtvtComm_RecvInfo(int netId, int size, const void *data, void *work, NetHandle *handle) {
     CtvtComm *comm = work;
 
     if (comm->members[netId].infoReceived == FALSE) {
@@ -1133,9 +1133,9 @@ static BOOL CtvtComm_SendGameCommand(CommTvtWork *sys, CtvtComm *comm) {
                          &comm->gameCommand, TRUE, FALSE, FALSE);
 }
 
-static void CtvtComm_RecvGameCommand(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void CtvtComm_RecvGameCommand(int netId, int size, const void *data, void *work, NetHandle *handle) {
     CtvtComm *comm = work;
-    u16 *command = data;
+    const u16 *command = data;
     CtvtGame *game = CommTvt_GetGame(comm->sys);
     u8 selfNetId = func_02042a6c(func_02040440());
 
@@ -1202,9 +1202,9 @@ static BOOL CtvtComm_SendGamePacket(CommTvtWork *sys, CtvtComm *comm) {
     return sent;
 }
 
-static void CtvtComm_RecvGamePacket(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void CtvtComm_RecvGamePacket(int netId, int size, const void *data, void *work, NetHandle *handle) {
     CtvtComm *comm = work;
-    CtvtGamePacket *packet = data;
+    const CtvtGamePacket *packet = data;
     CtvtGame *game = CommTvt_GetGame(comm->sys);
     u8 selfNetId = func_02042a6c(func_02040440());
 
@@ -1298,7 +1298,7 @@ static BOOL CtvtComm_SendGameData(CommTvtWork *sys, CtvtComm *comm) {
                          &comm->gameData, TRUE, TRUE, FALSE);
 }
 
-static void CtvtComm_RecvGameData(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void CtvtComm_RecvGameData(int netId, int size, const void *data, void *work, NetHandle *handle) {
     CtvtComm *comm = work;
     CtvtGame *game = CommTvt_GetGame(comm->sys);
 

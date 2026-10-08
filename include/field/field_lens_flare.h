@@ -33,7 +33,7 @@ struct FieldLensFlare {
 
 FieldLensFlareData *FieldLensFlareData_Create(HeapID heapId);
 FieldLensFlare *FieldLensFlare_Create(GameSystem *gameSystem, GameData *gameData, FieldExpObjSystem *expObjSys,
-                                      u32 effectIndex, u32 dayPeriod, HeapID heapId);
+                                      u8 effectIndex, u32 dayPeriod, HeapID heapId);
 void FieldLensFlareData_Free(FieldLensFlareData *data);
 void FieldLensFlare_Free(FieldLensFlare *lensFlare);
 void FieldLensFlare_Update(FieldLensFlare *lensFlare, FieldCamera *camera);

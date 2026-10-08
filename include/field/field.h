@@ -76,9 +76,16 @@ void func_ov036_021889c8(void *msgWin);
 // Frees the balloon at once, and prints another message in it
 void func_ov036_02188818(void *msgWin);
 void func_ov036_02188844(void *msgWin, StrBuf *strbuf);
+// The list window of the field's message BG: create, free, clear and print a line
+void *func_ov036_02187ca0(void *msgBGSys, MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
+void func_ov036_02187d10(void *window);
+void func_ov036_02187d28(void *window, u16 x, u16 y, StrBuf *strbuf);
+void func_ov036_02187d38(void *window);
 // The system message window of the field's message BG: create, close, print, whether printing has ended, skip
 // to the end, and its bitmap window
 void *func_ov036_02188498(void *msgBGSys, MsgData *msgData, u32 a2);
+// Prints a message of the window's message data
+void func_ov036_02188538(void *window, u32 x, u32 y, u32 messageId);
 void func_ov036_02188504(void *window);
 void func_ov036_02188580(void *window, u32 x, u32 y, StrBuf *strbuf);
 BOOL func_ov036_021885bc(void *window);
@@ -188,6 +195,7 @@ void func_ov036_02187ea0(void *window);
 void *func_ov036_021c3d9c(PlayerInfo *info, Field *field, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 u32 func_ov036_021c3f98(void *obj);
 void func_ov036_021c3eb4(void *obj);
+void *func_ov036_021c6574(void *effects, u32 a1, const VecFx32 *pos);
 void func_ov036_021c65a8(void *obj, u16 a1);
 void func_ov036_021c65e8(void *obj, u16 a1);
 void FieldPlayer_SetWPos(FieldPlayer *player, const VecFx32 *pos);
@@ -297,6 +305,13 @@ void func_ov036_021878d0(void *msgBGSys);
 void func_ov036_0218796c(void *msgBGSys);
 void func_ov036_02187760(void *msgBGSys);
 void func_ov036_0218776c(void *msgBGSys);
+// Releases the BG of the field's message BG and returns TRUE, or returns FALSE if it has none
+BOOL func_ov036_02187868(void *msgBGSys);
+void func_ov036_021879c0(void *msgBGSys);
+// The state of a message window of the field's message BG. fld_faceup.c moves the mouth from state 0 to state 2,
+// which looks like printing and finished
+u32 func_ov036_02188cbc(void *window);
+void func_ov036_021b5180(PlaceName *placeName);
 // Overlay 34, which the Union Room and the Entralink load
 void *func_ov034_0217b768(HeapID heapId);
 void func_ov034_0217b794(void *work);

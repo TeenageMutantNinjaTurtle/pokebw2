@@ -45,10 +45,10 @@ struct DeliveryIrcWork {
 static void func_ov012_02152c0c(void *work, int netId);
 static void func_ov012_02152c18(DeliveryIrcWork *pWork, DeliveryIrcSeq seq);
 static void func_ov012_02152c24(DeliveryIrcWork *pWork, DeliveryIrcSeq seq, u32 line);
-static void func_ov012_02152c2c(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov012_02152c30(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov012_02152c44(int netId, int size, void *data, void *work, NetHandle *handle);
-static void func_ov012_02152c5c(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov012_02152c2c(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov012_02152c30(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov012_02152c44(int netId, int size, const void *data, void *work, NetHandle *handle);
+static void func_ov012_02152c5c(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void *func_ov012_02152c68(int netId, void *work, int size);
 static void func_ov012_02152c70(void *work);
 static void func_ov012_02152c74(void *work);
@@ -124,10 +124,10 @@ static void func_ov012_02152c24(DeliveryIrcWork *pWork, DeliveryIrcSeq seq, u32 
     func_ov012_02152c18(pWork, seq);
 }
 
-static void func_ov012_02152c2c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02152c2c(int netId, int size, const void *data, void *work, NetHandle *handle) {
 }
 
-static void func_ov012_02152c30(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02152c30(int netId, int size, const void *data, void *work, NetHandle *handle) {
     DeliveryIrcWork *pWork = work;
     const DeliveryIrcHeader *header = data;
 
@@ -135,14 +135,14 @@ static void func_ov012_02152c30(int netId, int size, void *data, void *work, Net
     pWork->seed = header->seed;
 }
 
-static void func_ov012_02152c44(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02152c44(int netId, int size, const void *data, void *work, NetHandle *handle) {
     DeliveryIrcWork *pWork = work;
     const DeliveryIrcWanted *wanted = data;
 
     pWork->wanted = *wanted;
 }
 
-static void func_ov012_02152c5c(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02152c5c(int netId, int size, const void *data, void *work, NetHandle *handle) {
     DeliveryIrcWork *pWork = work;
     const u32 *noData = data;
 

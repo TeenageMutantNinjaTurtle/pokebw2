@@ -1,4 +1,5 @@
 #include "types.h"
+#include "field/fest_mission_hollow.h"
 #include "field/field.h"
 #include "field/field_actor.h"
 #include "field/rival_select.h"
@@ -35,7 +36,7 @@ void func_ov073_021e8bfc(RivalSelectContext *context, u32 id) {
 }
 
 BOOL func_ov073_021e8c4c(RivalSelectContext *context) {
-    if (func_ov026_0216fa30(context)) {
+    if (FesMissionHollow_IsActive(context)) {
         func_ov073_021e8c64(context);
     }
     return FALSE;

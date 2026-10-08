@@ -4,7 +4,7 @@ from:0x021f6268 kind:thumb_call to:0x021f5a20 module:overlays(146,148,149,155,15
 from:0x021f6270 kind:load to:0x021f64c0 module:overlay(154)
 from:0x021f6274 kind:load to:0x021f627d module:overlay(154)
 from:0x021f6278 kind:load to:0x021f5fed module:overlay(150)
-from:0x021f6296 kind:thumb_call to:0x021f5de0 module:overlays(150,151)
+from:0x021f6296 kind:thumb_call to:0x021f5de0 module:overlay(150)
 from:0x021f62a0 kind:load to:0x021f62ad module:overlay(154)
 from:0x021f62a4 kind:load to:0x021f62f1 module:overlay(154)
 from:0x021f62a8 kind:load to:0x021f6355 module:overlay(154)

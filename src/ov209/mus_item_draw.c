@@ -38,7 +38,7 @@ MusItemDrawSys *MusItemDraw_InitSystem(BlActScene *blact, u16 count, HeapID heap
         sys->items[i].active = FALSE;
         sys->items[i].update = FALSE;
     }
-    sys->itemData = func_ov210_021eef38(heapId);
+    sys->itemData = MusItemData_Init(heapId);
     for (i = 0; i < 16; i++) {
         sys->shadowPalette[i] = GX_RGB(22, 18, 22);
     }
@@ -49,7 +49,7 @@ void MusItemDraw_TermSystem(MusItemDrawSys *sys) {
     int i;
 
     GfdClearVramTransferQueue();
-    func_ov210_021eef64(sys->itemData);
+    MusItemData_Free(sys->itemData);
     for (i = 0; i < sys->count; i++) {
         if (sys->items[i].active == TRUE) {
             MusItemDraw_DelItem(sys, &sys->items[i]);
@@ -76,7 +76,7 @@ void MusItemDraw_UpdateSystem(MusItemDrawSys *sys) {
             u8 height;
 
             if (item->useOffset == TRUE) {
-                func_ov210_021eef84(item->data, offset);
+                MusItemData_GetOffset(item->data, offset);
                 if (item->scaleX < 0) {
                     offset[0] *= -1;
                 }
@@ -114,7 +114,7 @@ static void MusItemDraw_GetFaceSize(MusItemDraw *item, u8 *width, u8 *height) {
     u16 texWidth;
     u16 texHeight;
 
-    func_0204e4d0(func_ov210_021eef94(item->data), &texWidth, &texHeight);
+    func_0204e4d0(MusItemData_GetTexSize(item->data), &texWidth, &texHeight);
     *width = texWidth / 32;
     *height = texHeight / 32;
 }
@@ -124,11 +124,11 @@ BOOL MusItemDraw_CanEquipPos(MusItemDraw *item, u8 pos) {
 }
 
 BOOL MusItemDraw_ItemCanEquipPos(MusItemDrawSys *sys, u16 itemId, u8 pos) {
-    return func_ov210_021ef018(func_ov210_021eef78(sys->itemData, itemId), pos);
+    return func_ov210_021ef018(MusItemData_GetItem(sys->itemData, itemId), pos);
 }
 
 BOOL MusItemDraw_IsItemOfPos(MusItemDrawSys *sys, u16 itemId, u8 pos) {
-    return func_ov210_021ef088(func_ov210_021eef78(sys->itemData, itemId), pos);
+    return func_ov210_021ef088(MusItemData_GetItem(sys->itemData, itemId), pos);
 }
 
 BOOL MusItemDraw_GetItemFlag7(MusItemDraw *item) {
@@ -168,8 +168,8 @@ MusItemDraw *MusItemDraw_AddItem(MusItemDrawSys *sys, u16 itemId, void *texResou
     u8 height;
 
     sys->items[index].texFileId = MusItemDraw_GetTexFileId(itemId);
-    sys->items[index].data = func_ov210_021eef78(sys->itemData, itemId);
-    size = func_ov210_021eef94(sys->items[index].data);
+    sys->items[index].data = MusItemData_GetItem(sys->itemData, itemId);
+    size = MusItemData_GetTexSize(sys->items[index].data);
     MusItemDraw_GetFaceSize(&sys->items[index], &width, &height);
     sys->items[index].material =
         BlActScene_AddMaterialNewTex(sys->blact, texResource, 0, size, width * 32, height * 32);
@@ -184,8 +184,8 @@ MusItemDraw *MusItemDraw_AddItemWithMaterial(MusItemDrawSys *sys, u16 itemId, u3
     u8 height;
 
     sys->items[index].texFileId = MusItemDraw_GetTexFileId(itemId);
-    sys->items[index].data = func_ov210_021eef78(sys->itemData, itemId);
-    func_ov210_021eef94(sys->items[index].data);
+    sys->items[index].data = MusItemData_GetItem(sys->itemData, itemId);
+    MusItemData_GetTexSize(sys->items[index].data);
     MusItemDraw_GetFaceSize(&sys->items[index], &width, &height);
     sys->items[index].material = material;
     sys->items[index].ownMaterial = FALSE;
@@ -221,7 +221,7 @@ void MusItemDraw_DelItem(MusItemDrawSys *sys, MusItemDraw *item) {
 
 void MusItemDraw_ChangeItem(MusItemDrawSys *sys, MusItemDraw *item, u16 itemId, u16 material) {
     item->texFileId = MusItemDraw_GetTexFileId(itemId);
-    item->data = func_ov210_021eef78(sys->itemData, itemId);
+    item->data = MusItemData_GetItem(sys->itemData, itemId);
     item->shadow = FALSE;
     func_0204ea08(sys->blact, item->actor, &material);
     if (item->ownMaterial == TRUE) {
@@ -302,7 +302,7 @@ BOOL MusItemDraw_GetUseOffset(MusItemDrawSys *sys, MusItemDraw *item) {
 }
 
 void MusItemDraw_GetItemOffset(MusItemDraw *item, s32 *offset) {
-    func_ov210_021eef84(item->data, offset);
+    MusItemData_GetOffset(item->data, offset);
 }
 
 void *MusItemDraw_GetItemData(MusItemDrawSys *sys) {

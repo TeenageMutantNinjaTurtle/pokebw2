@@ -142,7 +142,7 @@ u16 func_0204f31c(BlActSys *sys, u16 material, void *texResource) {
     return idx;
 }
 
-void BlActSys_FreeMaterials(BlActSys *sys, u32 first, u32 count) {
+void BlActSys_FreeMaterials(BlActSys *sys, u16 first, u32 count) {
     u32 i;
 
     for (i = 0; i < count; i++) {
@@ -367,7 +367,8 @@ BOOL func_0204f768(BlActSys *sys, u32 actor, u16 *cmd) {
     u16 last = sys->handles[actor].cmd;
 
     *cmd = last;
-    if ((u16)(last - BLACT_ANIM_CMD_GOTO) <= BLACT_ANIM_CMD_END - BLACT_ANIM_CMD_GOTO) {
+    if (last == BLACT_ANIM_CMD_GOTO || last == BLACT_ANIM_CMD_LOOP || last == BLACT_ANIM_CMD_CHANGE
+        || last == BLACT_ANIM_CMD_END) {
         return TRUE;
     }
     return FALSE;

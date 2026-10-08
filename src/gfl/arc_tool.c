@@ -76,9 +76,10 @@ static void GFL_ArcSysInitArcHandle(FSFile *file, u32 arcId) {
     if (!sArcSys.inMemory) {
         romfs_fopen(file, ((const char **)sArcSys.table)[arcId]);
     } else {
-        const NarcFATBEntry *ranges = sArcSys.table;
+        u32 size = ((const NarcFATBEntry *)sArcSys.table)[arcId].end;
 
-        extfs_fopen(file, (const void *)ranges[arcId].start, ranges[arcId].end - ranges[arcId].start);
+        size -= ((const NarcFATBEntry *)sArcSys.table)[arcId].start;
+        extfs_fopen(file, (const void *)((const NarcFATBEntry *)sArcSys.table)[arcId].start, size);
     }
 }
 

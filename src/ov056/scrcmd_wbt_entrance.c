@@ -1,8 +1,8 @@
 #include "types.h"
+#include "field/event_wbt.h"
 #include "field/event_wbt_wifi.h"
 #include "field/field.h"
 #include "field/field_script.h"
-#include "field/ov022.h"
 #include "field/ov135.h"
 #include "field/scrcmd_wbt.h"
 #include "field/wbt.h"
@@ -232,7 +232,7 @@ BOOL func_ov056_021e7a4c(VM *vm, FieldScriptEnv *env) {
     u16 *var = ScriptReadVar(vm, env);
     WbtSystem *sys = func_ov055_021e5800(env);
 
-    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(22), func_ov022_0216e6e8, sys));
+    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(22), EventWbtPokeSelect_Create, sys));
     func_ov055_021e5cd8(sys, var);
     return TRUE;
 }
@@ -245,7 +245,7 @@ BOOL func_ov056_021e7a9c(VM *vm, FieldScriptEnv *env) {
     u16 *var2 = ScriptReadVar(vm, env);
     WbtOv326Param2 *param = func_ov055_021e6ac8(heapId, gsys, 2, var1, var2);
 
-    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(22), func_ov022_0216e8f8, param));
+    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(22), EventWbtDownload_Create, param));
     return TRUE;
 }
 
@@ -257,7 +257,7 @@ BOOL func_ov056_021e7b00(VM *vm, FieldScriptEnv *env) {
 
     GSYS_GetField(gsys);
     param = func_ov055_021e6a64(heapId, gsys, ScriptReadVar(vm, env));
-    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(22), func_ov022_0216e878, param));
+    ScriptWork_CallEvent(work, GameEvent_CreateOverlayDelegate(gsys, OVERLAY_ID(22), EventWbtWinRecord_Create, param));
     return TRUE;
 }
 

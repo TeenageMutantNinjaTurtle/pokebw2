@@ -33,7 +33,7 @@ struct DeliveryBeaconWork {
 };
 
 static void func_ov012_0215291c(void *work, int netId);
-static void func_ov012_02152920(int netId, int size, void *data, void *work, NetHandle *handle);
+static void func_ov012_02152920(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void func_ov012_02152924(void *work, int netId);
 static void func_ov012_02152928(void *work);
 static void *func_ov012_0215292c(void *work);
@@ -94,7 +94,7 @@ static GFLNetInitData data_ov012_0216e034 = {
 static void func_ov012_0215291c(void *work, int netId) {
 }
 
-static void func_ov012_02152920(int netId, int size, void *data, void *work, NetHandle *handle) {
+static void func_ov012_02152920(int netId, int size, const void *data, void *work, NetHandle *handle) {
 }
 
 static void func_ov012_02152924(void *work, int netId) {

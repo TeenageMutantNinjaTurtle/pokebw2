@@ -45,7 +45,7 @@ static BOOL MBDataConv_Connect(MBDataConv *conv, u32 *seq);
 static MBGameRegistry *MBDataConv_CreateRegistry(StrBuf *name, StrBuf *intro, HeapID heapId);
 static void MBDataConv_FreeRegistry(MBGameRegistry *registry);
 static int MBDataConv_UpdateEntry(MBDataConv *conv);
-static void MBDataConv_OnWirelessDone(BOOL success);
+static BOOL MBDataConv_OnWirelessDone(BOOL success);
 static void MBDataConv_SoftResetCallback(void *work);
 
 static BOOL sMBDataConvWirelessDone;
@@ -335,8 +335,9 @@ static int MBDataConv_UpdateEntry(MBDataConv *conv) {
     return 0;
 }
 
-static void MBDataConv_OnWirelessDone(BOOL success) {
+static BOOL MBDataConv_OnWirelessDone(BOOL success) {
     sMBDataConvWirelessDone = TRUE;
+    return TRUE;
 }
 
 static void MBDataConv_SoftResetCallback(void *work) {

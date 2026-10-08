@@ -41,6 +41,7 @@
 #include "save/player_info.h"
 #include "save/pokedex.h"
 #include "save/save_control.h"
+#include "save/save_outside.h"
 #include "system/app_keycursor.h"
 #include "system/bgwinfrm.h"
 #include "system/blink_palanm.h"
@@ -332,9 +333,9 @@ static BOOL StartMenu_Init(GameProc *proc, u32 *state, void *param, void *work) 
         wk->keyInfo = getKeyInfoSaveBlk(wk->save);
     } else {
         GFL_OvlLoad(OVERLAY_ID(331));
-        ov331 = func_ov331_021bea20(HEAPID_STARTMENU);
-        wk->keyInfo = func_0201046c(func_ov331_021bee80(ov331));
-        func_ov331_021bec1c(ov331);
+        ov331 = SaveOutside_Load(HEAPID_STARTMENU);
+        wk->keyInfo = func_0201046c(SaveOutside_GetKeyData(ov331));
+        SaveOutside_Free(ov331);
         GFL_OvlUnload(OVERLAY_ID(331));
     }
     return TRUE;

@@ -76,6 +76,25 @@ typedef struct {
     s32 date;
 } MysteryGiftPokemon;
 
+// The save's block of mystery gifts, which mgEncryptData encrypts
+#define SAVE_BLOCK_MYSTERY_GIFT 0x22
+
+typedef struct {
+    // A bit for each gift ID received
+    u8 receivedFlags[0x100];
+    MysteryGift cards[12];
+    // Kept by mgEncryptData at the end of the data it encrypts
+    u16 checksum;
+    u16 key;
+} MysteryGiftSaveData;
+
+// What mgEncryptData and mgDecryptData encrypt: the save's block, or the gifts kept outside the save (save_outside.c)
+#define MG_DATA_OUTSIDE 0
+#define MG_DATA_SAVE 1
+
+void mgEncryptData(void *data, u32 kind);
+void mgDecryptData(void *data, u32 kind);
+
 // Loads the mystery gift save into a new buffer, and frees it. Function name from swan
 MysteryGiftSave *mysteryGiftBlock(SaveControl *save, u32 a1, HeapID heapId);
 void func_0200aa54(MysteryGiftSave *save);

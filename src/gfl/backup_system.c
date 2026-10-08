@@ -451,12 +451,12 @@ static void func_0203b148(FooterCheck *check, SaveData *sv, u8 *data, u32 copy) 
 
 // Loads a save with a backup, taking each block from a copy that has it right
 static u32 func_0203b170(SaveData *sv, u32 heapId, BOOL checkCount, u32 count) {
+    u8 *data;
     u32 end;
-    u32 offset;
     u8 *mainData;
     u8 *backupData;
     u16 *crcs;
-    u8 *data;
+    u32 offset;
     u32 size;
     u32 copyIndex;
     u32 i;

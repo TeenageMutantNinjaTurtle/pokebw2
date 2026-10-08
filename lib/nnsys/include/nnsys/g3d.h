@@ -226,6 +226,12 @@ typedef struct {
     u32 texImageParam;
     u32 extraParam;
 } NNSG3dResDictTexData;
+
+// The data of a palette dictionary entry: the palette's offset in 8-byte units, and NNS_G3D_RESPLTT_USEPLTT4
+typedef struct {
+    u16 offset;
+    u16 flag;
+} NNSG3dResDictPlttData;
 void *NNS_G3DResGetAnm(const NNSG3dResFileHeader *header, u32 idx);
 
 // Textures and palettes in VRAM: NNS_G3dTexGetRequiredSize, NNS_G3dTexSetTexKey, NNS_G3dTexLoad,
