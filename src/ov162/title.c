@@ -597,7 +597,7 @@ static void TitleG3D_Draw(TitleG3D *g3d, HeapID heapId) {
     GFL_G3DSysReset();
     GFL_G3DSysMtxViewFlush();
     for (i = 0; i < 3; i++) {
-        GFL_G3DSysDrawObj(GFL_G3DMgrGetActor(g3d->manager, firstActor + i), (SRTMatrix *)&sTransform);
+        GFL_G3DSysDrawObj(GFL_G3DMgrGetActor(g3d->manager, firstActor + i), &sTransform);
     }
     GFL_G3DSysReqSwapBuffers();
     for (k = 0; k < 3; k++) {

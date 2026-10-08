@@ -39,8 +39,8 @@ u16 Field_GetDayPeriod(Field *field);
 BOOL Field_GetSeasonBannerOverdrawFlag(Field *field);
 void Field_SetEffectRunningFlag(Field *field, BOOL flag);
 void *Field_GetNDemoDataHandle(Field *field);
-void Field_SetCasteliaRush(Field *field, BOOL flag);
-BOOL Field_GetCasteliaRush(Field *field);
+void Field_SetCasteliaRush(Field *field, CasteliaRush *rush);
+CasteliaRush *Field_GetCasteliaRush(Field *field);
 void *Field_GetColorPostFX(Field *field);
 void Field_SetPlayerPosPtr(Field *field, VecFx32 *position);
 // The money window that the scripts show on the field's message BG
@@ -55,6 +55,8 @@ u32 func_ov012_02169b78(GameData *gameData);
 // The size of a message in the field's message BG, in tiles
 void CalcMsgWindowDimensions(void *msgBGSys, StrBuf *strbuf, u8 *width, u8 *height);
 // Shows a message as a balloon of an index in the field's message BG, and removes it
+// Shows message msgId of msgData as a balloon of an index in the field's message BG
+void func_ov036_02188d6c(void *msgBGSys, MsgData *msgData, u32 msgId, u16 index, u8 x, u8 y, u8 width, u8 a7);
 void func_ov036_02188dfc(void *msgBGSys, StrBuf *strbuf, u16 index, u8 x, u8 y, u8 width, u8 a6, u32 a7);
 void func_ov036_02188e90(void *msgBGSys, u16 index);
 // The money window of the field's message BG
@@ -254,7 +256,6 @@ void ShutdownFollowWork(GameData *gameData);
 BOOL func_ov011_02154e70(GameData *gameData, u32 a1);
 void func_ov012_02162f44(GameData *gameData);
 void func_ov012_021683f4(GameSystem *gsys, u16 zoneId);
-u32 func_ov012_02169fb0(void);
 void func_ov028_02170ec8(GameSystem *gsys);
 void func_ov036_0219ad24(FieldPlayer *player, RailPosition *pos);
 void func_ov036_021a2398(EncountSystem *encount, u32 a1);

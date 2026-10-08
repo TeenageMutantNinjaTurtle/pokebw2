@@ -6,6 +6,7 @@
 
 #include "types.h"
 #include "struct_decls.h"
+#include "field/field_script.h"
 #include "system/vm.h"
 
 BOOL s013F_EvCameraInit(VM *vm, FieldScriptEnv *env);
@@ -18,5 +19,7 @@ BOOL s0144_EvCameraReturn(VM *vm, FieldScriptEnv *env);
 BOOL s0147_EvCameraMoveToDefault(VM *vm, FieldScriptEnv *env);
 BOOL s0145_EvCameraWait(VM *vm, FieldScriptEnv *env);
 BOOL s0148_EvCameraShake(VM *vm, FieldScriptEnv *env);
+// FIELD_SCRIPT_SUB_EVENT_FINISH_FUNCS's entry for the event camera
+BOOL FieldScriptSubEventFinish_EvCamera(FinishScriptSubEventsWork *work, u32 *state);
 
 #endif // POKEBW2_FIELD_SCRCMD_CAMERA_H

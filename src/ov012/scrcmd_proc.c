@@ -15,6 +15,7 @@
 #include "field/game_beacon_set.h"
 #include "field/gimmick_state.h"
 #include "field/intrude_work.h"
+#include "field/scrcmd_proc.h"
 #include "gfl/heap.h"
 #include "gfl/overlay.h"
 #include "gfl/std.h"

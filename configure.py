@@ -84,8 +84,23 @@ def load_libraries() -> dict[str, tuple[str, list[str]]]:
             continue
         with settings.open("rb") as f:
             library = tomllib.load(f)
-        libraries[f"{(lib / 'src').relative_to(ROOT).as_posix()}/"] = (library["compiler"], library["flags"])
+        src = f"{(lib / 'src').relative_to(ROOT).as_posix()}/"
+        libraries[src] = (library["compiler"], library["flags"])
+        for path, flags in library.get("file_flags", {}).items():
+            FILE_FLAGS[src + path] = flags
     return libraries
+
+
+# Files of a library built with other flags than the rest of it, from file_flags in its library.toml: each flag
+# replaces the library's flag of the same option ("-ipa function" replaces "-ipa file")
+FILE_FLAGS: dict[str, list[str]] = {}
+
+
+def file_flags(source: Path, flags: list[str]) -> list[str]:
+    """Returns the flags of a library's source file: the library's, with the file's own in place of the same options."""
+    overrides = FILE_FLAGS.get((ROOT / source).resolve().relative_to(ROOT).as_posix(), [])
+    options = {flag.split()[0] for flag in overrides}
+    return [flag for flag in flags if flag.split()[0] not in options] + overrides
 
 
 LIBRARIES = load_libraries()
@@ -97,7 +112,8 @@ INCLUDE_DIRS = ["include", *(p.relative_to(ROOT).as_posix() for p in sorted(LIB_
 def library_of(source: Path) -> tuple[str, list[str]] | None:
     """Returns the compiler and flags of the library a source file belongs to, or None for the game's own code."""
     relative = (ROOT / source).resolve().relative_to(ROOT).as_posix()
-    return next((library for prefix, library in LIBRARIES.items() if relative.startswith(prefix)), None)
+    library = next((library for prefix, library in LIBRARIES.items() if relative.startswith(prefix)), None)
+    return (library[0], file_flags(source, library[1])) if library else None
 
 
 # Archives built from source, which replace their extracted counterparts in the ROM. Each maps its path under files/ to
@@ -290,7 +306,11 @@ def add_version(n: Writer, version: str, dsd: Path, bugfix: bool, shift: int) ->
         if source.suffix in (".c", ".cpp") and source.exists():
             obj = build_dir / source.with_suffix(".o")
             rule = next((f"mwcc_{i}" for i, lib in enumerate(LIBRARIES) if str(source).startswith(lib)), "mwcc")
-            n.build([obj], rule, [source], variables={"defines": defines, "dep": obj.with_suffix(".d")})
+            variables = {"defines": defines, "dep": obj.with_suffix(".d")}
+            library = library_of(source)
+            if library:
+                variables["flags"] = " ".join(library[1])
+            n.build([obj], rule, [source], variables=variables)
             compiled.append(obj)
         objects.append(f["object_to_link"])
 
@@ -425,9 +445,11 @@ def main():
     n.rule("mwcc", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(mwcc))} {' '.join(CC_FLAGS)} $defines "
            "-gccdep -MD $includes -o $out $in && $python tools/scripts/fix_depfile.py $dep", "Compiling $in",
            depfile="$dep", deps="gcc")
-    for i, (compiler, flags) in enumerate(LIBRARIES.values()):
+    # The older compilers (SPL's 1.2/base) warn when MWCIncludes, their system include path, isn't set. The code finds its
+    # headers through -i, so any value does
+    for i, (compiler, _) in enumerate(LIBRARIES.values()):
         lib_mwcc = tools_dir / "mwccarm" / compiler / "mwccarm.exe"
-        n.rule(f"mwcc_{i}", f"mkdir -p $$(dirname $out) && $wine {shlex.quote(str(lib_mwcc))} {' '.join(flags)} "
+        n.rule(f"mwcc_{i}", f"mkdir -p $$(dirname $out) && MWCIncludes=. $wine {shlex.quote(str(lib_mwcc))} $flags "
                "$defines -gccdep -MD $includes -o $out $in && $python tools/scripts/fix_depfile.py $dep",
                "Compiling $in", depfile="$dep", deps="gcc")
     n.rule("shift_lcf", "$python tools/scripts/shift_lcf.py $in $out $amount", "Shifting $in")

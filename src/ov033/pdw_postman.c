@@ -485,7 +485,7 @@ u32 func_ov033_02178180(WordSet *wordSet, MysteryGift *gift, FieldScriptEnv *env
     result = 5;
     copyVarForText(wordSet, 0, playerInfo);
     if (pkm == NULL) {
-        loadPokemonTextNameToStrbuf(wordSet, 1, NULL);
+        loadPokemonTextNameToStrbuf(wordSet, 1, 0);
     } else {
         if (PokeParty_GetParam(pkm, PKM_PARAM_IS_EGG, NULL) == TRUE) {
             result = 11;

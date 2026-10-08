@@ -2,7 +2,7 @@
 #include "app/demo3d.h"
 #include "field/event_3d_demo.h"
 #include "field/event_sound.h"
-#include "field/game_beacon_search.h"
+#include "field/game_beacon_set.h"
 #include "gfl/std.h"
 #include "nitro/rtc.h"
 #include "save/player_info.h"

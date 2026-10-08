@@ -7,6 +7,7 @@
 #include "field/musical.h"
 #include "field/musical_dressup_sys.h"
 #include "field/pdw_postman.h"
+#include "field/scrcmd_musical.h"
 #include "gfl/heap.h"
 #include "gfl/msg.h"
 #include "gfl/net.h"

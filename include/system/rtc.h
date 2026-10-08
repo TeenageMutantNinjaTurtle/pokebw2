@@ -6,6 +6,8 @@
 
 // The clock as GFL caches it is in gfl/rtc_cache.h
 void func_0207cc10(RTCDate *date);
+// NitroSDK's RTC_GetTime
+void func_0207cc80(RTCTime *time);
 u16 GetRealTimeDayPeriod(u8 season);
 // The period of the day at the hour, in the season
 u16 GetDayPeriod(u8 season, u32 hour);

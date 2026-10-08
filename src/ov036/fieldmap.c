@@ -1405,11 +1405,11 @@ void *Field_GetNDemoDataHandle(Field *field) {
     return &field->nDemoData;
 }
 
-void Field_SetCasteliaRush(Field *field, BOOL flag) {
-    field->casteliaRush = flag;
+void Field_SetCasteliaRush(Field *field, CasteliaRush *rush) {
+    field->casteliaRush = rush;
 }
 
-BOOL Field_GetCasteliaRush(Field *field) {
+CasteliaRush *Field_GetCasteliaRush(Field *field) {
     return field->casteliaRush;
 }
 

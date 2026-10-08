@@ -73,11 +73,15 @@
 . 0x02062088 reloc_addend 0x400
 . 0x02062090 reloc_addend 4
 . 0x0206269c reloc_addend 0x400
+. 0x0206e1dc reloc_addend 0x10c8
+. 0x0206e228 reloc_addend 0x10e0
+. 0x0206e3fc reloc_addend 0x10c8
+. 0x0206e4dc reloc_addend 0x10e0
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
 . 0x0207e92c add_function func_0207e92c:arm:0x8
-. 0x0207e930 add_reloc load,ltd_autoload(0),0x02703cdc
 . 0x0207e930 remove_symbol
+. 0x0207e930 add_reloc load,ltd_autoload(0),0x02703cdc
 . 0x0207e934 add_function MIC_StartAutoSampling:thumb:0x1c
 . 0x0207e950 add_function func_0207e950:arm:0x8
 . 0x0207e954 remove_symbol
@@ -160,6 +164,7 @@
 . 0x0209b21c remove_symbol
 . 0x0209b234 remove_symbol
 . 0x0209b258 add_data data_0209b258
+. 0x0209b328 add_data sEnvMapCmd
 . 0x0210000b remove_symbol
 . 0x0210020f remove_symbol
 . 0x02141668 remove_symbol
@@ -178,6 +183,12 @@
 . 0x021435dc remove_symbol
 . 0x021439d8 remove_symbol
 . 0x021439f8 add_data data_021439f8
+. 0x0214409a remove_symbol
+. 0x0214697c add_data NNS_G3dFlagUseFastDma
+. 0x02149878 add_data sCaptureReserved
+. 0x0214989c add_data sCaptureMsgBuf
+. 0x0214b3b8 remove_symbol
+. 0x0214b3d0 remove_symbol
 overlays/ov000 0x0214f870 overlay_id 199
 overlays/ov000 0x0214f874 reloc_module overlay(199)
 overlays/ov000 0x0214f878 overlay_id 182
@@ -491,6 +502,7 @@ overlays/ov036 0x021cfbb4 reloc_module overlay(78)
 overlays/ov036 0x021cfbc4 reloc_module overlay(78)
 overlays/ov036 0x021cfbcc reloc_module overlay(77)
 overlays/ov036 0x021d0001 remove_symbol
+overlays/ov036 0x021d01a4 remove_reloc
 overlays/ov036 0x021d0217 remove_symbol
 overlays/ov036 0x021d021a remove_symbol
 overlays/ov036 0x021d021c remove_symbol
@@ -1778,9 +1790,9 @@ overlays/ov307 0x021df70c add_data EGG_DEMO_VIEW_UNK_FX32
 overlays/ov310 0x021a7021 remove_symbol
 overlays/ov310 0x021a7028 section_end src/ov310/research_list.c:.rodata
 overlays/ov310 0x021a7028 add_data data_ov310_021a7028
-overlays/ov310 0x021a773c section_start src/ov310/research_common.c:.rodata
-overlays/ov310 0x021a773c section_end src/ov310/research_graph.c:.rodata
 overlays/ov310 0x021a773c add_data ResearchCommon_Unused
+overlays/ov310 0x021a773c section_end src/ov310/research_graph.c:.rodata
+overlays/ov310 0x021a773c section_start src/ov310/research_common.c:.rodata
 overlays/ov311 0x0219d93c reloc_module overlay(139)
 overlays/ov311 0x0219d97c reloc_module overlay(139)
 overlays/ov311 0x0219da74 reloc_module overlay(139)

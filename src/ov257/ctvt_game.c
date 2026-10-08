@@ -1683,8 +1683,8 @@ static void CtvtGame_InitTargets(CommTvtWork *sys, CtvtGame *game) {
     BmpWin_DrawFrame(game->infoWindow, 1, 1, 14);
     game->infoPending = TRUE;
     sndHeap = func_02005ce4();
-    func_0206d120(sndHeap);
-    func_0206d260(1, sndHeap);
+    NNS_SndHeapSaveState(sndHeap);
+    NNS_SndArcLoadGroup(1, sndHeap);
 }
 
 static void CtvtGame_InitBalloons(CommTvtWork *sys, CtvtGame *game) {
@@ -1825,8 +1825,8 @@ static void CtvtGame_InitBalloons(CommTvtWork *sys, CtvtGame *game) {
     game->rightPuff = 0;
     game->pumpSeq = 41;
     sndHeap = func_02005ce4();
-    func_0206d120(sndHeap);
-    func_0206d260(2, sndHeap);
+    NNS_SndHeapSaveState(sndHeap);
+    NNS_SndArcLoadGroup(2, sndHeap);
 }
 
 static BOOL CtvtGame_UpdateIntro(CommTvtWork *sys, CtvtGame *game) {
@@ -2136,7 +2136,7 @@ static void CtvtGame_InitResults(CommTvtWork *sys, CtvtGame *game) {
     ClActorSetupEx setupEx;
 
     sndHeap = func_02005ce4();
-    func_0206d154(sndHeap, func_0206d1e8(sndHeap));
+    NNS_SndHeapLoadState(sndHeap, NNS_SndHeapGetCurrentLevel(sndHeap));
     func_0204c124(game->scoreFrame, FALSE);
     func_0204c124(game->hurrySign, FALSE);
     window = game->timeWindow;
@@ -2465,11 +2465,11 @@ static BOOL CtvtGame_UpdateResults(CommTvtWork *sys, CtvtGame *game) {
 static void CtvtGame_FreeCommon(CommTvtWork *sys, CtvtGame *game) {
     u8 selfNetId = func_02042a6c(func_02040440());
     NNSSndHeapHandle sndHeap = func_02005ce4();
-    int level = func_0206d1e8(sndHeap);
+    int level = NNS_SndHeapGetCurrentLevel(sndHeap);
     u8 i;
 
     if (level == 1) {
-        func_0206d154(sndHeap, level);
+        NNS_SndHeapLoadState(sndHeap, level);
     }
     for (i = 0; i < 4; i++) {
         if (game->shots[i] != NULL) {
@@ -3352,7 +3352,7 @@ static void CtvtGamePlayer_Show(CommTvtWork *sys, CtvtGamePlayer *player) {
     font = player->font;
     queue = player->queue;
     y = (player->pos + 1) * 2 + 8;
-    textCopy(CtvtComm_GetMemberInfo(sys, CommTvt_GetComm(sys), player->netId)->playerInfo, player->name);
+    textCopy((const u16 *)CtvtComm_GetMemberInfo(sys, CommTvt_GetComm(sys), player->netId)->playerInfo, player->name);
     func_02021c7c(queue, BmpWin_GetBitmap(player->nameWindow), 0, y, player->name, font, 0x440);
     BmpWin_FlushChar(player->nameWindow);
     BmpWin_FlushMap(player->nameWindow);

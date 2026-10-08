@@ -4,6 +4,7 @@
 #include "types.h"
 #include "app/unova_link.h"
 #include "field/field_script.h"
+#include "field/scrcmd_keysystem.h"
 #include "gfl/heap.h"
 #include "gfl/overlay.h"
 #include "save/key_info.h"

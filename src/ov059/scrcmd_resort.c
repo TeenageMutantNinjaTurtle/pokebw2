@@ -4,6 +4,7 @@
 #include "field/field_actor.h"
 #include "field/field_script.h"
 #include "field/resort.h"
+#include "field/scrcmd_resort.h"
 #include "gfl/bg_sys.h"
 #include "gfl/bmpwin.h"
 #include "gfl/graphics.h"
@@ -101,10 +102,10 @@ BOOL func_ov059_021e5950(VM *vm, FieldScriptEnv *env) {
         *var = (u16)func_ov137_021f10e8(person, 0, NULL) + 80;
         break;
     case 1: {
-        u32 a = func_020388c0(occupants);
+        JoinAvenueRecord *a = func_020388c0(occupants);
         u32 b = JoinAvenue_GetParam(info, 12, 0);
 
-        *var = a == 0 && b != 0 ? TRUE : FALSE;
+        *var = a == NULL && b != 0 ? TRUE : FALSE;
         break;
     }
     case 2: {

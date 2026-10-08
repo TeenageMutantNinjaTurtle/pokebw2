@@ -11,6 +11,7 @@
 #include "field/field_actor.h"
 #include "field/field_event.h"
 #include "field/field_script.h"
+#include "field/scrcmd_entree_forest.h"
 #include "field/symbol_map.h"
 #include "gfl/heap.h"
 #include "gfl/overlay.h"

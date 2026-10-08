@@ -7,11 +7,11 @@
 
 typedef struct FieldPalaceSys {
     GameSystem *gsys;
-    u32 unk04;
+    Field *field;
     void *luminanceTable;
 } FieldPalaceSys;
 
-FieldPalaceSys *FieldPalaceSys_Create(HeapID heapId, GameSystem *gsys, u32 a2, u16 zoneId);
+FieldPalaceSys *FieldPalaceSys_Create(HeapID heapId, GameSystem *gsys, Field *field, u16 zoneId);
 void FieldPalaceSys_InitPostFX(FieldPalaceSys *sys, u16 zoneId, HeapID heapId);
 void FieldPalaceSys_LoadLuminanceTable(FieldPalaceSys *sys, u32 fileId, u16 zoneId, u32 season, HeapID heapId);
 void FieldPalaceSys_Free(FieldPalaceSys *sys);
