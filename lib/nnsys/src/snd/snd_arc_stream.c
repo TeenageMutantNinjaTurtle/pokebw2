@@ -330,6 +330,11 @@ void NNS_SndArcStrmFreeChannel(int playerNo) {
     FreeChannel(&sPlayers[playerNo]);
 }
 
+// A volume 0 to 127 in decibels, as NitroSDK's SND_CalcDecibel gives it
+static inline s16 CalcDecibel(int scale) {
+    return VOLUME_DB_TABLE[scale];
+}
+
 void NNSi_SndArcStrmMain(void) {
     NNSSndArcStrmPlayer *player;
     int volume;
@@ -352,8 +357,8 @@ void NNSi_SndArcStrmMain(void) {
 
         if (player->flags.playing) {
             NNSi_SndFaderUpdate(&player->fader);
-            volume = VOLUME_DB_TABLE[player->volume];
-            volume += VOLUME_DB_TABLE[NNSi_SndFaderGet(&player->fader) >> 8] + VOLUME_DB_TABLE[player->userVolume];
+            volume = CalcDecibel(NNSi_SndFaderGet(&player->fader) >> 8) + CalcDecibel(player->volume) +
+                     CalcDecibel(player->userVolume);
             if (volume != player->curVolume) {
                 NNS_SndStrmSetVolume(&player->stream, volume);
                 player->curVolume = volume;
@@ -852,8 +857,8 @@ static void ProcessCommand(StrmCommand *command) {
             dataSize *= 2;
             break;
         }
-        fileOffset = readOffset + player->header.head.numChannels * (player->header.head.blockSize * block) +
-                     player->header.head.dataOffset;
+        fileOffset = readOffset + player->header.head.numChannels * (player->header.head.blockSize * block);
+        fileOffset += player->header.head.dataOffset;
 
         for (ch = 0; ch < command->numChannels; ch++) {
             dest = (u8 *)command->buffer[ch] + bufOffset;

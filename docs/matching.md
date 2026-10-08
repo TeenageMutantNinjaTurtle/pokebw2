@@ -290,6 +290,12 @@ Same code, other `sp` offsets or frame size.
   written out is swapped: `snd_stream.c`'s `StrmCallback` gets `adds r1, r1, r2` only with
   `AddU32ToPtr(buffer, offset)`, `(void *)((u32)ptr + val)`, while the cast-add written in place gives the right
   registers but `adds r1, r2, r1`, and `(u8 *)buffer + offset` other registers.
+- A sum of `s16` table entries matches read through an inline returning `s16`, where the table indexed in place or an
+  `int` inline gives other registers and operand order in every order of the terms: `snd_arc_stream.c`'s
+  `NNSi_SndArcStrmMain` adds `CalcDecibel(fader) + CalcDecibel(player->volume) + CalcDecibel(player->userVolume)`.
+- A sum that MWCC reorders, loading a field first and putting it on the left whatever order it is written in, keeps
+  its order when the field is added in a statement of its own: `ProcessCommand`'s `fileOffset += dataOffset` was 4
+  bytes shorter than the one expression.
 - A statement between a call and an SDK inline that uses its result is scheduled inside the inline's code only when
   the result has its own variable: `ctvt_game.c`'s `CtvtGame_InitResults` keeps the texture key in a local, so
   `picture = 0` lands between the inline's shifts, as in the original.
