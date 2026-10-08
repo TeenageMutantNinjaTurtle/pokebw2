@@ -250,3 +250,7 @@ src/ov036/scrcmd_shop.c:
     .text       start:0x021abb70 end:0x021adc6c
     .rodata     start:0x021d0918 end:0x021d0f58
     .data       start:0x021d5160 end:0x021d51dc
+
+src/ov036/field_map_chunk_wb.c:
+    complete
+    .text       start:0x0218a7f8 end:0x0218a8f8
