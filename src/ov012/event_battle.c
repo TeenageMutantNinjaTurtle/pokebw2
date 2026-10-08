@@ -2,7 +2,7 @@
 // the game records after them. The name is the ROM's own, from GFL_HeapAllocate's file argument.
 // Function and data names from swan (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 #include "types.h"
-#include "app/ov166.h"
+#include "app/event_battle_return.h"
 #include "app/ov337.h"
 #include "battle/battle_proc.h"
 #include "battle/btl_result.h"
@@ -53,7 +53,7 @@ typedef struct {
     GameSystem *gsys;
     GameData *gameData;
     BtlSetup *setup;
-    Ov166Param ov166Param;
+    EventBattleReturnParam battleReturnParam;
     // Whether the caller returns to the field itself
     u32 unk14;
     // Whether losing doesn't black the player out
@@ -400,9 +400,9 @@ static GameEventReturnCode EventBattleCall_Callback(GameEvent *event, u32 *state
         break;
     case 4:
         if (wk->setup->unkDD_3 == 0) {
-            wk->ov166Param.setup = wk->setup;
-            wk->ov166Param.gameData = gameData;
-            GSYS_QueueProcAsEvent(event, OVERLAY_ID(166), &data_ov166_0219d6a0, &wk->ov166Param);
+            wk->battleReturnParam.setup = wk->setup;
+            wk->battleReturnParam.gameData = gameData;
+            GSYS_QueueProcAsEvent(event, OVERLAY_ID(166), &EVENT_BATTLE_RETURN_PROC_FUNCTIONS, &wk->battleReturnParam);
         }
         (*state)++;
         break;
