@@ -373,7 +373,7 @@ static void StaActPoke_SetScaleBySpecies(StaActPokeSys *sys, StaActPoke *poke, u
 
 void StaActPoke_StartItemEffect(StaActPokeSys *sys, StaActPoke *poke, u32 pos) {
     if (poke->items[pos] != NULL && poke->itemFunc == NULL) {
-        u8 type = func_ov210_021ef170(MusItemDraw_GetItemData(sys->itemDraw), poke->equips[pos]->itemId);
+        u8 type = MusItemData_GetEffect(MusItemDraw_GetItemData(sys->itemDraw), poke->equips[pos]->itemId);
 
         poke->itemWork.timer = 0;
         poke->itemWork.pos = pos;

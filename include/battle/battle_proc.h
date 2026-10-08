@@ -54,20 +54,6 @@ typedef struct {
     BOOL vsPlayerLoaded;
 } BattleProcWork;
 
-typedef struct {
-    Regulation *regulation;
-    PokeParty *party;
-    u16 *otherName;
-    u8 otherGender;
-    PokeParty *otherParty;
-    GameData *gameData;
-    u8 unk18;
-    PokeParty *unk1C;
-    PokeParty *party0;
-    PokeParty *party1;
-    u32 result;
-} BattleSelectParam;
-
 extern const GameProcFunctions data_ov010_0215039c;
 // The battle system's proc
 extern const GameProcFunctions data_ov167_021d6ce0;
@@ -77,6 +63,5 @@ extern const GameProcFunctions data_ov305_0219e990;
 BOOL func_ov010_0214ff00(GameProc *proc, u32 *state, void *param, void *work);
 BOOL func_ov010_0214ff28(GameProc *proc, u32 *state, void *param, void *work);
 BOOL func_ov010_0214ff58(GameProc *proc, u32 *state, void *param, void *work);
-extern const GameProcFunctions data_ov213_021bbb38;
 
 #endif // POKEBW2_BATTLE_BATTLE_PROC_H

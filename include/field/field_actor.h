@@ -474,6 +474,8 @@ FieldActor *GetFirstActorOnGPos(MMSys *system, s16 x, s16 z, BOOL checkInit);
 FieldActor *FindActorByGPos(MMSys *system, s16 x, s16 z, fx32 y, fx32 maxHeightDiff, BOOL checkInit);
 FieldActor *FindActorByGPos_(MMSys *system, s16 x, s16 z, fx32 y, fx32 maxHeightDiff, BOOL checkInit,
                              FieldActor *exclude);
+// The first actor on a rail position
+FieldActor *FindActorByRailPos(MMSys *system, const RailPosition *position, BOOL checkInit);
 // Whether another actor has the object code
 BOOL FldAct_CheckObjCodeShared(FieldActor *actor, u16 objCode);
 void ChangeActorUID(FieldActor *actor, u16 uid);

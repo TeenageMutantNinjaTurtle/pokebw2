@@ -1230,7 +1230,7 @@ static void PokeList_OpenMenu(PokeListWork *wk) {
         }
         break;
     case 25:
-        if (func_ov210_021eec80(wk->pkm) == TRUE) {
+        if (MusicalSystem_CanJoin(wk->pkm) == TRUE) {
             items[0] = 11;
             items[1] = 0;
             items[2] = 6;

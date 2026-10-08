@@ -30,6 +30,7 @@
 #include "system/text_speed.h"
 #include "system/app_keycursor.h"
 #include "system/gf_font.h"
+#include "system/ir_check.h"
 #include "gfl/proc.h"
 #include "gfl/random.h"
 #include "gfl/sound.h"
@@ -1547,7 +1548,7 @@ BOOL func_ov167_0219bdfc(BtlMainModule *mainModule) {
 
     if (mainModule->setup->battleType <= 1) {
         GFL_OvlLoad(OVERLAY_ID(338));
-        result = func_ov338_0217caf8();
+        result = IrCheck_IsGenuineCard();
         GFL_OvlUnload(OVERLAY_ID(338));
         if (!result) {
             return FALSE;

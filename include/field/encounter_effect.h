@@ -12,14 +12,14 @@
 
 // A cell of the screen, 0x40 bytes
 struct EncEffCell {
-    fx32 x;
-    fx32 y;
-    u32 unk08;
+    VecFx32 pos;
     u8 unk0C[0xc];
     u32 unk18;
     s32 offset;
     u32 unk20;
-    u8 unk24[0xc];
+    // Added to pos.x each frame
+    fx32 speed;
+    u8 unk28[0x8];
     s32 frame;
     BOOL visible;
     BOOL done;
@@ -51,14 +51,18 @@ struct EncEffGridParam {
 void func_ov036_021c5ea0(EncEff *effect);
 void *EncEff_AllocWorkArea(EncEff *effect, u32 id, u32 size);
 void *EncEff_GetWorkArea(EncEff *effect);
+void *EncEff_GetEventData(EncEff *effect);
 void *Field_Get3DCi(Field *field);
 void EncEff_CallRenderFunc(EncEff *effect);
 GameEvent *EventFieldEffect_CreatePokeSprite(GameSystem *gsys, void *g3DCi, u8 partySlot);
 // The event of an effect: init makes the effect's event, and render draws it
-GameEvent *func_ov148_021f59e0(GameSystem *gsys, const VecFx32 *pos, GameEvent *(*init)(GameSystem *gsys),
+GameEvent *EncEffCapture_CreateFlashEvent(GameSystem *gsys, const VecFx32 *pos, GameEvent *(*init)(GameSystem *gsys),
                                void (*render)(EncEffGrid *grid));
-GameEvent *func_ov150_021f5da0(GameSystem *gsys, const EncEffGridParam *param, u32 mode);
-void func_ov150_021f5fac(EncEffGrid *grid);
+void EncEffCapture_Draw(void *data);
+GameEvent *EncEffGrid_CreateEvent(GameSystem *gsys, const EncEffGridParam *param, u32 mode);
+// Clears the screen to the grid's color, then draws the effect with overlay 148
+void EncEffGrid_ClearAndDraw(EncEff *effect);
+void EncEffGrid_Draw(EncEffGrid *grid);
 
 GameEvent *func_ov152_021f6200(GameSystem *gsys, Field *field);
 GameEvent *func_ov152_021f623c(GameSystem *gsys);

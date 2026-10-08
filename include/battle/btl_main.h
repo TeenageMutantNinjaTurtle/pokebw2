@@ -190,9 +190,6 @@ struct BtlMainModule {
     PokewoodCutin *cutin;
 };
 
-// An overlay 338 function that btl_main.c calls
-BOOL func_ov338_0217caf8(void);
-
 // Swan's names for these two take the main module, whose first field points to the BtlSetup
 u32 BtlSetup_GetBattleStyle(BtlMainModule *mainModule);
 u32 func_ov167_0219bd88(BtlMainModule *mainModule);

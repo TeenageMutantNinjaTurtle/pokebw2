@@ -76,9 +76,16 @@ void func_ov036_021889c8(void *msgWin);
 // Frees the balloon at once, and prints another message in it
 void func_ov036_02188818(void *msgWin);
 void func_ov036_02188844(void *msgWin, StrBuf *strbuf);
+// The list window of the field's message BG: create, free, clear and print a line
+void *func_ov036_02187ca0(void *msgBGSys, MsgData *msgData, u16 x, u16 y, u16 width, u16 height);
+void func_ov036_02187d10(void *window);
+void func_ov036_02187d28(void *window, u16 x, u16 y, StrBuf *strbuf);
+void func_ov036_02187d38(void *window);
 // The system message window of the field's message BG: create, close, print, whether printing has ended, skip
 // to the end, and its bitmap window
 void *func_ov036_02188498(void *msgBGSys, MsgData *msgData, u32 a2);
+// Prints a message of the window's message data
+void func_ov036_02188538(void *window, u32 x, u32 y, u32 messageId);
 void func_ov036_02188504(void *window);
 void func_ov036_02188580(void *window, u32 x, u32 y, StrBuf *strbuf);
 BOOL func_ov036_021885bc(void *window);

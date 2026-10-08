@@ -9,7 +9,7 @@ void func_ov164_021998c0(NetSyncWork *work) {
     work->state = 0;
 }
 
-void func_ov164_021998c8(void) {
+void func_ov164_021998c8(NetSyncWork *work) {
     func_02040c64(0x2d00);
 }
 

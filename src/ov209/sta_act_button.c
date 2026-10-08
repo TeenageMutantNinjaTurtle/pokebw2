@@ -140,7 +140,7 @@ static void StaActButton_InitGraphic(StaActButton *sys) {
     GFL_ArcToolFree(arc);
     for (i = 0; i < 2; i++) {
         if (sys->itemIds[i] != 0xff) {
-            u32 size = func_ov210_021eef94(func_ov210_021eef78(itemData, sys->itemIds[i]));
+            u32 size = MusItemData_GetTexSize(MusItemData_GetItem(itemData, sys->itemIds[i]));
 
             if (i == 0) {
                 setup.x = 32;

@@ -3,6 +3,7 @@
 #include "field/event_funfest_mission.h"
 #include "field/event_mapchange.h"
 #include "field/event_sound.h"
+#include "field/fest_mission_gimmick.h"
 #include "field/festival.h"
 #include "field/field_actor.h"
 #include "field/field_event.h"
