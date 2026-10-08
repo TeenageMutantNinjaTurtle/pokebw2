@@ -6,7 +6,8 @@
 #include "battle/b_bag_obj.h"
 #include "battle/b_bag_ui.h"
 #include "battle/btl_pokeparam.h"
-#include "battle/btlv.h"
+#include "battle/btlv_effect.h"
+#include "battle/btlv_finger_cursor.h"
 #include "constants/arc.h"
 #include "constants/sound.h"
 #include "gfl/arc.h"
@@ -85,9 +86,9 @@ void BBagMain_Start(BBagParam *param) {
     BBagWork *work = GFL_HeapAllocate(param->heapId, sizeof(BBagWork), TRUE, "b_bag_main.c", 177);
     u32 i;
 
-    GFL_TCBMgrAddTask(func_ov168_021e00ac(), BBagMain_Task, work, 100);
+    GFL_TCBMgrAddTask(BtlvEffect_GetTCBManager(), BBagMain_Task, work, 100);
     work->param = param;
-    work->paletteFade = func_ov168_021e00b8();
+    work->paletteFade = BtlvEffect_GetPaletteFade();
     work->initialized = FALSE;
     if (work->param->mode == 1) {
         work->page = 1;
@@ -170,7 +171,7 @@ static int BBagMain_StateInit(BBagWork *work) {
     }
     func_02042ba8(FALSE, work->param->heapId);
     PaletteFade_LoadFromVRAM(work->paletteFade, PALFADE_VRAM_SUB_OBJ, 0xe0, 0x20);
-    PaletteFade_StartFade(work->paletteFade, 0xa, 0xffff, 0, 16, 0, 0, func_ov168_021e00ac());
+    PaletteFade_StartFade(work->paletteFade, 0xa, 0xffff, 0, 16, 0, 0, BtlvEffect_GetTCBManager());
     if (work->param->mode == 3) {
         BBagMain_ScrollPage(work, work->page);
     }
@@ -204,7 +205,7 @@ static int BBagMain_StateInitLauncher(BBagWork *work) {
     BBagUi_CreateCursor(work, work->page, 0);
     func_02042ba8(FALSE, work->param->heapId);
     PaletteFade_LoadFromVRAM(work->paletteFade, PALFADE_VRAM_SUB_OBJ, 0xe0, 0x20);
-    PaletteFade_StartFade(work->paletteFade, 0xa, 0xffff, 0, 16, 0, 0, func_ov168_021e00ac());
+    PaletteFade_StartFade(work->paletteFade, 0xa, 0xffff, 0, 16, 0, 0, BtlvEffect_GetTCBManager());
     work->initialized = TRUE;
     return 2;
 }
@@ -579,7 +580,7 @@ static int BBagMain_StateWaitButtonAnm(BBagWork *work) {
 }
 
 static int BBagMain_StateStartExit(BBagWork *work) {
-    PaletteFade_StartFade(work->paletteFade, 0xa, 0xffff, 0, 0, 16, 0, func_ov168_021e00ac());
+    PaletteFade_StartFade(work->paletteFade, 0xa, 0xffff, 0, 0, 16, 0, BtlvEffect_GetTCBManager());
     return 0x13;
 }
 
@@ -632,7 +633,7 @@ static BOOL BBagMain_Exit(TCB *tcb, BBagWork *work) {
 static int BBagMain_StateDemo(BBagWork *work) {
     switch (work->demoSeq) {
     case 0:
-        if (func_ov168_021f2e98(work->fingerCursor) == TRUE) {
+        if (BtlvFingerCursor_IsTouched(work->fingerCursor) == TRUE) {
             BBagMain_PlaySE(work, SEQ_SE_DECIDE2);
             work->pocket = 2;
             work->nextSeq = 0x11;
@@ -642,7 +643,7 @@ static int BBagMain_StateDemo(BBagWork *work) {
         }
         break;
     case 1:
-        if (func_ov168_021f2e98(work->fingerCursor) == FALSE) {
+        if (BtlvFingerCursor_IsTouched(work->fingerCursor) == FALSE) {
             BBagMain_StateToPage1(work);
             work->demoSeq++;
             work->nextSeq = 0x11;
@@ -650,7 +651,7 @@ static int BBagMain_StateDemo(BBagWork *work) {
         }
         break;
     case 2:
-        if (func_ov168_021f2e98(work->fingerCursor) == TRUE) {
+        if (BtlvFingerCursor_IsTouched(work->fingerCursor) == TRUE) {
             BBagMain_PlaySE(work, SEQ_SE_DECIDE2);
             work->param->rows[work->pocket] = 0;
             work->nextSeq = 0x11;
@@ -660,7 +661,7 @@ static int BBagMain_StateDemo(BBagWork *work) {
         }
         break;
     case 3:
-        if (func_ov168_021f2e98(work->fingerCursor) == FALSE) {
+        if (BtlvFingerCursor_IsTouched(work->fingerCursor) == FALSE) {
             BBagMain_StateToPage2(work);
             work->demoSeq++;
             work->nextSeq = 0x11;
@@ -668,7 +669,7 @@ static int BBagMain_StateDemo(BBagWork *work) {
         }
         break;
     case 4:
-        if (func_ov168_021f2e98(work->fingerCursor) == TRUE) {
+        if (BtlvFingerCursor_IsTouched(work->fingerCursor) == TRUE) {
             BBagMain_PlaySE(work, SEQ_SE_DECIDE2);
             work->param->item = BBagItem_GetSlotItem(work, work->param->rows[work->pocket]);
             work->param->pocket = work->pocket;
@@ -678,7 +679,7 @@ static int BBagMain_StateDemo(BBagWork *work) {
         }
         break;
     case 5:
-        if (func_ov168_021f2e98(work->fingerCursor) == FALSE) {
+        if (BtlvFingerCursor_IsTouched(work->fingerCursor) == FALSE) {
             return BBagMain_CheckUse(work);
         }
         break;

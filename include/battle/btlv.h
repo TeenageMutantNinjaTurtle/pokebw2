@@ -180,8 +180,7 @@ extern const u8 data_ov169_0689e238[3][15];
 extern const BtlvInputKeyStop *const data_ov169_0689e6e0[2][15];
 extern const BtlvInputKeyStop *const data_ov169_0689e884[3][15];
 
-// The battle's bag and selection screens, which share an address range
-void func_ov286_021f5b64(void *param);
+// The battle's selection screens, which share an address range with the bag
 void func_ov288_021f4440(void *param);
 void func_ov289_021f4440(void *param);
 

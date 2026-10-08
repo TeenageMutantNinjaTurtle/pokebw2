@@ -2,7 +2,8 @@
 #include "battle/b_app_tool.h"
 #include "battle/b_bag_item.h"
 #include "battle/b_bag_main.h"
-#include "battle/btlv.h"
+#include "battle/btlv_effect.h"
+#include "battle/btlv_finger_cursor.h"
 #include "gfl/arc.h"
 #include "gfl/arc_util.h"
 #include "gfl/clact.h"
@@ -313,15 +314,15 @@ static void BBagObj_CreateFingerCursor(BBagWork *wk) {
 }
 
 static void BBagObj_DeleteFingerCursor(BBagWork *wk) {
-    func_ov168_021f2d9c(wk->fingerCursor);
+    BtlvFingerCursor_Delete(wk->fingerCursor);
 }
 
 static void BBagObj_ShowFingerCursor(BBagWork *wk, s16 x, s16 y) {
-    func_ov168_021f2dcc(wk->fingerCursor, x, y, 2, 6, 20);
+    BtlvFingerCursor_Start(wk->fingerCursor, x, y, 2, 6, 20);
 }
 
 static void BBagObj_HideFingerCursor(BBagWork *wk) {
-    func_ov168_021f2e84(wk->fingerCursor);
+    BtlvFingerCursor_RemoveActor(wk->fingerCursor);
 }
 
 static void BBagObj_ShowCost(BBagWork *wk, u16 actor, u8 cost, u8 spent, const ClActorPos *pos) {
