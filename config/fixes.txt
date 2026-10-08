@@ -72,16 +72,16 @@
 . 0x0207ba60 add_reloc load,main,0x0207b9e8,0x50
 . 0x0207e79c add_reloc load,main,0x0207e979
 . 0x0207e92c add_function func_0207e92c:arm:0x8
-. 0x0207e930 remove_symbol
 . 0x0207e930 add_reloc load,ltd_autoload(0),0x02703cdc
+. 0x0207e930 remove_symbol
 . 0x0207e934 add_function MIC_StartAutoSampling:thumb:0x1c
 . 0x0207e950 add_function func_0207e950:arm:0x8
 . 0x0207e954 add_reloc load,ltd_autoload(0),0x02703c60
 . 0x0207e954 remove_symbol
 . 0x0207e958 add_function MIC_StopAutoSampling:thumb:0x18
 . 0x0207e970 add_function func_0207e970:arm:0x8
-. 0x0207e974 remove_symbol
 . 0x0207e974 add_reloc load,ltd_autoload(0),0x02703e90
+. 0x0207e974 remove_symbol
 . 0x0207e978 add_function func_0207e978:thumb:0xa8
 . 0x0208c224 add_label _dadd
 . 0x0208c908 add_label _dmul
@@ -914,6 +914,7 @@ overlays/ov135 0x021ef3ec reloc_module overlay(55)
 overlays/ov135 0x021ef656 reloc_module overlay(55)
 overlays/ov135 0x021ef7b4 reloc_module overlay(55)
 overlays/ov135 0x021efbaa reloc_module overlay(55)
+overlays/ov136 0x021eef5c add_data GIMMICK_POKEWOOD_POSTER_UNUSED
 overlays/ov137 0x021f52ac add_data RESORT_FIELD_SCENE_ANGLE
 overlays/ov137 0x021f5308 remove_reloc
 overlays/ov137 0x021f5688 add_data data_ov137_021f5688
@@ -1650,8 +1651,8 @@ overlays/ov307 0x021de008 overlay_id 280
 overlays/ov307 0x021de00c reloc_module overlay(280)
 overlays/ov307 0x021df70c add_data EGG_DEMO_VIEW_UNK_FX32
 overlays/ov310 0x021a7021 remove_symbol
-overlays/ov310 0x021a7028 add_data data_ov310_021a7028
 overlays/ov310 0x021a7028 section_end src/ov310/research_list.c:.rodata
+overlays/ov310 0x021a7028 add_data data_ov310_021a7028
 overlays/ov310 0x021a773c add_data ResearchCommon_Unused
 overlays/ov310 0x021a773c section_end src/ov310/research_graph.c:.rodata
 overlays/ov310 0x021a773c section_start src/ov310/research_common.c:.rodata
