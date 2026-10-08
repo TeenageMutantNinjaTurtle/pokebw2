@@ -35,11 +35,16 @@ BOOL BagSave_SubItem(BagSave *bag, u16 item, u16 count, HeapID heapId);
 void BagSave_Init(BagSave *bag);
 // Replaces the DNA Splicers that fuse (0) with those that separate, or those that separate (1) with those that fuse
 void BagSave_SwitchOwnedDNASplicers(BagSave *bag, u32 from);
-// The bag's cursor in each pocket, the pocket the bag opens on and the Free Space's filter, in the cursor that func_0201734c returns
+// The bag's cursor in each pocket, the pocket the bag opens on and the Free Space's filter, in the cursor that
+// func_0201734c returns
 void func_0200887c(void *cursor, u16 pocket, s16 *row, s16 *scroll);
 u16 func_02008890(void *cursor);
 void func_02008894(void *cursor, u16 pocket, s16 row, s16 scroll);
 void func_020088a4(void *cursor, u16 pocket);
+// The battle bag's cursor memory: the row and page of a pocket, and the last used item and its pocket
+void func_020088a8(void *cursor, u16 pocket, s16 *row, s16 *page);
+u16 func_020088bc(void *cursor);
+u16 func_020088c0(void *cursor);
 void func_020088c4(void *a0, void *a1, void *a2);
 void func_020088e0(void *a0, u16 item, u8 a2);
 // The Free Space's filter

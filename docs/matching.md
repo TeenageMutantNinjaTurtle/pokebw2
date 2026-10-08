@@ -645,6 +645,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Branches and block layout
 
+- When both branches of an `if`/`else` give a local a constant, MWCC emits the then-value, branches over the else
+  value on the condition, and the else-value last, so the condition's direction decides which constant comes first:
+  `b_bag_anm.c`'s button animation needs `if (button >= 10) palette = 2; else palette = 5;`, and `< 10`, a ternary
+  or a default followed by an `if` all fail.
 - `if ((a | b | c) != 0)` keeps the ORs in one test where `if (a | b | c)` is split into branches, as
   `btlv_effect.c`'s rotate task shows.
 - A one-case `switch` keeps a result variable that `if (f() == 1 && x)` folds into two returns: `btl_main.c`'s

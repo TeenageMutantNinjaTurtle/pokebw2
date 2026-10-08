@@ -158,6 +158,7 @@ typedef struct BtlSetup BtlSetup;
 typedef struct BtlSetupTrainer BtlSetupTrainer;
 typedef struct FieldFollowWk FieldFollowWk;
 typedef struct FieldMenu FieldMenu;
+typedef struct BBagWork BBagWork;
 typedef struct BPlistMove BPlistMove;
 typedef struct BPlistPokemon BPlistPokemon;
 typedef struct BPlistWork BPlistWork;
