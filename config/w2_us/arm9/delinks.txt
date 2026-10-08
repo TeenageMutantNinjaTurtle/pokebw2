@@ -935,10 +935,12 @@ lib/nnsys/src/snd/snd_arc_stream.c:
     .bss        start:0x02149990 end:0x0214b41c
 
 lib/nnsys/src/snd/snd_stream.c:
+    complete
     .text       start:0x0206c4ac end:0x0206c864
     .bss        start:0x021497e4 end:0x021498b4
 
 lib/nnsys/src/snd/snd_arc.c:
+    complete
     .text       start:0x0206c9e8 end:0x0206d03c
     .bss        start:0x02149950 end:0x02149954
 
@@ -951,6 +953,7 @@ lib/nnsys/src/snd/snd_heap.c:
     .text       start:0x0206d03c end:0x0206d28c
 
 lib/nnsys/src/snd/snd_arc_loader.c:
+    complete
     .text       start:0x0206d28c end:0x0206d944
     .bss        start:0x02149954 end:0x02149990
 

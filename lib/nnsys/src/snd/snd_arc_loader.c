@@ -298,7 +298,8 @@ static void *LoadWaveArc(u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr) {
 static void *LoadWaveArcTable(u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr) {
     SNDWaveArc *waveArc = (SNDWaveArc *)NNS_SndArcGetFileAddress(fileId);
     u32 size;
-    u32 tableSize;
+    int tableSize;
+    int result;
 
     if (waveArc == NULL) {
         if (NNS_SndArcReadFile(fileId, &sWaveArcHeader, sizeof(SNDWaveArc), 0) != sizeof(SNDWaveArc)) {
@@ -314,8 +315,8 @@ static void *LoadWaveArcTable(u32 fileId, NNSSndHeapHandle heap, BOOL bSetAddr) 
         if (waveArc == NULL) {
             return NULL;
         }
-        if (NNS_SndArcReadFile(fileId, waveArc, sizeof(SNDWaveArc) + tableSize, 0) !=
-            (int)sizeof(SNDWaveArc) + (int)tableSize) {
+        result = NNS_SndArcReadFile(fileId, waveArc, sizeof(SNDWaveArc) + tableSize, 0);
+        if (result != (int)sizeof(SNDWaveArc) + tableSize) {
             return NULL;
         }
         sys_memcpy(waveArc->offsetTable, &waveArc->offsetTable[waveArc->waveCount], tableSize);

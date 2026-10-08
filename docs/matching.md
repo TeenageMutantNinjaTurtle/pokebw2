@@ -279,6 +279,17 @@ Same code, other `sp` offsets or frame size.
 
 ## Instruction order
 
+- In `call() != x`, MWCC compares the call's result second (`cmp r1, r0`). The result first (`cmp r0, r1`) is the
+  result assigned to a local as its own statement and then compared: `snd_arc.c`'s `SetupArc` matches with
+  `readSize = romfs_fread(...); if (readSize != arc->header.infoSize)`, where every cast on either side kept the order.
+- An argument of a call compared again unchanged after it is kept in a stack slot over the call; the original working
+  it out again means its comparison was another expression. `snd_arc_loader.c`'s `LoadWaveArcTable` reads
+  `sizeof(SNDWaveArc) + tableSize` bytes and matches only comparing `result != (int)sizeof(SNDWaveArc) + tableSize`,
+  signed where the argument is unsigned; without the cast it is 4 bytes longer.
+- On `2.0/sp2p2`, an add written through a small inline with parameters keeps their order where the same expression
+  written out is swapped: `snd_stream.c`'s `StrmCallback` gets `adds r1, r1, r2` only with
+  `AddU32ToPtr(buffer, offset)`, `(void *)((u32)ptr + val)`, while the cast-add written in place gives the right
+  registers but `adds r1, r2, r1`, and `(u8 *)buffer + offset` other registers.
 - A statement between a call and an SDK inline that uses its result is scheduled inside the inline's code only when
   the result has its own variable: `ctvt_game.c`'s `CtvtGame_InitResults` keeps the texture key in a local, so
   `picture = 0` lands between the inline's shifts, as in the original.

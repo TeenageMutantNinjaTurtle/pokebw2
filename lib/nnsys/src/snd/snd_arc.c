@@ -1,5 +1,5 @@
-#include "snd_internal.h"
 #include "gfl/std.h"
+#include "snd_internal.h"
 
 // NitroSystem's sound archive (NNS_SndArc): opening one, as a file of the ROM or wholly in memory, and finding the
 // info of its sequences, banks, wave archives, streams, players and groups and its files' places. swan names
@@ -44,10 +44,13 @@ BOOL NNS_SndArcInit(NNSSndArc *arc, const char *filePath, NNSSndHeapHandle heap,
 
 // Reads the header, and with a heap the info, the file table and, if symbolLoadFlag, the symbols
 static BOOL SetupArc(NNSSndArc *arc, NNSSndHeapHandle heap, BOOL symbolLoadFlag) {
+    s32 readSize;
+
     if (!romfs_fseek(&arc->file, 0, FS_SEEK_SET)) {
         return FALSE;
     }
-    if (romfs_fread(&arc->file, &arc->header, sizeof(arc->header)) != sizeof(arc->header)) {
+    readSize = romfs_fread(&arc->file, &arc->header, sizeof(arc->header));
+    if (readSize != sizeof(arc->header)) {
         return FALSE;
     }
 
@@ -59,7 +62,8 @@ static BOOL SetupArc(NNSSndArc *arc, NNSSndHeapHandle heap, BOOL symbolLoadFlag)
         if (!romfs_fseek(&arc->file, arc->header.infoOffset, FS_SEEK_SET)) {
             return FALSE;
         }
-        if (romfs_fread(&arc->file, arc->info, arc->header.infoSize) != arc->header.infoSize) {
+        readSize = romfs_fread(&arc->file, arc->info, arc->header.infoSize);
+        if (readSize != arc->header.infoSize) {
             return FALSE;
         }
 
@@ -70,7 +74,8 @@ static BOOL SetupArc(NNSSndArc *arc, NNSSndHeapHandle heap, BOOL symbolLoadFlag)
         if (!romfs_fseek(&arc->file, arc->header.fatOffset, FS_SEEK_SET)) {
             return FALSE;
         }
-        if (romfs_fread(&arc->file, arc->fat, arc->header.fatSize) != arc->header.fatSize) {
+        readSize = romfs_fread(&arc->file, arc->fat, arc->header.fatSize);
+        if (readSize != arc->header.fatSize) {
             return FALSE;
         }
 
@@ -82,7 +87,8 @@ static BOOL SetupArc(NNSSndArc *arc, NNSSndHeapHandle heap, BOOL symbolLoadFlag)
             if (!romfs_fseek(&arc->file, arc->header.symbolDataOffset, FS_SEEK_SET)) {
                 return FALSE;
             }
-            if (romfs_fread(&arc->file, arc->symbol, arc->header.symbolDataSize) != arc->header.symbolDataSize) {
+            readSize = romfs_fread(&arc->file, arc->symbol, arc->header.symbolDataSize);
+            if (readSize != arc->header.symbolDataSize) {
                 return FALSE;
             }
         }

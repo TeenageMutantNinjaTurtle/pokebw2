@@ -181,13 +181,18 @@ static void AlarmCallback(void *arg) {
     StrmCallback(arg, NNS_SND_STRM_CALLBACK_INTERVAL);
 }
 
+// A pointer moved on by a byte offset, an inline in the style of NitroSystem's FND; the name is a guess
+static inline void *AddU32ToPtr(void *ptr, u32 val) {
+    return (void *)((u32)ptr + val);
+}
+
 static void StrmCallback(NNSSndStrm *stream, NNSSndStrmCallbackStatus status) {
     u32 len = stream->bufSize / stream->interval;
     u32 offset = len * stream->curBlock;
     int i;
 
     for (i = 0; i < stream->numChannels; i++) {
-        sBufPtr[i] = (u8 *)sChInfo[stream->chNo[i]].buffer + offset;
+        sBufPtr[i] = AddU32ToPtr(sChInfo[stream->chNo[i]].buffer, offset);
     }
 
     stream->callback(status, stream->numChannels, sBufPtr, len, stream->format, stream->arg);
