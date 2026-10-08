@@ -141,7 +141,7 @@ static int BBagMain_StateInit(BBagWork *work) {
     G2S_BlendNone();
     GFXRegSetMasterBrightness(REG_DB_MASTER_BRIGHT_ADDR, -16);
     work->tcbExMgr = GFL_TCBExMgrCreate(work->param->heapId, work->param->heapId, 1, 4);
-    work->cursor = func_ov285_021f4260(work->param->heapId);
+    work->cursor = BAppCursor_Create(work->param->heapId);
     BBagMain_InitBG(work);
     BBagMain_LoadGraphics(work);
     BBagMain_InitText(work);
@@ -162,7 +162,7 @@ static int BBagMain_StateInit(BBagWork *work) {
     } else {
         work->cursorVisible = FALSE;
     }
-    func_ov285_021f42fc(work->cursor, work->cursorVisible);
+    BAppCursor_SetVisible(work->cursor, work->cursorVisible);
     if (work->page == 0) {
         BBagUi_CreateCursor(work, work->page, work->lastPocket);
     } else {
@@ -182,7 +182,7 @@ static int BBagMain_StateInitLauncher(BBagWork *work) {
     G2S_BlendNone();
     GFXRegSetMasterBrightness(REG_DB_MASTER_BRIGHT_ADDR, -16);
     work->tcbExMgr = GFL_TCBExMgrCreate(work->param->heapId, work->param->heapId, 1, 4);
-    work->cursor = func_ov285_021f4260(work->param->heapId);
+    work->cursor = BAppCursor_Create(work->param->heapId);
     BBagMain_InitBG(work);
     BBagMain_LoadGraphics(work);
     BBagMain_InitText(work);
@@ -200,7 +200,7 @@ static int BBagMain_StateInitLauncher(BBagWork *work) {
     } else {
         work->cursorVisible = FALSE;
     }
-    func_ov285_021f42fc(work->cursor, work->cursorVisible);
+    BAppCursor_SetVisible(work->cursor, work->cursorVisible);
     BBagUi_CreateCursor(work, work->page, 0);
     func_02042ba8(FALSE, work->param->heapId);
     PaletteFade_LoadFromVRAM(work->paletteFade, PALFADE_VRAM_SUB_OBJ, 0xe0, 0x20);
@@ -616,7 +616,7 @@ static BOOL BBagMain_Exit(TCB *tcb, BBagWork *work) {
         BBagMain_ExitBG();
         GFL_TCBExMgrFree(work->tcbExMgr);
         BBagUi_DeleteCursor(work);
-        func_ov285_021f4284(work->cursor);
+        BAppCursor_Delete(work->cursor);
         if (work->cursorVisible == TRUE) {
             *work->param->usingKeys = TRUE;
         } else {

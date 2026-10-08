@@ -300,12 +300,12 @@ static void BBagObj_ShowItem(BBagWork *wk) {
 }
 
 static void BBagObj_InitCursor(BBagWork *wk) {
-    func_ov285_021f428c(wk->cursor, wk->actorUnit, wk->charRes[8], wk->plttRes[8], wk->cellRes[2]);
-    func_ov285_021f42fc(wk->cursor, FALSE);
+    BAppCursor_CreateActors(wk->cursor, wk->actorUnit, wk->charRes[8], wk->plttRes[8], wk->cellRes[2]);
+    BAppCursor_SetVisible(wk->cursor, FALSE);
 }
 
 static void BBagObj_ExitCursor(BBagWork *wk) {
-    func_ov285_021f42e4(wk->cursor);
+    BAppCursor_DeleteActors(wk->cursor);
 }
 
 static void BBagObj_CreateFingerCursor(BBagWork *wk) {

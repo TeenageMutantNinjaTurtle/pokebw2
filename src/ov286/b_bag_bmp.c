@@ -324,9 +324,9 @@ static void BBagBmp_StartMessageStream(BBagWork *work) {
 }
 
 void BBagBmp_FlushWindows(BBagWork *work) {
-    func_ov285_021f43d0(work->windows, work->printQueue, BBAG_WINDOW_MAX);
+    BAppTool_FlushPrintWindows(work->windows, work->printQueue, BBAG_WINDOW_MAX);
 }
 
 void BBagBmp_TransferPage(BBagWork *work) {
-    func_ov285_021f43b4(work->windows, work->flushList);
+    BAppTool_QueueWindowScreens(work->windows, work->flushList);
 }

@@ -2,6 +2,7 @@
 #define POKEBW2_BATTLE_B_BAG_MAIN_H
 
 #include "types.h"
+#include "battle/b_app_tool.h"
 #include "gfl/clact.h"
 #include "gfl/heap.h"
 #include "save/bag.h"
@@ -62,7 +63,7 @@ struct BBagWork {
     u8 unk140;                            // 0x140  never accessed
     u8 listBuf;                           // 0x141  0: list windows 5-16, 1: 17-28; flipped per draw
     CursorMove *cursorMove;               // 0x144
-    void *cursor;                         // 0x148  overlay 285's
+    BAppCursor *cursor;                   // 0x148
     BtlvFingerCursor *fingerCursor;       // 0x14c  the catching demo's
     BagItem items[4][36];                 // 0x150  by battle pocket
     u8 unk390[0x90];                      // 0x390  never accessed, the size of one more pocket
