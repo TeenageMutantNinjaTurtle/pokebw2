@@ -84,8 +84,19 @@ static void ItemMenuDisp_InitBGs(void) {
     GX_SetDispSelect(GX_DISP_SELECT_SUB_MAIN);
     {
         BGSetup setup = {
-            0, 0, 0x800, 0, BGRES_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE(0xe000), GX_BG_CHARBASE(0x00000), 0x8000,
-            GX_BG_EXTPLTT_01, 3, GX_BG_AREAOVER_XLU, FALSE,
+            0,
+            0,
+            0x800,
+            0,
+            BGRES_256x256,
+            GX_BG_COLORMODE_16,
+            GX_BG_SCRBASE(0xe000),
+            GX_BG_CHARBASE(0x00000),
+            0x8000,
+            GX_BG_EXTPLTT_01,
+            3,
+            GX_BG_AREAOVER_XLU,
+            FALSE,
         };
 
         GFL_BGSysCreateBG(0, &setup, BGMODE_TEXT);
@@ -95,8 +106,19 @@ static void ItemMenuDisp_InitBGs(void) {
     }
     {
         BGSetup setup = {
-            0, 0, 0x800, 0, BGRES_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE(0xe800), GX_BG_CHARBASE(0x08000), 0x8000,
-            GX_BG_EXTPLTT_01, 2, GX_BG_AREAOVER_XLU, FALSE,
+            0,
+            0,
+            0x800,
+            0,
+            BGRES_256x256,
+            GX_BG_COLORMODE_16,
+            GX_BG_SCRBASE(0xe800),
+            GX_BG_CHARBASE(0x08000),
+            0x8000,
+            GX_BG_EXTPLTT_01,
+            2,
+            GX_BG_AREAOVER_XLU,
+            FALSE,
         };
 
         GFL_BGSysCreateBG(1, &setup, BGMODE_TEXT);
@@ -106,8 +128,19 @@ static void ItemMenuDisp_InitBGs(void) {
     }
     {
         BGSetup setup = {
-            0, 0, 0x800, 0, BGRES_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE(0xf000), GX_BG_CHARBASE(0x10000), 0x8000,
-            GX_BG_EXTPLTT_01, 1, GX_BG_AREAOVER_XLU, FALSE,
+            0,
+            0,
+            0x800,
+            0,
+            BGRES_256x256,
+            GX_BG_COLORMODE_16,
+            GX_BG_SCRBASE(0xf000),
+            GX_BG_CHARBASE(0x10000),
+            0x8000,
+            GX_BG_EXTPLTT_01,
+            1,
+            GX_BG_AREAOVER_XLU,
+            FALSE,
         };
 
         GFL_BGSysCreateBG(2, &setup, BGMODE_TEXT);
@@ -117,8 +150,19 @@ static void ItemMenuDisp_InitBGs(void) {
     }
     {
         BGSetup setup = {
-            0, 0, 0x800, 0, BGRES_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE(0xf800), GX_BG_CHARBASE(0x18000), 0x8000,
-            GX_BG_EXTPLTT_01, 0, GX_BG_AREAOVER_XLU, FALSE,
+            0,
+            0,
+            0x800,
+            0,
+            BGRES_256x256,
+            GX_BG_COLORMODE_16,
+            GX_BG_SCRBASE(0xf800),
+            GX_BG_CHARBASE(0x18000),
+            0x8000,
+            GX_BG_EXTPLTT_01,
+            0,
+            GX_BG_AREAOVER_XLU,
+            FALSE,
         };
 
         GFL_BGSysCreateBG(3, &setup, BGMODE_TEXT);
@@ -129,8 +173,19 @@ static void ItemMenuDisp_InitBGs(void) {
     }
     {
         BGSetup setup = {
-            0, 0, 0x800, 0, BGRES_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE(0xf800), GX_BG_CHARBASE(0x00000), 0x8000,
-            GX_BG_EXTPLTT_01, 3, GX_BG_AREAOVER_XLU, FALSE,
+            0,
+            0,
+            0x800,
+            0,
+            BGRES_256x256,
+            GX_BG_COLORMODE_16,
+            GX_BG_SCRBASE(0xf800),
+            GX_BG_CHARBASE(0x00000),
+            0x8000,
+            GX_BG_EXTPLTT_01,
+            3,
+            GX_BG_AREAOVER_XLU,
+            FALSE,
         };
 
         GFL_BGSysCreateBG(4, &setup, BGMODE_TEXT);
@@ -139,8 +194,19 @@ static void ItemMenuDisp_InitBGs(void) {
     }
     {
         BGSetup setup = {
-            0, 0, 0x800, 0, BGRES_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE(0xf000), GX_BG_CHARBASE(0x08000), 0x8000,
-            GX_BG_EXTPLTT_01, 2, GX_BG_AREAOVER_XLU, FALSE,
+            0,
+            0,
+            0x800,
+            0,
+            BGRES_256x256,
+            GX_BG_COLORMODE_16,
+            GX_BG_SCRBASE(0xf000),
+            GX_BG_CHARBASE(0x08000),
+            0x8000,
+            GX_BG_EXTPLTT_01,
+            2,
+            GX_BG_AREAOVER_XLU,
+            FALSE,
         };
 
         GFL_BGSysCreateBG(5, &setup, BGMODE_TEXT);
@@ -148,8 +214,19 @@ static void ItemMenuDisp_InitBGs(void) {
     }
     {
         BGSetup setup = {
-            0, 0, 0x800, 0, BGRES_256x256, GX_BG_COLORMODE_16, GX_BG_SCRBASE(0xe800), GX_BG_CHARBASE(0x10000), 0x8000,
-            GX_BG_EXTPLTT_01, 0, GX_BG_AREAOVER_XLU, FALSE,
+            0,
+            0,
+            0x800,
+            0,
+            BGRES_256x256,
+            GX_BG_COLORMODE_16,
+            GX_BG_SCRBASE(0xe800),
+            GX_BG_CHARBASE(0x10000),
+            0x8000,
+            GX_BG_EXTPLTT_01,
+            0,
+            GX_BG_AREAOVER_XLU,
+            FALSE,
         };
 
         GFL_BGSysCreateBG(6, &setup, BGMODE_TEXT);
@@ -326,7 +403,7 @@ void ItemMenuDisp_Init(ItemMenuWork *work) {
     sortSetup.y = 176;
     sortSetup.sequence = 0;
     work->sortButton = func_0204c040(work->actorUnit, work->sortButtonChr, work->sortButtonPlt, work->sortButtonCel,
-                                    &sortSetup, 0, work->heapId);
+                                     &sortSetup, 0, work->heapId);
     func_0204c520(work->sortButton, TRUE);
     func_0204c124(work->sortButton, TRUE);
     func_0204c5c8(work->sortButton, FALSE);
@@ -556,8 +633,8 @@ static void ItemMenuDisp_ShowSelIcon(ItemMenuWork *work, u32 item) {
     setup.sequence = 0;
     setup.priority = 0;
     setup.bgPriority = 0;
-    work->selIcon = func_0204c040(work->actorUnit, work->selIconChr, work->selIconPlt, work->selIconCel, &setup, 1,
-                                  work->heapId);
+    work->selIcon =
+        func_0204c040(work->actorUnit, work->selIconChr, work->selIconPlt, work->selIconCel, &setup, 1, work->heapId);
     func_0204c520(work->selIcon, TRUE);
     func_0204c124(work->selIcon, TRUE);
     func_0204c5c8(work->selIcon, FALSE);
@@ -1099,8 +1176,8 @@ BOOL ItemMenuDisp_IsMessageDone(ItemMenuWork *work) {
             work->streamResumed = FALSE;
             break;
         case PRINT_STREAM_PAUSED:
-            if (work->streamResumed == FALSE
-                && ((GCTX_HIDGetPressedKeys() & (PAD_BUTTON_A | PAD_BUTTON_B)) || func_0203da48())) {
+            if (work->streamResumed == FALSE &&
+                ((GCTX_HIDGetPressedKeys() & (PAD_BUTTON_A | PAD_BUTTON_B)) || func_0203da48())) {
                 GFL_SndSEPlay(SEQ_SE_MESSAGE);
                 func_020223bc(work->printStream);
                 work->streamResumed = TRUE;

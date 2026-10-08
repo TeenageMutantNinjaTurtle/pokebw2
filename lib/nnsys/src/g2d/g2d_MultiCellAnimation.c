@@ -319,8 +319,7 @@ void NNS_G2dRestartMCAnimation(NNSG2dMultiCellAnimation *mcAnim) {
 }
 
 // Calls the callback for each node of the current multi-cell with its cell animation, until it returns FALSE
-void NNS_G2dTraverseMCNodes(const NNSG2dMultiCellInstance *instance, NNSG2dMCTraverseNodeCallBack callback,
-                            u32 param) {
+void NNS_G2dTraverseMCNodes(const NNSG2dMultiCellInstance *instance, NNSG2dMCTraverseNodeCallBack callback, u32 param) {
     u16 i;
     const NNSG2dMultiCellData *mcData = instance->pCurrentMultiCell;
     u16 numNodes = mcData->numNodes;

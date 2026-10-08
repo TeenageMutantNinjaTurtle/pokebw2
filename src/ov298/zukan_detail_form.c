@@ -1513,8 +1513,8 @@ static void ZukanDetailForm_CreateSprite(Sprite *sprite, HeapID heapId, MCSSSyst
                                          u32 sex, u32 rare, u32 a6, u32 back, u32 personality) {
     sprite->mcss = ZukanDetailForm_AddMCSS(system, species, form, sex, rare, a6, back, personality);
     sprite->anim = GFL_HeapAllocate(heapId, sizeof(SpriteAnim), TRUE, "zukan_detail_form.c", 2737);
-    NNS_G2dSetAnimCtrlCallBackFunctor(&func_0201adc4(sprite->mcss)->animCtrl, NNS_G2D_ANMCALLBACKTYPE_LAST_FRM, (u32)sprite->anim,
-                                      ZukanDetailForm_SpriteAnimEnd);
+    NNS_G2dSetAnimCtrlCallBackFunctor(&func_0201adc4(sprite->mcss)->animCtrl, NNS_G2D_ANMCALLBACKTYPE_LAST_FRM,
+                                      (u32)sprite->anim, ZukanDetailForm_SpriteAnimEnd);
     ZukanDetailForm_InitSpritePositions(sprite->pos, species, form, sex, rare, a6, back, personality);
 }
 

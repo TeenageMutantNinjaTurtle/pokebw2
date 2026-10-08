@@ -39,7 +39,6 @@
 
 #define OVERLAY_EVENT_WIFI_BSUBWAY OVERLAY_ID(9)
 
-
 typedef struct {
     s16 x;
     s16 unk2;
@@ -750,8 +749,8 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         if (bsw->ov306Param.unk14 > BSUBWAY_COUNT_MAX) {
             bsw->ov306Param.unk14 = BSUBWAY_COUNT_MAX;
         }
-        ScriptWork_CallEvent(work,
-                             func_020196d0(gsys, field, OVERLAY_ID(306), &data_ov306_0219ed40, &bsw->ov306Param, NULL, NULL));
+        ScriptWork_CallEvent(
+            work, func_020196d0(gsys, field, OVERLAY_ID(306), &data_ov306_0219ed40, &bsw->ov306Param, NULL, NULL));
         result = TRUE;
         break;
     case 349:
@@ -882,8 +881,8 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         sys_memset(&bsw->ov174Param, 0, sizeof(bsw->ov174Param));
         bsw->ov174Param.gameData = gameData;
         bsw->ov174Param.result = 11;
-        ScriptWork_CallEvent(work,
-                             func_020196d0(gsys, field, OVERLAY_ID(174), &data_ov174_0219f0fc, &bsw->ov174Param, NULL, NULL));
+        ScriptWork_CallEvent(
+            work, func_020196d0(gsys, field, OVERLAY_ID(174), &data_ov174_0219f0fc, &bsw->ov174Param, NULL, NULL));
         result = TRUE;
         break;
     case 409:

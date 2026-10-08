@@ -410,8 +410,7 @@ typedef enum {
     GX_BG_BMPSCRBASE_0x28000 = 10,
 } GXBGBmpScrBase;
 
-#define GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2) \
-    ((u32)(x1) | ((u32)(y1) << 8) | ((u32)(x2) << 16) | ((u32)(y2) << 24))
+#define GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2) ((u32)(x1) | ((u32)(y1) << 8) | ((u32)(x2) << 16) | ((u32)(y2) << 24))
 
 // The geometry engine's matrix stacks, primitives, polygon attributes and textures
 #define GX_MTXMODE_PROJECTION 0
@@ -558,33 +557,33 @@ typedef enum {
 #define REG_G3_SPE_EMI_EMISSION_RED_SHIFT 16
 #define REG_G3_SPE_EMI_S_SHIFT 15
 
-#define GX_PACK_POLYGONATTR_PARAM(light, polyMode, cullMode, polygonID, alpha, misc)                                \
-    ((u32)(((light) << REG_G3_POLYGON_ATTR_LE_SHIFT) | ((polyMode) << REG_G3_POLYGON_ATTR_PM_SHIFT) |                \
-           ((cullMode) << REG_G3_POLYGON_ATTR_BK_SHIFT) | (misc) | ((polygonID) << REG_G3_POLYGON_ATTR_ID_SHIFT) |    \
+#define GX_PACK_POLYGONATTR_PARAM(light, polyMode, cullMode, polygonID, alpha, misc)                                   \
+    ((u32)(((light) << REG_G3_POLYGON_ATTR_LE_SHIFT) | ((polyMode) << REG_G3_POLYGON_ATTR_PM_SHIFT) |                  \
+           ((cullMode) << REG_G3_POLYGON_ATTR_BK_SHIFT) | (misc) | ((polygonID) << REG_G3_POLYGON_ATTR_ID_SHIFT) |     \
            ((alpha) << REG_G3_POLYGON_ATTR_ALPHA_SHIFT)))
 
-#define GX_PACK_TEXIMAGE_PARAM(texFmt, texGen, s, t, repeat, flip, pltt0, addr)                                    \
-    ((u32)(((addr) >> 3) | ((texFmt) << REG_G3_TEXIMAGE_PARAM_TEXFMT_SHIFT) |                                     \
-           ((texGen) << REG_G3_TEXIMAGE_PARAM_TGEN_SHIFT) | ((s) << REG_G3_TEXIMAGE_PARAM_V_SIZE_SHIFT) |          \
-           ((t) << REG_G3_TEXIMAGE_PARAM_T_SIZE_SHIFT) | ((repeat) << REG_G3_TEXIMAGE_PARAM_RS_SHIFT) |            \
+#define GX_PACK_TEXIMAGE_PARAM(texFmt, texGen, s, t, repeat, flip, pltt0, addr)                                        \
+    ((u32)(((addr) >> 3) | ((texFmt) << REG_G3_TEXIMAGE_PARAM_TEXFMT_SHIFT) |                                          \
+           ((texGen) << REG_G3_TEXIMAGE_PARAM_TGEN_SHIFT) | ((s) << REG_G3_TEXIMAGE_PARAM_V_SIZE_SHIFT) |              \
+           ((t) << REG_G3_TEXIMAGE_PARAM_T_SIZE_SHIFT) | ((repeat) << REG_G3_TEXIMAGE_PARAM_RS_SHIFT) |                \
            ((flip) << REG_G3_TEXIMAGE_PARAM_FS_SHIFT) | ((pltt0) << REG_G3_TEXIMAGE_PARAM_TR_SHIFT)))
 
 #define GX_PACK_TEXPLTTBASE_PARAM(addr, texFmt) ((u32)((addr) >> (4 - ((texFmt) == GX_TEXFMT_PLTT4))))
 
-#define GX_PACK_DIFFAMB_PARAM(diffuse, ambient, IsSetVtxColor)                                                     \
-    ((u32)((diffuse) | ((ambient) << REG_G3_DIF_AMB_AMBIENT_RED_SHIFT) |                                          \
+#define GX_PACK_DIFFAMB_PARAM(diffuse, ambient, IsSetVtxColor)                                                         \
+    ((u32)((diffuse) | ((ambient) << REG_G3_DIF_AMB_AMBIENT_RED_SHIFT) |                                               \
            (((IsSetVtxColor) != FALSE) << REG_G3_DIF_AMB_C_SHIFT)))
 
-#define GX_PACK_SPECEMI_PARAM(specular, emission, IsShininess)                                                     \
-    ((u32)((specular) | ((emission) << REG_G3_SPE_EMI_EMISSION_RED_SHIFT) |                                       \
+#define GX_PACK_SPECEMI_PARAM(specular, emission, IsShininess)                                                         \
+    ((u32)((specular) | ((emission) << REG_G3_SPE_EMI_EMISSION_RED_SHIFT) |                                            \
            (((IsShininess) != FALSE) << REG_G3_SPE_EMI_S_SHIFT)))
 
 // A normal's components, 10 bits each, and a texture coordinate's, fixed point with 4 fractional bits
 #define GX_FX16_FX10(x) ((fx16)((x) >> 3))
 #define GX_VECFX10(x, y, z) ((u32)(((x) & 0x3ff) | (((y) & 0x3ff) << 10) | (((z) & 0x3ff) << 20)))
 #define REG_G3_LIGHT_VECTOR_LNUM_SHIFT 30
-#define GX_PACK_LIGHTVECTOR_PARAM(lightID, x, y, z)                                                                \
-    ((u32)(((lightID) << REG_G3_LIGHT_VECTOR_LNUM_SHIFT) |                                                        \
+#define GX_PACK_LIGHTVECTOR_PARAM(lightID, x, y, z)                                                                    \
+    ((u32)(((lightID) << REG_G3_LIGHT_VECTOR_LNUM_SHIFT) |                                                             \
            GX_VECFX10(GX_FX16_FX10(x), GX_FX16_FX10(y), GX_FX16_FX10(z))))
 #define GX_PACK_LIGHTCOLOR_PARAM(lightID, rgb) ((u32)(((lightID) << REG_G3_LIGHT_VECTOR_LNUM_SHIFT) | (rgb)))
 // Packs texture coordinates. The game's SDK narrows each to an fx16 first; the older NitroSDK that SPL was built
@@ -793,16 +792,15 @@ static inline void G2S_ChangeBlendAlpha(int eva, int evb) {
 }
 
 static inline void G3X_SetShading(int shading) {
-    reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_THS_MASK | REG_G3X_DISP3DCNT_RO_MASK |
-                                                     REG_G3X_DISP3DCNT_GO_MASK)) |
+    reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT &
+                               ~(REG_G3X_DISP3DCNT_THS_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
                               (shading << REG_G3X_DISP3DCNT_THS_SHIFT));
 }
 
 static inline void G3X_AntiAlias(BOOL enable) {
     if (enable) {
-        reg_G3X_DISP3DCNT =
-            (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
-                  REG_G3X_DISP3DCNT_AAE_MASK);
+        reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
+                                  REG_G3X_DISP3DCNT_AAE_MASK);
     } else {
         reg_G3X_DISP3DCNT &= ~(REG_G3X_DISP3DCNT_AAE_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK);
     }
@@ -810,9 +808,8 @@ static inline void G3X_AntiAlias(BOOL enable) {
 
 static inline void G3X_AlphaTest(BOOL enable, int ref) {
     if (enable) {
-        reg_G3X_DISP3DCNT =
-            (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
-                  REG_G3X_DISP3DCNT_ATE_MASK);
+        reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
+                                  REG_G3X_DISP3DCNT_ATE_MASK);
         *(vu8 *)0x04000340 = (u8)ref;
     } else {
         reg_G3X_DISP3DCNT &= ~(REG_G3X_DISP3DCNT_ATE_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK);
@@ -821,9 +818,8 @@ static inline void G3X_AlphaTest(BOOL enable, int ref) {
 
 static inline void G3X_AlphaBlend(BOOL enable) {
     if (enable) {
-        reg_G3X_DISP3DCNT =
-            (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
-                  REG_G3X_DISP3DCNT_ABE_MASK);
+        reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
+                                  REG_G3X_DISP3DCNT_ABE_MASK);
     } else {
         reg_G3X_DISP3DCNT &= ~(REG_G3X_DISP3DCNT_ABE_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK);
     }
@@ -831,9 +827,8 @@ static inline void G3X_AlphaBlend(BOOL enable) {
 
 static inline void G3X_EdgeMarking(BOOL enable) {
     if (enable) {
-        reg_G3X_DISP3DCNT =
-            (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
-                  REG_G3X_DISP3DCNT_EME_MASK);
+        reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
+                                  REG_G3X_DISP3DCNT_EME_MASK);
     } else {
         reg_G3X_DISP3DCNT &= ~(REG_G3X_DISP3DCNT_EME_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK);
     }
@@ -1122,7 +1117,7 @@ static inline void GX_SetBGCharOffset(int offset) {
     }
 
 #define GX_DEFINE_BG23_CONTROL_DCBMP(name, reg)                                                                        \
-    static inline void name(GXBGScrSizeDcBmp screenSize, GXBGAreaOver areaOver, GXBGBmpScrBase screenBase) {          \
+    static inline void name(GXBGScrSizeDcBmp screenSize, GXBGAreaOver areaOver, GXBGBmpScrBase screenBase) {           \
         reg = (u16)((reg & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BGCNT_MOSAIC_MASK)) |                                 \
                     (screenSize << REG_G2_BGCNT_SCREENSIZE_SHIFT) | GX_BG_EXTMODE_DCBMP |                              \
                     (screenBase << REG_G2_BGCNT_SCREENBASE_SHIFT) | (areaOver << REG_G2_BGCNT_AREAOVER_SHIFT));        \
@@ -1200,7 +1195,8 @@ GX_DEFINE_BG_MOSAIC(G2S_BG3Mosaic, reg_G2S_DB_BG3CNT)
 
 #define REG_G2_MOSAIC_BG_V_SHIFT 4
 
-static inline void G2_SetBGMosaicSize(int hSize, int vSize) {
+                                                                                static inline void G2_SetBGMosaicSize(
+                                                                                    int hSize, int vSize) {
     *(vu8 *)REG_MOSAIC_ADDR = (u8)(hSize | (vSize << REG_G2_MOSAIC_BG_V_SHIFT));
 }
 
@@ -1430,8 +1426,7 @@ void gfxEngineEnableA(void);
 #define REG_GXS_DB_DISPCNT_MODE_MASK 0x00010000
 
 static inline void GX_SetVisiblePlane(int plane) {
-    reg_GX_DISPCNT =
-        (u32)((reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (plane << REG_GX_DISPCNT_DISPLAY_SHIFT));
+    reg_GX_DISPCNT = (u32)((reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (plane << REG_GX_DISPCNT_DISPLAY_SHIFT));
 }
 
 static inline void GXS_SetVisiblePlane(int plane) {
@@ -1440,8 +1435,7 @@ static inline void GXS_SetVisiblePlane(int plane) {
 }
 
 static inline void GX_SetOBJVRamModeChar(GXOBJVRamModeChar mode) {
-    reg_GX_DISPCNT =
-        (u32)((reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | mode);
+    reg_GX_DISPCNT = (u32)((reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | mode);
 }
 
 static inline void GXS_SetOBJVRamModeChar(GXOBJVRamModeChar mode) {

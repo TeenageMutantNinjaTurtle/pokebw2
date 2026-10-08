@@ -232,11 +232,11 @@ void func_ov033_0217bf04(BSubwayPokemon *dest, PartyPkm *pkm);
 void *func_ov033_0217c110(BSubwayScrWork *bsw);
 BtlSetup *func_ov033_0217c094(BSubwayScrWork *bsw, GameSystem *gsys);
 BOOL func_ov033_0217c264(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count, const u16 *species,
-                        const u16 *items, BSubwayTeamConfig *config, HeapID heapId);
+                         const u16 *items, BSubwayTeamConfig *config, HeapID heapId);
 u16 func_ov033_0217c11c(BSubwayScrWork *bsw, u16 level, u8 index, u32 mode, u8 side);
 u8 func_ov033_0217c288(u32 value);
 void func_ov033_0217c2c4(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count,
-                        const BSubwayTeamConfig *config, HeapID heapId);
+                         const BSubwayTeamConfig *config, HeapID heapId);
 // Function name from swan
 u16 randFFFFFFFFdivFFFF(BSubwayScrWork *bsw);
 

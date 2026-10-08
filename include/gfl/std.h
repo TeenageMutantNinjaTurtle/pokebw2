@@ -55,17 +55,17 @@ void GFL_DebugSetVerboseAssertHandlers(void);
 // message
 void GFL_DebugAssertFail(const char *file, u32 line, const char *expression);
 void GFL_DebugAssertFailEx(const char *file, u32 line, const char *format, ...);
-#define GFL_ASSERT(expression)                              \
-    do {                                                    \
-        if (!(expression)) {                                \
-            GFL_DebugAssertFail("", 0, #expression);        \
-        }                                                   \
+#define GFL_ASSERT(expression)                                                                                         \
+    do {                                                                                                               \
+        if (!(expression)) {                                                                                           \
+            GFL_DebugAssertFail("", 0, #expression);                                                                   \
+        }                                                                                                              \
     } while (0)
-#define GFL_ASSERT_MSG(expression, ...)                     \
-    do {                                                    \
-        if (!(expression)) {                                \
-            GFL_DebugAssertFailEx("", 0, __VA_ARGS__);      \
-        }                                                   \
+#define GFL_ASSERT_MSG(expression, ...)                                                                                \
+    do {                                                                                                               \
+        if (!(expression)) {                                                                                           \
+            GFL_DebugAssertFailEx("", 0, __VA_ARGS__);                                                                 \
+        }                                                                                                              \
     } while (0)
 
 #endif // POKEBW2_GFL_STD_H

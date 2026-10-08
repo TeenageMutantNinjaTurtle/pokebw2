@@ -853,8 +853,8 @@ ClActor *func_0204c040(ClActUnit *unit, u32 chars, u32 palette, u32 cellAnims, c
     return func_0204d138(unit, setup, &res, surface, heapId);
 }
 
-ClActor *func_0204c0a4(ClActUnit *unit, u32 chars, u32 palette, u32 cellAnims, const ClActorSetupEx *setup,
-                       u16 surface, HeapID heapId) {
+ClActor *func_0204c0a4(ClActUnit *unit, u32 chars, u32 palette, u32 cellAnims, const ClActorSetupEx *setup, u16 surface,
+                       HeapID heapId) {
     ClActResSetup res;
 
     func_0204d11c(&res, chars, palette, &g_ClActSys->res.chars[chars], &g_ClActSys->res.pltts[palette],
@@ -1853,9 +1853,8 @@ static void func_0204d2a8(ClActAnim *anim, const ClActResSetup *res, HeapID heap
     anim->anims = res->anims;
     anim->mcBank = res->mcBank;
     anim->mcAnims = res->mcAnims;
-    anim->mcWork =
-        GFL_HeapAllocate(heapId, NNS_G2dGetMCWorkAreaSize(anim->mcBank, NNS_G2D_MCTYPE_SHARE_CELLANIM), FALSE,
-                         "clact.c", 6175);
+    anim->mcWork = GFL_HeapAllocate(heapId, NNS_G2dGetMCWorkAreaSize(anim->mcBank, NNS_G2D_MCTYPE_SHARE_CELLANIM),
+                                    FALSE, "clact.c", 6175);
     NNS_G2dInitMCAnimationInstance(&anim->mcAnim, anim->mcWork, anim->anims, anim->cells, anim->mcBank,
                                    NNS_G2D_MCTYPE_SHARE_CELLANIM);
     NNS_G2dSetAnimSequenceToMCAnimation(&anim->mcAnim, NNS_G2dGetAnimSequenceByIdx(anim->mcAnims, 0));
@@ -2053,12 +2052,10 @@ static void func_0204d63c(ClActAnim *anim, const ClActorCallback *callback) {
 
     switch (callback->type) {
     case CLACT_CALLBACK_LAST_FRAME:
-        NNS_G2dSetAnimCtrlCallBackFunctor(animCtrl, NNS_G2D_ANMCALLBACKTYPE_LAST_FRM, callback->param,
-                                          callback->func);
+        NNS_G2dSetAnimCtrlCallBackFunctor(animCtrl, NNS_G2D_ANMCALLBACKTYPE_LAST_FRM, callback->param, callback->func);
         break;
     case CLACT_CALLBACK_EVERY_FRAME:
-        NNS_G2dSetAnimCtrlCallBackFunctor(animCtrl, NNS_G2D_ANMCALLBACKTYPE_EVER_FRM, callback->param,
-                                          callback->func);
+        NNS_G2dSetAnimCtrlCallBackFunctor(animCtrl, NNS_G2D_ANMCALLBACKTYPE_EVER_FRM, callback->param, callback->func);
         break;
     case CLACT_CALLBACK_FRAME:
         NNS_G2dSetAnimCtrlCallBackFunctorAtAnimFrame(animCtrl, callback->param, callback->func, callback->frame);

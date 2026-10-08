@@ -60,13 +60,13 @@ typedef struct {
     u32 size;
 } NNSG2dBinaryBlockHeader;
 
-#define NNS_G2D_BINBLK_SIG_CHARDATA 0x43484152 // 'CHAR'
-#define NNS_G2D_BINBLK_SIG_PALETTEDATA 0x504C5454 // 'PLTT'
+#define NNS_G2D_BINBLK_SIG_CHARDATA 0x43484152            // 'CHAR'
+#define NNS_G2D_BINBLK_SIG_PALETTEDATA 0x504C5454         // 'PLTT'
 #define NNS_G2D_BINBLK_SIG_PALETTECOMPRESSINFO 0x50434D50 // 'PCMP'
-#define NNS_G2D_BINBLK_SIG_SCREENDATA 0x5343524E // 'SCRN'
-#define NNS_G2D_BINBLK_SIG_MULTICELLBANK 0x4D43424B // 'MCBK'
-#define NNS_G2D_BINBLK_SIG_CELLBANK 0x4345424B // 'CEBK'
-#define NNS_G2D_BINBLK_SIG_ANIMBANK 0x41424E4B // 'ABNK'
+#define NNS_G2D_BINBLK_SIG_SCREENDATA 0x5343524E          // 'SCRN'
+#define NNS_G2D_BINBLK_SIG_MULTICELLBANK 0x4D43424B       // 'MCBK'
+#define NNS_G2D_BINBLK_SIG_CELLBANK 0x4345424B            // 'CEBK'
+#define NNS_G2D_BINBLK_SIG_ANIMBANK 0x41424E4B            // 'ABNK'
 
 #define NNS_G2D_USEREXDATA_CELLATTR 0x55434154
 #define NNS_G2D_USEREXDATA_ANMATTR 0x55414154
@@ -286,7 +286,7 @@ static inline const NNSG2dUserExAnimAttrBank *NNS_G2dGetUserExAnimAttrBank(const
 }
 
 static inline const NNSG2dUserExAnimSequenceAttr *NNS_G2dGetUserExAnimSequenceAttr(const NNSG2dUserExAnimAttrBank *bank,
-                                                                                  u16 idx) {
+                                                                                   u16 idx) {
     if (idx < bank->numSequences) {
         return &bank->pAnmSeqAttrArray[idx];
     }
@@ -481,8 +481,7 @@ void NNS_G2dSetCellAnimationSpeed(NNSG2dCellAnimation *cellAnim, fx32 speed);
 // Multi-cell animations, whose work is NNS_G2dGetMCWorkAreaSize bytes
 u32 NNS_G2dGetMCWorkAreaSize(const NNSG2dMultiCellDataBank *bank, u32 mcType);
 void NNS_G2dInitMCAnimationInstance(NNSG2dMultiCellAnimation *mcAnim, void *work, const NNSG2dAnimBankData *anims,
-                                    const NNSG2dCellDataBank *cells, const NNSG2dMultiCellDataBank *mcBank,
-                                    u32 mcType);
+                                    const NNSG2dCellDataBank *cells, const NNSG2dMultiCellDataBank *mcBank, u32 mcType);
 void NNS_G2dSetAnimSequenceToMCAnimation(NNSG2dMultiCellAnimation *mcAnim, const NNSG2dAnimSequence *seq);
 void NNS_G2dTickMCInstance(NNSG2dMultiCellInstance *instance, fx32 frames);
 void NNS_G2dTickMCAnimation(NNSG2dMultiCellAnimation *mcAnim, fx32 frames);
@@ -496,8 +495,7 @@ void NNS_G2dRestartMCAnimation(NNSG2dMultiCellAnimation *mcAnim);
 typedef BOOL (*NNSG2dMCTraverseNodeCallBack)(u32 param, const NNSG2dMultiCellHierarchyData *node,
                                              NNSG2dCellAnimation *cellAnim, u16 nodeIdx);
 
-void NNS_G2dTraverseMCNodes(const NNSG2dMultiCellInstance *instance, NNSG2dMCTraverseNodeCallBack callback,
-                            u32 param);
+void NNS_G2dTraverseMCNodes(const NNSG2dMultiCellInstance *instance, NNSG2dMCTraverseNodeCallBack callback, u32 param);
 
 // Where an image or palette is in VRAM, for the 3D engine and each 2D engine, and loading one there
 typedef enum {
@@ -646,8 +644,9 @@ typedef struct NNSG2dRndCoreInstance {
     MtxFx43 mtx3D;
 } NNSG2dRndCoreInstance;
 
-// A 2D affine matrix that the renderer shares among the cells drawn with it, with its affine parameter index per surface
-// affineIndex[flip][type - NNS_G2D_SURFACETYPE_MAIN2D], by OAM flip (H in bit 0, V in bit 1) and 2D surface type, is NNS_G2D_OAM_AFFINE_IDX_NOT_CACHED until the core registers the flipped matrix for it
+// A 2D affine matrix that the renderer shares among the cells drawn with it, with its affine parameter index per
+// surface affineIndex[flip][type - NNS_G2D_SURFACETYPE_MAIN2D], by OAM flip (H in bit 0, V in bit 1) and 2D surface
+// type, is NNS_G2D_OAM_AFFINE_IDX_NOT_CACHED until the core registers the flipped matrix for it
 typedef struct NNSG2dRndCore2DMtxCache {
     MtxFx22 m22;
     u16 affineIndex[4][NNS_G2D_SURFACETYPE_MAX - NNS_G2D_SURFACETYPE_MAIN2D];

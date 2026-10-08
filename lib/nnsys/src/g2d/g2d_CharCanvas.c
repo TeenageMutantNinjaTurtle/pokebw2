@@ -51,25 +51,25 @@ static void MapScrToCharLinear(u16 *pScr, int areaWidth, int areaHeight, int scn
 
 // The 2D OBJ canvas's functions. Not static, since nothing the game keeps uses it and MWCC would leave it out; the name
 // is ours
-const NNSiG2dCharCanvasVTable NNSi_G2dCharCanvasVTableOBJ2DRect = {DrawGlyphLinear, ClearLinear, ClearAreaLinear};
+const NNSiG2dCharCanvasVTable NNSi_G2dCharCanvasVTableOBJ2DRect = { DrawGlyphLinear, ClearLinear, ClearAreaLinear };
 // MWCC emits these two in the reverse of their order here, which puts the BG's first as in the ROM
-static const NNSiG2dCharCanvasVTable VTABLE_OBJ1D = {DrawGlyph1D, ClearContinuous, ClearArea1D};
-static const NNSiG2dCharCanvasVTable VTABLE_BG = {DrawGlyphLinear, ClearContinuous, ClearAreaLinear};
+static const NNSiG2dCharCanvasVTable VTABLE_OBJ1D = { DrawGlyph1D, ClearContinuous, ClearArea1D };
+static const NNSiG2dCharCanvasVTable VTABLE_BG = { DrawGlyphLinear, ClearContinuous, ClearAreaLinear };
 
 // The largest OBJ that fits in an area, by the log2 sizes of the area, at most 8 characters: [height][width]
 static const ObjSizeShift sMaxObjSize[4][4] = {
-    {{0, 0}, {1, 0}, {2, 0}, {2, 0}},
-    {{0, 1}, {1, 1}, {2, 1}, {2, 1}},
-    {{0, 2}, {1, 2}, {2, 2}, {3, 2}},
-    {{0, 2}, {1, 2}, {2, 3}, {3, 3}},
+    { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 2, 0 } },
+    { { 0, 1 }, { 1, 1 }, { 2, 1 }, { 2, 1 } },
+    { { 0, 2 }, { 1, 2 }, { 2, 2 }, { 3, 2 } },
+    { { 0, 2 }, { 1, 2 }, { 2, 3 }, { 3, 3 } },
 };
 
 // The shape of an OBJ by its log2 sizes: [heightShift][widthShift]
 static const u32 sOamShape[4][4] = {
-    {GX_OAM_SHAPE_8x8, GX_OAM_SHAPE_16x8, GX_OAM_SHAPE_32x8, 0},
-    {GX_OAM_SHAPE_8x16, GX_OAM_SHAPE_16x16, GX_OAM_SHAPE_32x16, 0},
-    {GX_OAM_SHAPE_8x32, GX_OAM_SHAPE_16x32, GX_OAM_SHAPE_32x32, GX_OAM_SHAPE_64x32},
-    {0, 0, GX_OAM_SHAPE_32x64, GX_OAM_SHAPE_64x64},
+    { GX_OAM_SHAPE_8x8, GX_OAM_SHAPE_16x8, GX_OAM_SHAPE_32x8, 0 },
+    { GX_OAM_SHAPE_8x16, GX_OAM_SHAPE_16x16, GX_OAM_SHAPE_32x16, 0 },
+    { GX_OAM_SHAPE_8x32, GX_OAM_SHAPE_16x32, GX_OAM_SHAPE_32x32, GX_OAM_SHAPE_64x32 },
+    { 0, 0, GX_OAM_SHAPE_32x64, GX_OAM_SHAPE_64x64 },
 };
 
 static inline int CharSize(int bpp) {
@@ -111,7 +111,8 @@ static u32 GetCharIndex1D(u32 x, u32 y, int areaWidth, int areaHeight, int objWi
             areaWidth -= bodyWidth;
             areaHeight = bodyHeight;
         } else {
-            return charNo + (y & maskH) * bodyWidth + ((x & maskW) << objHeightShift) + ((y & ~maskH) << objWidthShift) + (x & ~maskW);
+            return charNo + (y & maskH) * bodyWidth + ((x & maskW) << objHeightShift) +
+                   ((y & ~maskH) << objWidthShift) + (x & ~maskW);
         }
 
         {
@@ -397,7 +398,6 @@ static void DrawGlyph1D(const NNSG2dCharCanvas *pCC, const NNSG2dFont *pFont, in
     }
 }
 
-
 static inline u32 FillPattern(u32 cl, int bpp) {
     if (bpp == 4) {
         cl |= cl << 4;
@@ -438,7 +438,7 @@ static void ClearAreaLinear(const NNSG2dCharCanvas *pCC, int cl, int x, int y, i
     const int bpp = pCC->dstBpp;
     const u32 pattern = FillPattern(cl, bpp);
     const int x0 = x & ~7;
-        cy = y & ~7;
+    cy = y & ~7;
     const int x1 = (right + 7) & ~7;
     const int y1 = (bottom + 7) & ~7;
     const int charSize = CharSize(bpp);

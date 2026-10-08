@@ -373,8 +373,8 @@ static void FaceUp_Task(TCB *tcb, void *data) {
     void *window;
     u32 msgState;
 
-    if (!work->talkEnded && FieldScriptSubEvent_IsRegistered(SCRIPT_SUB_EVENT_MSG)
-        && (window = getMapDisplayInfoPtr(work->env)) != NULL) {
+    if (!work->talkEnded && FieldScriptSubEvent_IsRegistered(SCRIPT_SUB_EVENT_MSG) &&
+        (window = getMapDisplayInfoPtr(work->env)) != NULL) {
         msgState = func_ov036_02188cbc(window);
         if (msgState == 0) {
             work->mouth.stopped = FALSE;

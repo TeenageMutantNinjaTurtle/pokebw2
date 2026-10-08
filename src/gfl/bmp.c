@@ -9,22 +9,21 @@
 #include "nitro/os.h"
 
 // The byte of a pixel of a bitmap of 16 or 256 color tiles, whose rows are tilesX tiles wide
-#define PIXEL_ADDR_16(pixels, x, y, tilesX)                                                                         \
-    ((u8 *)((pixels) + (((x) >> 1) & 3) + (((x) << 2) & 0x3fe0) + ((((y) << 2) & 0x3fe0) * (tilesX)) +           \
+#define PIXEL_ADDR_16(pixels, x, y, tilesX)                                                                            \
+    ((u8 *)((pixels) + (((x) >> 1) & 3) + (((x) << 2) & 0x3fe0) + ((((y) << 2) & 0x3fe0) * (tilesX)) +                 \
             (u32)(((y) << 2) & 0x1c)))
-#define PIXEL_ADDR_256(pixels, x, y, tilesX)                                                                        \
-    ((u8 *)((pixels) + ((x) & 7) + (((x) << 3) & 0x7fc0) + ((((y) << 3) & 0x7fc0) * (tilesX)) +                   \
+#define PIXEL_ADDR_256(pixels, x, y, tilesX)                                                                           \
+    ((u8 *)((pixels) + ((x) & 7) + (((x) << 3) & 0x7fc0) + ((((y) << 3) & 0x7fc0) * (tilesX)) +                        \
             (u32)(((y) << 3) & 0x38)))
 // A width in pixels as tiles
 #define PIXELS_TO_TILES(x) (((x) + ((x) & 7)) >> 3)
 
-static void GFL_BitmapCopyArea_IDX4(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX,
-                                    int destY, u32 width, u32 height, u16 colorKey);
-static void GFL_BitmapCopyArea_IDX8(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX,
-                                    int destY, u32 width, u32 height, u16 colorKey);
-static void GFL_BitmapCopyAreaRebased_IDX8(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY,
-                                           int destX, int destY, u32 width, u32 height, u16 colorKey,
-                                           u8 paletteOffset);
+static void GFL_BitmapCopyArea_IDX4(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX, int destY,
+                                    u32 width, u32 height, u16 colorKey);
+static void GFL_BitmapCopyArea_IDX8(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX, int destY,
+                                    u32 width, u32 height, u16 colorKey);
+static void GFL_BitmapCopyAreaRebased_IDX8(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX,
+                                           int destY, u32 width, u32 height, u16 colorKey, u8 paletteOffset);
 static void GFL_BitmapCopyArea_IDX4_VRAM(const GFLBitmap *src, GFLBitmap *dest, u16 srcX, u16 srcY, s16 destX,
                                          s16 destY, u16 width, u16 height, u16 colorKey);
 static void GFL_BitmapCopyArea_IDX8_VRAM(const GFLBitmap *src, GFLBitmap *dest, u16 srcX, u16 srcY, s16 destX,
@@ -154,8 +153,8 @@ void GFL_BitmapCopyArea(GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int
     }
 }
 
-void GFL_BitmapCopyAreaRebased(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX,
-                               int destY, u32 width, u32 height, u16 colorKey, u16 paletteOffset) {
+void GFL_BitmapCopyAreaRebased(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX, int destY,
+                               u32 width, u32 height, u16 colorKey, u16 paletteOffset) {
     GFL_BitmapCopyAreaRebased_IDX8(src, dest, srcX, srcY, destX, destY, width, height, colorKey, paletteOffset);
 }
 
@@ -183,8 +182,8 @@ void GFL_BitmapFill(GFLBitmap *bitmap, u8 color) {
 }
 
 // Clips a copy to the source and the destination, and returns whether any of it is left
-static inline BOOL ClipCopyArea(const GFLBitmap *src, GFLBitmap *dest, u32 *srcX, u32 *srcY, int *destX,
-                                int *destY, u32 *width, u32 *height) {
+static inline BOOL ClipCopyArea(const GFLBitmap *src, GFLBitmap *dest, u32 *srcX, u32 *srcY, int *destX, int *destY,
+                                u32 *width, u32 *height) {
     u32 h = *height;
     u32 w = *width;
 
@@ -219,8 +218,8 @@ static inline BOOL ClipCopyArea(const GFLBitmap *src, GFLBitmap *dest, u32 *srcX
     return TRUE;
 }
 
-static void GFL_BitmapCopyArea_IDX4(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX,
-                                    int destY, u32 width, u32 height, u16 colorKey) {
+static void GFL_BitmapCopyArea_IDX4(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX, int destY,
+                                    u32 width, u32 height, u16 colorKey) {
     int srcTilesX;
     int destTilesX;
     u32 i;
@@ -262,8 +261,8 @@ static void GFL_BitmapCopyArea_IDX4(const GFLBitmap *src, GFLBitmap *dest, u32 s
     }
 }
 
-static void GFL_BitmapCopyArea_IDX8(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX,
-                                    int destY, u32 width, u32 height, u16 colorKey) {
+static void GFL_BitmapCopyArea_IDX8(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX, int destY,
+                                    u32 width, u32 height, u16 colorKey) {
     int srcTilesX;
     int destTilesX;
     u32 i;
@@ -299,9 +298,8 @@ static void GFL_BitmapCopyArea_IDX8(const GFLBitmap *src, GFLBitmap *dest, u32 s
     }
 }
 
-static void GFL_BitmapCopyAreaRebased_IDX8(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY,
-                                           int destX, int destY, u32 width, u32 height, u16 colorKey,
-                                           u8 paletteOffset) {
+static void GFL_BitmapCopyAreaRebased_IDX8(const GFLBitmap *src, GFLBitmap *dest, u32 srcX, u32 srcY, int destX,
+                                           int destY, u32 width, u32 height, u16 colorKey, u8 paletteOffset) {
     int srcTilesX;
     int destTilesX;
     u32 i;
@@ -636,4 +634,3 @@ GFLBitmap *GFL_BitmapMakeLinear(GFLBitmap *bitmap, BOOL keepAsNew, HeapID heapId
     }
     return linear;
 }
-

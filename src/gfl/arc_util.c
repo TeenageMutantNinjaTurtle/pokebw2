@@ -22,8 +22,8 @@ static const VramLoadFunc obj_char_lut[] = {
 };
 
 static const VramLoadFunc pltt_type_lut[] = {
-    gfxUploadStdPaletteBGA,  gfxUploadStdPaletteObjA, gfxUploadExtPaletteBGA, gfxUploadExtPaletteObjA,
-    gfxUploadStdPaletteBGB,  gfxUploadStdPaletteObjB, gfxUploadExtPaletteBGB, gfxUploadExtPaletteObjB,
+    gfxUploadStdPaletteBGA, gfxUploadStdPaletteObjA, gfxUploadExtPaletteBGA, gfxUploadExtPaletteObjA,
+    gfxUploadStdPaletteBGB, gfxUploadStdPaletteObjB, gfxUploadExtPaletteBGB, gfxUploadExtPaletteObjB,
 };
 
 u32 GFL_BGSysLoadNCGRStatic(u32 arcId, u32 fileId, u8 bg, u32 offset, u32 size, BOOL compressed, HeapID heapId) {
@@ -126,8 +126,8 @@ void loadBGScrToVramByFileNoReserveNegAlign(ArcTool *arc, u32 fileId, u32 bg, u3
     GFL_BGSysLoadNSCR(file, bg, offset, 0, size, FALSE);
 }
 
-void loadBGScrToVramByNarcNoReserve(u32 arcId, u32 fileId, u8 bg, u32 offset, u32 palOffset, u32 size,
-                                    BOOL compressed, HeapID heapId) {
+void loadBGScrToVramByNarcNoReserve(u32 arcId, u32 fileId, u8 bg, u32 offset, u32 palOffset, u32 size, BOOL compressed,
+                                    HeapID heapId) {
     void *file = GFL_ArcSysReadHeapNewLZ(arcId, fileId, compressed, heapId);
 
     GFL_BGSysLoadNSCR(file, bg, offset, palOffset, size, FALSE);
@@ -185,7 +185,6 @@ static void GFL_BGSysLoadNSCR(void *file, u32 bg, u32 offset, u32 palOffset, u32
     }
     GFL_HeapFree(file);
 }
-
 
 void GFL_BGSysLoadNCLRDefault(u32 arcId, u32 fileId, u32 type, u32 offset, u32 size, HeapID heapId) {
     GFL_G2DIOLoadNCLR(arcId, fileId, type, 0, offset, size, heapId);
@@ -389,8 +388,7 @@ void *GFL_G2DIOReadNMCR(u32 arcId, u32 fileId, BOOL compressed, NNSG2dMultiCellD
     return file;
 }
 
-void *GFL_G2DIOReadNMCRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dMultiCellDataBank **cells,
-                           HeapID heapId) {
+void *GFL_G2DIOReadNMCRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dMultiCellDataBank **cells, HeapID heapId) {
     void *file = GFL_ArcToolReadHeapNewLZ(arc, fileId, compressed, heapId);
 
     if (file != NULL && !NNS_G2dGetUnpackedMultiCellBank(file, cells)) {

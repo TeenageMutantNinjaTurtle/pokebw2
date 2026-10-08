@@ -48,7 +48,8 @@ void NNSi_G2dInitCellTransferState(u32 handle, u32 dstAddr3D, u32 dstAddr2DMain,
     state->szSrcData = szSrcData;
 }
 
-void NNS_G2dInitCellTransferStateManager(NNSG2dCellTransferState *states, u32 numCellState, NNSG2dDmaCallBack callback) {
+void NNS_G2dInitCellTransferStateManager(NNSG2dCellTransferState *states, u32 numCellState,
+                                         NNSG2dDmaCallBack callback) {
     u32 i;
 
     s_pDmaFunc = callback;

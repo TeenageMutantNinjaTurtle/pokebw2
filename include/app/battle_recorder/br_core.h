@@ -228,7 +228,6 @@ typedef struct {
     u32 saveSlot;
 } BrBvSaveProcParam;
 
-
 // The screens' procs
 extern const GameProcFunctions data_ov268_021c20e8;
 extern const GameProcFunctions data_ov268_021c20f4;
