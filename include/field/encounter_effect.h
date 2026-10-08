@@ -7,7 +7,7 @@
 #include "system/game_event.h"
 #include "struct_decls.h"
 
-// Overlay 150 runs the encounter effects that split the screen into a grid of cells, which overlays 151 to 153 set
+// Overlay 150 runs the encounter effects that split the screen into a grid of cells, which overlays 152 to 154 set
 // up. Overlay 148 runs the event around such an effect
 
 // A cell of the screen, 0x40 bytes
@@ -49,6 +49,8 @@ struct EncEffGridParam {
 };
 
 void func_ov036_021c5ea0(EncEff *effect);
+// Loads overlay 148 alone, for the effects that draw the captured screen themselves
+void func_ov036_021c5ebc(EncEff *effect);
 void *EncEff_AllocWorkArea(EncEff *effect, u32 id, u32 size);
 void *EncEff_GetWorkArea(EncEff *effect);
 void *EncEff_GetEventData(EncEff *effect);

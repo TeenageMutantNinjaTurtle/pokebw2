@@ -1,5 +1,5 @@
 // Overlay 150: the encounter effects that split the screen into a grid of cells, each drawn as a textured quad that
-// the effect's overlay (151 to 154) moves, turns and hides. Overlay 148 runs the event around them. The file's name
+// the effect's overlay (152 to 154) moves, turns and hides. Overlay 148 runs the event around them. The file's name
 // is a guess; the ROM has no string for it
 
 #include "types.h"

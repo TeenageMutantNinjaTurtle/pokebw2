@@ -336,6 +336,8 @@ typedef enum {
 
 #define GX_BEGIN_TRIANGLES 0
 #define GX_BEGIN_QUADS 1
+#define GX_BEGIN_TRIANGLE_STRIP 2
+#define GX_BEGIN_QUAD_STRIP 3
 
 typedef enum {
     GX_POLYGONMODE_MODULATE,
