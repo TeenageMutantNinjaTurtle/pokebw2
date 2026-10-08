@@ -170,7 +170,7 @@ from:0x02150d80 kind:thumb_call to:0x020179a8 module:main
 from:0x02150d88 kind:thumb_call to:0x021eedac module:overlays(111,117,210)
 from:0x02150d98 kind:thumb_call to:0x021f04a0 module:overlay(211)
 from:0x02150da2 kind:thumb_call to:0x0200aee4 module:main
-from:0x02150db2 kind:thumb_call to:0x021eee0c module:overlays(98,112,114,119,132,210)
+from:0x02150db2 kind:thumb_call to:0x021eee0c module:overlay(210)
 from:0x02150dc6 kind:thumb_call to:0x0201736c module:main
 from:0x02150dce kind:thumb_call to:0x0201d620 module:main
 from:0x02150de2 kind:thumb_call to:0x021ef3e4 module:overlay(211)

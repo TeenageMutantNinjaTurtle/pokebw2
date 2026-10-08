@@ -195,6 +195,7 @@ void func_ov036_02187ea0(void *window);
 void *func_ov036_021c3d9c(PlayerInfo *info, Field *field, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 u32 func_ov036_021c3f98(void *obj);
 void func_ov036_021c3eb4(void *obj);
+void *func_ov036_021c6574(void *effects, u32 a1, const VecFx32 *pos);
 void func_ov036_021c65a8(void *obj, u16 a1);
 void func_ov036_021c65e8(void *obj, u16 a1);
 void FieldPlayer_SetWPos(FieldPlayer *player, const VecFx32 *pos);

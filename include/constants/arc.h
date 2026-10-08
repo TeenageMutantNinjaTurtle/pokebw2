@@ -136,6 +136,11 @@
 // The graphics of the Pokémon World Tournament's win record and downloaded tournaments, overlay 326 (not from swan)
 #define ARCID_WIN_RECORD 265
 #define ARCID_T_DOWNLOAD 266
+// The Pokémon World Tournament's touch screen (a/2/4/5), wbt_subscreen.c. Our name, not swan's
+#define ARCID_WBT_SUBSCREEN 245
+// The touch screen of no_gear.c (a/2/8/7): many palettes and screens that look like the C-Gear's. Our name and a
+// guess, not swan's
+#define ARCID_C_GEAR 287
 #define ARCID_GIMMICK_EXPOBJ_MARINETUBE 295
 
 #endif // POKEBW2_CONSTANTS_ARC_H

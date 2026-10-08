@@ -158,6 +158,7 @@ typedef struct BtlSetup BtlSetup;
 typedef struct BtlSetupTrainer BtlSetupTrainer;
 typedef struct FieldFollowWk FieldFollowWk;
 typedef struct FieldMenu FieldMenu;
+typedef struct FieldSoundEmitter FieldSoundEmitter;
 typedef struct BtlvCore BtlvCore;
 typedef struct BtlvScu BtlvScu;
 typedef struct PokewoodCutin PokewoodCutin;

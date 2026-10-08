@@ -73,7 +73,8 @@ typedef struct {
     u32 recordMode;
     BrRecordInfo recordInfo;
     BrBtnRecovery btnRecovery;
-    u8 unk_17bc[4];
+    // Set from the battle setup's unkDD_1 when the video has played
+    u32 unk_17bc;
     u8 bvRankSearch[4];
     u32 bvRankMode;
 } BrData;
@@ -136,7 +137,7 @@ typedef struct {
     u8 *video;
     BOOL isRecovery;
     BrRecordInfo *recordInfo;
-    u8 *unk3C;
+    u32 *unk3C;
 } BrRecordProcParam;
 
 typedef struct {

@@ -355,7 +355,7 @@ static void BrCore_RecordBefore(void *param, void *work, const void *preParam, u
     p->unk2C = wk->param->data->unk_1720;
     p->isRecovery = FALSE;
     p->recordInfo = &wk->param->data->recordInfo;
-    p->unk3C = wk->param->data->unk_17bc;
+    p->unk3C = &wk->param->data->unk_17bc;
 
     switch (preID) {
     case BR_PROCID_MENU: {
