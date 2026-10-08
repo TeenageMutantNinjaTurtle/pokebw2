@@ -80,7 +80,7 @@ u32 PokeParty_GetNature(PartyPkm *pkm);
 void PokeParty_SetParam(PartyPkm *pkm, PkmField param, u32 value);
 u32 GetStatusCond(PartyPkm *pkm);
 void PokeParty_SetStatusCond(PartyPkm *pkm, u32 status);
-u32 PokeParty_GetSex(PartyPkm *pkm);
+u8 PokeParty_GetSex(PartyPkm *pkm);
 BOOL PokeParty_CheckAnyRibbon(PartyPkm *pkm);
 // Whether the Pokémon can learn the move at moveIndex of a move tutor's list, by its species and form
 BOOL PokeParty_CheckMoveTutorPaid(PartyPkm *pkm, u32 moveIndex, u32 tutor);
@@ -139,6 +139,8 @@ void PokeParty_ClearPkm(PartyPkm *pkm);
 void PokeParty_Recover(PartyPkm *pkm);
 void PokeParty_RecalcStats(PartyPkm *pkm);
 u32 PokeParty_GetLevel(PartyPkm *pkm);
+// The experience the Pokémon's level starts at
+u32 getExpForPkm_Wrapper(PartyPkm *pkm);
 // Whether a Pokémon can learn the TM or HM of the number PML_ItemGetTMBitMask gives
 BOOL canPkmLearnTM_Wrapper(PartyPkm *pkm, u8 tm);
 void setLevel(PartyPkm *pkm, u32 level);

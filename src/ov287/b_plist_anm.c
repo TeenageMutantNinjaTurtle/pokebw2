@@ -174,7 +174,7 @@ static void BPlistAnm_MakeButtonScrn(BPlistWork *work, u16 *buf, u8 button, u8 s
             for (i = 0; i < size; i++) {
                 buf[i] = (buf[i] & 0xfff) | (((state & 1) + 7) << 12);
             }
-        } else if (func_ov287_021fa23c(work, idx) == TRUE) {
+        } else if (BPlistMain_IsPartnerSlot(work, idx) == TRUE) {
             for (i = 0; i < size; i++) {
                 buf[i] = (buf[i] & 0xfff) | (((state & 1) + 5) << 12);
             }
@@ -197,7 +197,7 @@ static void BPlistAnm_PutButton(BPlistWork *work, u8 button, u8 state, u8 mode) 
 
 void BPlistAnm_StartButtonAnm(BPlistWork *work, u8 button) {
     work->animMode = 0;
-    if (button <= 5 && func_ov287_021f9e38(work, button) == 2) {
+    if (button <= 5 && BPlistMain_CheckPos(work, button) == 2) {
         work->animMode = 1;
     }
     work->animSeq = 0;
@@ -244,7 +244,7 @@ void BPlistAnm_PutPageButtons(BPlistWork *work, u8 page) {
     switch (page) {
     case 0:
         for (i = 0; i < 6; i++) {
-            state = func_ov287_021f9e38(work, i);
+            state = BPlistMain_CheckPos(work, i);
             if (state == 0) {
                 BPlistAnm_PutButton(work, i, 3, 1);
             } else if (state == 1) {
@@ -261,7 +261,7 @@ void BPlistAnm_PutPageButtons(BPlistWork *work, u8 page) {
         break;
     case 8:
         for (i = 0; i < 6; i++) {
-            state = func_ov287_021f9e38(work, i);
+            state = BPlistMain_CheckPos(work, i);
             if (state == 0) {
                 BPlistAnm_PutButton(work, i, 3, 1);
             } else if (state == 1) {
@@ -369,7 +369,7 @@ static u8 BPlistAnm_CanSwitch(BPlistWork *work) {
 void BPlistAnm_PutReturnButton(BPlistWork *work) {
     u8 pos1, pos2;
 
-    if (func_ov287_021fa460(work, &pos1, &pos2, FALSE) == TRUE) {
+    if (BPlistMain_PopSwap(work, &pos1, &pos2, FALSE) == TRUE) {
         BPlistAnm_PutButton(work, 6, 0, 0);
     } else {
         BPlistAnm_PutButton(work, 6, 3, 0);

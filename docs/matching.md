@@ -8,6 +8,8 @@ tools that show the differences.
 
 ## Registers
 
+- A loop that walks on from a parameter reuses the parameter as its cursor, with the start kept in a local
+  (`int start = pos;`), as `b_plist_main.c`'s `BPlistMain_GetNextPos` does; a separate counter swaps the registers.
 Same instructions, registers swapped.
 
 - Register allocation follows the declaration order of locals, so try reordering declarations when registers are
@@ -105,6 +107,8 @@ Same instructions, registers swapped.
 
 ## Stack slots
 
+- Local initializers declared in separate blocks are each copied to the stack just before their call, as the four BG
+  setups of `b_plist_main.c`'s `BPlistMain_InitBG`; one block copies them all at the top.
 Same code, other `sp` offsets or frame size.
 
 - A pointer to an array element written to a local, `font = &app->fontOam[i]; font->bitmap = ...; font->oam = ...`,
@@ -664,6 +668,9 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Switches
 
+- A `switch` with no `default:` whose cases leave one value unassigned keeps the index in `r3` instead of `r2`, as
+  `b_plist_main.c`'s `BPlistMain_InitPageCursor` does, and writing `case 0:` last moves its block to the end of the
+  switch (`BPlistMain_CanSwitch`).
 - `*result = N; break;` in every case makes later cases branch to an earlier case's `b`, a branch to a branch. A local
   set in each case and stored once after the switch gives direct branches: `scrcmd_fldmmdl.c`'s `s0078`.
 - Switch cases are laid out in source order, not by value, so the layout shows the order the cases were written in.

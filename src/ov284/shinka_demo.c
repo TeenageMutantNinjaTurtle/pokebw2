@@ -626,7 +626,7 @@ static BOOL ShinkaDemo_Main(GameProc *proc, u32 *state, void *param, void *work)
             wk->ov287Param.unk40 = 1;
             GFL_OvlLoad(OVERLAY_OV285);
             GFL_OvlLoad(OVERLAY_OV287);
-            func_ov287_021f8714(&wk->ov287Param);
+            BPlistMain_Start(&wk->ov287Param);
             GFL_FadeSet(2, 16, 0, 0);
         }
         break;

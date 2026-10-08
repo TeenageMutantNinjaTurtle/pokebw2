@@ -787,7 +787,7 @@ BOOL BattleClientCmd_WaitPokeSelect(BtlvCore *core) {
         if (func_ov169_06899dfc(core->unk1C4)) {
             func_ov169_06899e24(core->unk1C4);
             GFL_OvlLoad(OVERLAY_ID(287));
-            func_ov287_021f8714(&core->ov287);
+            BPlistMain_Start(&core->ov287);
             core->subSeq++;
         }
         break;
@@ -928,7 +928,7 @@ BOOL func_ov167_021cf73c(BtlvCore *core) {
         if (core->ov286.item != 0 && core->ov286.unk2A != 2 && !func_ov169_0689ca94(core->ov286.item)) {
             core->ov287.item = core->ov286.item;
             GFL_OvlLoad(OVERLAY_ID(287));
-            func_ov287_021f8714(&core->ov287);
+            BPlistMain_Start(&core->ov287);
             core->subSeq = 5;
         } else {
             core->subSeq = 6;
@@ -1700,7 +1700,7 @@ BOOL func_ov167_021d0854(BtlvCore *core, u8 *slot) {
         if (func_ov169_06899dfc(core->unk1C4)) {
             func_ov169_06899e24(core->unk1C4);
             GFL_OvlLoad(OVERLAY_ID(287));
-            func_ov287_021f8714(&core->ov287);
+            BPlistMain_Start(&core->ov287);
             core->subSeq++;
         }
         break;

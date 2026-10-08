@@ -23,7 +23,7 @@ typedef struct {
     Font *font;
     HeapID heapId;
     u32 unk14;
-    void *unk18;
+    BOOL unk18; // TRUE in a multi battle
     u8 unk1C;
     u8 unk1D[2];
     u8 unk1F;
@@ -174,13 +174,12 @@ struct BPlistWork {
     BOOL initialized;        // 0x2540
 }; // 0x2544
 
-void func_ov287_021f8714(BPlistParam *param);
+void BPlistMain_Start(BPlistParam *param);
 
-// The rest of b_plist_main.c, not decompiled yet
-int func_ov287_021f9e38(BPlistWork *work, int pos);
-int func_ov287_021fa0e0(BPlistWork *work);
-BOOL func_ov287_021fa23c(BPlistWork *work, u32 idx);
+int BPlistMain_CheckPos(BPlistWork *work, int pos);
+int BPlistMain_GetSwitchError(BPlistWork *work);
+BOOL BPlistMain_IsPartnerSlot(BPlistWork *work, u32 idx);
 u8 BPlistMain_GetPartySlot(BPlistWork *work, int pos); // the party slot at a list position
-BOOL func_ov287_021fa460(BPlistWork *work, u8 *pos1, u8 *pos2, BOOL clear);
+BOOL BPlistMain_PopSwap(BPlistWork *work, u8 *pos1, u8 *pos2, BOOL clear);
 
 #endif // POKEBW2_BATTLE_B_PLIST_MAIN_H

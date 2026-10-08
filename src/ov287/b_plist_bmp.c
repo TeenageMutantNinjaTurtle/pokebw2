@@ -904,7 +904,7 @@ static void BPlistBmp_DrawSelectPage(BPlistWork *work) {
     work->flushList = data_ov287_021fae2c;
     BPlistBmp_ClearPageWindows(work);
     BPlistBmp_PrintCenteredName(work, work->param->partyIndex);
-    result = func_ov287_021fa0e0(work);
+    result = BPlistMain_GetSwitchError(work);
     if (result == 2) {
         msgId = 26;
     } else if (result == 3) {
