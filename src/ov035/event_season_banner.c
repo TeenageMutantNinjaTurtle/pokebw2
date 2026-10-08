@@ -266,17 +266,17 @@ void EventSeasonBanner_LoadGraphics(u8 season, HeapID heapId) {
     handle = GFL_ArcSysCreateFileHandle(ARCID_SEASON_BANNER, heapId);
 
     file = GFL_ArcToolReadHeapNew(handle, paletteId, heapId);
-    RelocatePaletteResGetDataPtr(file, &palette);
+    NNS_G2dGetUnpackedPaletteData(file, &palette);
     GFL_BGSysUploadStdPalette(SEASON_BANNER_BG, palette->rawData, 0x20, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcToolReadHeapNew(handle, characterId, heapId);
-    NNS_G2DPrepareBGChar(file, &character);
+    NNS_G2dGetUnpackedBGCharacterData(file, &character);
     GFL_BGSysLoadChar(SEASON_BANNER_BG, character->rawData, character->size, 0);
     GFL_HeapFree(file);
 
     file = GFL_ArcToolReadHeapNew(handle, screenId, heapId);
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     GFL_BGSysLoadScrCore(SEASON_BANNER_BG, screen->rawData, screen->size, 0);
     GFL_HeapFree(file);
 

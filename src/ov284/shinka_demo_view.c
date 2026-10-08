@@ -365,7 +365,7 @@ void ShinkaDemoView_Update(ShinkaDemoView *view) {
         ShinkaDemoView_SetMcssX(view, FX32_CONST(256));
         ShinkaDemoView_SetPiecesPosition(view, 0, FX32_CONST(-0.5), 0);
         view->mcssVisible = FALSE;
-        func_020618c0(func_0201adc4(view->mcss[view->current]));
+        NNS_G2dRestartMCAnimation(func_0201adc4(view->mcss[view->current]));
         break;
     case VIEW_UNUSED_7:
         if (view->frame >= 1) {
@@ -1339,10 +1339,14 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
                                 gatherPiece->pos.z = gatherPiece->target.z;
                             } else {
                                 invDist = FX_InvSqrt(distSqXZ);
-                                gatherPiece->pos.x = gatherPiece->pos.x + FX_Mul(gatherPiece->pos.x - gatherPiece->prevPos.x, FX32_ONE / 10) +
-                                               FX_Mul(FX_Mul(delta.x, invDist), FX32_CONST(0.875));
-                                gatherPiece->pos.z = gatherPiece->pos.z + FX_Mul(gatherPiece->pos.z - gatherPiece->prevPos.z, FX32_ONE / 10) +
-                                               FX_Mul(FX_Mul(delta.z, invDist), FX32_CONST(0.875));
+                                gatherPiece->pos.x =
+                                    gatherPiece->pos.x +
+                                    FX_Mul(gatherPiece->pos.x - gatherPiece->prevPos.x, FX32_ONE / 10) +
+                                    FX_Mul(FX_Mul(delta.x, invDist), FX32_CONST(0.875));
+                                gatherPiece->pos.z =
+                                    gatherPiece->pos.z +
+                                    FX_Mul(gatherPiece->pos.z - gatherPiece->prevPos.z, FX32_ONE / 10) +
+                                    FX_Mul(FX_Mul(delta.z, invDist), FX32_CONST(0.875));
                             }
                             if (nearY) {
                                 gatherPiece->pos.y = gatherPiece->target.y;
@@ -1352,8 +1356,10 @@ static void ShinkaDemoPieces_Move(SpritePieces *pieces, HeapID heapId) {
                                 } else {
                                     sign = -FX32_ONE;
                                 }
-                                gatherPiece->pos.y = gatherPiece->pos.y + FX_Mul(gatherPiece->pos.y - gatherPiece->prevPos.y, FX32_ONE / 10) +
-                                               FX_Mul(sign, FX32_CONST(0.875));
+                                gatherPiece->pos.y =
+                                    gatherPiece->pos.y +
+                                    FX_Mul(gatherPiece->pos.y - gatherPiece->prevPos.y, FX32_ONE / 10) +
+                                    FX_Mul(sign, FX32_CONST(0.875));
                             }
                             gatherPiece->frame++;
                         }

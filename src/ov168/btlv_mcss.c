@@ -1933,7 +1933,7 @@ static void BtlvMcss_IdleTask(TCB *tcb, void *data) {
     }
     switch (idle->seq) {
     case 0:
-        func_0201adc4(work->entries[index].mcss)->bActive = FALSE;
+        func_0201adc4(work->entries[index].mcss)->animCtrl.bActive = FALSE;
         func_0201ae1c(work->entries[index].mcss, index | 0x80000000, BtlvMcss_IdleNodeCallback);
         idle->seq++;
         idle->wait = data_ov168_021f4184[GFL_RandomMTRange(3)];
@@ -1941,7 +1941,7 @@ static void BtlvMcss_IdleTask(TCB *tcb, void *data) {
     case 1:
         if (--idle->wait == 0 || work->unk51cTasks != 0 || !BtlvEffvm_GetScriptKind(BtlvEffect_GetEffvm())) {
             MCSS_SetAnimation(work->entries[index].mcss, 0);
-            func_0201adc4(work->entries[index].mcss)->bActive = TRUE;
+            func_0201adc4(work->entries[index].mcss)->animCtrl.bActive = TRUE;
             func_0201ae1c(work->entries[index].mcss, index, BtlvMcss_IdleNodeCallback);
             idle->seq++;
         }

@@ -160,6 +160,9 @@ Same instructions, registers swapped.
 
 ## Stack slots
 
+- Taking a parameter's address makes MWCC push all four argument registers to give it a home; an original that pushes
+  fewer copied the parameter to a local first and passed that local's address: `g2d_Font.c`'s
+  `NNSi_G2dFontGetStringWidth` writes `const void *pos = str;` and hands `&pos` to the character splitter (2.0/sp2p2).
 - Local initializers declared in separate blocks are each copied to the stack just before their call, as the four BG
   setups of `b_plist_main.c`'s `BPlistMain_InitBG`; one block copies them all at the top.
 - Which of several locals of equal use MWCC spills follows where the group is declared among the function's other
@@ -675,6 +678,17 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A range check that adds the 16-bit negated constant (`adds r0, #0xc004`, narrowing, `cmp r0, #3`, `bhi`) is an
   `||` chain of `==` tests of consecutive constants; a written `(u16)(x - C) <= n` subtracts instead.
   `billboard_act.c`'s `func_0204f768` tests the last animation command this way.
+- An inline that returns a condition, `return a && b;`, builds the flag ahead of the tests (`movs r1, #0`, the
+  tests, `movs r1, #1`) where the original's `movs r0, #1`, `b`, `movs r0, #0` after the tests is
+  `if (a && b) { return TRUE; } return FALSE;` (2.0/sp2p2): `g2d_Animation.c`'s `IsFrameEnd_`, the test of
+  `NNS_G2dTickAnimCtrl`'s loop. It goes the other way too: `g2d_CellTransferManager.c`'s `IsTransferNeeded_` keeps
+  its 0/1 only as `return a && b;`, which the if-form folds into the branches, so try both.
+- An inline's 0/1 result that the original materializes and then tests (`movs r0, #1`, `b`, `movs r0, #0`,
+  `cmp r0, #0`, `beq`) where ours branches on the comparison itself needs the result kept as a value (2.0/sp2p2): a
+  `u32` return type with `if (c) { return TRUE; } return FALSE;` (`g2d_CellAnimation.c`'s
+  `NNS_G2dCellDataBankHasVramTransferData`, which every `BOOL` spelling folds into the test), or a cast,
+  `return (BOOL)(GetCapacity_(region) >= num);` (`g2d_OamManager.c`'s `IsCapacityEnough_`, where the `if` form, a
+  ternary, a plain comparison and a local all fold).
 - A 0/1 choice laid out first value first (`bhs`, `movs r0, #0`, `b`, `movs r0, #1`) is held in an enum type: every
   plain 0/1 spelling (ternary, `if`/`else`, `!`, `== FALSE`, an int local) gives `blo`, `movs r0, #1` first.
   `btl_main.c`'s `GetSideFromMonID` matches as `BtlSide side = monId < 12 ? BTL_SIDE_1ST : BTL_SIDE_2ND;`, with the
@@ -791,6 +805,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 - A `for` loop with a constant bound keeps its test before the first pass only with a counter of an enum type, as the
   position loops of `btlv_mcss.c`, `btlv_effvm.c` and `btlv_gauge.c` do with `BtlvMcssPos` and `BtlvGaugePos`.
+  It also keeps an array indexed by the counter indexed on each pass rather than walked by a pointer:
+  `g2d_CellTransferManager.c`'s `NNS_G2dUpdateCellTransferStateManager` needs `NNSG2dVRamType type` (2.0/sp2p2).
 - A loop counted with `!=` tests with `beq` before the loop and `bne` at its end, where `<` gives `bls` and `blo`:
   the forms page walks its form-name table with `for (i = 0; i != form; i++)`.
 - `while (cond)` is rotated, with a copy of its test before the loop. A loop that tests once, at its top, is

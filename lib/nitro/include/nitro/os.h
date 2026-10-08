@@ -19,6 +19,8 @@ void sys_exit(void);
 void cp15_halt(void);
 // Writes a range of the data cache back to memory, before DMA reads it. NitroSDK's DC_FlushRange
 void cp15_flushDC(const void *addr, u32 size);
+// Discards a range of the data cache, after DMA writes it. NitroSDK's DC_InvalidateRange
+void cp15_invalidateDC(void *addr, u32 size);
 
 // The start of DTCM, where the linker places the DTCM module
 extern u32 SDK_AUTOLOAD_DTCM_START[];

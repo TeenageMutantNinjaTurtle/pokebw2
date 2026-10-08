@@ -1,4 +1,5 @@
 #include "types.h"
+#include "battle/battle_rec_tool.h"
 #include "battle/btl_setup.h"
 #include "battle/regulation.h"
 #include "field/bsubway_scr.h"
@@ -37,7 +38,6 @@
 #define BSUBWAY_COUNT_MAX 9999
 
 #define OVERLAY_EVENT_WIFI_BSUBWAY OVERLAY_ID(9)
-
 
 typedef struct {
     s16 x;
@@ -720,7 +720,7 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         break;
     case 345:
         func_0200c1f0();
-        func_ov273_021e9818(bsw->btlSetup);
+        BattleRecTool_StoreSetup(bsw->btlSetup);
         func_0200c200();
         break;
     case 346:
@@ -749,8 +749,8 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         if (bsw->ov306Param.unk14 > BSUBWAY_COUNT_MAX) {
             bsw->ov306Param.unk14 = BSUBWAY_COUNT_MAX;
         }
-        ScriptWork_CallEvent(work,
-                             func_020196d0(gsys, field, OVERLAY_ID(306), &data_ov306_0219ed40, &bsw->ov306Param, NULL, NULL));
+        ScriptWork_CallEvent(
+            work, func_020196d0(gsys, field, OVERLAY_ID(306), &data_ov306_0219ed40, &bsw->ov306Param, NULL, NULL));
         result = TRUE;
         break;
     case 349:
@@ -881,8 +881,8 @@ BOOL BSubwayCmd_Tool(VM *vm, FieldScriptEnv *env) {
         sys_memset(&bsw->ov174Param, 0, sizeof(bsw->ov174Param));
         bsw->ov174Param.gameData = gameData;
         bsw->ov174Param.result = 11;
-        ScriptWork_CallEvent(work,
-                             func_020196d0(gsys, field, OVERLAY_ID(174), &data_ov174_0219f0fc, &bsw->ov174Param, NULL, NULL));
+        ScriptWork_CallEvent(
+            work, func_020196d0(gsys, field, OVERLAY_ID(174), &data_ov174_0219f0fc, &bsw->ov174Param, NULL, NULL));
         result = TRUE;
         break;
     case 409:

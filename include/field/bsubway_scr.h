@@ -14,10 +14,6 @@
 // The Battle Subway's work while the player is on the subway, which func_0201794c returns. Overlay 33's
 // bsubway_scr.c and overlay 12 keep it, and script plugin 1 (overlay 50) drives it
 
-// Overlay 273
-void func_ov273_021e9818(BtlSetup *setup);
-void func_ov273_021e98a8(BtlSetup *setup, u32 a1, HeapID heapId);
-
 // A Pokémon of a Battle Subway Trainer, which genSubwayBtlInstitutePoke makes a party Pokémon of. The fields are
 // the PokeParty fields func_ov033_0217bf04 copies into it
 struct BSubwayPokemon {
@@ -236,11 +232,11 @@ void func_ov033_0217bf04(BSubwayPokemon *dest, PartyPkm *pkm);
 void *func_ov033_0217c110(BSubwayScrWork *bsw);
 BtlSetup *func_ov033_0217c094(BSubwayScrWork *bsw, GameSystem *gsys);
 BOOL func_ov033_0217c264(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count, const u16 *species,
-                        const u16 *items, BSubwayTeamConfig *config, HeapID heapId);
+                         const u16 *items, BSubwayTeamConfig *config, HeapID heapId);
 u16 func_ov033_0217c11c(BSubwayScrWork *bsw, u16 level, u8 index, u32 mode, u8 side);
 u8 func_ov033_0217c288(u32 value);
 void func_ov033_0217c2c4(BSubwayScrWork *bsw, BSubwayTrainer *trainer, u16 trainerId, u32 count,
-                        const BSubwayTeamConfig *config, HeapID heapId);
+                         const BSubwayTeamConfig *config, HeapID heapId);
 // Function name from swan
 u16 randFFFFFFFFdivFFFF(BSubwayScrWork *bsw);
 

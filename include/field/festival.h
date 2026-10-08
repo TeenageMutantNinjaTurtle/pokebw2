@@ -43,6 +43,7 @@ void func_ov036_021b67d8(void *gimmick, PokeParty *party);
 // The number the salesman's messages are offset by, when gimmick 5 is current
 u32 func_ov036_021b67bc(void *gimmick);
 void DeleteFunfestActor(void *gimmick, u16 zoneId, u8 actorIndex);
+void func_ov036_021b65e8(void *gimmick);
 void func_ov036_021b6690(void *gimmick);
 u32 LinkFestival_GetNormalChangeBGMID(LinkFestival *festival);
 void *GetFestMissionCfg(LinkFestival *festival);
@@ -59,6 +60,13 @@ u32 func_ov012_021683a8(MATHRandContext32 *rand, u32 max, const u32 *list, int c
 BOOL isFesMissionAvailable(void *missionCfg);
 // Copies the current mission's beacon data to mission, with value
 void func_02014594(LinkFestival *festival, void *mission, u16 value);
+void *func_020146fc(LinkFestival *festival);
+void func_0201472c(LinkFestival *festival, void *mission, u8 joined);
+void func_02014964(LinkFestival *festival, void *mission);
+// The mission's seconds left
+s32 func_02014dcc(void *mission);
+void func_020150dc(void *work, GameData *gameData, u8 joined);
+void func_020153b8(LinkFestival *festival, void *mission);
 u16 func_020145d8(LinkFestival *festival);
 void *func_02014710(LinkFestival *festival);
 int func_020147bc(LinkFestival *festival);

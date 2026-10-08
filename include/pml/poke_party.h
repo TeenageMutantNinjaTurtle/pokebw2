@@ -19,7 +19,10 @@ typedef struct {
 
 struct BoxPkm {
     u32 pid;
-    u16 sanityFlags;
+    u16 partyDecrypted : 1;
+    u16 boxDecrypted : 1;
+    u16 badEgg : 1;
+    u16 unk4_3 : 13;
     u16 checksum;
     PkmBuffer contentBuffer;
 };
@@ -40,6 +43,71 @@ struct PartyPkm {
     u32 unkD4;
     u32 unkD8;
 };
+
+// The four blocks of a Pokémon's data, which PML_PkmGetParamBlockCore finds
+typedef struct {
+    u16 species;
+    u16 item;
+    u32 id;
+    u32 exp;
+    u8 friendship;
+    u8 ability;
+    u8 markings;
+    u8 language;
+    u8 hpEV;
+    u8 atkEV;
+    u8 defEV;
+    u8 speEV;
+    u8 spaEV;
+    u8 spdEV;
+    u8 contest[6];
+    u32 ribbons;
+} PkmBlockA;
+
+typedef struct {
+    u16 moves[4];
+    u8 pp[4];
+    u8 ppUps[4];
+    u32 hpIV : 5;
+    u32 atkIV : 5;
+    u32 defIV : 5;
+    u32 speIV : 5;
+    u32 spaIV : 5;
+    u32 spdIV : 5;
+    u32 isEgg : 1;
+    u32 isNicknamed : 1;
+    u32 ribbons;
+    u8 fatefulEncounter : 1;
+    u8 gender : 2;
+    u8 form : 5;
+    u8 nature;
+    u16 hiddenAbility : 1;
+    u16 nPoke : 1;
+    u16 unk1A_2 : 14;
+    u32 unk1C;
+} PkmBlockB;
+
+typedef struct {
+    u16 nickname[11];
+    u8 unk16;
+    u8 originGame;
+    u8 unk18[8];
+} PkmBlockC;
+
+typedef struct {
+    u16 otName[8];
+    u8 eggDate[3];
+    u8 metDate[3];
+    u16 eggLocation;
+    u16 metLocation;
+    u8 pokerus;
+    u8 ball;
+    u8 metLevel : 7;
+    u8 otGender : 1;
+    u8 unk1D;
+    u8 unk1E;
+    u8 pokestarFame;
+} PkmBlockD;
 
 PokeParty *PokeParty_Create(HeapID heapId);
 void PokeParty_CreateTempPkm(PartyPkm *pkm, u16 species, u16 level, u64 id);
@@ -91,6 +159,12 @@ BOOL PokeParty_DecryptPkm(PartyPkm *pkm);
 void PokeParty_EncryptPkm(PartyPkm *pkm, BOOL wasEncrypted);
 u32 PML_PkmGetParam(BoxPkm *pkm, u32 param, void *buffer);
 BOOL PML_PkmDecrypt(BoxPkm *pkm);
+// Encrypts or decrypts size bytes of data with key: a Pokémon's blocks with their checksum, its party fields with its
+// PID
+void PML_CryptoRun(void *data, u32 size, u32 key);
+u16 PML_CryptoGenKey(void *data, u32 size);
+// Block 0 to 3 of a Pokémon's data, PkmBlockA to PkmBlockD, wherever its PID puts it
+void *PML_PkmGetParamBlockCore(BoxPkm *pkm, u32 pid, u32 block);
 u32 PML_PkmGetLevel(BoxPkm *pkm);
 // Whether the Pokémon's original trainer is someone other than the player
 BOOL PML_UtilCheckForeignOT(BoxPkm *pkm, PlayerInfo *playerInfo);

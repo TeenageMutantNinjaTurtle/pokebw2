@@ -92,4 +92,7 @@ addresses, such as `0x02020100`. The words that point at no symbol (`--all`) are
 
 - dsd only finds 253 functions in the LTD module's 437 KB. Its layout, with code after the static initializers,
   does not fit dsd's section heuristics yet.
-- 8 calls lead to functions dsd did not discover, and got placeholder symbols (`func_..._unk`).
+- 3 calls, all in the LTD module (`0x02768298`, `0x0276934c` and `0x02769578`), lead to functions dsd did not
+  discover there, and got placeholder symbols (`func_..._unk`). The two in overlay 11 were Thumb functions whose
+  second instruction is a `b`, which dsd before v0.12.1-dsi.2 took for ARM and split (AetiasHax/ds-decomp#81); they
+  are fixed in `config/fixes.txt`, as overlays 167 and 194's were.

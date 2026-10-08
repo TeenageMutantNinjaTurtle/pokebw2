@@ -1,5 +1,4 @@
 #include "types.h"
-#include "app/funfest_mission.h"
 #include "field/field.h"
 #include "field/field_event.h"
 #include "field/field_g3d_mapper.h"

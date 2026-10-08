@@ -4,6 +4,7 @@
 #include "types.h"
 #include "nitro/fx.h"
 #include "nitro/hw.h"
+#include "nitro/mi.h"
 
 // The parts of NitroSDK's graphics registers and inline functions that the game's code uses
 
@@ -144,9 +145,18 @@ typedef union {
         u32 cParam : 4;
         u32 : 16;
     };
+    // The flips, the top bits of an rsParam that isn't affine
+    struct {
+        u32 : 28;
+        u32 flipH : 1;
+        u32 flipV : 1;
+        u32 : 2;
+        u32 : 32;
+    };
 } GXOamAttr;
 
 #define GX_OAM_ATTR01_Y_SHIFT 0
+#define GX_OAM_ATTR01_CM_MASK 0x00002000
 #define GX_OAM_ATTR01_MODE_SHIFT 10
 #define GX_OAM_ATTR01_MOSAIC_SHIFT 12
 #define GX_OAM_ATTR01_CM_SHIFT 13
@@ -154,13 +164,74 @@ typedef union {
 #define GX_OAM_ATTR01_RS_SHIFT 25
 // The shape and size bits of the first two attributes, a GXOamShape
 #define GX_OAM_ATTR01_SHAPE_MASK 0xc000c000
+// NitroSDK's GXOamShape is an enum of these bits, which MWCC makes an int: its shape bits shift as signed
+typedef int GXOamShape;
 #define GX_OAM_ATTR2_NAME_SHIFT 0
+#define GX_OAM_ATTR2_NAME_MASK 0x03ff
 #define GX_OAM_ATTR2_PRIORITY_SHIFT 10
 #define GX_OAM_ATTR2_CPARAM_SHIFT 12
 
 #define GX_OAM_EFFECT_NONE 0
+#define GX_OAM_SHAPE_8x8 0x00000000
+#define GX_OAM_SHAPE_16x16 0x40000000
+#define GX_OAM_SHAPE_32x32 0x80000000
 #define GX_OAM_SHAPE_64x64 0xc0000000
+#define GX_OAM_SHAPE_16x8 0x00004000
+#define GX_OAM_SHAPE_32x8 0x40004000
+#define GX_OAM_SHAPE_32x16 0x80004000
+#define GX_OAM_SHAPE_64x32 0xc0004000
+#define GX_OAM_SHAPE_8x16 0x00008000
+#define GX_OAM_SHAPE_8x32 0x40008000
+#define GX_OAM_SHAPE_16x32 0x80008000
+#define GX_OAM_SHAPE_32x64 0xc0008000
 #define GX_OAM_COLORMODE_16 0
+
+// The affine, flip and position fields of the first two attributes, and the effects that G2_GetOBJEffect and
+// G2_SetOBJEffect read and write
+#define GX_OAM_ATTR01_Y_MASK 0x000000ff
+#define GX_OAM_ATTR01_RSENABLE_SHIFT 8
+#define GX_OAM_ATTR01_RSENABLE_MASK 0x00000300
+#define GX_OAM_ATTR01_SHAPE_SHIFT 14
+#define GX_OAM_ATTR0_SHAPE_MASK 0x0000c000
+#define GX_OAM_ATTR01_X_MASK 0x01ff0000
+#define GX_OAM_ATTR01_RS_MASK 0x3e000000
+#define GX_OAM_ATTR01_HF_SHIFT 28
+#define GX_OAM_ATTR01_HF_MASK 0x10000000
+#define GX_OAM_ATTR01_VF_SHIFT 29
+#define GX_OAM_ATTR01_VF_MASK 0x20000000
+#define GX_OAM_ATTR01_SIZE_SHIFT 30
+#define GX_OAM_ATTR01_SIZE_MASK 0xc0000000
+#define GX_OAM_ATTR2_CPARAM_MASK 0xf000
+#define GX_OAM_ATTR01_MODE_MASK 0x00000c00
+#define GX_OAM_ATTR01_MOSAIC_MASK 0x00001000
+#define GX_OAM_EFFECT_AFFINE 0x00000100
+#define GX_OAM_EFFECT_AFFINE_DOUBLE 0x00000300
+
+static inline u32 G2_GetOBJEffect(const GXOamAttr *oam) {
+    u32 rs = oam->attr01 & GX_OAM_ATTR01_RSENABLE_MASK;
+
+    if (rs == GX_OAM_EFFECT_AFFINE || rs == GX_OAM_EFFECT_AFFINE_DOUBLE) {
+        return rs;
+    }
+    return rs | (oam->attr01 & (GX_OAM_ATTR01_HF_MASK | GX_OAM_ATTR01_VF_MASK));
+}
+
+static inline void G2_SetOBJEffect(GXOamAttr *oam, u32 effect, int rsParam) {
+    if (effect == GX_OAM_EFFECT_AFFINE || effect == GX_OAM_EFFECT_AFFINE_DOUBLE) {
+        oam->attr01 = (oam->attr01 & ~(GX_OAM_ATTR01_RSENABLE_MASK | GX_OAM_ATTR01_HF_MASK | GX_OAM_ATTR01_VF_MASK |
+                                       GX_OAM_ATTR01_RS_MASK)) |
+                      effect | (rsParam << GX_OAM_ATTR01_RS_SHIFT);
+    } else {
+        oam->attr01 = (oam->attr01 & ~(GX_OAM_ATTR01_RSENABLE_MASK | GX_OAM_ATTR01_HF_MASK | GX_OAM_ATTR01_VF_MASK |
+                                       GX_OAM_ATTR01_RS_MASK)) |
+                      effect;
+    }
+}
+
+static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y) {
+    oam->attr01 = (oam->attr01 & ~(GX_OAM_ATTR01_X_MASK | GX_OAM_ATTR01_Y_MASK)) |
+                  ((x & 0x1ff) << GX_OAM_ATTR01_X_SHIFT) | ((y & 0xff) << GX_OAM_ATTR01_Y_SHIFT);
+}
 
 static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority, int mode, BOOL mosaic, int effect,
                                  u32 shape, int color, int charName, int cParam, int rsParam) {
@@ -169,6 +240,19 @@ static inline void G2_SetOBJAttr(GXOamAttr *oam, int x, int y, int priority, int
                         ((x & 0x1ff) << GX_OAM_ATTR01_X_SHIFT) | (rsParam << GX_OAM_ATTR01_RS_SHIFT));
     oam->attr2 = (u16)((charName << GX_OAM_ATTR2_NAME_SHIFT) | (priority << GX_OAM_ATTR2_PRIORITY_SHIFT) |
                        (cParam << GX_OAM_ATTR2_CPARAM_SHIFT));
+}
+
+// NitroSDK's setters of single OBJ attributes
+static inline void G2_SetOBJShape(GXOamAttr *oam, u32 shape) {
+    oam->attr01 = (oam->attr01 & ~GX_OAM_ATTR01_SHAPE_MASK) | shape;
+}
+
+static inline void G2_SetOBJCharName(GXOamAttr *oam, int name) {
+    oam->attr2 = (u16)((oam->attr2 & ~GX_OAM_ATTR2_NAME_MASK) | name);
+}
+
+static inline void G2_SetOBJColorMode(GXOamAttr *oam, int color) {
+    oam->attr01 = (oam->attr01 & ~GX_OAM_ATTR01_CM_MASK) | (color << GX_OAM_ATTR01_CM_SHIFT);
 }
 
 #define GX_PLANEMASK_BG0 0x01
@@ -326,8 +410,7 @@ typedef enum {
     GX_BG_BMPSCRBASE_0x28000 = 10,
 } GXBGBmpScrBase;
 
-#define GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2) \
-    ((u32)(x1) | ((u32)(y1) << 8) | ((u32)(x2) << 16) | ((u32)(y2) << 24))
+#define GX_PACK_VIEWPORT_PARAM(x1, y1, x2, y2) ((u32)(x1) | ((u32)(y1) << 8) | ((u32)(x2) << 16) | ((u32)(y2) << 24))
 
 // The geometry engine's matrix stacks, primitives, polygon attributes and textures
 #define GX_MTXMODE_PROJECTION 0
@@ -474,33 +557,33 @@ typedef enum {
 #define REG_G3_SPE_EMI_EMISSION_RED_SHIFT 16
 #define REG_G3_SPE_EMI_S_SHIFT 15
 
-#define GX_PACK_POLYGONATTR_PARAM(light, polyMode, cullMode, polygonID, alpha, misc)                                \
-    ((u32)(((light) << REG_G3_POLYGON_ATTR_LE_SHIFT) | ((polyMode) << REG_G3_POLYGON_ATTR_PM_SHIFT) |                \
-           ((cullMode) << REG_G3_POLYGON_ATTR_BK_SHIFT) | (misc) | ((polygonID) << REG_G3_POLYGON_ATTR_ID_SHIFT) |    \
+#define GX_PACK_POLYGONATTR_PARAM(light, polyMode, cullMode, polygonID, alpha, misc)                                   \
+    ((u32)(((light) << REG_G3_POLYGON_ATTR_LE_SHIFT) | ((polyMode) << REG_G3_POLYGON_ATTR_PM_SHIFT) |                  \
+           ((cullMode) << REG_G3_POLYGON_ATTR_BK_SHIFT) | (misc) | ((polygonID) << REG_G3_POLYGON_ATTR_ID_SHIFT) |     \
            ((alpha) << REG_G3_POLYGON_ATTR_ALPHA_SHIFT)))
 
-#define GX_PACK_TEXIMAGE_PARAM(texFmt, texGen, s, t, repeat, flip, pltt0, addr)                                    \
-    ((u32)(((addr) >> 3) | ((texFmt) << REG_G3_TEXIMAGE_PARAM_TEXFMT_SHIFT) |                                     \
-           ((texGen) << REG_G3_TEXIMAGE_PARAM_TGEN_SHIFT) | ((s) << REG_G3_TEXIMAGE_PARAM_V_SIZE_SHIFT) |          \
-           ((t) << REG_G3_TEXIMAGE_PARAM_T_SIZE_SHIFT) | ((repeat) << REG_G3_TEXIMAGE_PARAM_RS_SHIFT) |            \
+#define GX_PACK_TEXIMAGE_PARAM(texFmt, texGen, s, t, repeat, flip, pltt0, addr)                                        \
+    ((u32)(((addr) >> 3) | ((texFmt) << REG_G3_TEXIMAGE_PARAM_TEXFMT_SHIFT) |                                          \
+           ((texGen) << REG_G3_TEXIMAGE_PARAM_TGEN_SHIFT) | ((s) << REG_G3_TEXIMAGE_PARAM_V_SIZE_SHIFT) |              \
+           ((t) << REG_G3_TEXIMAGE_PARAM_T_SIZE_SHIFT) | ((repeat) << REG_G3_TEXIMAGE_PARAM_RS_SHIFT) |                \
            ((flip) << REG_G3_TEXIMAGE_PARAM_FS_SHIFT) | ((pltt0) << REG_G3_TEXIMAGE_PARAM_TR_SHIFT)))
 
 #define GX_PACK_TEXPLTTBASE_PARAM(addr, texFmt) ((u32)((addr) >> (4 - ((texFmt) == GX_TEXFMT_PLTT4))))
 
-#define GX_PACK_DIFFAMB_PARAM(diffuse, ambient, IsSetVtxColor)                                                     \
-    ((u32)((diffuse) | ((ambient) << REG_G3_DIF_AMB_AMBIENT_RED_SHIFT) |                                          \
+#define GX_PACK_DIFFAMB_PARAM(diffuse, ambient, IsSetVtxColor)                                                         \
+    ((u32)((diffuse) | ((ambient) << REG_G3_DIF_AMB_AMBIENT_RED_SHIFT) |                                               \
            (((IsSetVtxColor) != FALSE) << REG_G3_DIF_AMB_C_SHIFT)))
 
-#define GX_PACK_SPECEMI_PARAM(specular, emission, IsShininess)                                                     \
-    ((u32)((specular) | ((emission) << REG_G3_SPE_EMI_EMISSION_RED_SHIFT) |                                       \
+#define GX_PACK_SPECEMI_PARAM(specular, emission, IsShininess)                                                         \
+    ((u32)((specular) | ((emission) << REG_G3_SPE_EMI_EMISSION_RED_SHIFT) |                                            \
            (((IsShininess) != FALSE) << REG_G3_SPE_EMI_S_SHIFT)))
 
 // A normal's components, 10 bits each, and a texture coordinate's, fixed point with 4 fractional bits
 #define GX_FX16_FX10(x) ((fx16)((x) >> 3))
 #define GX_VECFX10(x, y, z) ((u32)(((x) & 0x3ff) | (((y) & 0x3ff) << 10) | (((z) & 0x3ff) << 20)))
 #define REG_G3_LIGHT_VECTOR_LNUM_SHIFT 30
-#define GX_PACK_LIGHTVECTOR_PARAM(lightID, x, y, z)                                                                \
-    ((u32)(((lightID) << REG_G3_LIGHT_VECTOR_LNUM_SHIFT) |                                                        \
+#define GX_PACK_LIGHTVECTOR_PARAM(lightID, x, y, z)                                                                    \
+    ((u32)(((lightID) << REG_G3_LIGHT_VECTOR_LNUM_SHIFT) |                                                             \
            GX_VECFX10(GX_FX16_FX10(x), GX_FX16_FX10(y), GX_FX16_FX10(z))))
 #define GX_PACK_LIGHTCOLOR_PARAM(lightID, rgb) ((u32)(((lightID) << REG_G3_LIGHT_VECTOR_LNUM_SHIFT) | (rgb)))
 // Packs texture coordinates. The game's SDK narrows each to an fx16 first; the older NitroSDK that SPL was built
@@ -709,16 +792,15 @@ static inline void G2S_ChangeBlendAlpha(int eva, int evb) {
 }
 
 static inline void G3X_SetShading(int shading) {
-    reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_THS_MASK | REG_G3X_DISP3DCNT_RO_MASK |
-                                                     REG_G3X_DISP3DCNT_GO_MASK)) |
+    reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT &
+                               ~(REG_G3X_DISP3DCNT_THS_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
                               (shading << REG_G3X_DISP3DCNT_THS_SHIFT));
 }
 
 static inline void G3X_AntiAlias(BOOL enable) {
     if (enable) {
-        reg_G3X_DISP3DCNT =
-            (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
-                  REG_G3X_DISP3DCNT_AAE_MASK);
+        reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
+                                  REG_G3X_DISP3DCNT_AAE_MASK);
     } else {
         reg_G3X_DISP3DCNT &= ~(REG_G3X_DISP3DCNT_AAE_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK);
     }
@@ -726,9 +808,8 @@ static inline void G3X_AntiAlias(BOOL enable) {
 
 static inline void G3X_AlphaTest(BOOL enable, int ref) {
     if (enable) {
-        reg_G3X_DISP3DCNT =
-            (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
-                  REG_G3X_DISP3DCNT_ATE_MASK);
+        reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
+                                  REG_G3X_DISP3DCNT_ATE_MASK);
         *(vu8 *)0x04000340 = (u8)ref;
     } else {
         reg_G3X_DISP3DCNT &= ~(REG_G3X_DISP3DCNT_ATE_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK);
@@ -737,9 +818,8 @@ static inline void G3X_AlphaTest(BOOL enable, int ref) {
 
 static inline void G3X_AlphaBlend(BOOL enable) {
     if (enable) {
-        reg_G3X_DISP3DCNT =
-            (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
-                  REG_G3X_DISP3DCNT_ABE_MASK);
+        reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
+                                  REG_G3X_DISP3DCNT_ABE_MASK);
     } else {
         reg_G3X_DISP3DCNT &= ~(REG_G3X_DISP3DCNT_ABE_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK);
     }
@@ -747,9 +827,8 @@ static inline void G3X_AlphaBlend(BOOL enable) {
 
 static inline void G3X_EdgeMarking(BOOL enable) {
     if (enable) {
-        reg_G3X_DISP3DCNT =
-            (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
-                  REG_G3X_DISP3DCNT_EME_MASK);
+        reg_G3X_DISP3DCNT = (u16)((reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK)) |
+                                  REG_G3X_DISP3DCNT_EME_MASK);
     } else {
         reg_G3X_DISP3DCNT &= ~(REG_G3X_DISP3DCNT_EME_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_GO_MASK);
     }
@@ -901,6 +980,9 @@ static inline void G3_Vtx10(fx16 x, fx16 y, fx16 z) {
 #define REG_G2_BGOFS_VOFFSET_SHIFT 16
 #define REG_G2_BGOFS_VOFFSET_MASK 0x01ff0000
 
+// The OBJ character boundary of 1D mapping, as a shift of 32 bytes
+#define REG_GX_DISPCNT_EXOBJ_SHIFT 20
+#define REG_GX_DISPCNT_EXOBJ_MASK 0x00700000
 #define REG_GX_DISPCNT_BGCHAROFFSET_SHIFT 24
 #define REG_GX_DISPCNT_BGCHAROFFSET_MASK 0x07000000
 #define REG_GX_DISPCNT_BGSCREENOFFSET_SHIFT 27
@@ -1035,7 +1117,7 @@ static inline void GX_SetBGCharOffset(int offset) {
     }
 
 #define GX_DEFINE_BG23_CONTROL_DCBMP(name, reg)                                                                        \
-    static inline void name(GXBGScrSizeDcBmp screenSize, GXBGAreaOver areaOver, GXBGBmpScrBase screenBase) {          \
+    static inline void name(GXBGScrSizeDcBmp screenSize, GXBGAreaOver areaOver, GXBGBmpScrBase screenBase) {           \
         reg = (u16)((reg & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BGCNT_MOSAIC_MASK)) |                                 \
                     (screenSize << REG_G2_BGCNT_SCREENSIZE_SHIFT) | GX_BG_EXTMODE_DCBMP |                              \
                     (screenBase << REG_G2_BGCNT_SCREENBASE_SHIFT) | (areaOver << REG_G2_BGCNT_AREAOVER_SHIFT));        \
@@ -1113,7 +1195,8 @@ GX_DEFINE_BG_MOSAIC(G2S_BG3Mosaic, reg_G2S_DB_BG3CNT)
 
 #define REG_G2_MOSAIC_BG_V_SHIFT 4
 
-static inline void G2_SetBGMosaicSize(int hSize, int vSize) {
+                                                                                static inline void G2_SetBGMosaicSize(
+                                                                                    int hSize, int vSize) {
     *(vu8 *)REG_MOSAIC_ADDR = (u8)(hSize | (vSize << REG_G2_MOSAIC_BG_V_SHIFT));
 }
 
@@ -1216,6 +1299,28 @@ void gfxUploadStdPaletteObjA(const void *src, u32 offset, u32 size);
 void gfxUploadStdPaletteObjB(const void *src, u32 offset, u32 size);
 void gfxUploadObjCharA(const void *src, u32 offset, u32 size);
 void gfxUploadObjCharB(const void *src, u32 offset, u32 size);
+// The DMA channel that GX loads and fills with, or GX_DMA_NOT_USE for the CPU. swan calls it g_GfxDMANo
+extern u32 GXi_DmaId;
+
+#define GX_DMA_NOT_USE 0xffffffff
+#define MI_DMA_MAX_NUM 3
+
+// NitroSDK's MIi_DmaFill32, which fills size bytes with a word by DMA, starting it at once if dmaEnable. swan calls it
+// dma_fill
+void dma_fill(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable);
+
+// Fills by DMA on GX's channel, or with the CPU when it has none
+static inline void GXi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size) {
+    if (dmaNo > MI_DMA_MAX_NUM) {
+        dmaNo = GX_DMA_NOT_USE;
+    }
+    if (dmaNo != GX_DMA_NOT_USE) {
+        dma_fill(dmaNo, dest, data, size, TRUE);
+    } else {
+        sys_memset32(data, dest, size);
+    }
+}
+
 // NitroSDK's GX_LoadOAM and GXS_LoadOAM
 void gfxUploadOAMA(const void *src, u32 offset, u32 size);
 void gfxUploadOAMB(const void *src, u32 offset, u32 size);
@@ -1321,8 +1426,7 @@ void gfxEngineEnableA(void);
 #define REG_GXS_DB_DISPCNT_MODE_MASK 0x00010000
 
 static inline void GX_SetVisiblePlane(int plane) {
-    reg_GX_DISPCNT =
-        (u32)((reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (plane << REG_GX_DISPCNT_DISPLAY_SHIFT));
+    reg_GX_DISPCNT = (u32)((reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (plane << REG_GX_DISPCNT_DISPLAY_SHIFT));
 }
 
 static inline void GXS_SetVisiblePlane(int plane) {
@@ -1331,8 +1435,7 @@ static inline void GXS_SetVisiblePlane(int plane) {
 }
 
 static inline void GX_SetOBJVRamModeChar(GXOBJVRamModeChar mode) {
-    reg_GX_DISPCNT =
-        (u32)((reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | mode);
+    reg_GX_DISPCNT = (u32)((reg_GX_DISPCNT & ~(REG_GX_DISPCNT_EXOBJ_CH_MASK | REG_GX_DISPCNT_OBJMAP_CH_MASK)) | mode);
 }
 
 static inline void GXS_SetOBJVRamModeChar(GXOBJVRamModeChar mode) {

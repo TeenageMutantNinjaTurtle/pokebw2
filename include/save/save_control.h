@@ -301,6 +301,9 @@ void *func_02010dec(SaveControl *save);
 // and the best score
 u16 func_02010df8(void *a0);
 u16 func_02010e24(void *a0);
+// Count one more mission hosted and joined, up to 9999, and return the new count
+u16 FestRecords_AddHosted(void *records);
+u16 FestRecords_AddJoined(void *records);
 u16 func_02010e50(void *a0);
 u8 func_02010e78(void *a0);
 u16 func_02010e94(void *a0);

@@ -44,6 +44,7 @@ typedef struct BrGraphic BrGraphic;
 typedef struct BrList BrList;
 typedef struct BrMsgWin BrMsgWin;
 typedef struct BrNet BrNet;
+typedef struct BrPokeSearch BrPokeSearch;
 typedef struct BrProfile BrProfile;
 typedef struct BrProcSys BrProcSys;
 typedef struct BrRecordInfo BrRecordInfo;

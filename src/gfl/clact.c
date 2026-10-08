@@ -209,10 +209,6 @@ typedef struct {
     GXOamAttr oam;
 } ClActDrawState;
 
-// The OBJ heights and widths, by shape and size
-extern const u16 data_02094298[3][4];
-extern const u16 data_020942b0[3][4];
-
 // The renderers in ITCM, by unk5 and unk6 of the unit
 void mainRenderer(ClActUnit *unit);
 void func_01ff8318(ClActUnit *unit);
@@ -857,8 +853,8 @@ ClActor *func_0204c040(ClActUnit *unit, u32 chars, u32 palette, u32 cellAnims, c
     return func_0204d138(unit, setup, &res, surface, heapId);
 }
 
-ClActor *func_0204c0a4(ClActUnit *unit, u32 chars, u32 palette, u32 cellAnims, const ClActorSetupEx *setup,
-                       u16 surface, HeapID heapId) {
+ClActor *func_0204c0a4(ClActUnit *unit, u32 chars, u32 palette, u32 cellAnims, const ClActorSetupEx *setup, u16 surface,
+                       HeapID heapId) {
     ClActResSetup res;
 
     func_0204d11c(&res, chars, palette, &g_ClActSys->res.chars[chars], &g_ClActSys->res.pltts[palette],
@@ -1328,7 +1324,7 @@ static void func_0204c7c8(ClActOamMan *man, u8 from, u8 num, u32 type) {
 
 static void func_0204c7e0(ClActOamMan *man) {
     if (man->active) {
-        NNS_G2dApplyAndResetOamManagerBuffer(&man->man);
+        NNS_G2dApplyOamManagerToHW(&man->man);
     }
 }
 
@@ -1342,7 +1338,7 @@ static void func_0204c800(ClActRenderer *renderer, const ClActSurfaceSetup *setu
     u32 i;
 
     NNS_G2dInitRenderer(&renderer->renderer);
-    renderer->renderer.unk80 = 1;
+    renderer->renderer.spriteZoffsetStep = 1;
     renderer->surfaces = GFL_HeapAllocate(heapId, count * sizeof(NNSG2dRenderSurface), FALSE, "clact.c", 4124);
     renderer->surfaceCount = count;
     for (i = 0; i < count; i++) {
@@ -1366,10 +1362,10 @@ static void func_0204c890(ClActRenderer *renderer, BOOL cull) {
         callback = func_0204cb8c;
     } else {
         callback = NULL;
-        renderer->renderer.unk30 = TRUE;
+        renderer->renderer.rendererCore.bDrawEnable = TRUE;
     }
     for (i = 0; i < renderer->surfaceCount; i++) {
-        renderer->surfaces[i].unk40 = callback;
+        renderer->surfaces[i].pBeforeDrawOamBackFunc = callback;
     }
 }
 
@@ -1422,7 +1418,7 @@ static u16 func_0204ca08(const MtxFx22 *mtx) {
 // Whether a cell's bounding rect, or circle, is in view, its corners transformed by the matrix
 static BOOL func_0204ca1c(const NNSG2dCellData *cell, const MtxFx32 *mtx, const NNSG2dViewRect *view) {
     fx32 tmp;
-    const NNSG2dCellBoundingRectS16 *rect = &cell->boundingRect;
+    const NNSG2dCellBoundingRectS16 *rect = &((const NNSG2dCellDataWithBR *)cell)->boundingRect;
     u32 r = NNSi_G2dGetCellBoundingSphereR(cell);
     fx32 posX = mtx->_20 - view->posTopLeft.x;
     fx32 posY = mtx->_21 - view->posTopLeft.y;
@@ -1468,7 +1464,7 @@ static BOOL func_0204ca1c(const NNSG2dCellData *cell, const MtxFx32 *mtx, const 
 
 // The same, untransformed
 static BOOL func_0204cb14(const NNSG2dCellData *cell, const MtxFx32 *mtx, const NNSG2dViewRect *view) {
-    const NNSG2dCellBoundingRectS16 *rect = &cell->boundingRect;
+    const NNSG2dCellBoundingRectS16 *rect = &((const NNSG2dCellDataWithBR *)cell)->boundingRect;
     u32 r = NNSi_G2dGetCellBoundingSphereR(cell);
     fx32 posX = mtx->_20 - view->posTopLeft.x;
     fx32 posY = mtx->_21 - view->posTopLeft.y;
@@ -1557,9 +1553,9 @@ static void func_0204cb8c(ClActDrawState *state, const NNSG2dViewRect *view, u32
         y |= ~0xff;
     }
     left = x << FX32_SHIFT;
-    right = (x + data_020942b0[shapeIdx][sizeIdx]) << FX32_SHIFT;
+    right = (x + NNSi_objSizeWTbl[shapeIdx][sizeIdx]) << FX32_SHIFT;
     top = y << FX32_SHIFT;
-    bottom = (y + data_02094298[shapeIdx][sizeIdx]) << FX32_SHIFT;
+    bottom = (y + NNSi_objSizeHTbl[shapeIdx][sizeIdx]) << FX32_SHIFT;
     if (func_0204cc54(mtx->_20 - view->posTopLeft.x, mtx->_21 - view->posTopLeft.y, left, right, top, bottom, mtx,
                       view)) {
         state->skip = TRUE;
@@ -1857,9 +1853,8 @@ static void func_0204d2a8(ClActAnim *anim, const ClActResSetup *res, HeapID heap
     anim->anims = res->anims;
     anim->mcBank = res->mcBank;
     anim->mcAnims = res->mcAnims;
-    anim->mcWork =
-        GFL_HeapAllocate(heapId, NNS_G2dGetMCWorkAreaSize(anim->mcBank, NNS_G2D_MCTYPE_SHARE_CELLANIM), FALSE,
-                         "clact.c", 6175);
+    anim->mcWork = GFL_HeapAllocate(heapId, NNS_G2dGetMCWorkAreaSize(anim->mcBank, NNS_G2D_MCTYPE_SHARE_CELLANIM),
+                                    FALSE, "clact.c", 6175);
     NNS_G2dInitMCAnimationInstance(&anim->mcAnim, anim->mcWork, anim->anims, anim->cells, anim->mcBank,
                                    NNS_G2D_MCTYPE_SHARE_CELLANIM);
     NNS_G2dSetAnimSequenceToMCAnimation(&anim->mcAnim, NNS_G2dGetAnimSequenceByIdx(anim->mcAnims, 0));
@@ -2057,12 +2052,10 @@ static void func_0204d63c(ClActAnim *anim, const ClActorCallback *callback) {
 
     switch (callback->type) {
     case CLACT_CALLBACK_LAST_FRAME:
-        NNS_G2dSetAnimCtrlCallBackFunctor(animCtrl, NNS_G2D_ANMCALLBACKTYPE_LAST_FRM, callback->param,
-                                          callback->func);
+        NNS_G2dSetAnimCtrlCallBackFunctor(animCtrl, NNS_G2D_ANMCALLBACKTYPE_LAST_FRM, callback->param, callback->func);
         break;
     case CLACT_CALLBACK_EVERY_FRAME:
-        NNS_G2dSetAnimCtrlCallBackFunctor(animCtrl, NNS_G2D_ANMCALLBACKTYPE_EVER_FRM, callback->param,
-                                          callback->func);
+        NNS_G2dSetAnimCtrlCallBackFunctor(animCtrl, NNS_G2D_ANMCALLBACKTYPE_EVER_FRM, callback->param, callback->func);
         break;
     case CLACT_CALLBACK_FRAME:
         NNS_G2dSetAnimCtrlCallBackFunctorAtAnimFrame(animCtrl, callback->param, callback->func, callback->frame);
@@ -2244,7 +2237,7 @@ static void func_0204d9f4(ClActResMan *man, u32 idx, void *file, u32 vramType, u
         limit = 0x2000;
     }
     NNS_G2dGetUnpackedPaletteCompressInfo(file, &cmpInfo);
-    if (RelocatePaletteResGetDataPtr(file, &pltt)) {
+    if (NNS_G2dGetUnpackedPaletteData(file, &pltt)) {
         u32 banks;
 
         NNS_G2dInitImagePaletteProxy(&res->proxy);
@@ -2296,7 +2289,7 @@ static void func_0204db2c(ClActResMan *man, u32 idx, void *file, u32 vramType, u
         offset -= 0x200;
     }
     NNS_G2dGetUnpackedPaletteCompressInfo(file, &cmpInfo);
-    if (RelocatePaletteResGetDataPtr(file, &pltt)) {
+    if (NNS_G2dGetUnpackedPaletteData(file, &pltt)) {
         NNS_G2dInitImagePaletteProxy(&res->proxy);
         if (func_0204d798(vramType, CLACT_VRAM_MAIN)) {
             u32 banks = gfxGetObjExtPltBanksA();
@@ -2355,7 +2348,7 @@ static void func_0204dc60(ClActCellAnimRes *cellAnims) {
 static void func_0204dc68(ClActResMan *man, u32 idx, void *file, u32 vramType, NNSG2dCellDataBank *transferCells) {
     NNSG2dCharacterData *charData;
 
-    if (NNS_G2DPrepareObjChar(file, &charData)) {
+    if (NNS_G2dGetUnpackedCharacterData(file, &charData)) {
         func_0204d868(man, idx, charData, transferCells, vramType);
         man->chars[idx].free = FALSE;
     }

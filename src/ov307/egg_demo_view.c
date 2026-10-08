@@ -454,14 +454,14 @@ static void EggDemoView_HideMcss(EggDemoView *view) {
 }
 
 static void EggDemoView_SetAnimation(EggDemoView *view, u32 animation, BOOL stopAtEnd) {
-    NNSG2dAnimController *controller;
+    NNSG2dMultiCellAnimation *mcAnim;
 
     MCSS_SetAnimation(view->mcss, animation);
-    controller = func_0201adc4(view->mcss);
-    func_020618c0(controller);
+    mcAnim = func_0201adc4(view->mcss);
+    NNS_G2dRestartMCAnimation(mcAnim);
     MCSS_ResumeAnimation(view->mcss);
     if (stopAtEnd) {
-        NNS_G2dSetAnimCtrlCallBackFunctor(controller, NNS_G2D_ANMCALLBACKTYPE_LAST_FRM, (u32)view,
+        NNS_G2dSetAnimCtrlCallBackFunctor(&mcAnim->animCtrl, NNS_G2D_ANMCALLBACKTYPE_LAST_FRM, (u32)view,
                                           EggDemoView_OnAnimationEnd);
         view->animationEnded = FALSE;
     } else {

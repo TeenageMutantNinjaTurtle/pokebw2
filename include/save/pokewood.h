@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "gfl/heap.h"
+#include "save/battle_rec.h"
 #include "struct_decls.h"
 
 // Pokéstar Studios, which the game calls Pokewood. Its progress is save block 0x47 (PokewoodSave), and the movies
@@ -21,6 +22,28 @@ typedef struct {
     u8 famousCast;
     u8 unk13;
 } PokewoodRecord;
+
+// BtlSetup fields that only Pokéstar Studios' block keeps
+typedef struct {
+    u32 unkDF;
+    u32 unk124;
+    u8 unk110[0x14];
+} PokewoodBattleInfo;
+
+// The setup of a Pokéstar Studios battle, which getPokewoodBlock returns.
+typedef struct {
+    BattleRecSetup setup;
+    PokewoodBattleInfo info;
+    u32 dataSize;
+    u8 data[0x164];
+    BattleRecParty party;
+    BattleRecClient client;
+    u16 trainerClass;
+    u8 unk128;
+    u8 unkE0;
+    u8 unk4A4[8];
+    u32 unk130;
+} PokewoodBlock;
 
 PokewoodSave *func_02011040(GameData *gameData);
 // Flag lists 0 to 6 of the save, with a flag for each movie
@@ -58,6 +81,7 @@ void setPokewoodBlk(const void *src);
 u32 func_02010644(SaveControl *save, HeapID heapId, u32 slot);
 // Whether the loaded movie has data and its checksum is right
 BOOL func_020107b0(void);
+PokewoodBlock *getPokewoodBlock(void);
 // A field of the loaded movie
 u32 func_020107f0(u32 field, u32 a1);
 // Saves the Pokewood block to a slot, a step each call, with state starting at 0; 2 and 3 are the results once done
