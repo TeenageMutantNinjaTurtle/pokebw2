@@ -901,3 +901,26 @@ lib/nnsys/src/g2d/g2d_Renderer.c:
     .text       start:0x020619d8 end:0x02062b24
     .data       start:0x0209b2a0 end:0x0209b2c0
     .bss        start:0x02142a88 end:0x02143618
+
+lib/nnsys/src/g2d/g2d_Font.c:
+    complete
+    .text       start:0x02063b5c end:0x02063d50
+
+lib/nnsys/src/g2d/g2d_CharCanvas.c:
+    .text       start:0x02063d50 end:0x02064adc
+    .rodata     start:0x020943bc end:0x02094440
+
+lib/nnsys/src/g2d/g2d_TextCanvas.c:
+    .text       start:0x02064adc end:0x02064db8
+
+lib/nnsys/src/g2d/g2d_NFT_load.c:
+    complete
+    .text       start:0x02064db8 end:0x02064f6c
+
+lib/nnsys/src/g2d/g2di_BitReader.c:
+    complete
+    .text       start:0x02064f6c end:0x02064fac
+
+lib/nnsys/src/g2d/g2di_SplitChar.c:
+    complete
+    .text       start:0x02064fac end:0x02064fb8

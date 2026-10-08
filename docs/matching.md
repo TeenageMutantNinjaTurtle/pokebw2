@@ -160,6 +160,9 @@ Same instructions, registers swapped.
 
 ## Stack slots
 
+- Taking a parameter's address makes MWCC push all four argument registers to give it a home; an original that pushes
+  fewer copied the parameter to a local first and passed that local's address: `g2d_Font.c`'s
+  `NNSi_G2dFontGetStringWidth` writes `const void *pos = str;` and hands `&pos` to the character splitter (2.0/sp2p2).
 - Local initializers declared in separate blocks are each copied to the stack just before their call, as the four BG
   setups of `b_plist_main.c`'s `BPlistMain_InitBG`; one block copies them all at the top.
 - Which of several locals of equal use MWCC spills follows where the group is declared among the function's other
