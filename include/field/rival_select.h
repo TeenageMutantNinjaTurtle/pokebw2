@@ -24,7 +24,6 @@ struct RivalSelectContext {
 };
 
 RivalEntry *func_02014864(void *owner);
-BOOL func_02018fa8(u16 areaId);
 u8 getHollowNum(RivalDataSave *save);
 
 RivalEntry *func_ov073_021e8be0(RivalSelectContext *context, u32 id);

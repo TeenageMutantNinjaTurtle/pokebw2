@@ -813,3 +813,7 @@ lib/nnsys/src/gfd/gfd_LinkedListPlttVramMan.c:
     complete
     .text       start:0x0205ff24 end:0x02060050
     .bss        start:0x02141ab0 end:0x02141ac4
+
+src/system/area_data.c:
+    complete
+    .text       start:0x02018f10 end:0x02018fe8

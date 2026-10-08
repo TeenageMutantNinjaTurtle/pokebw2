@@ -42,6 +42,7 @@
 #include "save/save_control.h"
 #include "save/traded_pokemon.h"
 #include "system/aeabi.h"
+#include "system/area_data.h"
 #include "system/comm_player_support.h"
 #include "system/game_data.h"
 #include "system/game_event.h"

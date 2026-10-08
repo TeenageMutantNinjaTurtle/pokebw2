@@ -71,6 +71,7 @@
 #include "save/medal_box.h"
 #include "save/records.h"
 #include "save/save_control.h"
+#include "system/area_data.h"
 #include "system/game_beacon.h"
 #include "system/game_comm.h"
 #include "system/game_data.h"
