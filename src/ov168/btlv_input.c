@@ -623,7 +623,7 @@ void BtlvInput_Delete(BtlvInput *work) {
         BtlvInput_FreeGraphics(work);
         GFL_MsgDataFree(work->msgData);
         if (work->fingerCursor != NULL) {
-            func_ov168_021f2d9c(work->fingerCursor);
+            BtlvFingerCursor_Delete(work->fingerCursor);
         }
         func_0203a610(work->tcbMgr);
         GFL_HeapFree(work->tcbMgrBuf);
@@ -1234,14 +1234,14 @@ BOOL BtlvInput_FingerDemoMain(BtlvInput *work) {
         if (work->fingerCursor == NULL) {
             work->fingerCursor = BtlvFingerCursor_Create(work->paletteFade, 11, work->heapId);
         }
-        if (func_ov168_021f2dcc(work->fingerCursor, pos[work->fingerCount][0], pos[work->fingerCount][1], 2, 7, 16)) {
+        if (BtlvFingerCursor_Start(work->fingerCursor, pos[work->fingerCount][0], pos[work->fingerCount][1], 2, 7, 16)) {
             work->fingerSeq++;
             work->fingerCount++;
         }
         break;
     }
     case 1:
-        done = func_ov168_021f2e98(work->fingerCursor);
+        done = BtlvFingerCursor_IsTouched(work->fingerCursor);
         if (done == TRUE) {
             BtlvInput_PlayDecideSE(work);
         }
