@@ -6285,6 +6285,16 @@ overlays/ov286 0x021f5a18 BBagObj_DeleteFingerCursor
 overlays/ov286 0x021f5a28 BBagObj_ShowFingerCursor
 overlays/ov286 0x021f5a44 BBagObj_HideFingerCursor
 overlays/ov286 0x021f5a54 BBagObj_ShowCost
+overlays/ov286 0x021f6c10 BBagUi_CreateCursor
+overlays/ov286 0x021f6c60 BBagUi_DeleteCursor
+overlays/ov286 0x021f6c70 BBagUi_ChangeCursorPage
+overlays/ov286 0x021f6cc0 BBagUi_SetCursorVisible
+overlays/ov286 0x021f6cd8 BBagUi_PutCursor
+overlays/ov286 0x021f6cf4 BBagUi_CallbackCursorOn
+overlays/ov286 0x021f6d08 BBagUi_CallbackCursorOff
+overlays/ov286 0x021f6d14 BBagUi_CallbackTouch
+overlays/ov286 0x021f6d20 BBagUi_CallbackMove
+overlays/ov286 0x021f6d28 BBagUi_CallbackItemsCursorOn
 overlays/ov287 0x021f4440 BPlistAnm_CutButtonScrn
 overlays/ov287 0x021f46d4 BPlistAnm_CutPageScrn
 overlays/ov287 0x021f4780 BPlistAnm_CopyScrnRect
