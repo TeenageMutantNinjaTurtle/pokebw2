@@ -266,3 +266,8 @@ src/ov036/field_map_chunk_ng.c:
 src/ov036/field_map_chunk_rd.c:
     complete
     .text       start:0x0218aba0 end:0x0218adec
+
+src/ov036/field_map_chunk_height.c:
+    complete
+    .text       start:0x021c7060 end:0x021c720c
+    .rodata     start:0x021d2a38 end:0x021d45bc

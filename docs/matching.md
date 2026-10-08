@@ -320,6 +320,19 @@ Same instructions, scheduled in another order.
   It has to be the parameter: `fld_scenearea_loader.c`'s camera-area callbacks scheduled their area's loads only
   once the callback typedefs took `const CameraArea *`, and a `const` local pointer to the member did nothing. The
   same change fixed the register allocation of the loop in `fld_scenearea.c` that calls them.
+- Elements of a `static const` array passed to an inline are loaded at each store of the inline's body, in the
+  body's order. Read through a function-scope pointer to the table, they are evaluated as arguments, right to left,
+  before any store: `FieldChunkAccessor_GetTerrainCore` declares `const fx16 *slopes = MAP_HEIGHT_SLOPE_TABLE;` at
+  the top and passes `slopes[i], slopes[i + 1], -slopes[i + 2]` to `VEC_Fx16Set`, which loads z, y, x and then
+  stores x, y, z. The same pointer declared inside the branch folds back into the array.
+- Which of two locals is spilled can follow the declaration order: the same function only keeps `offset` on the
+  stack and the tile pointer in `r7` with `fx32 offset;` declared first.
+- A bit field read through a `static inline` getter is not shared with a later read of the same word: its
+  `u8 shape = MapHeightTile_GetShape(tile);` makes the plane branch load the halfword again for `tile->slope`,
+  where a direct `tile->shape` reused the first load.
+- The order of a product's operands picks the registers of what feeds it: the tile index
+  `x / TILE_SIZE + (FX_Whole(size) / 16) * (z / TILE_SIZE)` matched in `FieldChunkAccessor_RD_GetTerrain` and
+  swapped the registers of `x` and `z` with the factors the other way round.
 - A local assigned once and used once is moved to its use when nothing between them writes memory, and the 64-bit
   multiply helper of `FX_Mul` doesn't count as a write. To keep a value computed where the original computes it,
   build it in steps: `RECT_PitchYawTZ` writes `pitch = rect.pitch2 - rect.pitch1; pitch = pitch * progress /
