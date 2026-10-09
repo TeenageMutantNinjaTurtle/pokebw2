@@ -4,9 +4,20 @@
 #include "gfl/heap.h"
 #include "gfl/std.h"
 
+// A recorded chunk's type, in bits 4 to 6 of its header byte
+typedef enum {
+    BTL_REC_CHUNK_NONE,
+    // The clients' actions
+    BTL_REC_CHUNK_ACTIONS,
+    // A turn without actions
+    BTL_REC_CHUNK_TURN,
+    // A timeout
+    BTL_REC_CHUNK_TIMEOUT,
+} BtlRecChunkType;
+
 // A recorded chunk's header byte
-static inline u8 MakeHeader(u8 num, u8 type, u8 chapter) {
-    return (num & 0xf) | ((chapter & 1) << 7) | ((type & 7) << 4);
+static inline u8 MakeHeader(u8 num, BtlRecChunkType type, u8 chapter) {
+    return (num & 0xf) | (((chapter & 1) << 7) | ((type & 7) << 4));
 }
 
 // What a client records of the server's commands
@@ -75,10 +86,10 @@ void func_ov167_021d4660(BtlRecReader *reader) {
 
 BOOL func_ov167_021d4674(BtlRecReader *reader, u8 clientId) {
     u8 header = reader->data[reader->pos[clientId]];
-    int type = (header >> 4) & 7;
+    BtlRecChunkType type = (header >> 4) & 7;
     u8 chapter = (header >> 7) & 1;
 
-    if (type == 2) {
+    if (type == BTL_REC_CHUNK_TURN) {
         reader->pos[clientId]++;
         return chapter;
     }
@@ -95,50 +106,50 @@ BattleAction *func_ov167_021d46a4(BtlRecReader *reader, u8 clientId, u8 *count, 
         return reader->actions[clientId];
     }
 
-    pos = reader->pos;
-    while (pos[clientId] < reader->size) {
-        u8 header = reader->data[pos[clientId]];
+    pos = &reader->pos[clientId];
+    while (*pos < reader->size) {
+        u8 header = reader->data[*pos];
         u8 num = header & 0xf;
-        int type = (header >> 4) & 7;
+        BtlRecChunkType type = (header >> 4) & 7;
         *chapter = (header >> 7) & 1;
-        pos[clientId]++;
-        if (pos[clientId] > reader->size) {
+        (*pos)++;
+        if (*pos > reader->size) {
             break;
         }
-        if (type == 1) {
+        if (type == BTL_REC_CHUNK_ACTIONS) {
             BattleAction *result = NULL;
             u32 i;
             if (num == 0 || num > 4) {
                 break;
             }
             for (i = 0; i < num; i++) {
-                u8 byte = reader->data[pos[clientId]++];
+                u8 byte = reader->data[(*pos)++];
                 u8 id = (byte >> 5) & 7;
                 u8 n = byte & 0x1f;
-                if (pos[clientId] >= reader->size) {
+                if (*pos >= reader->size) {
                     break;
                 }
                 if (id != clientId) {
-                    pos[clientId] += n * sizeof(BattleAction);
+                    *pos += n * sizeof(BattleAction);
                 } else {
-                    sys_memcpy(&reader->data[pos[clientId]], reader->actions[clientId], n * sizeof(BattleAction));
+                    sys_memcpy(&reader->data[*pos], reader->actions[clientId], n * sizeof(BattleAction));
                     result = reader->actions[clientId];
-                    pos[clientId] += n * sizeof(BattleAction);
+                    *pos += n * sizeof(BattleAction);
                     *count = n;
                 }
             }
             if (result != NULL) {
                 return result;
             }
-        } else if (type == 3) {
+        } else if (type == BTL_REC_CHUNK_TIMEOUT) {
             func_ov167_021bdc84(reader->actions[clientId]);
             *count = 1;
             *chapter = 0;
             return reader->actions[clientId];
-        } else if (type != 2) {
+        } else if (type != BTL_REC_CHUNK_TURN) {
             break;
         }
-        if (pos[clientId] >= reader->size) {
+        if (*pos >= reader->size) {
             break;
         }
     }
@@ -158,7 +169,7 @@ u32 func_ov167_021d481c(BtlRecReader *reader) {
     while (pos < reader->size) {
         u8 header = reader->data[pos++];
         u8 num = header & 0xf;
-        int type = (header >> 4) & 7;
+        BtlRecChunkType type = (header >> 4) & 7;
         u8 chapter = (header >> 7) & 1;
         if (chapter) {
             chapters++;
@@ -166,7 +177,7 @@ u32 func_ov167_021d481c(BtlRecReader *reader) {
         if (pos >= reader->size) {
             break;
         }
-        if (type != 1) {
+        if (type != BTL_REC_CHUNK_ACTIONS) {
             pos += num;
         } else {
             u32 i;
@@ -200,7 +211,7 @@ void func_ov167_021d48a0(BtlRecTool *tool, BOOL chapter) {
 
 void *func_ov167_021d48c4(BtlRecTool *tool, u32 *size, BOOL chapter) {
     tool->data[0] = 4;
-    tool->data[1] = MakeHeader(0, 2, chapter);
+    tool->data[1] = MakeHeader(0, BTL_REC_CHUNK_TURN, chapter);
     *size = 2;
     return tool->data;
 }
@@ -237,7 +248,7 @@ void *func_ov167_021d4958(BtlRecTool *tool, u8 value, u32 *size) {
 
 void *func_ov167_021d4990(BtlRecTool *tool, u32 *size) {
     tool->data[0] = 0;
-    tool->data[1] = MakeHeader(0, 3, FALSE);
+    tool->data[1] = MakeHeader(0, BTL_REC_CHUNK_TIMEOUT, FALSE);
     *size = 2;
     return tool->data;
 }

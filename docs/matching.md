@@ -553,7 +553,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - Masks written with `~` clear bits with `bic`. The game's `and` with a constant such as `0xef` is `x &= (u8)~FLAG`.
 - MWCC doesn't propagate constants into a variable of an enum type. A loop that still checks its bound before the
   first pass, as `for (p = 80; p <= 83; p++)` does in the Join Avenue's commands, or a sum that still adds a counter
-  known to be 0, as the Battle Subway's loop over its music switches does, has an enum counter.
+  known to be 0, as the Battle Subway's loop over its music switches does, has an enum counter. Nor does it move an
+  enum local's value into its one use: `btl_rec.c`'s `func_ov167_021d4674` computes a chunk's type from its header
+  byte before the chapter bit, as written, only with `BtlRecChunkType type`; an `int type` used once is computed in
+  the `if` that tests it, after the chapter bit.
 - A function that returns `-1` or `0` from two branches, `if (f(x)) { return 0; } return -1;`, is folded into a
   computed result (`rsbs`) when it returns an `int`, and keeps both returns when it returns an enum. The field action
   checks of `itemuse_event.c` return such an enum.
