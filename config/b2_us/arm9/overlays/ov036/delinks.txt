@@ -251,6 +251,27 @@ src/ov036/scrcmd_shop.c:
     .rodata     start:0x021d0918 end:0x021d0f58
     .data       start:0x021d5160 end:0x021d51dc
 
+src/ov036/field_map_chunk_wb.c:
+    complete
+    .text       start:0x0218a7f8 end:0x0218a8f8
+
+src/ov036/field_map_chunk_gc.c:
+    complete
+    .text       start:0x0218a8f8 end:0x0218aa7c
+
+src/ov036/field_map_chunk_ng.c:
+    complete
+    .text       start:0x0218aa7c end:0x0218ab60
+
+src/ov036/field_map_chunk_rd.c:
+    complete
+    .text       start:0x0218ab60 end:0x0218adac
+
+src/ov036/field_map_chunk_height.c:
+    complete
+    .text       start:0x021c7028 end:0x021c71d4
+    .rodata     start:0x021d2a04 end:0x021d4588
+
 src/ov036/field_player.c:
     complete
     .text       start:0x0219a47c end:0x0219ad4c

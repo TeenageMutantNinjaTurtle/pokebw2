@@ -360,7 +360,7 @@ BOOL FieldChunk_IsTerrainReady(FieldChunk *chunk) {
 void FieldChunk_GetTerrain(MapTerrainSamplerOutput *out, FieldChunk *chunk, const VecFx32 *pos, fx32 a3) {
     VecFx32 local;
     fx32 y;
-    void (*getTerrain)(MapTerrainSamplerOutput *, void *, const VecFx32 *, fx32, fx32);
+    void (*getTerrain)(MapTerrainSamplerOutput *, const void *, const VecFx32 *, fx32, fx32);
 
     out->layerCount = 0;
     if (chunk->loader.terrainLoadDone) {

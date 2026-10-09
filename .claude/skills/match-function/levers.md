@@ -114,6 +114,11 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A plain argument loaded before a call that is another argument: the plain one was in a local.
   (matching.md: "plain argument loaded before")
 - An inline's argument computed and spilled at the inline's entry: the caller passed a local.
+- An inline's table arguments loaded right to left before its stores, where ours loads each at its store: read the
+  `static const` table through a function-scope pointer local. (matching.md: "function-scope pointer to the table")
+- A bit field's word loaded again for the next field: the first read went through a `static inline` getter.
+- The wrong one of two locals spilled: try the declaration order. Swapped registers feeding a product: swap its
+  operands.
   (matching.md: "copies into its one use")
 - A `const` table read before I/O register stores: it was written before them. (matching.md: "not moved across stores to I/O")
 
