@@ -22,6 +22,7 @@
 #include "field/field_internal.h"
 #include "field/field_lens_flare.h"
 #include "field/field_map.h"
+#include "field/field_nogrid_mapper.h"
 #include "field/field_palace.h"
 #include "field/field_player.h"
 #include "field/field_pokemon_form.h"

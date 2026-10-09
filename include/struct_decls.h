@@ -473,6 +473,8 @@ typedef struct PStaSkillWork PStaSkillWork;
 typedef struct PStaSubWork PStaSubWork;
 typedef struct PStatusWork PStatusWork;
 typedef struct Queue Queue;
+typedef struct RailDataHandle RailDataHandle;
+typedef struct RailLoader RailLoader;
 typedef struct RailPosition RailPosition;
 typedef struct RailUnit RailUnit;
 typedef struct RecordSave RecordSave;

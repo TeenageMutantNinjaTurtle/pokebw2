@@ -2,6 +2,7 @@
 #include "constants/sound.h"
 #include "field/field.h"
 #include "field/field_camera.h"
+#include "field/field_nogrid_mapper.h"
 #include "field/field_script.h"
 #include "field/field_sound.h"
 #include "field/pokemon_league_gimmicks.h"
@@ -11,8 +12,6 @@
 
 // The script plugin of the Pokémon League's rooms (plugin 3), commands from 1000. The Elite Four's rooms are numbered
 // from 1 in the order of their cameras
-
-void func_ov036_021b3da8(NoGridMapper *mapper, u32 a1, u32 a2);
 
 static void func_ov052_021e5870(Field *field, u16 a1);
 static u32 PokemonLeague_GetRoomCamera(u16 room);
@@ -39,10 +38,10 @@ static BOOL PokemonLeagueCmd_SetCamera(VM *vm, FieldScriptEnv *env) {
 static void func_ov052_021e5870(Field *field, u16 a1) {
     NoGridMapper *mapper = Field_GetNoGridMapper(field);
 
-    func_ov036_021b3da8(mapper, 1, 0);
-    func_ov036_021b3da8(mapper, 2, 0);
+    FieldNoGridMapper_SetLineEnabled(mapper, 1, FALSE);
+    FieldNoGridMapper_SetLineEnabled(mapper, 2, FALSE);
     if (a1 == 0) {
-        func_ov036_021b3da8(mapper, 3, 0);
+        FieldNoGridMapper_SetLineEnabled(mapper, 3, FALSE);
     }
 }
 

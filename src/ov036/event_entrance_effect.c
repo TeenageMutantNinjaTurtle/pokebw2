@@ -10,6 +10,7 @@
 #include "field/field_camera.h"
 #include "field/field_event.h"
 #include "field/field_g3d_mapper.h"
+#include "field/field_nogrid_mapper.h"
 #include "field/field_prop.h"
 #include "field/field_rail.h"
 #include "field/field_sound.h"

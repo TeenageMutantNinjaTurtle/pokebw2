@@ -1845,6 +1845,10 @@ overlays/ov036 0x021a01a8 FieldMenu_LoadBar
 overlays/ov036 0x021a01c4 FieldMenu_GetMenuType
 overlays/ov036 0x021a04dc FieldMenu_GetSelectedItem
 overlays/ov036 0x021a04ec FieldMenu_SetCursorItem
+overlays/ov036 0x021b02c0 FieldRailSystem_Free
+overlays/ov036 0x021b02f8 FieldRailSystem_Reset
+overlays/ov036 0x021b05b8 FieldRailSystem_SetLineEnabled
+overlays/ov036 0x021b3da8 FieldNoGridMapper_SetLineEnabled
 overlays/ov036 0x021b84e4 FieldExpObjAnm_SetFrameStep
 overlays/ov036 0x021c2080 PleasureBoat_Create
 overlays/ov036 0x021c2168 PleasureBoat_AdvanceClock

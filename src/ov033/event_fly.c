@@ -6,6 +6,7 @@
 #include "field/field_camera.h"
 #include "field/encounter_effect.h"
 #include "field/field_event.h"
+#include "field/field_nogrid_mapper.h"
 #include "field/zone.h"
 #include "gfl/fade.h"
 #include "gfl/graphics.h"
