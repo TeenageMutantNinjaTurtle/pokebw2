@@ -43,7 +43,7 @@ void func_ov012_02162f44(GameData *gameData) {
         return;
     }
     if (minutes != 0) {
-        dayCountdownTest(adventureTime);
+        dayCountdownTest(adventureTime, minutes);
         func_ov012_021630e8(gameData, minutes, &time);
     }
     if (days != 0) {

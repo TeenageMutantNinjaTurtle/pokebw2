@@ -1515,6 +1515,7 @@
 . 0x0207c0a8 OSi_GetVFrame
 . 0x0207c1e8 OS_WaitVBlankIntr
 . 0x0207c350 OS_GetOwnerInfo
+. 0x0207c3a8 OS_GetOwnerRtcOffset
 . 0x0207c6d0 OS_GetLowEntropyData
 . 0x0207c94c PXI_Init
 . 0x0207ca6c PXI_SendWordByFifo

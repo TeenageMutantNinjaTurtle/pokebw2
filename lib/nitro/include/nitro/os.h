@@ -154,6 +154,8 @@ typedef struct {
 } OSOwnerInfoEx;
 
 void OS_GetOwnerInfo(OSOwnerInfo *info);
+// The RTC offset the owner set in the settings, in seconds, from the shared main memory
+s64 OS_GetOwnerRtcOffset(void);
 
 int OS_SNPrintf(char *dst, u32 len, const char *format, ...);
 

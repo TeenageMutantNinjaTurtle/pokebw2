@@ -6,8 +6,8 @@
 #include "nitro/fx.h"
 #include "nitro/rtc.h"
 #include "save/player_savedata.h"
-#include "save/timesig_savedata.h"
 #include "save/playtime.h"
+#include "save/timesig_savedata.h"
 #include "save/trainer_data_savedata.h"
 #include "struct_decls.h"
 

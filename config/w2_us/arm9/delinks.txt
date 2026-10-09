@@ -1101,3 +1101,7 @@ src/system/player_savedata.c:
 
 src/system/timesig_savedata.c:
     .text       start:0x02009184 end:0x020092c8
+
+src/system/adventure_savedata.c:
+    complete
+    .text       start:0x020092c8 end:0x020093d0
