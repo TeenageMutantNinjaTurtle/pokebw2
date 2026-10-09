@@ -24,6 +24,5 @@ s64 getSecondsFromTrainerCardData(TrainerGameInfoSave *info);
 void func_0200cb10(TrainerGameInfoSave *info, u16 minutes);
 BOOL isBadgeObtained(TrainerCardSave *trainerCard, u32 badgeId);
 void addBadge(TrainerCardSave *trainerCard, u32 badgeId);
-void setBadgeGetSecondsTime(void *timeSig, u32 badgeId, u32 year, u32 month, u32 day);
 
 #endif // POKEBW2_SAVE_TRAINER_CARD_H

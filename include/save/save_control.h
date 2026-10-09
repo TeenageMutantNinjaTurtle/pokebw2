@@ -6,6 +6,7 @@
 #include "nitro/fx.h"
 #include "nitro/rtc.h"
 #include "save/player_savedata.h"
+#include "save/timesig_savedata.h"
 #include "save/playtime.h"
 #include "save/trainer_data_savedata.h"
 #include "struct_decls.h"
@@ -35,15 +36,6 @@ u32 SaveControl_GetStatus(SaveControl *save);
 void func_020074b8(SaveControl *save, u32 *a1, u32 *a2);
 // The bytes written so far of the save in progress, func_0203b080 of the save's SaveData
 u32 func_0200743c(SaveControl *save);
-// Save block 0x21, and its flag at 0x602: get and set
-void *getTimeSigBlkAddress(SaveControl *save);
-// The block's first 0x600 bytes, which the trainer card copies
-void *func_020091a8(void *timeSig);
-BOOL func_020091ac(void *timeSig);
-u16 func_020091e8(void *timeSig);
-BOOL func_02009204(void *timeSig);
-u8 func_020091d0(void *timeSig);
-void func_020091dc(void *timeSig);
 u32 func_02007464(SaveControl *save);
 void func_0200749c(SaveControl *save);
 void func_02007324(SaveControl *save);

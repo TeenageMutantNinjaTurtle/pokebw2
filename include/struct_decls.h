@@ -537,6 +537,7 @@ typedef struct TouchpadManager TouchpadManager;
 typedef struct TPokeData TPokeData;
 typedef struct TrainerGameInfoSave TrainerCardSave;
 typedef struct TrainerClashSlot TrainerClashSlot;
+typedef struct TimeSigSave TimeSigSave;
 typedef struct TrainerDataSave TrainerDataSave;
 typedef struct TrainerGameInfoSave TrainerGameInfoSave;
 typedef struct TrialHouseWork TrialHouseWork;

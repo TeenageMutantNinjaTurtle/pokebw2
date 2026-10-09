@@ -1098,3 +1098,6 @@ src/system/trainer_data_savedata.c:
 src/system/player_savedata.c:
     complete
     .text       start:0x02008ec8 end:0x02009184
+
+src/system/timesig_savedata.c:
+    .text       start:0x02009184 end:0x020092c8
