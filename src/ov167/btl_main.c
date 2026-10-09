@@ -707,10 +707,16 @@ BOOL func_ov167_0219a5bc(u32 *state, BtlMainModule *mainModule) {
     mainModule->unk46E = 1;
     for (i = 0; i < 4; i++) {
         if (DoesClientExist(mainModule, i)) {
+            u8 count = func_ov167_0219c3e4(mainModule, i);
+            BOOL isAI = FALSE;
+
+            if (i != 0) {
+                isAI = TRUE;
+            }
+
             mainModule->clients[i] =
-                BattleClient_Create(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, i,
-                                    func_ov167_0219c3e4(mainModule, i), i != 0 ? 1 : 0, unk,
-                                    setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
+                BattleClient_Create(mainModule, &mainModule->pokeCons[0], 0, setup->fieldSituation.netHandle, i, count,
+                                    isAI, unk, setup->fieldSituation.unk1b, &mainModule->rand, mainModule->heapId);
         }
     }
     if (setup->fieldSituation.unk1b != 0) {
@@ -1228,7 +1234,7 @@ BOOL func_ov167_0219b4ac(BtlMainModule *mainModule, s32 *state) {
     BtlSetup *setup = mainModule->setup;
     u8 clientId = mainModule->playerClientId;
     u32 unk = func_ov167_0219a004(setup);
-    u8 opponent;
+    u32 opponent;
     u32 i;
 
     if (func_ov167_021b9a70()) {
@@ -1238,10 +1244,10 @@ BOOL func_ov167_0219b4ac(BtlMainModule *mainModule, s32 *state) {
     if (mainModule->unk46E) {
         mainModule->server =
             func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
-        opponent = 1;
         mainModule->clients[clientId] =
             BattleClient_Create(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
                                 setup->fieldSituation.netHandle, clientId, 1, 0, unk, 0, &mainModule->rand, mainModule->heapId);
+        opponent = 1;
         func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[clientId]), clientId, 1);
         if (clientId != 0) {
             opponent = 0;
@@ -1324,7 +1330,7 @@ BOOL func_ov167_0219b868(BtlMainModule *mainModule, s32 *state) {
     BtlSetup *setup = mainModule->setup;
     u8 clientId = mainModule->playerClientId;
     u32 unk = func_ov167_0219a004(setup);
-    u8 opponent;
+    u32 opponent;
     u32 i;
 
     if (func_ov167_021b9a70()) {
@@ -1334,11 +1340,10 @@ BOOL func_ov167_0219b868(BtlMainModule *mainModule, s32 *state) {
     if (mainModule->unk46E) {
         mainModule->server =
             func_ov167_0219e3cc(mainModule, &mainModule->rand, &mainModule->pokeCons[1], unk, mainModule->heapId);
-        opponent = 0;
         mainModule->clients[clientId] =
             BattleClient_Create(mainModule, &mainModule->pokeCons[0], setup->fieldSituation.unk18,
-                                setup->fieldSituation.netHandle, clientId, 3, opponent, unk, opponent, &mainModule->rand,
-                                mainModule->heapId);
+                                setup->fieldSituation.netHandle, clientId, 3, 0, unk, 0, &mainModule->rand, mainModule->heapId);
+        opponent = 0;
         func_ov167_0219e498(mainModule->server, func_ov167_021b1928(mainModule->clients[clientId]), clientId, 3);
         if (clientId == 0) {
             opponent = 1;
@@ -2453,13 +2458,12 @@ void func_ov167_0219cd00(BtlPokeCon *pokeCon) {
 
 void func_ov167_0219cd3c(BtlPokeCon *pokeCon, BtlMainModule *mainModule, u8 clientId) {
     PokeParty *srcParty;
+    BattleParty *battleParty;
     u32 count;
     u8 monId;
-    u32 i;
+    s32 i;
     u8 firstMonId;
     s32 eligible;
-    PartyPkm *zoroark;
-    u32 j;
     BattleMon *mon;
     PokeParty *party;
     u8 partyCount;
@@ -2467,13 +2471,14 @@ void func_ov167_0219cd3c(BtlPokeCon *pokeCon, BtlMainModule *mainModule, u8 clie
     u16 species;
 
     srcParty = func_ov167_0219da94(mainModule, clientId, pokeCon->unkE4);
+    battleParty = &pokeCon->parties[clientId];
     count = PokeParty_GetPkmCount(srcParty);
     firstMonId = data_ov167_021d6c24[clientId];
     pokeCon->srcParties[clientId] = srcParty;
     monId = firstMonId;
     for (i = 0; i < count; i++) {
         pokeCon->mons[monId] = BattleMon_Create(PokeParty_GetPkm(srcParty, i), monId, HEAPID_BATTLE);
-        AddBattleMonToParty(&pokeCon->parties[clientId], pokeCon->mons[monId]);
+        AddBattleMonToParty(battleParty, pokeCon->mons[monId]);
         monId++;
     }
     eligible = GetPartyPkmnEligibleForBattle(srcParty);
@@ -2487,7 +2492,7 @@ void func_ov167_0219cd3c(BtlPokeCon *pokeCon, BtlMainModule *mainModule, u8 clie
         }
     }
     if (BtlSetup_GetBattleType(mainModule) == 0 && clientId == 1) {
-        for (j = 0; j < count; j++) {
+        for (i = 0; i < count; i++) {
             mon = pokeCon->mons[firstMonId];
             if (GetBattleMonSpecies(mon) == SPECIES_ZOROARK && GetBattleMonStat(mon, 0x11) == ABILITY_ILLUSION) {
                 species = 0;
@@ -2520,7 +2525,7 @@ void func_ov167_0219cd3c(BtlPokeCon *pokeCon, BtlMainModule *mainModule, u8 clie
             firstMonId++;
         }
     }
-    func_ov167_0219d454(&pokeCon->parties[clientId]);
+    func_ov167_0219d454(battleParty);
 }
 
 s32 GetPartyPkmnEligibleForBattle(PokeParty *party) {
@@ -3373,8 +3378,8 @@ void func_ov167_0219dc10(BtlMainModule *mainModule) {
         if (DoesClientExist(mainModule, index)) {
             battleParty = GetPartyData(&mainModule->pokeCons[0], index);
             monCount = GetNumMonsInParty(battleParty);
-            hp = 0;
             maxHP = 0;
+            hp = 0;
             firstMonId = data_ov167_021d6c24[index];
             for (i = 0; i < monCount; i++) {
                 mon = func_ov167_0219d4e4(battleParty, i);
@@ -3617,7 +3622,7 @@ BtlSetup *func_ov167_0219e310(BtlMainModule *mainModule) {
 }
 
 void func_ov167_0219e314(BtlMainModule *mainModule, u8 arg1) {
-    mainModule->unk474 = GFL_ArcSysReadHeapNew(0x10d, 0, HEAPID_BATTLE);
+    mainModule->unk474 = GFL_ArcSysReadHeapNew(0x10d, arg1, HEAPID_BATTLE);
     mainModule->unk478 = GFL_HeapAllocate(HEAPID_BATTLE, 0x14, FALSE, "btl_main.c", 6432);
     func_ov167_0219e3c8(mainModule->unk474);
     mainModule->unk478->unk08 = 0xff;
