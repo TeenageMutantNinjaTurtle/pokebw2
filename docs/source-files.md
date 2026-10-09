@@ -570,6 +570,14 @@ prints the tables below from the configs and the ROM:
 | `resort_data_manager.c` | `0x021f1710`–`0x021f1c24` | 30 | complete | string at `0x021f58c0` |
 | `resort_npc.c` | `0x021f1c24`–`0x021f1f1c` | 11 | complete | string at `0x021f58d8` |
 
+### Overlay 144
+
+4 of 107 functions are in source files. Embedded names without a file yet: `townmap.c`, `townmap_grh.c`.
+
+| File | `.text` (Black 2) | Functions | Status | Name |
+| --- | --- | --- | --- | --- |
+| `townmap_data.c` | `0x0219f718`–`0x0219f76c` | 4 | complete | descriptive |
+
 ### Overlay 146
 
 30 of 30 functions are in source files.

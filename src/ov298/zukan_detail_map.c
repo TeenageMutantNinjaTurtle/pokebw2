@@ -1,5 +1,6 @@
 #include "types.h"
 #include "app/townmap.h"
+#include "app/townmap/townmap_data.h"
 #include "app/zukan_detail.h"
 #include "constants/arc.h"
 #include "constants/sound.h"
@@ -448,7 +449,7 @@ static BOOL ZukanDetailMap_Init(ZukanDetailProcSys *sys, int *seq, void *param_,
     wk->place = NO_PLACE;
     wk->step = 0;
     wk->active = TRUE;
-    wk->townmap = func_ov144_0219f718(param->heapId);
+    wk->townmap = TownMapData_Load(param->heapId);
     ZukanDetailMap_InitPlaceOrder(param, wk, common);
     wk->habitatArc = GFL_ArcSysCreateFileHandle(ARCID_ZUKAN_AREA, param->heapId);
     wk->vblankTcb = GFL_VBlankTCBAdd(ZukanDetailMap_VBlank, wk, 1);
@@ -496,7 +497,7 @@ static BOOL ZukanDetailMap_Exit(ZukanDetailProcSys *sys, int *seq, void *param_,
     ZukanDetailMap_FreePrintQueues(param, wk, common);
     GFL_TCBRemove(wk->vblankTcb);
     GFL_ArcToolFree(wk->habitatArc);
-    func_ov144_0219f728(wk->townmap);
+    TownMapData_Free(wk->townmap);
     ZukanDetailProcSys_FreeWork(sys);
     GFL_OvlUnload(OVERLAY_TOWNMAP);
     return TRUE;
@@ -789,7 +790,7 @@ static void ZukanDetailMap_Command(ZukanDetailProcSys *sys, int *seq, void *para
         case ZUKAN_DETAIL_CMD_MAP_PLACE: {
             void *habitatList = func_02010cb8(GameData_GetSaveControl(ZukanDetailCommon_GetGameData(common)));
 
-            func_02010d70(habitatList, func_ov144_0219f730(wk->townmap, wk->place, TOWNMAP_PARAM_ZONE));
+            func_02010d70(habitatList, TownMapData_GetParam(wk->townmap, wk->place, TOWNMAP_PARAM_ZONE));
             if (wk->bySeason == TRUE) {
                 func_02010d80(habitatList, wk->season);
             }
@@ -835,7 +836,7 @@ static void ZukanDetailMap_InitPlaceOrder(ZukanDetailMapParam *param, ZukanDetai
     u8 j;
 
     for (i = 0; i < TOWNMAP_PLACE_COUNT; i++) {
-        u16 zone = func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_ZONE);
+        u16 zone = TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_ZONE);
 
         for (j = 0; j < TOWNMAP_PLACE_COUNT; j++) {
             if (zone == sZukanDetailMapZones[j]) {
@@ -950,11 +951,11 @@ static void ZukanDetailMap_CreateAreas(ZukanDetailMapParam *param, ZukanDetailMa
 
     sys_memset(&setup, 0, sizeof(ClActorSetup));
     for (i = 0; i < TOWNMAP_PLACE_COUNT; i++) {
-        setup.x = func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_AREA_X);
-        setup.y = func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_AREA_Y);
+        setup.x = TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_AREA_X);
+        setup.y = TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_AREA_Y);
         wk->areas[i] = func_0204c040(wk->unit, wk->areaChars, wk->areaPalette, wk->areaCellAnims, &setup,
                                      CLACT_SURFACE_MAIN, param->heapId);
-        func_0204c488(wk->areas[i], func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_AREA_ANIM));
+        func_0204c488(wk->areas[i], TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_AREA_ANIM));
         func_0204c520(wk->areas[i], TRUE);
         func_0204c468(wk->areas[i], 2);
         func_0204c438(wk->areas[i], 4);
@@ -984,17 +985,17 @@ static void ZukanDetailMap_CreatePlaces(ZukanDetailMapParam *param, ZukanDetailM
     u8 i;
 
     for (i = 0; i < TOWNMAP_PLACE_COUNT; i++) {
-        u16 flag = func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_FLAG);
+        u16 flag = TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_FLAG);
 
         if (flag != TOWNMAP_NO_FLAG) {
             if (ZukanDetailMap_IsPlaceHidden(gameData, flag)) {
                 wk->places[i].state = PLACE_HIDDEN;
                 wk->places[i].actor = NULL;
             } else {
-                u16 type = func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_TYPE);
+                u16 type = TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_TYPE);
 
-                setup.x = func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_X);
-                setup.y = func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_Y);
+                setup.x = TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_X);
+                setup.y = TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_Y);
                 setup.sequence = type == TOWNMAP_PLACE_TYPE_TOWN ? 14 : 16;
                 setup.priority = 5;
                 setup.bgPriority = 2;
@@ -1264,7 +1265,7 @@ static u8 ZukanDetailMap_GetPlayerPlace(ZukanDetailMapParam *param, ZukanDetailM
     GameData *gameData = ZukanDetailCommon_GetGameData(common);
     u16 zone = PlayerState_GetZoneID(GameData_GetPlayerState(gameData));
     u8 place = NO_PLACE;
-    u16 found = func_ov144_0219f73c(wk->townmap, func_ov012_02160eb4(gameData, zone));
+    u16 found = TownMapData_GetPlaceByZone(wk->townmap, func_ov012_02160eb4(gameData, zone));
 
     if (found != TOWNMAP_PLACE_NONE) {
         place = found;
@@ -1279,8 +1280,8 @@ static void ZukanDetailMap_InitPlayerMarker(ZukanDetailMapParam *param, ZukanDet
     if (place != NO_PLACE) {
         ClActorPos pos;
 
-        pos.x = func_ov144_0219f730(wk->townmap, place, TOWNMAP_PARAM_X);
-        pos.y = func_ov144_0219f730(wk->townmap, place, TOWNMAP_PARAM_Y);
+        pos.x = TownMapData_GetParam(wk->townmap, place, TOWNMAP_PARAM_X);
+        pos.y = TownMapData_GetParam(wk->townmap, place, TOWNMAP_PARAM_Y);
         func_0204c140(wk->actors[ACTOR_PLAYER], &pos, CLACT_SURFACE_MAIN);
     }
 }
@@ -1310,8 +1311,8 @@ static void ZukanDetailMap_ResetCursor(ZukanDetailMapParam *param, ZukanDetailMa
         wk->place = ZukanDetailMap_GetPlayerPlace(param, wk, common);
     }
     if (wk->place != NO_PLACE) {
-        pos.x = func_ov144_0219f730(wk->townmap, wk->place, TOWNMAP_PARAM_X);
-        pos.y = func_ov144_0219f730(wk->townmap, wk->place, TOWNMAP_PARAM_Y);
+        pos.x = TownMapData_GetParam(wk->townmap, wk->place, TOWNMAP_PARAM_X);
+        pos.y = TownMapData_GetParam(wk->townmap, wk->place, TOWNMAP_PARAM_Y);
     }
     func_0204c140(wk->actors[ACTOR_CURSOR], &pos, CLACT_SURFACE_MAIN);
     func_0204c124(wk->actors[ACTOR_CURSOR], TRUE);
@@ -1342,14 +1343,14 @@ static u8 ZukanDetailMap_FindTouchedPlace(ZukanDetailMapParam *param, ZukanDetai
     CalcSphere_Set(&sphere, &center, 0);
     for (i = 0; i < TOWNMAP_PLACE_COUNT; i++) {
         if (wk->places[i].state != PLACE_HIDDEN) {
-            start.x = FX32_CONST(func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_HIT_START_X));
-            start.y = FX32_CONST(func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_HIT_START_Y));
+            start.x = FX32_CONST(TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_HIT_START_X));
+            start.y = FX32_CONST(TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_HIT_START_Y));
             start.z = 0;
-            end.x = FX32_CONST(func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_HIT_END_X));
-            end.y = FX32_CONST(func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_HIT_END_Y));
+            end.x = FX32_CONST(TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_HIT_END_X));
+            end.y = FX32_CONST(TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_HIT_END_Y));
             end.z = 0;
             CalcCapsule_Set(&capsule, &start, &end,
-                            FX32_CONST(func_ov144_0219f730(wk->townmap, i, TOWNMAP_PARAM_HIT_RADIUS)));
+                            FX32_CONST(TownMapData_GetParam(wk->townmap, i, TOWNMAP_PARAM_HIT_RADIUS)));
             if (CalcCapsule_HitSphere(&capsule, &sphere, &result)) {
                 if (place == NO_PLACE) {
                     minDist = result.dist;
@@ -1374,8 +1375,8 @@ static BOOL ZukanDetailMap_IsNearPlace(ZukanDetailMapParam *param, ZukanDetailMa
     if (wk->places[place].state == PLACE_HIDDEN) {
         return FALSE;
     }
-    placeX = func_ov144_0219f730(wk->townmap, place, TOWNMAP_PARAM_CURSOR_X);
-    placeY = func_ov144_0219f730(wk->townmap, place, TOWNMAP_PARAM_CURSOR_Y);
+    placeX = TownMapData_GetParam(wk->townmap, place, TOWNMAP_PARAM_CURSOR_X);
+    placeY = TownMapData_GetParam(wk->townmap, place, TOWNMAP_PARAM_CURSOR_Y);
     dist = (placeX - x) * (placeX - x) + (placeY - y) * (placeY - y);
     if (dist < 12 * 12) {
         if (distSq != NULL) {
@@ -1641,8 +1642,8 @@ static void ZukanDetailMap_MoveCursor(ZukanDetailMapParam *param, ZukanDetailMap
         nearPlace = ZukanDetailMap_FindNearestPlace(param, wk, common, cursorPos.x, cursorPos.y);
         if (nearPlace != NO_PLACE) {
             nearFound = TRUE;
-            placePos.x = func_ov144_0219f730(wk->townmap, nearPlace, TOWNMAP_PARAM_CURSOR_X);
-            placePos.y = func_ov144_0219f730(wk->townmap, nearPlace, TOWNMAP_PARAM_CURSOR_Y);
+            placePos.x = TownMapData_GetParam(wk->townmap, nearPlace, TOWNMAP_PARAM_CURSOR_X);
+            placePos.y = TownMapData_GetParam(wk->townmap, nearPlace, TOWNMAP_PARAM_CURSOR_Y);
             placeVec.x = FX32_CONST(placePos.x);
             placeVec.y = FX32_CONST(placePos.y);
             placeVec.z = 0;
@@ -2011,7 +2012,7 @@ static void ZukanDetailMap_PrintPlace(ZukanDetailMapParam *param, ZukanDetailMap
     GFL_BitmapFill(BmpWin_GetBitmap(wk->windows[WINDOW_PLACE]), 0);
     if (wk->place != NO_PLACE) {
         StrBuf *strbuf = GFL_MsgDataLoadStrbufNew(
-            wk->msgData[1], ZoneData_GetPlaceNameID(func_ov144_0219f730(wk->townmap, wk->place, TOWNMAP_PARAM_ZONE)));
+            wk->msgData[1], ZoneData_GetPlaceNameID(TownMapData_GetParam(wk->townmap, wk->place, TOWNMAP_PARAM_ZONE)));
         ClActorPos pos;
 
         func_02021c7c(wk->printQueues[WINDOW_PLACE], BmpWin_GetBitmap(wk->windows[WINDOW_PLACE]), 0, 1, strbuf,
@@ -2019,8 +2020,8 @@ static void ZukanDetailMap_PrintPlace(ZukanDetailMapParam *param, ZukanDetailMap
         GFL_StrBufFree(strbuf);
         wk->transferPending[WINDOW_PLACE] = TRUE;
         ZukanDetailMap_TransferWindow(param, wk, common, WINDOW_PLACE);
-        pos.x = func_ov144_0219f730(wk->townmap, wk->place, TOWNMAP_PARAM_X);
-        pos.y = func_ov144_0219f730(wk->townmap, wk->place, TOWNMAP_PARAM_Y);
+        pos.x = TownMapData_GetParam(wk->townmap, wk->place, TOWNMAP_PARAM_X);
+        pos.y = TownMapData_GetParam(wk->townmap, wk->place, TOWNMAP_PARAM_Y);
         func_0204c488(wk->actors[ACTOR_PLACE], 5);
         func_0204c140(wk->actors[ACTOR_PLACE], &pos, CLACT_SURFACE_MAIN);
         func_0204c124(wk->actors[ACTOR_PLACE], TRUE);
@@ -2350,7 +2351,7 @@ static BOOL ZukanDetailMap_IsPlaceListed(ZukanDetailMapWork *wk, ZukanDetailComm
 
     func_02010cb8(GameData_GetSaveControl(gameData));
     eventWork = GameData_GetEventWork(gameData);
-    zone = func_ov144_0219f730(wk->townmap, wk->place, TOWNMAP_PARAM_ZONE);
+    zone = TownMapData_GetParam(wk->townmap, wk->place, TOWNMAP_PARAM_ZONE);
     listed = FALSE;
     flag = ZukanDetailMap_GetPlaceFlag(zone);
     if (flag >= 0) {
@@ -2382,7 +2383,7 @@ static void ZukanDetailMap_UpdateButton(ZukanDetailMapParam *param, ZukanDetailM
             func_0204c124(wk->actors[ACTOR_BUTTON], FALSE);
             ZukanDetailTouchbar_SetMapPlaceVisible(touchbar, TRUE);
             if (ZukanDetailMap_SetHabitatKind(wk, common) == TRUE) {
-                param->place = func_ov144_0219f730(wk->townmap, wk->place, TOWNMAP_PARAM_ZONE);
+                param->place = TownMapData_GetParam(wk->townmap, wk->place, TOWNMAP_PARAM_ZONE);
                 ZukanDetailTouchbar_SetMapPlaceActive(touchbar, TRUE);
                 ZukanDetailMap_PrintButton(param, wk, common, TRUE);
             } else {
