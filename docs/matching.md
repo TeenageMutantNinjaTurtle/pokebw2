@@ -94,7 +94,14 @@ Same instructions, registers swapped.
   The same goes for a zeroed struct a loop passes by value, which MWCC builds once in the loop's preheader by copying
   a variable in scope that holds 0: `btl_server_flow.c`'s `func_ov167_021a49c4` copies
   `BtlFlowDamageFlags flags = { 0 };` from the loop counter, as the original does, only with `flags` declared in a
-  block around the loop; at function scope it copies `damage`.
+  block around the loop; at function scope it copies `damage`. Stores of 0 just before a loop use the zero of the
+  variable the loop's initializer sets first: `btl_net.c`'s `func_ov167_021b9950` clears `serverCmdReceived` and
+  `unkE` with `i`'s zero, and keeps its own for `count` in `r5`, only as `for (i = 0, count = 0; i < 4; i++)`; with
+  `count = 0;` before `for (i = 0; ...)` the stores take `count`'s.
+- Moving code into a `static inline` helper can swap two registers when the instructions stay the same. In the same
+  function, a loop counter and a copy of 0 traded `r1` and `r2` in its two closing loops until the loops and the
+  stores after them became `ClearRecvBuffers()`, the setup counterpart of `func_ov167_021ba26c`, which frees those
+  buffers in the same order.
 - `arr[count++] = x` and `arr[count] = x; count++;` allocate registers differently, as do `count = 1; arr[0] = x;` and
   the reverse order.
 - `a[i + c]` adds `c` to `i` first, while `(a + i)[c]` folds `c * 4` into the base offset. When the original folds a
