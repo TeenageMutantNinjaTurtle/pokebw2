@@ -449,10 +449,6 @@ from:0x0689b47c kind:load to:0x0219bdc1 module:overlays(167,258,259)
 from:0x0689b48c kind:load to:0x0202143d module:main
 from:0x0689b49c kind:load to:0x021eb205 module:overlay(168)
 from:0x0689b4ac kind:load to:0x021bdb39 module:overlays(167,182,256)
-from:0x0689b550 kind:load to:0x02121c21 module:main
-from:0x0689b574 kind:load to:0x02122203 module:main
-from:0x0689b5a0 kind:load to:0x02122201 module:main
-from:0x0689b5dc kind:load to:0x02122207 module:main
 from:0x0689b63c kind:load to:0x020212ad module:main
 from:0x0689b64c kind:load to:0x021bac81 module:overlay(167)
 from:0x0689b65c kind:load to:0x0219c639 module:overlay(167)

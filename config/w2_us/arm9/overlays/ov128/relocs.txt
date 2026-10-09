@@ -54,7 +54,6 @@ from:0x021eefde kind:thumb_call to:0x021b825c module:overlay(36)
 from:0x021eeff8 kind:thumb_call to:0x020725d0 module:main
 from:0x021ef008 kind:thumb_call to:0x021b8280 module:overlay(36)
 from:0x021ef014 kind:load to:0x020946e8 add:0x1000 module:main
-from:0x021ef020 kind:load to:0x020b0000 module:main
 from:0x021ef024 kind:load to:0x020976e8 module:main
 from:0x021ef140 kind:load to:0x021ef028 module:overlay(128)
 from:0x021ef148 kind:load to:0x021ef070 module:overlay(128)

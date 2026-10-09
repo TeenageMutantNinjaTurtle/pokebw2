@@ -145,7 +145,6 @@ from:0x021efbc0 kind:load to:0x021ef775 module:overlay(121)
 from:0x021efbc4 kind:load to:0x021ef7f1 module:overlay(121)
 from:0x021efbc8 kind:load to:0x021ef725 module:overlay(121)
 from:0x021efbcc kind:load to:0x021ef74d module:overlay(121)
-from:0x021efbd4 kind:load to:0x020e0a11 module:main
 from:0x021efbf8 kind:load to:0x021eefc1 module:overlay(121)
 from:0x021efbfc kind:load to:0x021ef065 module:overlay(121)
 from:0x021efc00 kind:load to:0x021ef0a5 module:overlay(121)

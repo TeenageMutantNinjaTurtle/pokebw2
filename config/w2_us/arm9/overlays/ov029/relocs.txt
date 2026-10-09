@@ -466,4 +466,3 @@ from:0x02197164 kind:arm_call_thumb to:0x0207bb38 module:main
 from:0x02197198 kind:arm_call to:0x02194720 module:overlay(29)
 from:0x021971c4 kind:arm_call to:0x02195c70 module:overlay(29)
 from:0x021971e4 kind:load to:0x021998cc module:overlay(29)
-from:0x021972dc kind:load to:0x020c0700 module:main

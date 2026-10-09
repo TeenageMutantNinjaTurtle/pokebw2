@@ -468,7 +468,3 @@ from:0x0219ee08 kind:load to:0x0219ea8d module:overlay(140)
 from:0x0219eecc kind:load to:0x0219ce81 module:overlay(140)
 from:0x0219eed0 kind:load to:0x0219d0ed module:overlay(140)
 from:0x0219eed4 kind:load to:0x0219d049 module:overlay(140)
-from:0x0219f17c kind:load to:0x020c0501 module:main
-from:0x0219f184 kind:load to:0x020a0801 module:main
-from:0x0219f18c kind:load to:0x020c0b01 module:main
-from:0x0219f19c kind:load to:0x020a1101 module:main

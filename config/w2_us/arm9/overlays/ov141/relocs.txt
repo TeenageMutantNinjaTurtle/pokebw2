@@ -267,11 +267,7 @@ from:0x0219de80 kind:thumb_call to:0x02021d54 module:main
 from:0x0219de86 kind:thumb_call to:0x02048270 module:main
 from:0x0219de90 kind:thumb_call to:0x020335f0 module:main
 from:0x0219de98 kind:thumb_call to:0x0203338c module:main
-from:0x0219deac kind:load to:0x020b0302 module:main
-from:0x0219deb8 kind:load to:0x0211030d module:main
-from:0x0219dec4 kind:load to:0x02101002 module:main
 from:0x0219dee8 kind:load to:0x021c0a02 module:overlays(182,216,260)
-from:0x0219df00 kind:load to:0x020a0802 module:main
 from:0x0219df08 kind:load to:0x0219d889 module:overlay(141)
 from:0x0219df0c kind:load to:0x0219d88d module:overlay(141)
 from:0x0219df10 kind:load to:0x0219d891 module:overlay(141)

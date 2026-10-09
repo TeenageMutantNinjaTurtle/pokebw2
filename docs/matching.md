@@ -1023,6 +1023,12 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - When `rodata_order.py`'s prediction disagrees with the built object, move one declaration at a time, compile, and
   compare the sections with the ROM. `pokemontrade_3d.c` lays out its scene tables in order only with its lights
   declared after the scenes' resource lists, and its cube data only with the vertices declared before the texture coordinates.
+- A run of fields that every function reaches from one literal, at fixed offsets, can be several small statics of the
+  shared section rather than a struct. The size sort tells them apart: `snd_sys.c`'s `.bss` has a 2-byte mask, six
+  4-byte statics and a 24-byte struct (0x34 bytes) before a 40-byte array, which a 0x34-byte struct would follow.
+  Folding the array into the struct also showed in the code: `&s.players[i].handle` folds the field's 4 into the
+  literal, while the separate array adds it after indexing, as the original does. The six statics' order came from
+  compiling every declaration order of them (720), since `rodata_order.py`'s prediction differed from the built object.
 - String literals are laid out in `.data` in the order they first appear in the source, each aligned to 4, and an
   identical literal is shared from its first use. An assert's text is the expression as written, spacing included, so
   `GFL_ASSERT(a < (B*C))` needs the game's spacing (`delivery_beacon.c` turns clang-format off for it). In

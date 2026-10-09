@@ -4,6 +4,7 @@
 #include "types.h"
 
 #define reg_OS_IME (*(vu16 *)0x04000208)
+#define reg_OS_IE (*(vu32 *)0x04000210)
 
 // The card's SPI bus to its backup memory (and the infrared chip): control and data
 #define reg_MI_MCCNT0 (*(vu16 *)0x040001a0)

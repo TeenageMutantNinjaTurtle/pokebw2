@@ -18,6 +18,15 @@ void GFL_SndBGMSetParams(u16 trackMask, s32 tempoRatio, s32 pitch, s32 pan);
 NNSSndHandle *func_02005c94(void);
 // The sound heap, which sounds loaded for a while are loaded into above a saved level
 NNSSndHeapHandle func_02005ce4(void);
+// The BGM about to play: the next one while the BGM changes with a fade, else the one playing
+u32 func_02005ca4(void);
+// Whether the sound thread is still loading the next BGM
+BOOL func_02005cbc(void);
+// Whether the card's data transfer interrupt is enabled
+BOOL GFL_IRQCartDataTransferIsEnabled(void);
+// Sets the output to stereo or mono
+void func_02005c80(BOOL stereo);
+void GFL_SndUpdate(void);
 BOOL GFL_SndBGMIsFading(void);
 // The tick count of the BGM's sequence player
 u32 GFL_SndBGMGetTick(void);
@@ -28,7 +37,10 @@ BOOL GFL_SndBGMIsPlaying(void);
 #define SND_PLAYER_MASK_ALL 0x3f
 
 void GFL_SndBGMPlay(u32 bgm, u32 channelMask);
+// Plays a BGM on the BGM2 player, over the BGM's (swan's name says otherwise)
 void GFL_SndBGMStop(u32 bgm);
+// Changes the BGM, fading the one playing out and the next one in over the frames given, while a thread loads it
+void func_02005e08(u32 bgm, u16 channelMask, s32 fadeOutFrames, s32 fadeInFrames);
 void GFL_SndBGMPop(void);
 void GFL_SndBGMPush(void);
 void GFL_SndBGMSetPaused(BOOL paused);
@@ -41,9 +53,9 @@ NNSSndHandle *func_020061a8(s32 player);
 BOOL GFL_SndPlayerIsActive(s32 player);
 BOOL GFL_SndPlayerIsActiveAny(void);
 void GFL_SndPlayerStop(s32 player);
-void GFL_SndPlayerSetVolume(s32 player, s32 volume);
-// Changes each value that is not -1
-void GFL_SndPlayerSetParams(s32 player, s32 a1, s32 a2, s32 a3);
+void GFL_SndPlayerSetVolume(s32 player, u32 volume);
+// Changes each value that is not -1: the tempo ratio, and the pitch and pan of every track
+void GFL_SndPlayerSetParams(s32 player, s32 tempoRatio, s32 pitch, s32 pan);
 void GFL_SndPlayerSetVolumeEx(u32 volume, u32 playerMask);
 void GFL_SndSEPlay(u32 se);
 // Plays a sound effect at a volume below 128, or at the sequence's own volume
@@ -53,8 +65,9 @@ void GFL_SEPlayKeepVol(u32 se, s32 player);
 BOOL func_02006424(u32 seq, u32 *step, BOOL start);
 void func_02005d8c(void);
 // Sound the musical's stage plays: names unknown
-BOOL func_020064b8(void *a0, void *a1, u16 seq);
-BOOL func_02006528(u16 waveArc, u16 a1, void *a2, u16 a3);
+BOOL func_020064b8(void *seqData, void *bankData, u32 seq);
+// Points wave index of the loaded wave archive waveArc at wave srcIndex of srcWaveArc
+BOOL func_02006528(u16 waveArc, u16 index, const SNDWaveArc *srcWaveArc, u16 srcIndex);
 void func_02006564(u16 seq);
 void func_02006574(void);
 void func_02006588(void);
@@ -64,7 +77,25 @@ BOOL GFL_SndIsPlaying(u32 seq);
 void GFL_SndStop(void);
 void GFL_SndSetVolumeControlCallbacks(void);
 BOOL GFL_SndIsVolumeControlCallbackSet(void);
-void GFL_SndPlayerSetMuteStateEx(u32 player, u32 state);
+// Sets the players in playerMask to full volume when on, else silences them
+void GFL_SndPlayerSetMuteStateEx(BOOL on, u32 playerMask);
+// The BGM stack (snd_bgm_stack.c): the BGM player's handle and sequence at each level, with the sound heap's levels.
+// func_02005838 gives it the sound heap, func_020058e4 resets it for the BGM player. GFL_SndGetLastResID is the
+// sequence of the current level, or 0, and func_0200595c the level. func_02005980 loads a BGM's sequence, bank and
+// waves; func_020059d8 and func_020059fc record the heap's level after a thread loaded the sequence and bank, and the
+// waves of seq. func_02005a24 frees the current BGM's files. func_02005a5c pushes a level, freeing the waves of the
+// BGM below, and func_02005aa8 pops one, loading them again
+void func_02005838(NNSSndHeapHandle *heap);
+void func_020058e4(u16 player);
+u32 GFL_SndGetLastResID(void);
+s32 func_0200595c(void);
+NNSSndHandle *func_02005968(void);
+BOOL func_02005980(u32 seq);
+void func_020059d8(void);
+BOOL func_020059fc(u32 seq);
+void func_02005a24(void);
+BOOL func_02005a5c(void);
+BOOL func_02005aa8(void);
 // Loads sound sequences ahead of time, and frees them
 u32 func_02005af4(const u32 *seqs, u32 count);
 void func_02005b60(u32 handle);

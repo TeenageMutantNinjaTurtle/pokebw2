@@ -450,7 +450,6 @@ from:0x021f6ec8 kind:load to:0x021e0001 module:overlays(36,168)
 from:0x021f707c kind:load to:0x02020101 module:main
 from:0x021f70cc kind:load to:0x021c0502 module:overlays(182,260)
 from:0x021f70d8 kind:load to:0x021c0302 module:overlays(182,260)
-from:0x021f70f0 kind:load to:0x020a150e module:main
 from:0x021f716c kind:load to:0x021c0102 module:overlays(182,260)
 from:0x021f7178 kind:load to:0x021c0a02 module:overlays(182,216,260)
 from:0x021f7200 kind:load to:0x021f6e58 module:overlay(288)

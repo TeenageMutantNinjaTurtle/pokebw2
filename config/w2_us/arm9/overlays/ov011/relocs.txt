@@ -11200,7 +11200,6 @@ from:0x02185524 kind:load to:0x02185534 module:overlay(11)
 from:0x02185528 kind:load to:0x02185548 module:overlay(11)
 from:0x0218552c kind:load to:0x02185554 module:overlay(11)
 from:0x02185530 kind:load to:0x0218550c module:overlay(11)
-from:0x021855a8 kind:load to:0x020f0c09 module:main
 from:0x0218577c kind:load to:0x02185778 module:overlay(11)
 from:0x02185780 kind:load to:0x02185774 module:overlay(11)
 from:0x02185784 kind:load to:0x02185770 module:overlay(11)

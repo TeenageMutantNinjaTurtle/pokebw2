@@ -4209,8 +4209,6 @@ from:0x021b2120 kind:load to:0x021b1d24 module:overlay(257)
 from:0x021b2128 kind:load to:0x021b1e8c module:overlay(257)
 from:0x021b2130 kind:load to:0x021b1d48 module:overlay(257)
 from:0x021b2138 kind:load to:0x021b1b6c module:overlay(257)
-from:0x021b24a0 kind:load to:0x020f0001 module:main
-from:0x021b2540 kind:load to:0x020f0001 module:main
 from:0x021b26fc kind:load to:0x021aaf05 module:overlay(257)
 from:0x021b2700 kind:load to:0x021aafed module:overlay(257)
 from:0x021b2704 kind:load to:0x021aafad module:overlay(257)

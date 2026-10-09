@@ -947,8 +947,6 @@ from:0x021ab158 kind:load to:0x021a8d69 module:overlay(215)
 from:0x021ab15c kind:load to:0x021a8db1 module:overlay(215)
 from:0x021ab160 kind:load to:0x021a8dc5 module:overlay(215)
 from:0x021ab244 kind:load to:0x021c0001 module:overlays(182,260)
-from:0x021ab410 kind:load to:0x020d0101 module:main
-from:0x021ab440 kind:load to:0x020b1308 module:main
 from:0x021ab610 kind:load to:0x021a771d module:overlay(215)
 from:0x021ab614 kind:load to:0x021a777d module:overlay(215)
 from:0x021ab618 kind:load to:0x021a7879 module:overlay(215)

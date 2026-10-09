@@ -31,6 +31,7 @@ extern u32 SDK_AUTOLOAD_DTCM_START[];
 #define HW_INTR_CHECK_BUF (HW_DTCM + 0x3ff8)
 
 #define OS_IE_V_BLANK 0x1
+#define OS_IE_CARD_DATA 0x80000
 // The DSi's new DMA channel 1
 #define OS_IE_NDMA1 0x20000000
 
@@ -192,6 +193,9 @@ void scheduler_init_thread(OSThread *thread, void (*func)(void *), void *arg, vo
 void scheduler_yield(OSThreadQueue *queue);
 void OS_WakeupThread(OSThreadQueue *queue);
 void scheduler_start_thread(OSThread *thread);
+// NitroSDK's OS_IsThreadTerminated, under swan's name, and OS_DestroyThread, by its code
+BOOL scheduler_is_thread_ended(const OSThread *thread);
+void func_0207a710(OSThread *thread);
 
 // NitroSDK's mutexes, which a thread may lock again; OS_LockMutex sleeps until the mutex is free
 typedef struct OSMutexLink {

@@ -449,7 +449,6 @@ from:0x021f6dec kind:load to:0x021f6f58 module:overlay(288)
 from:0x021f6f08 kind:load to:0x021e0001 module:overlay(36)
 from:0x021f710c kind:load to:0x021c0502 module:overlays(182,260)
 from:0x021f7118 kind:load to:0x021c0302 module:overlays(182,260)
-from:0x021f7130 kind:load to:0x020a150e module:main
 from:0x021f71ac kind:load to:0x021c0102 module:overlays(182,260)
 from:0x021f71b8 kind:load to:0x021c0a02 module:overlays(182,216,260)
 from:0x021f7240 kind:load to:0x021f6e98 module:overlay(288)

@@ -969,8 +969,3 @@ from:0x0219db50 kind:thumb_call_arm to:0x0208d374 module:main
 from:0x0219db56 kind:thumb_call_arm to:0x0208e3c8 module:main
 from:0x0219db5a kind:thumb_call_arm to:0x0208da4c module:main
 from:0x0219db90 kind:load to:0x020946bc module:main
-from:0x0219dc28 kind:load to:0x020d0002 module:main
-from:0x0219dc48 kind:load to:0x020c0001 module:main
-from:0x0219dc68 kind:load to:0x020e0001 module:main
-from:0x0219dc88 kind:load to:0x020c0003 module:main
-from:0x0219dca8 kind:load to:0x020a0003 module:main

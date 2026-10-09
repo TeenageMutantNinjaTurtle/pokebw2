@@ -38,20 +38,8 @@ typedef struct NNSSndStrm {
     u8 chNo[NNS_SND_STRM_CHANNEL_MAX];
 } NNSSndStrm;
 
-// The sound archive (snd_arc.c): its header, the open file, and its info, file table and symbols when loaded. A file
-// of the table records where the file was loaded, else NULL
-typedef struct NNSSndArcHeader {
-    SNDBinaryFileHeader fileHeader;
-    u32 symbolDataOffset;
-    u32 symbolDataSize;
-    u32 infoOffset;
-    u32 infoSize;
-    u32 fatOffset;
-    u32 fatSize;
-    u32 fileImageOffset;
-    u32 fileImageSize;
-} NNSSndArcHeader;
-
+// The sound archive's tables (snd_arc.c), which nnsys/snd.h's NNSSndArc points to. A file of the table records where
+// the file was loaded, else NULL
 typedef struct NNSSndArcOffsetTable {
     u32 count;
     u32 offset[];
@@ -84,19 +72,6 @@ typedef struct NNSSndArcFat {
 } NNSSndArcFat;
 
 typedef struct NNSSndArcSymbol NNSSndArcSymbol;
-
-// filePath is read by snd_arc_stream.c to open a stream's file again by path; nothing in snd_arc.c sets it
-typedef struct NNSSndArc {
-    NNSSndArcHeader header;
-    BOOL file_open;
-    FSFile file;
-    FSFileID fileId;
-    const char *filePath;
-    NNSSndArcFat *fat;
-    NNSSndArcSymbol *symbol;
-    NNSSndArcInfo *info;
-    int loadBlockSize;
-} NNSSndArc;
 
 // The archive's file, for opening it again (snd_arc.c): its file ID, and its path
 FSFileID NNSi_SndArcGetFileID(void);
@@ -205,10 +180,6 @@ typedef struct NNSSndSeqPlayer {
     u8 initVolume;
     u8 extVolume;
 } NNSSndSeqPlayer;
-
-struct NNSSndHandle {
-    NNSSndSeqPlayer *player;
-};
 
 void NNSi_SndPlayerInit(void);
 void NNSi_SndPlayerMain(void);

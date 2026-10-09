@@ -4166,7 +4166,6 @@ from:0x021f364c kind:load to:0x021f3704 module:overlay(168)
 from:0x021f3650 kind:load to:0x021f3740 module:overlay(168)
 from:0x021f3654 kind:load to:0x021f36b0 module:overlay(168)
 from:0x021f3658 kind:load to:0x021f36cc module:overlay(168)
-from:0x021f3c44 kind:load to:0x020c0104 module:main
 from:0x021f41e4 kind:load to:0x021f3a08 module:overlay(168)
 from:0x021f41e8 kind:load to:0x021f38e8 module:overlay(168)
 from:0x021f41ec kind:load to:0x021f3930 module:overlay(168)
