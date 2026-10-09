@@ -302,14 +302,15 @@ static const u8 sDoubleViewPos[] = {2, 3, 4, 5};
 static const u8 sTripleViewPos[] = {2, 3, 4, 5, 6, 7};
 
 // The steps of the encounter sequences, by func_ov167_021d1084's choice. The two-dimensional ones go by step, then by
-// the player's client ID
+// the player's client ID. The 12-byte tables are declared in an order that MWCC's size sort lays out as the game
+// does
 static const BtlvScuEncountStep sDoubleWildMultiSteps[] = {func_ov167_021d1d64, func_ov167_021d27e8};
-static const BtlvScuEncountStep sDoubleCommMultiSteps[] = {func_ov167_021d1ee0, func_ov167_021d2248,
-                                                           func_ov167_021d27e8};
 static const BtlvScuEncountStep sDoubleTrainerMultiSteps[] = {func_ov167_021d1ee0, func_ov167_021d2248,
                                                               func_ov167_021d27e8};
 static const BtlvScuEncountStep sTripleSteps[] = {func_ov167_021d1ec0, func_ov167_021d252c, func_ov167_021d2b88};
 static const BtlvScuEncountStep sDoubleTrainerSteps[] = {func_ov167_021d1ec0, func_ov167_021d2248, func_ov167_021d27e8};
+static const BtlvScuEncountStep sDoubleCommMultiSteps[] = {func_ov167_021d1ee0, func_ov167_021d2248,
+                                                           func_ov167_021d27e8};
 static const BtlvScuEncountStep sTripleCommSteps[][2] = {
     {func_ov167_021d1ec0, func_ov167_021d1ec0},
     {func_ov167_021d252c, func_ov167_021d2b88},
@@ -1543,11 +1544,14 @@ static BOOL func_ov167_021d2820(BtlvScu *scu, s32 *seq, u8 clientId) {
             work->count = 0;
             work->clientId = GetPlayerClientID(scu->mainModule);
             for (i = 0; i < 2; i++) {
+                BattleMon **slot;
+
                 work->pos[i] = func_ov167_0219c744(scu->mainModule, work->viewPos[i]);
-                work->mons[i] = func_ov167_0219d188(scu->pokeCon, work->pos[i]);
-                if (work->mons[i] != NULL) {
-                    work->monIds[i] = GetMonID(work->mons[i]);
-                    if (!IsFainted(work->mons[i])) {
+                slot = &work->mons[i];
+                *slot = func_ov167_0219d188(scu->pokeCon, work->pos[i]);
+                if (*slot != NULL) {
+                    work->monIds[i] = GetMonID(*slot);
+                    if (!IsFainted(*slot)) {
                         work->count++;
                     }
                 }
