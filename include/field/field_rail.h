@@ -2,7 +2,8 @@
 #define POKEBW2_FIELD_FIELD_RAIL_H
 
 // The rail system of the no-grid maps, where the player moves along rails. Function names from swan
-// (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
+// (https://github.com/ds-pokemon-hacking/swan, GPL-3.0), except FieldRailSystem_Free, FieldRailSystem_Reset and
+// FieldRailSystem_SetLineEnabled
 
 #include "types.h"
 #include "gfl/heap.h"
@@ -27,10 +28,27 @@ BOOL func_ov036_021b3b88(u32 tileClass);
 BOOL func_ov036_021b3b94(u32 tileClass);
 BOOL func_ov036_021b3ba0(u32 tileClass);
 
-FieldRailSystem *FieldNoGridMapper_GetRailSystem(NoGridMapper *mapper);
-// Makes the camera follow the rail system's camera, or not
-void FieldNoGridMapper_SetCameraParent(NoGridMapper *mapper, void *parent);
-void FieldNoGridMapper_ClearCameraParent(NoGridMapper *mapper);
+// field_rail.c: the rail system
+FieldRailSystem *FieldRailSystem_Create(HeapID heapId, u32 unitCount, FieldCamera *camera);
+void FieldRailSystem_Free(FieldRailSystem *rail);
+// Starts on the rail data, with every line on
+void FieldRailSystem_Load(FieldRailSystem *rail, RailDataHandle *data);
+void FieldRailSystem_Reset(FieldRailSystem *rail);
+BOOL FieldRailSystem_HasData(FieldRailSystem *rail);
+RailUnit *FieldRailSystem_AcquireUnit(FieldRailSystem *rail);
+void FieldRailSystem_ReleaseUnit(FieldRailSystem *rail, RailUnit *unit);
+void FieldRailSystem_SetCameraParent(FieldRailSystem *rail, RailUnit *unit);
+void FieldRailSystem_ClearCameraParent(FieldRailSystem *rail);
+// Does nothing: what is left of a check whether the rails are loaded and active
+void func_ov036_021b0398(FieldRailSystem *rail);
+// Updates the camera from its parent unit when the unit asks for it, the camera is dirty or force is set
+BOOL FieldRailSystem_UpdateCamera(FieldRailSystem *rail, BOOL force);
+// Turns a line on or off: the system keeps up to 18 lines that are off, and finds no line where one of them is
+void FieldRailSystem_SetLineEnabled(FieldRailSystem *rail, u32 lineId, BOOL enabled);
+// Sets pos to line componentId of the rail data, front steps along it and side steps from its edge
+void FieldRailSystem_NormalizePos(FieldRailSystem *rail, RailDataHandle *data, u16 componentId, u16 front, u16 side,
+                                  RailPosition *pos);
+void FieldRailSystem_SetPlayerPos(FieldRailSystem *rail, const RailPosition *pos);
 // Finds where the segment from start to end meets a rail
 BOOL CalculateRailCurves(FieldRailSystem *rail, const VecFx32 *start, const VecFx32 *end, RailPosition *railPos,
                          VecFx32 *hit);
@@ -45,12 +63,5 @@ void RailUnit_GetCalcPos(RailUnit *unit, VecFx32 *pos);
 // Writes the unit's rail position to three script variables, or sets it from three values
 void SetWkToActorRailPos(RailUnit *unit, u16 *a1, u16 *a2, u16 *a3);
 void func_ov036_021b0e38(RailUnit *unit, u16 a1, u16 a2, u16 a3);
-NoGridMapper *FieldNoGridMapper_Create(HeapID heapId, FieldCamera *camera, void *sceneArea, void *sceneAreaLoader);
-void FieldNoGridMapper_Free(NoGridMapper *mapper);
-void FieldNoGridMapper_LoadByHeader(NoGridMapper *mapper, u32 railId, HeapID heapId);
-void FieldNoGridMapper_UpdateCamera(NoGridMapper *mapper);
-void FieldNoGridMapper_ForceUpdateCamera(NoGridMapper *mapper);
-u32 FieldNoGridMapper_GetTileAtPos(NoGridMapper *mapper, const RailPosition *pos);
-void FieldNoGridMapper_SetPlayerPos(NoGridMapper *mapper, const RailPosition *pos);
 
 #endif // POKEBW2_FIELD_FIELD_RAIL_H

@@ -4,6 +4,7 @@
 #include "field/field_camera.h"
 #include "field/field_controller.h"
 #include "field/field_map.h"
+#include "field/field_nogrid_mapper.h"
 #include "field/field_player.h"
 #include "field/field_rail.h"
 #include "field/fieldmap_ctrl_hybrid.h"

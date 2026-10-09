@@ -284,6 +284,11 @@ src/ov036/field_player_grid.c:
     .rodata     start:0x021cfd24 end:0x021cfe00
     .data       start:0x021d4eec end:0x021d4f00
 
+src/ov036/field_nogrid_mapper.c:
+    complete
+    .text       start:0x021b3be4 end:0x021b3e88
+    .data       start:0x021d52a8 end:0x021d52c0
+
 src/ov036/fldeff_gyoe.c:
     complete
     .text       start:0x021b3e88 end:0x021b42b4

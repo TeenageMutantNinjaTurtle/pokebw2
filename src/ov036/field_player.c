@@ -4,6 +4,7 @@
 #include "field/field_actor.h"
 #include "field/field_g3d_mapper.h"
 #include "field/field_map.h"
+#include "field/field_nogrid_mapper.h"
 #include "field/field_player.h"
 #include "field/field_player_core.h"
 #include "field/field_player_grid.h"

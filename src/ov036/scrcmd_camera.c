@@ -4,6 +4,7 @@
 #include "types.h"
 #include "field/field.h"
 #include "field/field_camera.h"
+#include "field/field_nogrid_mapper.h"
 #include "field/field_script.h"
 #include "field/scrcmd_camera.h"
 #include "gfl/arc.h"

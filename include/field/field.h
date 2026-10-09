@@ -228,8 +228,6 @@ BOOL FieldTaskManager_IsIdle(FieldTaskManager *taskManager);
 MMSys *Field_GetActorSystem(Field *field);
 FieldCamera *Field_GetCameraSystem(Field *field);
 NoGridMapper *Field_GetNoGridMapper(Field *field);
-// The rail position of the given rail coordinates in the zone
-void FieldNoGridMapper_CreatePosExternal(NoGridMapper *mapper, u16 zoneId, u16 a2, u16 a3, u16 a4, RailPosition *pos, u16 a6);
 FieldExpObjSystem *Field_GetExpObjSystem(Field *field);
 // Whether a fade that FieldFadeTCB_Start started is still running
 BOOL Field_GetFadeFlag(Field *field);

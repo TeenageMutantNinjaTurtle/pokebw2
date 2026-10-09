@@ -6,6 +6,7 @@
 #include "field/field_camera.h"
 #include "field/field_effect.h"
 #include "field/field_map.h"
+#include "field/field_nogrid_mapper.h"
 #include "field/field_player.h"
 #include "field/field_rail.h"
 #include "field/rail_slipdown.h"

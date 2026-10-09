@@ -125,10 +125,6 @@ void FieldCameraAnm_SetReturnAnimation(FieldCamera *camera, const FieldEvCameraA
 void FieldCameraAnm_SetLoadDefaultsAnimation(FieldCamera *camera, u16 frames);
 BOOL FieldCamera_IsAnimating(FieldCamera *camera);
 void FieldCameraAnm_EVCameraEnd(FieldCamera *camera);
-// Whether the no-grid mapper's camera areas move the camera
-void FieldNoGridMapper_SetCameraAreaEnabled(NoGridMapper *mapper, BOOL enabled);
-// Whether the zone has rail data
-BOOL FieldNoGridMapper_HasRailData(NoGridMapper *mapper);
 // Tasks that move the camera's zoom over frames: this one by a distance from its current zoom
 void FieldCameraZoomTCB_Create(Field *field, u32 frames, fx32 distance);
 void func_ov036_021c05d4(Field *field, u32 frames, fx32 distance);

@@ -6,6 +6,7 @@
 #include "field/event_mapchange.h"
 #include "field/field.h"
 #include "field/field_effect.h"
+#include "field/field_nogrid_mapper.h"
 #include "field/field_script.h"
 #include "field/scrcmd_mapchange.h"
 #include "field/zone.h"
