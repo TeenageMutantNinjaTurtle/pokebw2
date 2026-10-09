@@ -5,7 +5,10 @@
 #include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "nitro/rtc.h"
+#include "save/player_savedata.h"
 #include "save/playtime.h"
+#include "save/timesig_savedata.h"
+#include "save/trainer_data_savedata.h"
 #include "struct_decls.h"
 
 SaveControl *SaveControl_GetInstance(void);
@@ -33,15 +36,6 @@ u32 SaveControl_GetStatus(SaveControl *save);
 void func_020074b8(SaveControl *save, u32 *a1, u32 *a2);
 // The bytes written so far of the save in progress, func_0203b080 of the save's SaveData
 u32 func_0200743c(SaveControl *save);
-// Save block 0x21, and its flag at 0x602: get and set
-void *getTimeSigBlkAddress(SaveControl *save);
-// The block's first 0x600 bytes, which the trainer card copies
-void *func_020091a8(void *timeSig);
-BOOL func_020091ac(void *timeSig);
-u16 func_020091e8(void *timeSig);
-BOOL func_02009204(void *timeSig);
-u8 func_020091d0(void *timeSig);
-void func_020091dc(void *timeSig);
 u32 func_02007464(SaveControl *save);
 void func_0200749c(SaveControl *save);
 void func_02007324(SaveControl *save);
@@ -202,16 +196,6 @@ u8 func_020103c4(u8 a0);
 u32 func_020103e8(KeyDataSave *keyData);
 void func_020103ec(KeyDataSave *keyData, u32 value);
 
-// Where the player saved
-typedef struct {
-    u16 zoneId;
-    VecFx32 pos;
-    u32 unk10;
-    u32 unk14;
-    s16 unk18;
-} SaveLocation;
-
-void func_02008fb8(SaveControl *save, SaveLocation *location);
 // Save block 0x42, which keeps the rival's name
 RivalDataSave *getHollow_RivalData(SaveControl *save);
 // Save block 0x42, and setting a byte of it
@@ -259,7 +243,6 @@ u8 func_020074dc(SaveControl *save);
 void func_020074e0(SaveControl *save, u32 value);
 u8 func_020074e4(SaveControl *save);
 void func_020074e8(SaveControl *save, u32 value);
-void func_02008e04(SaveControl *save);
 // Used to delete the save data: func_020074ec tells whether a block is in the save, and func_020076a4 clears it
 void func_020074ac(SaveControl *save);
 BOOL func_020074ec(SaveControl *save, u32 block, HeapID heapId);
@@ -269,18 +252,8 @@ void func_02011558(HeapID heapId);
 
 DreamRadarSave *GetDreamRadarSaveBlock(SaveControl *save);
 JoinAvenueSave *SaveControl_GetJoinAvenue(SaveControl *save);
-PlayerInfo *SaveControl_GetPlayerInfo(SaveControl *save);
-PlayerSave *SaveControl_GetPlayerSave(SaveControl *save);
-u16 PlayerSave_GetAbyssalRuinsStepCounter(PlayerSave *playerSave);
-void PlayerSave_SetAbyssalRuinsStepCounter(PlayerSave *playerSave, u16 count);
-void PlayerSave_EndStepCounter(PlayerSave *playerSave);
-void PlayerSave_BeginStepCounter(PlayerSave *playerSave);
-u16 PlayerSave_GetStepCounter(PlayerSave *playerSave);
-ZoneSpawnInfo *PlayerSave_GetNextSpawnZone(PlayerSave *playerSave);
 EventWork *getConstDataBlock(SaveControl *save);
 PokeDexSave *getPokedexSaveAddress(SaveControl *save);
-// The play time: hours and minutes
-PlayTime *func_02008de8(SaveControl *save);
 // A byte of this block, at 7, tells the start menu whether to ask about the C-Gear
 void *func_02009918(SaveControl *save);
 // Mark the downloaded C-Gear skin as there, and keep its CRC
@@ -314,8 +287,6 @@ AdventureTime *getSaveAdventureTimeBlock(SaveControl *save);
 TrainerCardSave *getTrainerCardDataBlkAddress(GameData *gameData);
 // The same block as GameData_GetRecords
 GameRecords *getTrainerCardInfoBlkAddress(SaveControl *save);
-// PlayerInfo is at 4 in this block
-TrainerDataSave *getTrainerDataBlkAddress(SaveControl *save);
 UnityTowerSurveySave *getUnityTower_SurveySaveBlkAddrress(SaveControl *save);
 
 #endif // POKEBW2_SAVE_SAVE_CONTROL_H
