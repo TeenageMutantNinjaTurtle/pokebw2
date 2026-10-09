@@ -29,9 +29,14 @@ scripts are built from source, see [Scripts](docs/scripts.md).
 
 ## Setup
 
-1. Use Linux (or WSL on Windows), with Python 3.11 or later, ninja, and clang and LLVM, whose `clang` and
-   `llvm-objcopy` assemble the scripts and must be on the `PATH`. macOS needs Wine for the Metrowerks tools
-   (`configure.py --wine wine`).
+1. Use Linux (or WSL on Windows) or macOS, with Python 3.11 or later, ninja, and clang and LLVM, whose `clang` and
+   `llvm-objcopy` assemble the scripts and must be on the `PATH`. The Metrowerks tools are Windows programs, which
+   [wibo](https://github.com/decompals/wibo) runs; `configure.py --wine wine` runs them with Wine instead.
+
+   On macOS, `configure.py` downloads wibo's macOS build, which is x86-64 and runs under Rosetta 2 on Apple silicon
+   (`softwareupdate --install-rosetta`). Homebrew no longer offers Wine: its wine casks have been disabled since
+   2026-09-01, as they fail the Gatekeeper check. Homebrew's `llvm` has `llvm-objcopy` but isn't linked, so put
+   `$(brew --prefix llvm)/bin` on the `PATH`.
 
 2. Place your own dumps at `orig/baserom_b2_us.nds` and/or `orig/baserom_w2_us.nds`. They must match the SHA1s above.
    They are not included and will not be provided. `tools/scripts/verify_dsi_rom.py` checks a dump against the

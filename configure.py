@@ -26,6 +26,16 @@ VERSIONS = {
 
 WIBO_VERSION = "1.2.0"
 OBJDIFF_VERSION = "v3.8.1"
+# Release binaries of wibo and objdiff-cli for macOS, by (sys.platform, machine); other platforms get the Linux x86-64
+# ones. wibo's macOS build is x86-64 only, and runs under Rosetta 2 on Apple silicon.
+WIBO_BINARIES = {
+    ("darwin", "arm64"): "wibo-macos",
+    ("darwin", "x86_64"): "wibo-macos",
+}
+OBJDIFF_BINARIES = {
+    ("darwin", "arm64"): "objdiff-cli-macos-arm64",
+    ("darwin", "x86_64"): "objdiff-cli-macos-x86_64",
+}
 # decomp.me name of the dsi/1.1p1 compiler (build 1024), for objdiff's scratch button
 DECOMP_ME_COMPILER = "mwcc_40_1024"
 MWCCARM_URL = "https://decomp.aetias.com/files/mwccarm.zip"
@@ -194,17 +204,20 @@ class Writer:
 
 
 def download_tools(tools_dir: Path):
+    host = (sys.platform, platform.machine().lower())
     wibo = tools_dir / "wibo"
     if not wibo.exists():
         print(f"Downloading wibo {WIBO_VERSION}")
-        url = f"https://github.com/decompals/wibo/releases/download/{WIBO_VERSION}/wibo-x86_64"
+        binary = WIBO_BINARIES.get(host, "wibo-x86_64")
+        url = f"https://github.com/decompals/wibo/releases/download/{WIBO_VERSION}/{binary}"
         urllib.request.urlretrieve(url, wibo)
         wibo.chmod(wibo.stat().st_mode | stat.S_IEXEC)
 
     objdiff = tools_dir / "objdiff-cli"
     if not objdiff.exists():
         print(f"Downloading objdiff-cli {OBJDIFF_VERSION}")
-        url = f"https://github.com/encounter/objdiff/releases/download/{OBJDIFF_VERSION}/objdiff-cli-linux-x86_64"
+        binary = OBJDIFF_BINARIES.get(host, "objdiff-cli-linux-x86_64")
+        url = f"https://github.com/encounter/objdiff/releases/download/{OBJDIFF_VERSION}/{binary}"
         urllib.request.urlretrieve(url, objdiff)
         objdiff.chmod(objdiff.stat().st_mode | stat.S_IEXEC)
 
@@ -463,9 +476,10 @@ def main():
     n.rule("check_file", "cmp $in $original && mkdir -p $$(dirname $out) && touch $out", "Checking $in")
     n.rule("files_tree", "$python tools/scripts/files_tree.py $source $output $built --stamp $out",
            "Linking the files of $output")
-    # dsd points the ROM at the extracted files, and the build's own file system replaces them
-    n.rule("rom_config", "$dsd rom config --elf $in --config $config && sed -i 's|^files_dir: .*|files_dir: ../files|' "
-           "$out", "Configuring ROM for $config")
+    # dsd points the ROM at the extracted files, and the build's own file system replaces them. BSD sed, as on macOS,
+    # needs a backup suffix after -i, which GNU sed also takes
+    n.rule("rom_config", "$dsd rom config --elf $in --config $config && sed -i.bak "
+           "'s|^files_dir: .*|files_dir: ../files|' $out && rm $out.bak", "Configuring ROM for $config")
     n.rule("rom_build", "$dsd rom build --config $in --rom $out", "Building $out")
     n.rule("check_modules", "$dsd check modules --config-path $config --fail && touch $out", "Checking modules")
     n.rule("sha1", "sha1sum --quiet -c $in && touch $out", "Checking $rom")
