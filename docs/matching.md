@@ -490,6 +490,11 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A compound assignment to a narrow field narrows its right side first: `work->checkFlag &= 0xff ^ (1 << waza);` on a
   `u8` shifts the mask down to a byte before the `and`, while `work->checkFlag = work->checkFlag & (0xff ^ (1 << waza));`
   ands the full mask, as the PC box's `Box2Main_PokeFreeWazaCheck` does.
+- A call's result minus a constant, passed straight to another call, is copied to a scratch register while the
+  constant is built in the argument register (`movs r2, #0xf; adds r3, r0, #0; lsls r2, r2, #0xc; subs r2, r3, r2`).
+  With the difference in a local's initializer, `u32 heapSize = GetFieldmapZoneHeapSize(zone) - 0xf000;`, the
+  constant gets a register of its own and the difference goes straight to the argument (`subs r2, r0, r1`), as in
+  `fieldmap.c`'s `FieldmapProc_Init`. The result in a local and the subtraction in the argument don't do it.
 - `res -= 34;` lets MWCC fold a later `res + 36` into `res + 2`; a variable of its own, `u32 slot = res - 34;`, keeps the
   difference in its register and adds 36 to it, as the PC box's `func_ov255_021c445c` does.
 - A chained assignment to fields, `a->x = a->y = value;`, stores `y`, reloads it and stores `x`. When the original
@@ -961,6 +966,13 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   built with `-ipa function` (`file_flags` in `lib/nnsys/library.toml`), while the other sound files are reached from
   one base and need `-ipa file`. A struct that looks like another file's extern, or a gap in `.bss` that seems to need
   a stand-in function, is the first thing to try this on.
+- A file-scope static that a function both passes by address and reads or writes directly gets two literals with
+  the same address: the access goes through one (`ldr r0, =obj; strh r1, [r0, #0xe]`) and the pointer passed on
+  through the other, where an `extern` object's address is loaded once and kept in a register, 4 bytes shorter. Two
+  literals for one object therefore mean a static of the function's own file. `fieldmap.c`'s
+  `Field_LoadEdgeColorTable` stores the last edge color through a second literal only with
+  `static GXRgb g_FieldEdgeColorTable[8];`, and the overlay 36 gap function at `0x0219a044`, which copies into a
+  12-byte object and then tests one of its bytes, matches the same way only with that object `static`.
 - The file's `.data` objects take part in MWCC's size sort that orders `.rodata`: `btlv_mcss.c`'s 3-byte idle-wait
   array had to be counted before `rodata_order.py` predicted the layout.
 - A function-local static of a function MWCC doesn't emit is dropped, while a global read only by an unemitted

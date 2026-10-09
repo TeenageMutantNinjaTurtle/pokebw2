@@ -170,6 +170,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - An array initializer stores at its declaration: open an inner block where the original clears the array.
   (matching.md: "The initializer's stores happen")
 - `s16` narrowing of a value also used unnarrowed: an inline with `s16` parameters. (matching.md: "inline with `s16` parameters")
+- A call's result copied to a scratch register before a subtraction into an argument register: put the difference
+  in a local's initializer. (matching.md: "minus a constant, passed straight")
+- An object's address loaded from two literals in one function, where ours keeps one in a register: the object is a
+  `static` of the file. (matching.md: "gets two literals")
 
 ## Branches and block layout
 
@@ -296,6 +300,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 - A file's `.data` ends at its last object.
 - One table in the `.rodata` of several files: a `static const` in a header, with a `static inline` reading it.
   (matching.md: "same small table")
+- Two literals for the same object in one function: it is a `static` of the function's file; an `extern` shares
+  one. (matching.md: "gets two literals")
 
 ## Function order and presence
 

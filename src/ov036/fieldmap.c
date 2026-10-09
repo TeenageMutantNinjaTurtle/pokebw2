@@ -116,7 +116,7 @@ extern const VecFx32 DEFAULT_FIELDCAMERA_TGT;
 extern const VecFx32 DEFAULT_FIELDCAMERA_UP;
 extern const VecFx32 data_ov036_021ca010;
 // The edge colors of the area, loaded from archive 15
-extern GXRgb g_FieldEdgeColorTable[8];
+static GXRgb g_FieldEdgeColorTable[8];
 // The memory of the field's heap 0x89
 extern u8 data_ov036_021d57a0[];
 
@@ -134,9 +134,9 @@ BOOL FieldmapProc_Init(GameProc *proc, int *seq, void *param, void *work) {
     switch (*seq) {
     case 0: {
         Field **procWork;
+        u32 heapSize = GetFieldmapZoneHeapSize(PlayerState_GetZoneID(GSYS_GetPlayerState(gsys))) - 0xf000;
 
-        GFL_HeapCreateChild(HEAPID_USER, HEAPID_FIELDMAP,
-                            GetFieldmapZoneHeapSize(PlayerState_GetZoneID(GSYS_GetPlayerState(gsys))) - 0xf000);
+        GFL_HeapCreateChild(HEAPID_USER, HEAPID_FIELDMAP, heapSize);
         GFL_HeapCreateChild(HEAPID_USER, 0x70, 0xf000);
         GFL_HeapCreateChild(HEAPID_FIELDMAP, 0x50, 0xc000);
         GFL_HeapCreateRoot(data_ov036_021d57a0, 0x10000, 0x89);
