@@ -106,6 +106,22 @@ static void func_ov167_021ba414(int netId, int size, const void *data, void *wor
 static void func_ov167_021ba4b8(int netId, int size, const void *data, void *work, NetHandle *handle);
 static void *func_ov167_021ba4e0(int netId, void *work, int size);
 
+// Empties the receive buffers that func_ov167_021ba26c frees, and forgets their clients
+static inline void ClearRecvBuffers(void) {
+    u32 i;
+
+    for (i = 0; i < 4; i++) {
+        sWork->recvBuffers[i] = NULL;
+        sWork->recvSizes[i] = 0;
+        sWork->clientIds[i] = 4;
+    }
+    for (i = 0; i < 4; i++) {
+        sWork->parties[i] = NULL;
+    }
+    sWork->tempBuffer = NULL;
+    sWork->tempSize = 0;
+}
+
 void func_ov167_021b9950(NetHandle *netHandle, u16 clientMask, HeapID heapId) {
     u32 count;
     u32 max;
@@ -120,8 +136,7 @@ void func_ov167_021b9950(NetHandle *netHandle, u16 clientMask, HeapID heapId) {
         sWork->serverNetId = 40;
         sWork->serverCmdReceived = FALSE;
         sWork->unkE = 0;
-        count = 0;
-        for (i = 0; i < 4; i++) {
+        for (i = 0, count = 0; i < 4; i++) {
             if ((1 << i) & clientMask) {
                 count++;
             }
@@ -134,16 +149,7 @@ void func_ov167_021b9950(NetHandle *netHandle, u16 clientMask, HeapID heapId) {
         sWork->timingNo = 0;
         sWork->timingPending = FALSE;
         sWork->syncDataReceived = FALSE;
-        for (i = 0; i < 4; i++) {
-            sWork->recvBuffers[i] = NULL;
-            sWork->recvSizes[i] = 0;
-            sWork->clientIds[i] = 4;
-        }
-        for (i = 0; i < 4; i++) {
-            sWork->parties[i] = NULL;
-        }
-        sWork->tempBuffer = NULL;
-        sWork->tempSize = 0;
+        ClearRecvBuffers();
         func_ov167_021ba2f4(1);
     } else {
         sWork = NULL;
@@ -384,14 +390,12 @@ static void *func_ov167_021b9eb0(int netId, void *work, int size) {
 }
 
 // Command 0x104: keeps the party for its client
-// Command 0x104: keeps the party for its client
 static void func_ov167_021b9efc(int netId, int size, const void *data, void *work, NetHandle *handle) {
     const BtlNetPartyPacket *packet = data;
-    u32 partySize = packet->size;
 
     if (sWork->parties[packet->clientId] == NULL) {
         sWork->parties[packet->clientId] =
-            GFL_HeapAllocate(HEAPID_TAIL(sWork->heapId), partySize, TRUE, "btl_net.c", 642);
+            GFL_HeapAllocate(HEAPID_TAIL(sWork->heapId), packet->size, TRUE, "btl_net.c", 642);
     }
     sys_memcpy(packet->data, sWork->parties[packet->clientId], packet->size);
     GFL_HeapFree(sWork->tempBuffer);

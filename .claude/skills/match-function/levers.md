@@ -13,6 +13,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "wider local")
 - A ternary store computes the address once, an `if`/`else` store in each branch. (matching.md: "ternary store")
 - `p + (a + 4)` and `p + a + 4` differ. (matching.md: "Parenthesized offsets")
+- A sum folded into the load's offset (`ldrb r2, [r3, #9]` from `base + pos`) where ours adds `pos + 1` first:
+  `*(data + pos + 1)` instead of `data[pos + 1]`. (matching.md: "`*(data + pos + 1)`")
 - Of two variables that compete for one register, the one used more gets it. `docs/matching.md` spells out what counts as a
   use; on a tie the one assigned first wins, though in a large function the last declared won.
   (matching.md: "compete for the same register")
@@ -28,7 +30,10 @@ text to `grep -n` there. Entries without a key come from later work and still be
   (matching.md: "operands of `*`"), (matching.md: "A product assigned")
 - A three-term `|` chain with its loads swapped: swap its first two terms. (matching.md: "three-term `|` chain")
 - Where a flag is first set decides which register builds its zero. The register a shared zero gets follows statement
-  order. (matching.md: "Where a flag is first set")
+  order, and stores of 0 before a loop take the zero of the variable its initializer sets first, as in
+  `for (i = 0, count = 0; ...)`. (matching.md: "Where a flag is first set")
+- A register swap with otherwise identical code, in code that mirrors a sibling function: try that code as a
+  `static inline` helper. (matching.md: "Moving code into a `static inline` helper")
 - Chained stores of one constant (`a = b = TRUE`) share a register; separate ones may not.
   (matching.md: "Two stores of the same constant")
 - Variables of an inner block are allocated apart from the function's. (matching.md: "declared in an inner block")

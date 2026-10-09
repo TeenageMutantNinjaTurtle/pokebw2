@@ -185,15 +185,10 @@ the original code is linked until they match. The differences are the same in bo
 | `src/ov167/btl_server_flow.c` | `BattleHandler_CureCondition` | `0x021acba8` / `0x021acbe8` | Same size, 18 bytes: the original spills the context argument before it reads the mon's index, and computes the message's address before it sets `changed`; ours does both the other way round. Declaration orders, setting `changed` inside the loop and a `u16` context tried. |
 | `src/ov167/btl_server_flow.c` | `BattleHandler_StatChange` | `0x021acd90` / `0x021acdd0` | Same size, 32 bytes: the context argument is spilled later, and the mon and stat arguments of the ten-argument call are prepared in a different order. |
 | `src/ov167/btl_server_flow_sub.c` | `func_ov167_021aeb10` | `0x021aeb10` / `0x021aeb50` | `0x15e` bytes versus `0x15c`: the original builds the position code for `func_ov167_0219bfe4` (`0x600` or `0x100` with the position) in `r0` and narrows it into `r1` at the call, where ours builds it in `r1` and narrows it there. A `u16` or `u32` local, an `if`/`else`, and the conditional inside the call or around the constant tried. |
-| `src/ov167/btl_server_cmd.c` | `func_ov167_021b0a94` | `0x021b0a94` / `0x021b0ad4` | `0x20` bytes versus `0x1c`: reading a command queue's halfword, the original forms `que + readPtr` once and loads both bytes from it at offsets 8 and 9, computing the new read pointer early. A pointer to the read position, a local position, post-increments and separate bytes tried. The same holds for `func_ov167_021b0af8` and `func_ov167_021b0b6c`. |
-| `src/ov167/btl_server_cmd.c` | `func_ov167_021b0af8` | `0x021b0af8` / `0x021b0b38` | As `func_ov167_021b0a94`, for three bytes. |
-| `src/ov167/btl_server_cmd.c` | `func_ov167_021b0b6c` | `0x021b0b6c` / `0x021b0bac` | As `func_ov167_021b0a94`, for four bytes. |
-| `src/ov167/btl_server_cmd.c` | `func_ov167_021b1434` | `0x021b1434` / `0x021b1474` | `0x50` bytes versus `0x4c`: the original reads the command from its stack slot again for the encoder call, as `va_start` takes its address, and keeps the format byte in `r2` throughout; ours keeps the command in a register. Calling `va_start` first tried. |
+| `src/ov167/btl_server_cmd.c` | `func_ov167_021b1434` | `0x021b1434` / `0x021b1474` | `0x50` bytes versus `0x4c`: the original reads the command from its stack slot again for the encoder call, as `va_start` takes its address, and keeps the format byte in `r2` throughout; ours keeps the command in a register. MWCC reloads it only after the loop stores through an address it can't trace to `sCmdArgs`: storing through a `u32 *args = sCmdArgs;` local gives the original's size, 11 bytes off (the original loads `sCmdArgs` again before the loop), but only while the call still passes `sCmdArgs`, and passing `args` too is 22 bytes off. It matches with `((u32 *)sCmdArgs)[i] = va_arg(list, u32);`, or with `static inline void SetCmdArg(s32 *args, u32 i, u32 value) { args[i] = value; }` given `sCmdArgs`, and `u32 i; u32 count;` declared in that order, neither of which is natural. Also tried calling `va_start` first, the format read before or after it, an enum `event`, `sCmdArgs` as a global, an `extern`, a struct member or `int` array, an inline for the whole loop, block- or loop-scoped pointers and every declaration order. |
 | `src/ov167/btl_client.c` | `CheckTrainerHintMsg` | `0x021b3a5c` / `0x021b3a9c` | Same size, 6 bytes: two spill slots are swapped, the client count at `sp+0xc` and the message at `sp+4` in the original. Declaring them at block or function scope in either order, every local at function scope in three orders, other widths for both, and no message variable at all leave them as they are.. Also tried a static inline for the fainted-mon search, `msg` in the outer block (worse, 12 to 17 bytes) and a `while` loop. |
 | `src/ov167/btl_client.c` | `BattleClient_ScExpGain` | `0x021b7e18` / `0x021b7e58` | Same size, 5 bytes: the experience command copies `pos` to `r1` for its `!= 0xff` test before spilling it, and sets `visible`'s zero after that copy; ours spills `pos` first and reloads it for the compare. Moving `visible = FALSE`, nesting the test, a conditional expression, a static inline, the declaration order, `pos`'s type and `const` don't move it.. Also tried `if ((pos = ...) != 0xff)`, `u8 visible`, and `exp` at function scope in four places. |
 | `src/ov167/btl_client.c` | `StudioScore_CalcTotal` | `0x021b9838` / `0x021b9878` | Same size, 3 bytes: it loads `points[1]` and then `points[0]` (`sum = points[1] + points[0]`), but each `adds` has the running sum as its second operand (`adds r2, r1, r2`), where ours has it first. 23 spellings (one expression in four groupings, `sum = p + sum`, `sum = sum + p`, an `int` temporary, a pointer, `u32 sum`, loops, which aren't unrolled) don't flip it. |
-| `src/ov167/btl_net.c` | `func_ov167_021b9950` | `0x021b9950` / `0x021b9990` | Same size, 27 bytes: register allocation. The original clears `serverCmdReceived` and `unkE` with the loop index's zero in `r0` and keeps the count in `r5`; ours stores the count's zero. Moving `count = 0`, initializing it, and reordering the locals change nothing or make it longer. |
-| `src/ov167/btl_net.c` | `func_ov167_021b9efc` | `0x021b9efc` / `0x021b9f3c` | Same size, 31 bytes: the original loads the packet's header word once and takes the client id, then the size, from it; reading the size into a local first gets the single load but takes the size before the client id. A `const` packet, a pointer to the party slot and a client id local are longer or no closer. |
 | `src/ov167/btl_rec.c` | `func_ov167_021d46a4` | `0x021d46a4` / `0x021d46e4` | Same size, 104 bytes: before the loop, ours computes `reader + 0x18` before `clientId << 6`, so their slots (`sp+0x18` and `sp+0x1c`) are swapped, and the type 3 branch recomputes the client's actions in `r7` and `r4`, where the original reuses the two hoisted slots, which makes ours 2 bytes shorter there and shifts the tail. A pointer to the client's position (`&reader->pos[clientId]`) fixed the registers of the error test and of the position compares. Tried an actions pointer local, an inline accessor, a `switch`, reversed compares, `int` and `u32` `clientId`, function-scope locals and `result` set before the copy. As diagnostics, `#pragma opt_propagation off` gives the slot order, and with `pos = reader->pos`, `#pragma opt_strength_reduction off` leaves only the last position compare. |
 | `src/ov167/btl_field.c` | `func_ov167_021d5c60` | `0x021d5c60` / `0x021d5ca0` | 2 bytes shorter: the original spills `field + effect * 4` around the count's decrement and reloads the spilled `effect * 4`; ours recomputes them, which shifts the registers by one. Declaration orders and types, a pointer parameter, `--` against `-= 1`, an inline for the event's removal and a `while` for the shift don't move it. |
 | `src/ov167/handler_common.c` | `func_ov167_021cdf08` | `0x021cdf08` / `0x021cdf48` | 2 bytes shorter: after `cmp r0, #1` the original has `beq` to the next instruction and `bne` past it, a branch pair no spelling gives: one condition, nested ifs, a switch with and without `default` or `case 0`, a `u8` local, a flag, an inline or a conditional expression. |
@@ -336,22 +331,40 @@ the original code is linked until they match. The differences are the same in bo
   in `battle/btl_ability.h`, as `item_handlers.c` and `move_handlers.c` no longer do. It also calls overlay 169,
   like them (below).
 - Overlay 169 runs from VRAM (`0x06898020`) and dsd has all of it as `.rodata`. Its 16-byte Thumb stubs, such as
-  `func_ov169_0689ca54` and `func_ov169_0689ca74` (`ldr r1, =table; ldr r3, =func; movs r2, #n; bx r3`), can be
-  declared with `config_fixes.py add-function` and their `+1` data symbols removed, which lets `item_handlers.c`
-  link. But the build then misses 32 bytes of overlay 167: the original has two identical ARM/Thumb veneers to
-  `0x06898cf5` at `0x021cb35c`, one for each original object that calls it, where the linker makes one for the
-  merged asm object of the incomplete files around it. The overlay can't take a completed file in this region
-  until those veneers come out per original file.
+  `func_ov169_0689ca54` and `func_ov169_0689ca74` (`ldr r1, =table; ldr r3, =func; movs r2, #n; bx r3`), can be declared
+  with `config_fixes.py add-function` and their `+1` data symbols removed, which gives the calls to them a symbol to
+  link to. A function with a branch can't: dsd refuses it (`branch outside of program`), since the overlay has no code
+  section. A `kind:label(thumb)` symbol at the function, beside the `+1` data symbol, does link, but the linker then
+  takes the overlay's bytes after it for Thumb code: the pointers to them get bit 0 set and the overlay grows by 12
+  bytes, so overlays 167 to 169 no longer match.
+- The calls from overlay 167 to overlay 169 can't come out as the original's, whatever dsd does with overlay 169. The
+  original has a veneer for every call: all 402 long-branch veneers in overlay 167 (a Thumb `bx pc`, then the ARM
+  `ldr ip, [pc]`, `bx ip` and the target's address) have exactly one caller each, as do those of overlays 11 and 257,
+  and `HandlerRapidSpin` (`move_handlers.c`), which calls `func_ov169_06898cf4` three times, is followed by three
+  identical veneers to `0x06898cf5` at `0x021cb374`, `0x021cb384` and `0x021cb394`. Every `mwldarm.exe` the project has
+  (`dsi/1.1` to `dsi/1.6sp2`, `2.0/sp2p2` and `1.2/base`) makes one veneer per target and sends every later call in
+  range to it, from any object, and `-segment_veneers` only adds the segment to its name. It even shares one across two
+  overlays at the same address, sending the second overlay's calls into the first's code. Only the main module's veneers
+  are shared in the ROM (25 calls go through `ndma_copy` at `0x02075524`). Until the build reproduces the original's
+  veneers, a file that calls overlay 169 links as the original only if it calls each of its targets once, and no
+  complete file linked before it in the overlay calls them: the linker then puts each veneer right after the calling
+  function, as the original has it.
+- All 56 functions of `src/ov167/btl_calc.c` match in both versions (the other two of its 58 symbols are that
+  veneer), but it calls overlay 169 once, `func_ov169_0689cb6c` in `func_ov167_021bd624`, through the veneer at
+  `0x021bd648`. Linked against the label above, the linker puts its veneer at that address too, so only overlay 169's
+  missing code symbols keep its functions from linking.
 - `src/ov167/btl_client.c`'s `.rodata` has the original's sections and sizes, but in its shared section the two 8-byte
   message tables (`sEscapeMessages` and `sTrainerHintMsgs`) and the two 20-byte ones (`sAudienceLeave` and
   `sWeatherStartTable`) come out swapped. Moving the top-level tables doesn't change it, so the size sort also sees the
   function-local statics in an order `rodata_order.py` doesn't model yet. Its `.bss` matches once its seven statics are
   declared in the order the file has them.
 - `src/ov167/item_handlers.c` and `src/ov167/move_handlers.c` match in both versions except `HandlerChatter`, but like
-  `ability_handlers.c` they link only once overlay 169 is analyzed, since they call it through linker veneers. Their
-  `.rodata` is the original's size, with the lookup tables in sections of their own, but the many handler tables of
-  equal size come out in another order; `rodata_order.py` can look for the declaration order once these files can be
-  completed.
+  `ability_handlers.c` they can't link as the original until the build gives every call its own veneer (above):
+  `item_handlers.c` calls `func_ov169_0689ca54` twice, through the veneers at `0x021c3998` and `0x021c4534`,
+  `move_handlers.c` calls `func_ov169_06898cf4` five times and two other targets more than once, and
+  `ability_handlers.c` calls two of its targets more than once. Their `.rodata` is the original's size, with the lookup
+  tables in sections of their own, but the many handler tables of equal size come out in another order;
+  `rodata_order.py` can look for the declaration order once these files can be completed.
 - `src/ov207/p_sta_sub.c`'s `.rodata` can't be completed yet, for two reasons. It starts with an 8-byte object at
   `0x021bafc0` / `0x021bb000` (`7f 00 00 18 00 90 01 00`, perhaps a touch rectangle) that nothing references and the C
   doesn't define. And no declaration order found by a `rodata_order.py` hill climb over its 24 objects (the

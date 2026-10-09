@@ -94,7 +94,14 @@ Same instructions, registers swapped.
   The same goes for a zeroed struct a loop passes by value, which MWCC builds once in the loop's preheader by copying
   a variable in scope that holds 0: `btl_server_flow.c`'s `func_ov167_021a49c4` copies
   `BtlFlowDamageFlags flags = { 0 };` from the loop counter, as the original does, only with `flags` declared in a
-  block around the loop; at function scope it copies `damage`.
+  block around the loop; at function scope it copies `damage`. Stores of 0 just before a loop use the zero of the
+  variable the loop's initializer sets first: `btl_net.c`'s `func_ov167_021b9950` clears `serverCmdReceived` and
+  `unkE` with `i`'s zero, and keeps its own for `count` in `r5`, only as `for (i = 0, count = 0; i < 4; i++)`; with
+  `count = 0;` before `for (i = 0; ...)` the stores take `count`'s.
+- Moving code into a `static inline` helper can swap two registers when the instructions stay the same. In the same
+  function, a loop counter and a copy of 0 traded `r1` and `r2` in its two closing loops until the loops and the
+  stores after them became `ClearRecvBuffers()`, the setup counterpart of `func_ov167_021ba26c`, which frees those
+  buffers in the same order.
 - `arr[count++] = x` and `arr[count] = x; count++;` allocate registers differently, as do `count = 1; arr[0] = x;` and
   the reverse order.
 - `a[i + c]` adds `c` to `i` first, while `(a + i)[c]` folds `c * 4` into the base offset. When the original folds a
@@ -639,9 +646,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   `index = first; index += kind;` truncates a `u32` field before the add, where `first + kind` does not
   (`ctvt_game.c`'s `CtvtGameTarget_UpdateHit` and `CtvtGameTarget_Draw`).
 - `*(data + pos + 1)` adds `pos` once and then loads at `#1`, where `data[pos + 1]` adds `pos + 1` first; and a value
-  built in a `u16` local with `|=` and then returned has no final narrowing pair, where a returned `int` expression
-  does (`ssp_exifdec.c`'s byte readers). A ternary that stores to a static is a select (`bhi`); the original's
-  `bls; b` is an `if`/`else` with a store in each branch.
+  built in a `u16` local with `|=` and then returned has no final narrowing pair, where a returned `int` expression does
+  (`ssp_exifdec.c`'s byte readers). The battle server's command queue reads its halfwords and words the same way,
+  `*(que->buffer + que->readPtr + 1)` loading at `#9` from `que + readPtr` (`btl_server_cmd.c`). A ternary that stores
+  to a static is a select (`bhi`); the original's `bls; b` is an `if`/`else` with a store in each branch.
 - Advancing a pointer-like offset with `x += 0xc` lets MWCC fold the 0xc into every later offset from it; writing
   `pos = x + 0xc` and reading through `pos` keeps the `add` (`ssp_exifdec.c`'s IFD loop).
 - A ternary argument `f(c ? 1 : 0)` compiles to the select form (`movs r0, #1; cmp; beq; movs r0, #0`). A branchy
