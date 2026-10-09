@@ -299,3 +299,9 @@ src/ov036/fieldmap_func.c:
     complete
     .text       start:0x021b427c end:0x021b445c
     .data       start:0x021d5290 end:0x021d52a0
+
+src/ov036/fldeff_footmark.c:
+    complete
+    .text       start:0x021b46b0 end:0x021b496c
+    .rodata     start:0x021d1080 end:0x021d10d8
+    .data       start:0x021d5324 end:0x021d5338
