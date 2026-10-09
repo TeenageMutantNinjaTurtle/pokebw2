@@ -51,7 +51,9 @@ void func_ov036_021a3e74(FieldActor *actor, FieldEffects *effects);
 // The dust in front of an actor
 void func_ov036_021a3ec4(FieldActor *actor, FieldEffects *effects);
 void func_ov036_021a40ac(FieldEffects *effects, FieldActor *actor, BOOL animate, int kind);
-void func_ov036_021b47c8(FieldActor *actor, void *effects, u32 kind);
+// fldeff_footmark.c: the marks an actor leaves, by kind: footprints in sand (0) and snow (2), the tracks of actors
+// whose footprint type is 2 in sand (1) and snow (3), and tracks in deep sand (4). Tracks turn with the actor
+void func_ov036_021b47c8(FieldActor *actor, FieldEffects *effects, u32 kind);
 void func_ov036_021b49ac(MMSys *system, FieldActor *actor, void *effects, u32 kind);
 void func_ov036_021be828(void *effects, FieldActor *actor, u32 arg2, u32 arg3);
 void func_ov036_021bea3c(void *effects, FieldActor *actor);
