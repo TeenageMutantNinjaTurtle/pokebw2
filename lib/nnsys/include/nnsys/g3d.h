@@ -387,6 +387,10 @@ static inline void NNS_G3dGlbSetBaseRot(const MtxFx33 *rot) {
                          NNS_G3D_GLB_FLAG_INVBASECAMERA_UPTODATE);
 }
 
+static inline const MtxFx44 *NNS_G3dGlbGetProjectionMtx(void) {
+    return &NNS_G3dGlb.projMtx;
+}
+
 static inline void NNS_G3dGlbSetProjectionMtx(const MtxFx44 *mtx) {
     sys_memcpy32_fast(mtx, &NNS_G3dGlb.projMtx, sizeof(MtxFx44));
     NNS_G3dGlb.flag &= ~(NNS_G3D_GLB_FLAG_INVPROJ_UPTODATE | NNS_G3D_GLB_FLAG_INVCAMERAPROJ_UPTODATE);
@@ -433,6 +437,8 @@ u32 NNS_G3DResMdlGetMatAlpha(const NNSG3dResMdl *mdl, u32 matId);
 void NNS_G3DResMdlSetMatAlpha(NNSG3dResMdl *mdl, u32 matId, u32 alpha);
 // The alpha of every material of a model resource, from 0 to 31 (NitroSystem's NNS_G3dMdlSetMdlAlphaAll)
 void func_02068410(NNSG3dResMdl *mdl, int alpha);
+// Turns fog on or off for every material of a model resource
+void NNS_G3dMdlSetMdlFogEnableFlagAll(NNSG3dResMdl *mdl, BOOL enable);
 
 // NitroSystem's NNS_G3dWorldPosToScrPos: where a point of the world is on the screen
 int NNS_G3DProject(const VecFx32 *world, int *x, int *y);

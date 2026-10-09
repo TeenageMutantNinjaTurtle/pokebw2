@@ -20,8 +20,12 @@ void func_ov036_021c6d14(void *effect);
 void func_ov036_021c6d3c(void *effect);
 void func_ov036_021c6cf8(void *effect);
 
-void *func_ov036_021b3f14(void *effects, FieldActor *actor, u32 arg2, u32 arg3);
-FieldEffectTask *func_ov036_021b3f64(FieldEffects *effects, FieldActor *actor, u32 arg2, u32 arg3);
+// fldeff_gyoe.c: an emotion bubble over an actor's head, by kind: "!", "?", a music note and "...", which has no
+// sound. playSE plays the bubble's sound. The first function's bubble stays when it is done, until its owner ends it,
+// and the second's ends itself. Then whether a bubble is done, which a NULL one is
+FieldEffectTask *func_ov036_021b3f14(FieldEffects *effects, FieldActor *actor, u32 kind, BOOL playSE);
+FieldEffectTask *func_ov036_021b3f64(FieldEffects *effects, FieldActor *actor, u32 kind, BOOL playSE);
+BOOL func_ov036_021b3fb4(FieldEffectTask *task);
 // Break the rock in front of an actor with Rock Smash
 void func_ov036_021a56c8(FieldActor *actor, FieldEffects *effects);
 // The ripples of a fishing line cast in dir from pos, and how fast they play

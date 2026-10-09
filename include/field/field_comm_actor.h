@@ -15,6 +15,5 @@ void FldCommActSys_CreateActor(FldCommActSys *sys, u32 netId, u16 a2, const u16 
                                const u32 *a5);
 void FldCommActSys_DeleteActor(FldCommActSys *sys, u32 netId);
 u32 FldCommActSys_FindActor(FldCommActSys *sys, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
-BOOL func_ov036_021b3fb4(void *actor);
 
 #endif // POKEBW2_FIELD_FIELD_COMM_ACTOR_H

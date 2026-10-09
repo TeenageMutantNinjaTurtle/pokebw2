@@ -283,3 +283,9 @@ src/ov036/field_player_grid.c:
     .text       start:0x0219b7e8 end:0x0219cee0
     .rodata     start:0x021cfd24 end:0x021cfe00
     .data       start:0x021d4eec end:0x021d4f00
+
+src/ov036/fldeff_gyoe.c:
+    complete
+    .text       start:0x021b3e88 end:0x021b42b4
+    .rodata     start:0x021d1038 end:0x021d10ac
+    .data       start:0x021d52c0 end:0x021d52d0
