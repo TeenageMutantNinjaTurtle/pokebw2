@@ -338,22 +338,40 @@ the original code is linked until they match. The differences are the same in bo
   in `battle/btl_ability.h`, as `item_handlers.c` and `move_handlers.c` no longer do. It also calls overlay 169,
   like them (below).
 - Overlay 169 runs from VRAM (`0x06898020`) and dsd has all of it as `.rodata`. Its 16-byte Thumb stubs, such as
-  `func_ov169_0689ca54` and `func_ov169_0689ca74` (`ldr r1, =table; ldr r3, =func; movs r2, #n; bx r3`), can be
-  declared with `config_fixes.py add-function` and their `+1` data symbols removed, which lets `item_handlers.c`
-  link. But the build then misses 32 bytes of overlay 167: the original has two identical ARM/Thumb veneers to
-  `0x06898cf5` at `0x021cb35c`, one for each original object that calls it, where the linker makes one for the
-  merged asm object of the incomplete files around it. The overlay can't take a completed file in this region
-  until those veneers come out per original file.
+  `func_ov169_0689ca54` and `func_ov169_0689ca74` (`ldr r1, =table; ldr r3, =func; movs r2, #n; bx r3`), can be declared
+  with `config_fixes.py add-function` and their `+1` data symbols removed, which gives the calls to them a symbol to
+  link to. A function with a branch can't: dsd refuses it (`branch outside of program`), since the overlay has no code
+  section. A `kind:label(thumb)` symbol at the function, beside the `+1` data symbol, does link, but the linker then
+  takes the overlay's bytes after it for Thumb code: the pointers to them get bit 0 set and the overlay grows by 12
+  bytes, so overlays 167 to 169 no longer match.
+- The calls from overlay 167 to overlay 169 can't come out as the original's, whatever dsd does with overlay 169. The
+  original has a veneer for every call: all 402 long-branch veneers in overlay 167 (a Thumb `bx pc`, then the ARM
+  `ldr ip, [pc]`, `bx ip` and the target's address) have exactly one caller each, as do those of overlays 11 and 257,
+  and `HandlerRapidSpin` (`move_handlers.c`), which calls `func_ov169_06898cf4` three times, is followed by three
+  identical veneers to `0x06898cf5` at `0x021cb374`, `0x021cb384` and `0x021cb394`. Every `mwldarm.exe` the project has
+  (`dsi/1.1` to `dsi/1.6sp2`, `2.0/sp2p2` and `1.2/base`) makes one veneer per target and sends every later call in
+  range to it, from any object, and `-segment_veneers` only adds the segment to its name. It even shares one across two
+  overlays at the same address, sending the second overlay's calls into the first's code. Only the main module's veneers
+  are shared in the ROM (25 calls go through `ndma_copy` at `0x02075524`). Until the build reproduces the original's
+  veneers, a file that calls overlay 169 links as the original only if it calls each of its targets once, and no
+  complete file linked before it in the overlay calls them: the linker then puts each veneer right after the calling
+  function, as the original has it.
+- All 56 functions of `src/ov167/btl_calc.c` match in both versions (the other two of its 58 symbols are that
+  veneer), but it calls overlay 169 once, `func_ov169_0689cb6c` in `func_ov167_021bd624`, through the veneer at
+  `0x021bd648`. Linked against the label above, the linker puts its veneer at that address too, so only overlay 169's
+  missing code symbols keep its functions from linking.
 - `src/ov167/btl_client.c`'s `.rodata` has the original's sections and sizes, but in its shared section the two 8-byte
   message tables (`sEscapeMessages` and `sTrainerHintMsgs`) and the two 20-byte ones (`sAudienceLeave` and
   `sWeatherStartTable`) come out swapped. Moving the top-level tables doesn't change it, so the size sort also sees the
   function-local statics in an order `rodata_order.py` doesn't model yet. Its `.bss` matches once its seven statics are
   declared in the order the file has them.
 - `src/ov167/item_handlers.c` and `src/ov167/move_handlers.c` match in both versions except `HandlerChatter`, but like
-  `ability_handlers.c` they link only once overlay 169 is analyzed, since they call it through linker veneers. Their
-  `.rodata` is the original's size, with the lookup tables in sections of their own, but the many handler tables of
-  equal size come out in another order; `rodata_order.py` can look for the declaration order once these files can be
-  completed.
+  `ability_handlers.c` they can't link as the original until the build gives every call its own veneer (above):
+  `item_handlers.c` calls `func_ov169_0689ca54` twice, through the veneers at `0x021c3998` and `0x021c4534`,
+  `move_handlers.c` calls `func_ov169_06898cf4` five times and two other targets more than once, and
+  `ability_handlers.c` calls two of its targets more than once. Their `.rodata` is the original's size, with the lookup
+  tables in sections of their own, but the many handler tables of equal size come out in another order;
+  `rodata_order.py` can look for the declaration order once these files can be completed.
 - `src/ov207/p_sta_sub.c`'s `.rodata` can't be completed yet, for two reasons. It starts with an 8-byte object at
   `0x021bafc0` / `0x021bb000` (`7f 00 00 18 00 90 01 00`, perhaps a touch rectangle) that nothing references and the C
   doesn't define. And no declaration order found by a `rodata_order.py` hill climb over its 24 objects (the
