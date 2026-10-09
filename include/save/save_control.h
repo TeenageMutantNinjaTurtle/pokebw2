@@ -6,6 +6,7 @@
 #include "nitro/fx.h"
 #include "nitro/rtc.h"
 #include "save/playtime.h"
+#include "save/trainer_data_savedata.h"
 #include "struct_decls.h"
 
 SaveControl *SaveControl_GetInstance(void);
@@ -259,7 +260,6 @@ u8 func_020074dc(SaveControl *save);
 void func_020074e0(SaveControl *save, u32 value);
 u8 func_020074e4(SaveControl *save);
 void func_020074e8(SaveControl *save, u32 value);
-void func_02008e04(SaveControl *save);
 // Used to delete the save data: func_020074ec tells whether a block is in the save, and func_020076a4 clears it
 void func_020074ac(SaveControl *save);
 BOOL func_020074ec(SaveControl *save, u32 block, HeapID heapId);
@@ -269,7 +269,6 @@ void func_02011558(HeapID heapId);
 
 DreamRadarSave *GetDreamRadarSaveBlock(SaveControl *save);
 JoinAvenueSave *SaveControl_GetJoinAvenue(SaveControl *save);
-PlayerInfo *SaveControl_GetPlayerInfo(SaveControl *save);
 PlayerSave *SaveControl_GetPlayerSave(SaveControl *save);
 u16 PlayerSave_GetAbyssalRuinsStepCounter(PlayerSave *playerSave);
 void PlayerSave_SetAbyssalRuinsStepCounter(PlayerSave *playerSave, u16 count);
@@ -279,8 +278,6 @@ u16 PlayerSave_GetStepCounter(PlayerSave *playerSave);
 ZoneSpawnInfo *PlayerSave_GetNextSpawnZone(PlayerSave *playerSave);
 EventWork *getConstDataBlock(SaveControl *save);
 PokeDexSave *getPokedexSaveAddress(SaveControl *save);
-// The play time: hours and minutes
-PlayTime *func_02008de8(SaveControl *save);
 // A byte of this block, at 7, tells the start menu whether to ask about the C-Gear
 void *func_02009918(SaveControl *save);
 // Mark the downloaded C-Gear skin as there, and keep its CRC
@@ -314,8 +311,6 @@ AdventureTime *getSaveAdventureTimeBlock(SaveControl *save);
 TrainerCardSave *getTrainerCardDataBlkAddress(GameData *gameData);
 // The same block as GameData_GetRecords
 GameRecords *getTrainerCardInfoBlkAddress(SaveControl *save);
-// PlayerInfo is at 4 in this block
-TrainerDataSave *getTrainerDataBlkAddress(SaveControl *save);
 UnityTowerSurveySave *getUnityTower_SurveySaveBlkAddrress(SaveControl *save);
 
 #endif // POKEBW2_SAVE_SAVE_CONTROL_H
