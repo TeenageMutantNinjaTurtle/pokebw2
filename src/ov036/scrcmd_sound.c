@@ -13,7 +13,6 @@
 #include "system/game_system.h"
 #include "system/iss_switch_sys.h"
 #include "system/iss_sys.h"
-#include "system/main.h"
 #include "system/vm.h"
 
 // The script's sub events of sound, which FIELD_SCRIPT_SUB_EVENT_FINISH_FUNCS finishes when the script ends

@@ -2,6 +2,8 @@
 #define POKEBW2_NNSYS_SND_H
 
 #include "types.h"
+#include "nitro/fs.h"
+#include "nitro/snd.h"
 
 // NitroSystem's sound players (NNS_Snd)
 
@@ -12,7 +14,9 @@ void NNS_SndPlayerSetPlayerVolume(int playerNo, int volume);
 void NNS_SndSetMasterVolume(int volume);
 
 // A handle to a sound player, which plays one sequence
-typedef struct NNSSndHandle NNSSndHandle;
+typedef struct NNSSndHandle {
+    struct NNSSndSeqPlayer *player;
+} NNSSndHandle;
 
 // A sound heap (snd_heap.c, below), which the players' sequences load into
 typedef struct NNSSndHeap *NNSSndHeapHandle;
@@ -61,8 +65,7 @@ void NNS_SndPlayerSetTrackPan(NNSSndHandle *handle, u32 trackBitMask, int pan);
 void NNS_SndPlayerSetTempoRatio(NNSSndHandle *handle, int ratio);
 // The ticks the sequence has played, 0 before it starts
 u32 NNS_SndPlayerGetTick(NNSSndHandle *handle);
-struct SNDTrackInfo;
-BOOL NNS_SndPlayerReadDriverTrackInfo(NNSSndHandle *handle, int trackNo, struct SNDTrackInfo *trackInfo);
+BOOL NNS_SndPlayerReadDriverTrackInfo(NNSSndHandle *handle, int trackNo, SNDTrackInfo *trackInfo);
 
 // NitroSystem's wave output, which plays raw samples on a channel of its own, under swan's names:
 // NNS_SndWaveOutAllocChannel, NNS_SndWaveOutFreeChannel, NNS_SndWaveOutStart, NNS_SndWaveOutStop and
@@ -193,8 +196,32 @@ void NNS_SndArcSetLoadBlockSize(int size);
 
 // The current sound archive. NNS_SndArcInit opens one by path and makes it current, loading its info and file table,
 // and its symbols if symbolLoadFlag, into heap; NNS_SndArcInitOnMemory makes current one that is wholly in memory.
-// NNS_SndArcSetCurrent returns the archive that was current
-typedef struct NNSSndArc NNSSndArc;
+// NNS_SndArcSetCurrent returns the archive that was current. The archive is the caller's, so its layout is here: its
+// header, the open file, and its info, file table and symbols when loaded. filePath is read by snd_arc_stream.c to open
+// a stream's file again by path; nothing in snd_arc.c sets it
+typedef struct NNSSndArcHeader {
+    SNDBinaryFileHeader fileHeader;
+    u32 symbolDataOffset;
+    u32 symbolDataSize;
+    u32 infoOffset;
+    u32 infoSize;
+    u32 fatOffset;
+    u32 fatSize;
+    u32 fileImageOffset;
+    u32 fileImageSize;
+} NNSSndArcHeader;
+
+typedef struct NNSSndArc {
+    NNSSndArcHeader header;
+    BOOL file_open;
+    FSFile file;
+    FSFileID fileId;
+    const char *filePath;
+    struct NNSSndArcFat *fat;
+    struct NNSSndArcSymbol *symbol;
+    struct NNSSndArcInfo *info;
+    int loadBlockSize;
+} NNSSndArc;
 
 // NitroSystem's sound heap (snd_heap.c), a frame heap for sound data: NNS_SndHeapSaveState returns the level saved,
 // NNS_SndHeapLoadState frees what was loaded after a level, calling each block's dispose callback first. swan names

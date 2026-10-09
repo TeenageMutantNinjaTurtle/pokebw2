@@ -171,7 +171,10 @@ typedef struct SNDDriverInfo {
     u8 data[0x11e0];
 } SNDDriverInfo;
 
-typedef struct SNDTrackInfo SNDTrackInfo;
+// A track's state, as NNS_SndPlayerReadDriverTrackInfo reads it. Only its size is used here
+typedef struct SNDTrackInfo {
+    u8 data[0x1a];
+} SNDTrackInfo;
 
 void func_0207d5f8(SNDDriverInfo *info);
 u32 func_0207dbb8(void);

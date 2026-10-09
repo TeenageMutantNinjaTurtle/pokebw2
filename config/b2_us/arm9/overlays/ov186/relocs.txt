@@ -1072,9 +1072,6 @@ from:0x021accce kind:thumb_call to:0x0204be64 module:main
 from:0x021accee kind:thumb_call to:0x0204c178 module:main
 from:0x021accfc kind:thumb_call to:0x0204c140 module:main
 from:0x021acd14 kind:thumb_call to:0x021accdc module:overlay(186)
-from:0x021acee0 kind:load to:0x020e0101 module:main
-from:0x021acffc kind:load to:0x02110403 module:main
-from:0x021ad008 kind:load to:0x02110803 module:main
 from:0x021ad014 kind:load to:0x021b0d03 module:overlays(189,257)
 from:0x021ad0e0 kind:load to:0x021ad218 module:overlay(186)
 from:0x021ad288 kind:load to:0x021ab179 module:overlay(186)

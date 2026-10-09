@@ -1638,5 +1638,3 @@ from:0x021a04b0 kind:load to:0x0219ac09 module:overlay(259)
 from:0x021a04b4 kind:load to:0x0219ac0d module:overlay(259)
 from:0x021a04b8 kind:load to:0x0219ac29 module:overlay(259)
 from:0x021a04bc kind:load to:0x0219ac2d module:overlay(259)
-from:0x021a0548 kind:load to:0x020f0001 module:main
-from:0x021a067c kind:load to:0x020f0001 module:main

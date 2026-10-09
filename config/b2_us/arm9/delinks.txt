@@ -1084,3 +1084,9 @@ src/system/snd_bgm_stack.c:
     complete
     .text       start:0x02005838 end:0x02005b80
     .bss        start:0x0209da70 end:0x0209db24
+
+src/system/snd_sys.c:
+    complete
+    .text       start:0x02005b80 end:0x020065b4
+    .data       start:0x02099efc end:0x02099f14
+    .bss        start:0x0209db24 end:0x0213b278

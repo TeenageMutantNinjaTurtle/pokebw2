@@ -620,4 +620,3 @@ from:0x0219f730 kind:thumb_call to:0x0219d7d4 module:overlay(319)
 from:0x0219f738 kind:load to:0x0219cec1 module:overlay(319)
 from:0x0219f73c kind:load to:0x0219cfdd module:overlay(319)
 from:0x0219f740 kind:load to:0x0219cf81 module:overlay(319)
-from:0x0219f910 kind:load to:0x02132002 module:main

@@ -21187,11 +21187,6 @@ from:0x021d0124 kind:load to:0x021a15d9 module:overlay(36)
 from:0x021d0128 kind:load to:0x021a15f9 module:overlay(36)
 from:0x021d012c kind:load to:0x021a1619 module:overlay(36)
 from:0x021d0130 kind:load to:0x021a1639 module:overlay(36)
-from:0x021d01cc kind:load to:0x020dc0c3 module:main
-from:0x021d01ec kind:load to:0x020f4144 module:main
-from:0x021d0294 kind:load to:0x020d0103 module:main
-from:0x021d0298 kind:load to:0x02130103 module:main
-from:0x021d02a0 kind:load to:0x02130202 module:main
 from:0x021d037c kind:load to:0x021d4fb8 module:overlay(36)
 from:0x021d0380 kind:load to:0x021d4fc0 module:overlay(36)
 from:0x021d03f0 kind:load to:0x021a3b35 module:overlay(36)
@@ -21308,8 +21303,6 @@ from:0x021d0870 kind:load to:0x021a63a9 module:overlay(36)
 from:0x021d0874 kind:load to:0x021a63c5 module:overlay(36)
 from:0x021d0958 kind:load to:0x02090101 module:main
 from:0x021d0964 kind:load to:0x02090301 module:main
-from:0x021d097c kind:load to:0x020f0f01 module:main
-from:0x021d09b8 kind:load to:0x020d0f12 module:main
 from:0x021d1018 kind:load to:0x021b3fc9 module:overlay(36)
 from:0x021d101c kind:load to:0x021b3ff5 module:overlay(36)
 from:0x021d1020 kind:load to:0x021b3ff9 module:overlay(36)
@@ -21695,16 +21688,11 @@ from:0x021d29d8 kind:load to:0x021c6aad module:overlay(36)
 from:0x021d29dc kind:load to:0x021c6b35 module:overlay(36)
 from:0x021d2bd8 kind:load to:0x021d0fdb module:overlay(36)
 from:0x021d2c44 kind:load to:0x021cf02e module:overlay(36)
-from:0x021d4658 kind:load to:0x020a0249 module:main
-from:0x021d4664 kind:load to:0x021301ff module:main
-from:0x021d4668 kind:load to:0x02100233 module:main
 from:0x021d48f8 kind:load to:0x021c955d module:overlay(36)
 from:0x021d48fc kind:load to:0x021c95a5 module:overlay(36)
 from:0x021d4900 kind:load to:0x021c95b1 module:overlay(36)
 from:0x021d4904 kind:load to:0x021c95cd module:overlay(36)
-from:0x021d4920 kind:load to:0x02110004 module:main
 from:0x021d4944 kind:load to:0x02020101 module:main
-from:0x021d4948 kind:load to:0x02130007 module:main
 from:0x021d4960 kind:load to:0x02020101 module:main
 from:0x021d4970 kind:load to:0x0217000b module:overlay(25)
 from:0x021d4974 kind:load to:0x02020101 module:main

@@ -183,7 +183,6 @@ from:0x021b37f2 kind:thumb_call to:0x0203ab10 module:main
 from:0x021b37f8 kind:thumb_call to:0x0203a1d0 module:main
 from:0x021b3806 kind:thumb_call to:0x021b2fe0 module:overlay(200)
 from:0x021b380c kind:thumb_call to:0x020120c8 module:main
-from:0x021b38bc kind:load to:0x020c0001 module:main
 from:0x021b3960 kind:load to:0x021b3761 module:overlay(200)
 from:0x021b3964 kind:load to:0x021b3801 module:overlay(200)
 from:0x021b3968 kind:load to:0x021b37d1 module:overlay(200)
