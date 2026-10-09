@@ -36,8 +36,7 @@ static void func_ov167_021b0a58(BtlServerCmdQueue *que, u16 value) {
 }
 
 static u16 func_ov167_021b0a94(BtlServerCmdQueue *que) {
-    const u8 *data = &que->buffer[que->readPtr];
-    u16 value = (data[0] << 8) | data[1];
+    u16 value = (*(que->buffer + que->readPtr) << 8) | *(que->buffer + que->readPtr + 1);
 
     que->readPtr += 2;
     return value;
@@ -51,8 +50,8 @@ static void func_ov167_021b0ab0(BtlServerCmdQueue *que, u32 value) {
 }
 
 static u32 func_ov167_021b0af8(BtlServerCmdQueue *que) {
-    const u8 *data = &que->buffer[que->readPtr];
-    u32 value = (data[0] << 16) | (data[1] << 8) | data[2];
+    u32 value = (*(que->buffer + que->readPtr) << 16) | (*(que->buffer + que->readPtr + 1) << 8)
+        | *(que->buffer + que->readPtr + 2);
 
     que->readPtr += 3;
     return value;
@@ -67,8 +66,8 @@ static void func_ov167_021b0b18(BtlServerCmdQueue *que, u32 value) {
 }
 
 static u32 func_ov167_021b0b6c(BtlServerCmdQueue *que) {
-    const u8 *data = &que->buffer[que->readPtr];
-    u32 value = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
+    u32 value = (*(que->buffer + que->readPtr) << 24) | (*(que->buffer + que->readPtr + 1) << 16)
+        | (*(que->buffer + que->readPtr + 2) << 8) | *(que->buffer + que->readPtr + 3);
 
     que->readPtr += 4;
     return value;
