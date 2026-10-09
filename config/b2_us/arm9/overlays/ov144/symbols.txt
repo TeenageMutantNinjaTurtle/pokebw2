@@ -101,10 +101,10 @@ func_ov144_0219f6f8 kind:function(thumb,size=0x8) addr:0x0219f6f8
 func_ov144_0219f700 kind:function(thumb,size=0x8) addr:0x0219f700
 func_ov144_0219f708 kind:function(thumb,size=0x6) addr:0x0219f708
 func_ov144_0219f710 kind:function(thumb,size=0x8) addr:0x0219f710
-func_ov144_0219f718 kind:function(thumb,size=0x10) addr:0x0219f718
-func_ov144_0219f728 kind:function(thumb,size=0x8) addr:0x0219f728
-func_ov144_0219f730 kind:function(thumb,size=0xc) addr:0x0219f730
-func_ov144_0219f73c kind:function(thumb,size=0x30) addr:0x0219f73c
+TownMapData_Load kind:function(thumb,size=0x10) addr:0x0219f718
+TownMapData_Free kind:function(thumb,size=0x8) addr:0x0219f728
+TownMapData_GetParam kind:function(thumb,size=0xc) addr:0x0219f730
+TownMapData_GetPlaceByZone kind:function(thumb,size=0x30) addr:0x0219f73c
 data_ov144_0219f76c kind:data(any) addr:0x0219f76c
 TOWNMAP_PROC_FUNCTIONS kind:data(any) addr:0x0219f774 ambiguous
 data_ov144_0219f780 kind:data(any) addr:0x0219f780

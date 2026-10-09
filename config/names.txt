@@ -2729,6 +2729,10 @@ overlays/ov143 0x021a00a4 sMonolithPowerListColors
 overlays/ov143 0x021a00a8 sMonolithPowerTouchRects
 overlays/ov143 0x021a00b0 MONOLITH_POWER_SELECT_PROC_FUNCTIONS
 overlays/ov143 0x021a00d4 sMonolithPowerBGSetups
+overlays/ov144 0x0219f718 TownMapData_Load
+overlays/ov144 0x0219f728 TownMapData_Free
+overlays/ov144 0x0219f730 TownMapData_GetParam
+overlays/ov144 0x0219f73c TownMapData_GetPlaceByZone
 overlays/ov144 0x0219f774 TOWNMAP_PROC_FUNCTIONS
 overlays/ov148 0x021f59e0 EncEffCapture_CreateFlashEvent
 overlays/ov148 0x021f5a1c EncEffCapture_CreateEvent
