@@ -65,6 +65,23 @@ void GFL_SndStop(void);
 void GFL_SndSetVolumeControlCallbacks(void);
 BOOL GFL_SndIsVolumeControlCallbackSet(void);
 void GFL_SndPlayerSetMuteStateEx(u32 player, u32 state);
+// The BGM stack (snd_bgm_stack.c): the BGM player's handle and sequence at each level, with the sound heap's levels.
+// func_02005838 gives it the sound heap, func_020058e4 resets it for the BGM player. GFL_SndGetLastResID is the
+// sequence of the current level, or 0, and func_0200595c the level. func_02005980 loads a BGM's sequence, bank and
+// waves; func_020059d8 and func_020059fc record the heap's level after a thread loaded the sequence and bank, and the
+// waves of seq. func_02005a24 frees the current BGM's files. func_02005a5c pushes a level, freeing the waves of the
+// BGM below, and func_02005aa8 pops one, loading them again
+void func_02005838(NNSSndHeapHandle *heap);
+void func_020058e4(u16 player);
+u32 GFL_SndGetLastResID(void);
+s32 func_0200595c(void);
+NNSSndHandle *func_02005968(void);
+BOOL func_02005980(u32 seq);
+void func_020059d8(void);
+BOOL func_020059fc(u32 seq);
+void func_02005a24(void);
+BOOL func_02005a5c(void);
+BOOL func_02005aa8(void);
 // Loads sound sequences ahead of time, and frees them
 u32 func_02005af4(const u32 *seqs, u32 count);
 void func_02005b60(u32 handle);

@@ -1079,3 +1079,8 @@ src/system/playtime.c:
     complete
     .text       start:0x02008c1c end:0x02008da0
     .data       start:0x0209a0b0 end:0x0209a0bc
+
+src/system/snd_bgm_stack.c:
+    complete
+    .text       start:0x02005838 end:0x02005b80
+    .bss        start:0x0209da70 end:0x0209db24

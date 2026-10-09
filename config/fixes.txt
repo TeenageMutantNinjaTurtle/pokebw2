@@ -1,5 +1,10 @@
 # Fixes to dsd's analysis, applied by tools/scripts/config_fixes.py
 # module address(b2_us) action [argument]
+. 0x0200587c reloc_addend 0x4
+. 0x02005880 reloc_addend 0xc
+. 0x02005884 reloc_addend 0x10
+. 0x02005888 reloc_addend 0x14
+. 0x0200588c reloc_addend 0x18
 . 0x02006de8 remove_symbol
 . 0x02006dec add_function ampOffFreeBlocks:thumb:0x20
 . 0x020131e8 reloc_module overlay(199)
@@ -165,6 +170,11 @@
 . 0x0209b234 remove_symbol
 . 0x0209b258 add_data data_0209b258
 . 0x0209b328 add_data sEnvMapCmd
+. 0x0209da80 remove_symbol
+. 0x0209da88 remove_symbol
+. 0x0209da8c remove_symbol
+. 0x0209da90 remove_symbol
+. 0x0209da94 remove_symbol
 . 0x0210000b remove_symbol
 . 0x0210020f remove_symbol
 . 0x02141668 remove_symbol

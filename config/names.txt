@@ -1,5 +1,8 @@
 # Names that are not in swan, applied by tools/scripts/rename_symbol.py
 # module address(b2_us) name
+. 0x02005844 BGMStack_ResetEntry
+. 0x02005890 BGMStack_InitEntry
+. 0x020058b4 BGMStack_FreeEntry
 . 0x02005c70 GFL_SndDestroyHeap
 . 0x02005d6c GFL_SndSetSeqVerifyCallback
 . 0x02005e48 GFL_SndBGMGetTick
@@ -1668,6 +1671,8 @@
 . 0x0209b268 mtxTransOnly_
 . 0x0209b280 zOffsetStep_
 . 0x0209b528 GXi_DmaId
+. 0x0209da70 sBGMStack
+. 0x0209da7c sBGMStackEntries
 . 0x02141664 sWipe
 . 0x021417bc sSubBrightness
 . 0x021417dc sMainBrightness
