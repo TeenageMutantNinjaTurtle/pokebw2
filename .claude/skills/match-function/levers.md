@@ -81,6 +81,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
 
 ## Instructions in another order (scheduling)
 
+- A value computed later than written, at its only use: an enum local stays where it is assigned.
+  (matching.md: "enum local's value")
 - A load through a pointer moves above stores only when the pointee is `const`. A load scheduled early points to a
   `const` parameter. (matching.md: "unless the pointee is `const`")
 - The same rule orders a call's stack argument stores against the register arguments. (matching.md: "stack argument stores")
