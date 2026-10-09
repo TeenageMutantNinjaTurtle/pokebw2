@@ -5,6 +5,7 @@
 #include "gfl/heap.h"
 #include "nitro/fx.h"
 #include "nitro/rtc.h"
+#include "save/player_savedata.h"
 #include "save/playtime.h"
 #include "save/trainer_data_savedata.h"
 #include "struct_decls.h"
@@ -203,16 +204,6 @@ u8 func_020103c4(u8 a0);
 u32 func_020103e8(KeyDataSave *keyData);
 void func_020103ec(KeyDataSave *keyData, u32 value);
 
-// Where the player saved
-typedef struct {
-    u16 zoneId;
-    VecFx32 pos;
-    u32 unk10;
-    u32 unk14;
-    s16 unk18;
-} SaveLocation;
-
-void func_02008fb8(SaveControl *save, SaveLocation *location);
 // Save block 0x42, which keeps the rival's name
 RivalDataSave *getHollow_RivalData(SaveControl *save);
 // Save block 0x42, and setting a byte of it
@@ -269,13 +260,6 @@ void func_02011558(HeapID heapId);
 
 DreamRadarSave *GetDreamRadarSaveBlock(SaveControl *save);
 JoinAvenueSave *SaveControl_GetJoinAvenue(SaveControl *save);
-PlayerSave *SaveControl_GetPlayerSave(SaveControl *save);
-u16 PlayerSave_GetAbyssalRuinsStepCounter(PlayerSave *playerSave);
-void PlayerSave_SetAbyssalRuinsStepCounter(PlayerSave *playerSave, u16 count);
-void PlayerSave_EndStepCounter(PlayerSave *playerSave);
-void PlayerSave_BeginStepCounter(PlayerSave *playerSave);
-u16 PlayerSave_GetStepCounter(PlayerSave *playerSave);
-ZoneSpawnInfo *PlayerSave_GetNextSpawnZone(PlayerSave *playerSave);
 EventWork *getConstDataBlock(SaveControl *save);
 PokeDexSave *getPokedexSaveAddress(SaveControl *save);
 // A byte of this block, at 7, tells the start menu whether to ask about the C-Gear
