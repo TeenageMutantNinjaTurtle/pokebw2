@@ -294,3 +294,8 @@ src/ov036/fldeff_gyoe.c:
     .text       start:0x021b3e88 end:0x021b42b4
     .rodata     start:0x021d1038 end:0x021d10ac
     .data       start:0x021d52c0 end:0x021d52d0
+
+src/ov036/fieldmap_func.c:
+    complete
+    .text       start:0x021b42b4 end:0x021b4494
+    .data       start:0x021d52d0 end:0x021d52e0
