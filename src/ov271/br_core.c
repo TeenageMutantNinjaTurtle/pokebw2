@@ -73,21 +73,21 @@ static const BrProcData sBrProcTable[BR_PROCID_MAX] = {
                            BrCore_RecordAfter },
     [BR_PROCID_BTLSUBWAY] = { &data_ov268_021c2234, sizeof(BrBtlSubwayProcParam), OVERLAY_ID(268),
                               BrCore_BtlSubwayBefore, BrCore_BtlSubwayAfter },
-    [BR_PROCID_RNDMATCH] = { &data_ov268_021c2390, sizeof(BrRndMatchProcParam), OVERLAY_ID(268),
-                             BrCore_RndMatchBefore, BrCore_RndMatchAfter },
+    [BR_PROCID_RNDMATCH] = { &data_ov268_021c2390, sizeof(BrRndMatchProcParam), OVERLAY_ID(268), BrCore_RndMatchBefore,
+                             BrCore_RndMatchAfter },
     [BR_PROCID_BV_RANK] = { &data_ov268_021c2574, sizeof(BrBvRankProcParam), OVERLAY_ID(268), BrCore_BvRankBefore,
                             BrCore_BvRankAfter },
-    [BR_PROCID_BV_SEARCH] = { &data_ov268_021c26b8, sizeof(BrBvSearchProcParam), OVERLAY_ID(268),
-                              BrCore_BvSearchBefore, BrCore_BvSearchAfter },
+    [BR_PROCID_BV_SEARCH] = { &data_ov268_021c26b8, sizeof(BrBvSearchProcParam), OVERLAY_ID(268), BrCore_BvSearchBefore,
+                              BrCore_BvSearchAfter },
     [BR_PROCID_CODEIN] = { &data_ov268_021c26c4, sizeof(BrCodeInProcParam), OVERLAY_ID(268), BrCore_CodeInBefore,
                            BrCore_CodeInAfter },
     [BR_PROCID_BV_SEND] = { &data_ov268_021c2768, sizeof(BrBvSendProcParam), OVERLAY_ID(268), BrCore_BvSendBefore,
                             BrCore_BvSendAfter },
-    [BR_PROCID_BV_DELETE] = { &data_ov268_021c2774, sizeof(BrBvDeleteProcParam), OVERLAY_ID(268),
-                              BrCore_BvDeleteBefore, BrCore_BvDeleteAfter },
+    [BR_PROCID_BV_DELETE] = { &data_ov268_021c2774, sizeof(BrBvDeleteProcParam), OVERLAY_ID(268), BrCore_BvDeleteBefore,
+                              BrCore_BvDeleteAfter },
     [BR_PROCID_BV_SAVE] = { &data_ov268_021c27b8, sizeof(BrBvSaveProcParam), OVERLAY_ID(268), BrCore_BvSaveBefore,
                             BrCore_BvSaveAfter },
-    [BR_PROCID_MUSICAL_LOOK] = { &data_ov270_021efe00, sizeof(BrMusicalLookProcParam), OVERLAY_ID(270),
+    [BR_PROCID_MUSICAL_LOOK] = { &BR_MUSICAL_LOOK_PROC_FUNCTIONS, sizeof(BrMusicalLookProcParam), OVERLAY_ID(270),
                                  BrCore_MusicalLookBefore, BrCore_MusicalLookAfter },
     [BR_PROCID_MUSICAL_SEND] = { &BR_MUSICAL_SEND_PROC_FUNCTIONS, sizeof(BrMusicalSendProcParam), OVERLAY_ID(269),
                                  BrCore_MusicalSendBefore, BrCore_MusicalSendAfter },
@@ -109,8 +109,8 @@ static BOOL BrCore_ProcInit(GameProc *proc, u32 *state, void *param, void *work)
     wk->res = BrRes_Init(color, wk->param->mainParam->mode == BR_MODE_BROWSE, HEAPID_BATTLE_RECORDER);
     BrRes_LoadBG(wk->res, 0, HEAPID_BATTLE_RECORDER);
     BrRes_LoadBG(wk->res, 1, HEAPID_BATTLE_RECORDER);
-    wk->procSys = BrProcSys_Init(BR_PROCID_START, sBrProcTable, BR_PROCID_MAX, wk,
-                                      &wk->param->data->procRecovery, HEAPID_BATTLE_RECORDER);
+    wk->procSys = BrProcSys_Init(BR_PROCID_START, sBrProcTable, BR_PROCID_MAX, wk, &wk->param->data->procRecovery,
+                                 HEAPID_BATTLE_RECORDER);
     wk->fade = BrFade_Init(HEAPID_BATTLE_RECORDER);
     BrFade_LoadPltt(wk->fade);
     BrFade_SetColor(wk->fade, BrRes_GetFadeColor(wk->res));
@@ -118,12 +118,11 @@ static BOOL BrCore_ProcInit(GameProc *proc, u32 *state, void *param, void *work)
         BrFade_FillColor(wk->fade, BR_FADE_DISPLAY_BOTH);
     }
     wk->sidebar = BrSidebar_Init(BrGraphic_GetClunit(wk->graphic), wk->fade, wk->res, HEAPID_BATTLE_RECORDER);
-    BrCore_LoadRecordInfo(&wk->param->data->recordInfo, TRUE, wk->param->mainParam->gameData,
-                          HEAPID_BATTLE_RECORDER);
+    BrCore_LoadRecordInfo(&wk->param->data->recordInfo, TRUE, wk->param->mainParam->gameData, HEAPID_BATTLE_RECORDER);
 
     if (wk->param->mainParam->mode != BR_MODE_BROWSE) {
-        wk->net = func_ov271_021f6224(wk->param->mainParam->gameData, wk->param->mainParam->unk8,
-                                      HEAPID_BATTLE_RECORDER);
+        wk->net =
+            func_ov271_021f6224(wk->param->mainParam->gameData, wk->param->mainParam->unk8, HEAPID_BATTLE_RECORDER);
     } else {
         GFL_OvlLoad(OVERLAY_ID(201));
     }
@@ -580,8 +579,8 @@ static void BrCore_BvSaveAfter(void *param, void *work) {
     if (p->isSave) {
         BrCore_LoadRecordInfo(&wk->param->data->recordInfo, FALSE, wk->param->mainParam->gameData,
                               HEAPID_BATTLE_RECORDER);
-        func_0200bc9c(GameData_GetSaveControl(wk->param->mainParam->gameData),
-                      HEAPID_TAIL(HEAPID_BATTLE_RECORDER), &result, p->saveSlot);
+        func_0200bc9c(GameData_GetSaveControl(wk->param->mainParam->gameData), HEAPID_TAIL(HEAPID_BATTLE_RECORDER),
+                      &result, p->saveSlot);
     }
 }
 

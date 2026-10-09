@@ -20,6 +20,8 @@
 #include "system/game_system.h"
 #include "system/wordset.h"
 
+static GameEventReturnCode func_ov027_021707e8(GameEvent *event, u32 *state, void *data);
+
 // The options a survey can pick, with the score each needs and its probability in percent
 static const SurveyProbabilityEntry sProbabilities[0xe0] = {
     { 1, 48, 25, 4 }, { 1, 48, 25, 3 }, { 1, 38, 25, 4 }, { 1, 38, 25, 3 },
@@ -342,7 +344,7 @@ u16 func_ov027_021707b8(SaveControl *save) {
     return result;
 }
 
-GameEventReturnCode func_ov027_021707e8(GameEvent *event, u32 *state, void *data) {
+static GameEventReturnCode func_ov027_021707e8(GameEvent *event, u32 *state, void *data) {
     SurveyTextWork *work = data;
     switch (*state) {
     case 0:

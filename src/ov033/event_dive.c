@@ -1,5 +1,4 @@
 #include "types.h"
-#include "app/funfest_mission.h"
 #include "field/event_dive.h"
 #include "field/event_mapchange.h"
 #include "field/field.h"

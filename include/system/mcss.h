@@ -85,9 +85,8 @@ u16 func_0201ade8(MCSS *mcss);
 u16 func_0201ade0(MCSS *mcss);
 s16 func_0201adf0(MCSS *mcss);
 s16 func_0201adf8(MCSS *mcss);
-// The sprite's animation controller, which NNS_G2dSetAnimCtrlCallBackFunctor takes
-NNSG2dAnimController *func_0201adc4(MCSS *mcss);
-void func_020618c0(NNSG2dAnimController *controller);
+// The sprite's multi-cell animation, whose animation controller NNS_G2dSetAnimCtrlCallBackFunctor takes
+NNSG2dMultiCellAnimation *func_0201adc4(MCSS *mcss);
 void func_0201c290(MCSS *mcss);
 // Called as a sprite's animation ends
 void func_0201b25c(MCSS *mcss);

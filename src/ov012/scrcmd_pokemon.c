@@ -3,6 +3,7 @@
 #include "field/field.h"
 #include "field/field_script.h"
 #include "field/player_state.h"
+#include "field/scrcmd_pokemon.h"
 #include "field/zone.h"
 #include "gfl/heap.h"
 #include "gfl/msg.h"

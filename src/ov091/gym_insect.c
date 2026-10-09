@@ -8,6 +8,7 @@
 #include "field/field_g3d_mapper.h"
 #include "field/field_map.h"
 #include "field/field_script.h"
+#include "field/gym_gimmick.h"
 #include "gfl/calctool.h"
 #include "gfl/g3d.h"
 #include "gfl/heap.h"

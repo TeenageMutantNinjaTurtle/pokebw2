@@ -37,6 +37,7 @@ void func_ov012_021601a4(u32 value);
 void func_ov012_021601dc(void);
 void func_ov012_02160210(void);
 void func_ov012_02160240(u8 value);
+void GameBeacon_BroadcastFerrisWheel(void);
 void func_ov012_021602cc(void);
 // That the player is in a musical with the Pokémon of that name
 void func_ov012_021602fc(const StrBuf *name);
@@ -47,6 +48,8 @@ void func_ov012_02160488(u8 value);
 void func_ov012_021604c4(u8 value);
 void func_ov012_021604f4(u8 value, u8 kind);
 void func_ov012_0216052c(u8 value, u8 extra);
+// Sends a beacon of type 0x39, if GameBeaconSys_CanSendType allows it
+void func_ov012_02160574(void);
 void func_ov012_021605a4(u8 extra, u16 value);
 void func_ov012_021605d4(u8 extra, u16 value);
 void func_ov012_02160618(void);

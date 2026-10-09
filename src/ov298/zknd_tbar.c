@@ -320,7 +320,7 @@ static void ZkndTbar_LoadScreen(ArcTool *arc, u32 fileId, u32 bg, u32 charOffset
     NNSG2dScreenData *screen;
     void *file = GFL_ArcToolReadHeapNewLZ(arc, fileId, compressed, HEAPID_TAIL(heapId));
 
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     if (charOffset != 0 && GFL_BGSysGetBGColorPaletteMode(bg) == GX_BG_COLORMODE_16) {
         int i;
         u16 *data = (u16 *)screen->rawData;

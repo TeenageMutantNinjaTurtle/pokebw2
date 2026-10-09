@@ -7,6 +7,7 @@
 #include "field/field.h"
 #include "field/field_script.h"
 #include "field/ov129.h"
+#include "field/scrcmd_sp_poke_gimmick.h"
 #include "nitro/fx.h"
 #include "pml/met_data.h"
 #include "pml/poke_party.h"

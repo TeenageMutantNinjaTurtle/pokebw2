@@ -6,6 +6,7 @@
 #include "field/zone.h"
 #include "gfl/random.h"
 #include "save/save_control.h"
+#include "system/area_data.h"
 #include "system/game_data.h"
 
 RivalEntry *func_ov073_021e8be0(RivalSelectContext *context, u32 id) {

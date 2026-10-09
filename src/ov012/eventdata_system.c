@@ -122,7 +122,7 @@ s32 GetWarpAtPosition(EventData *data, const VecFx32 *position) {
     return 0xffff;
 }
 
-s32 GetWarpIDByPlayerPos(EventData *data, const VecFx32 *position, u16 direction) {
+s32 GetWarpIDByPlayerPos(EventData *data, const VecFx32 *position, u8 direction) {
     VecFx32 front = *position;
     s32 index;
     ZoneWarp *warp = data->warps;

@@ -3584,8 +3584,9 @@ BOOL ServerControl_DrainCore(BtlServerFlow *flow, BattleMon *mon, BattleMon *sou
     return result;
 }
 
-BOOL ServerEvent_CalcDamage(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender, BtlFlowMoveParam *param,
-                            u32 effectiveness, u32 ratio, BOOL critical, BOOL fixedRoll, u16 *damage) {
+BOOL ServerEvent_CalcDamage(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender,
+                            const BtlFlowMoveParam *param, u32 effectiveness, u32 ratio, BOOL critical, BOOL fixedRoll,
+                            u16 *damage) {
     u32 attack;
     u32 power;
     u32 category;
@@ -4315,7 +4316,8 @@ void func_ov167_021a6c34(BtlServerFlow *flow, const BtlFlowMoveParam *param, Bat
     while ((target = func_ov169_0689ce14(targets)) != NULL) {
         BattleMoveEffectState *effect;
 
-        if (func_ov167_021a6914(flow, param, mon, target, TRUE)) {
+        // 021a6914 only reads param, but it matches only with it non-const, and this function only with it const
+        if (func_ov167_021a6914(flow, (BtlFlowMoveParam *)param, mon, target, TRUE)) {
             effect = flow->moveEffect;
             if (!effect->enabled) {
                 effect->enabled = 1;
@@ -6745,7 +6747,8 @@ BOOL ServerEvent_CheckMultihitHits(BtlServerFlow *flow, BattleMon *mon, u16 move
     return FALSE;
 }
 
-u16 ServerEvent_GetMovePower(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender, BtlFlowMoveParam *param) {
+u16 ServerEvent_GetMovePower(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender,
+                             const BtlFlowMoveParam *param) {
     u16 power;
     u32 ratio;
 
@@ -6778,8 +6781,8 @@ BOOL ServerEvent_CheckSimpleDamageEnabled(BtlServerFlow *flow, BattleMon *mon, u
     return result;
 }
 
-u16 ServerEvent_GetAttackPower(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender, BtlFlowMoveParam *param,
-                               BOOL critical) {
+u16 ServerEvent_GetAttackPower(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender,
+                               const BtlFlowMoveParam *param, BOOL critical) {
     u32 stat;
     u8 monId;
     u16 power;
@@ -6816,7 +6819,7 @@ u16 ServerEvent_GetAttackPower(BtlServerFlow *flow, BattleMon *attacker, BattleM
 }
 
 u16 ServerEvent_GetTargetDefenses(BtlServerFlow *flow, BattleMon *attacker, BattleMon *defender,
-                                  BtlFlowMoveParam *param, BOOL critical) {
+                                  const BtlFlowMoveParam *param, BOOL critical) {
     u32 stat;
     u32 category;
     u8 raw;

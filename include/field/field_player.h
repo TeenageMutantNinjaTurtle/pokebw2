@@ -8,9 +8,12 @@
 #include "nitro/fx.h"
 #include "struct_decls.h"
 
+// The direction that stands for the player's own tile, and for no direction held
+#define PLAYER_DIR_NONE 9
+
 BOOL Field_HasPlayer(Field *field);
 BOOL Field_ToggleCycling(Field *field);
-void FieldPlayer_GetWPosInDir(FieldPlayer *player, u32 direction, VecFx32 *position);
+void FieldPlayer_GetWPosInDir(FieldPlayer *player, u16 direction, VecFx32 *position);
 u32 FieldPlayer_GetExState(FieldPlayer *player);
 u32 FieldPlayer_DeriveExState(FieldPlayer *player);
 void FieldPlayer_SetSpecialState(FieldPlayer *player, u32 state);
@@ -44,5 +47,30 @@ void FieldPlayer_SyncState(FieldPlayer *player);
 void FieldPlayer_ForceBrake(FieldPlayer *player);
 void FieldPlayer_SetRailPos(FieldPlayer *player, const RailPosition *pos);
 void FieldPlayer_GetRailWorldPos(FieldPlayer *player, VecFx32 *pos);
+// The event of walking into an actor, or NULL. Only on the grid
+GameEvent *FieldPlayer_CheckObjContactEvent(FieldPlayer *player, u32 pressedKeys, u32 heldKeys, u32 flags);
+void func_ov036_0219a58c(FieldPlayer *player);
+// The core's terrain effect task: set and get
+void func_ov036_0219a5b8(FieldPlayer *player, TCB *tcb);
+TCB *func_ov036_0219a5c4(FieldPlayer *player);
+void func_ov036_0219a5fc(FieldPlayer *player);
+void FieldPlayer_UpdateActionStatusObserver(FieldPlayer *player);
+Field *FieldPlayer_GetField(FieldPlayer *player);
+u32 FieldPlayer_GetMoveStatus(FieldPlayer *player);
+u32 FieldPlayer_GetMoveObserveStatus(FieldPlayer *player);
+GameSystem *FieldPlayer_GetGameSystem(FieldPlayer *player);
+// The tile type under the player (PLAYER_DIR_NONE) or a step in the direction, and its height. 0xffffffff if there is
+// no terrain
+u32 FieldPlayer_GetTileTypeInDirEx(FieldPlayer *player, u16 direction, fx32 *height);
+// The form with the object code, 10 if it isn't one of the player's
+u32 FieldPlayer_GetExStateByObjCode(u32 objCode);
+void FieldPlayer_ForceObjCode(FieldPlayer *player, u32 objCode);
+void FieldPlayer_ClearObjCode(FieldPlayer *player);
+void FieldPlayer_GetGPosInFront(FieldPlayer *player, s16 *x, s16 *y, s16 *z);
+void FieldPlayer_InterruptCatwalkBalance(FieldPlayer *player, BOOL keep);
+void func_ov036_0219abd8(FieldPlayer *player);
+BOOL FieldPlayer_GetVerticalMoveOnlyFlag(FieldPlayer *player);
+void func_ov036_0219ac0c(FieldPlayer *player);
+FieldPlayerGrid *func_ov036_0219ad48(FieldPlayer *player);
 
 #endif // POKEBW2_FIELD_FIELD_PLAYER_H

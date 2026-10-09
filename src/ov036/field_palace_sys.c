@@ -42,12 +42,12 @@ static const struct {
     { 0x12a, 0x9af },
 };
 
-FieldPalaceSys *FieldPalaceSys_Create(HeapID heapId, GameSystem *gsys, u32 a2, u16 zoneId) {
+FieldPalaceSys *FieldPalaceSys_Create(HeapID heapId, GameSystem *gsys, Field *field, u16 zoneId) {
     FieldPalaceSys *sys;
 
     sys = GFL_HeapAllocate(heapId, sizeof(FieldPalaceSys), TRUE, "field_palace_sys.c", 67);
     sys->gsys = gsys;
-    sys->unk04 = a2;
+    sys->field = field;
     sys->luminanceTable = NULL;
     FieldPalaceSys_InitPostFX(sys, zoneId, heapId);
     return sys;

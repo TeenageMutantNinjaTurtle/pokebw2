@@ -12,11 +12,46 @@ typedef enum {
     MI_PROCESSOR_ARM7,
 } MIProcessor;
 
-// Fills size bytes with a word, a word at a time. NitroSDK's MIi_CpuClear32
+// Copy or fill size bytes a halfword or a word at a time: NitroSDK's MIi_CpuCopy16, MIi_CpuClear16 and MIi_CpuClear32
+void sys_memcpy16(const void *src, void *dest, u32 size);
+void sys_memset16(u16 value, void *dest, u32 size);
 void sys_memset32(u32 value, void *dest, u32 size);
+// Copy or fill size bytes a byte at a time: NitroSDK's MI_CpuCopy8 and MI_CpuFill8, under swan's names
+void sys_memcpy(const void *src, void *dest, u32 size);
+void sys_memset(void *dest, u32 value, u32 size);
+
+// NitroSDK's MI_CpuCopy16, an inline over sys_memcpy16 (MIi_CpuCopy16). MWCC evaluates an inline call's arguments
+// from the last, so the size is read before a destination that a call gives
+static inline void MI_CpuCopy16(const void *src, void *dest, u32 size) {
+    sys_memcpy16(src, dest, size);
+}
+
+static inline void MI_CpuFill16(void *dest, u16 data, u32 size) {
+    sys_memset16(data, dest, size);
+}
+
+static inline void MI_CpuClear16(void *dest, u32 size) {
+    sys_memset16(0, dest, size);
+}
+
+static inline void MI_CpuFill32(void *dest, u32 data, u32 size) {
+    sys_memset32(data, dest, size);
+}
 
 static inline void MI_CpuClear32(void *dest, u32 size) {
     sys_memset32(0, dest, size);
+}
+
+// Fills size bytes, a multiple of 4, 32 bytes at a time where it can: NitroSDK's MIi_CpuClearFast and its inline
+// MI_CpuFillFast
+void sys_memset32_fast(u32 value, void *dest, u32 size);
+
+static inline void MI_CpuFillFast(void *dest, u32 data, u32 size) {
+    sys_memset32_fast(data, dest, size);
+}
+
+static inline void MI_CpuClearFast(void *dest, u32 size) {
+    sys_memset32_fast(0, dest, size);
 }
 
 // Copies 36 bytes, a 3x3 matrix

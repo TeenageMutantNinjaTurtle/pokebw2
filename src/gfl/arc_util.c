@@ -22,8 +22,8 @@ static const VramLoadFunc obj_char_lut[] = {
 };
 
 static const VramLoadFunc pltt_type_lut[] = {
-    gfxUploadStdPaletteBGA,  gfxUploadStdPaletteObjA, gfxUploadExtPaletteBGA, gfxUploadExtPaletteObjA,
-    gfxUploadStdPaletteBGB,  gfxUploadStdPaletteObjB, gfxUploadExtPaletteBGB, gfxUploadExtPaletteObjB,
+    gfxUploadStdPaletteBGA, gfxUploadStdPaletteObjA, gfxUploadExtPaletteBGA, gfxUploadExtPaletteObjA,
+    gfxUploadStdPaletteBGB, gfxUploadStdPaletteObjB, gfxUploadExtPaletteBGB, gfxUploadExtPaletteObjB,
 };
 
 u32 GFL_BGSysLoadNCGRStatic(u32 arcId, u32 fileId, u8 bg, u32 offset, u32 size, BOOL compressed, HeapID heapId) {
@@ -41,7 +41,7 @@ u32 GFL_BGSysLoadArcNCGRStatic(ArcTool *arc, u32 fileId, u32 bg, u32 offset, u32
 static u32 GFL_BGSysLoadNCGRStaticCore(void *file, u32 bg, u32 offset, u32 size, BOOL compressed) {
     NNSG2dCharacterData *character;
 
-    if (NNS_G2DPrepareBGChar(file, &character)) {
+    if (NNS_G2dGetUnpackedBGCharacterData(file, &character)) {
         if (size == 0) {
             size = character->size;
         }
@@ -78,7 +78,7 @@ u32 GFL_BGSysLoadArcNCGRDynamic(ArcTool *arc, u32 fileId, u32 bg, u32 size, BOOL
 static u32 GFL_BGSysLoadNCGRDynamicCore(void *file, u32 bg, u32 size) {
     NNSG2dCharacterData *character;
 
-    if (NNS_G2DPrepareBGChar(file, &character)) {
+    if (NNS_G2dGetUnpackedBGCharacterData(file, &character)) {
         u32 pos;
 
         if (size == 0) {
@@ -101,7 +101,7 @@ u32 loadOBJCharToVram(ArcTool *arc, u32 fileId, u32 engine, u32 offset, u32 size
 static u32 unpackAndLoadOBJChar(void *file, u32 engine, u32 offset, u32 size) {
     NNSG2dCharacterData *character;
 
-    if (NNS_G2DPrepareObjChar(file, &character)) {
+    if (NNS_G2dGetUnpackedCharacterData(file, &character)) {
         if (size == 0) {
             size = character->size;
         }
@@ -126,8 +126,8 @@ void loadBGScrToVramByFileNoReserveNegAlign(ArcTool *arc, u32 fileId, u32 bg, u3
     GFL_BGSysLoadNSCR(file, bg, offset, 0, size, FALSE);
 }
 
-void loadBGScrToVramByNarcNoReserve(u32 arcId, u32 fileId, u8 bg, u32 offset, u32 palOffset, u32 size,
-                                    BOOL compressed, HeapID heapId) {
+void loadBGScrToVramByNarcNoReserve(u32 arcId, u32 fileId, u8 bg, u32 offset, u32 palOffset, u32 size, BOOL compressed,
+                                    HeapID heapId) {
     void *file = GFL_ArcSysReadHeapNewLZ(arcId, fileId, compressed, heapId);
 
     GFL_BGSysLoadNSCR(file, bg, offset, palOffset, size, FALSE);
@@ -151,7 +151,7 @@ void GFL_G2DIOLoadNSCRAsync(ArcTool *arc, u32 fileId, u8 bg, u32 offset, u32 pal
 static void GFL_BGSysLoadNSCR(void *file, u32 bg, u32 offset, u32 palOffset, u32 size, BOOL async) {
     NNSG2dScreenData *screen;
 
-    if (NNS_G2DPrepareScreen(file, &screen)) {
+    if (NNS_G2dGetUnpackedScreenData(file, &screen)) {
         if (size == 0) {
             size = screen->size;
         }
@@ -186,7 +186,6 @@ static void GFL_BGSysLoadNSCR(void *file, u32 bg, u32 offset, u32 palOffset, u32
     GFL_HeapFree(file);
 }
 
-
 void GFL_BGSysLoadNCLRDefault(u32 arcId, u32 fileId, u32 type, u32 offset, u32 size, HeapID heapId) {
     GFL_G2DIOLoadNCLR(arcId, fileId, type, 0, offset, size, heapId);
 }
@@ -217,7 +216,7 @@ static void GFL_BGSysLoadNCLR(void *file, u32 type, u32 srcOffset, u32 offset, u
         return;
     }
     compressed = NNS_G2dGetUnpackedPaletteCompressInfo(file, &compressInfo);
-    if (RelocatePaletteResGetDataPtr(file, &palette)) {
+    if (NNS_G2dGetUnpackedPaletteData(file, &palette)) {
         palette->rawData = (u8 *)palette->rawData + srcOffset;
         if (size == 0) {
             if (!compressed) {
@@ -260,7 +259,7 @@ static void GFL_BGSysLoadNCLR(void *file, u32 type, u32 srcOffset, u32 offset, u
 void *GFL_G2DIOReadBGNCGR(u32 arcId, u32 fileId, BOOL compressed, NNSG2dCharacterData **character, HeapID heapId) {
     void *file = GFL_ArcSysReadHeapNewLZ(arcId, fileId, compressed, heapId);
 
-    if (file != NULL && !NNS_G2DPrepareBGChar(file, character)) {
+    if (file != NULL && !NNS_G2dGetUnpackedBGCharacterData(file, character)) {
         GFL_HeapFree(file);
         return NULL;
     }
@@ -271,7 +270,7 @@ void *GFL_G2DIOReadBGNCGRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dCh
                              HeapID heapId) {
     void *file = GFL_ArcToolReadHeapNewLZ(arc, fileId, compressed, heapId);
 
-    if (file != NULL && !NNS_G2DPrepareBGChar(file, character)) {
+    if (file != NULL && !NNS_G2dGetUnpackedBGCharacterData(file, character)) {
         GFL_HeapFree(file);
         return NULL;
     }
@@ -281,7 +280,7 @@ void *GFL_G2DIOReadBGNCGRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dCh
 void *GFL_G2DIOReadOBJNCGR(u32 arcId, u32 fileId, BOOL compressed, NNSG2dCharacterData **character, HeapID heapId) {
     void *file = GFL_ArcSysReadHeapNewLZ(arcId, fileId, compressed, heapId);
 
-    if (file != NULL && !NNS_G2DPrepareObjChar(file, character)) {
+    if (file != NULL && !NNS_G2dGetUnpackedCharacterData(file, character)) {
         GFL_HeapFree(file);
         return NULL;
     }
@@ -292,7 +291,7 @@ void *GFL_G2DIOReadOBJNCGRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dC
                               HeapID heapId) {
     void *file = GFL_ArcToolReadHeapNewLZ(arc, fileId, compressed, heapId);
 
-    if (file != NULL && !NNS_G2DPrepareObjChar(file, character)) {
+    if (file != NULL && !NNS_G2dGetUnpackedCharacterData(file, character)) {
         GFL_HeapFree(file);
         return NULL;
     }
@@ -302,7 +301,7 @@ void *GFL_G2DIOReadOBJNCGRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dC
 void *GFL_G2DIOReadNSCR(u32 arcId, u32 fileId, BOOL compressed, NNSG2dScreenData **screen, HeapID heapId) {
     void *file = GFL_ArcSysReadHeapNewLZ(arcId, fileId, compressed, heapId);
 
-    if (file != NULL && !NNS_G2DPrepareScreen(file, screen)) {
+    if (file != NULL && !NNS_G2dGetUnpackedScreenData(file, screen)) {
         GFL_HeapFree(file);
         return NULL;
     }
@@ -312,7 +311,7 @@ void *GFL_G2DIOReadNSCR(u32 arcId, u32 fileId, BOOL compressed, NNSG2dScreenData
 void *GFL_G2DIOReadNSCRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dScreenData **screen, HeapID heapId) {
     void *file = GFL_ArcToolReadHeapNewLZ(arc, fileId, compressed, heapId);
 
-    if (file != NULL && !NNS_G2DPrepareScreen(file, screen)) {
+    if (file != NULL && !NNS_G2dGetUnpackedScreenData(file, screen)) {
         GFL_HeapFree(file);
         return NULL;
     }
@@ -322,7 +321,7 @@ void *GFL_G2DIOReadNSCRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dScre
 void *GFL_G2DIOReadNCLR(u32 arcId, u32 fileId, NNSG2dPaletteData **palette, HeapID heapId) {
     void *file = GFL_ArcSysReadHeapNewLZ(arcId, fileId, FALSE, heapId);
 
-    if (file != NULL && !RelocatePaletteResGetDataPtr(file, palette)) {
+    if (file != NULL && !NNS_G2dGetUnpackedPaletteData(file, palette)) {
         GFL_HeapFree(file);
         return NULL;
     }
@@ -332,7 +331,7 @@ void *GFL_G2DIOReadNCLR(u32 arcId, u32 fileId, NNSG2dPaletteData **palette, Heap
 void *GFL_G2DIOReadNCLRArc(ArcTool *arc, u32 fileId, NNSG2dPaletteData **palette, HeapID heapId) {
     void *file = GFL_ArcToolReadHeapNewLZ(arc, fileId, FALSE, heapId);
 
-    if (file != NULL && !RelocatePaletteResGetDataPtr(file, palette)) {
+    if (file != NULL && !NNS_G2dGetUnpackedPaletteData(file, palette)) {
         GFL_HeapFree(file);
         return NULL;
     }
@@ -389,8 +388,7 @@ void *GFL_G2DIOReadNMCR(u32 arcId, u32 fileId, BOOL compressed, NNSG2dMultiCellD
     return file;
 }
 
-void *GFL_G2DIOReadNMCRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dMultiCellDataBank **cells,
-                           HeapID heapId) {
+void *GFL_G2DIOReadNMCRArc(ArcTool *arc, u32 fileId, BOOL compressed, NNSG2dMultiCellDataBank **cells, HeapID heapId) {
     void *file = GFL_ArcToolReadHeapNewLZ(arc, fileId, compressed, heapId);
 
     if (file != NULL && !NNS_G2dGetUnpackedMultiCellBank(file, cells)) {

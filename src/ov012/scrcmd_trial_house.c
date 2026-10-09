@@ -2,6 +2,7 @@
 // (https://github.com/ds-pokemon-hacking/swan, GPL-3.0); the file's name is descriptive
 #include "types.h"
 #include "field/field_script.h"
+#include "field/scrcmd_trial_house.h"
 #include "field/trial_house.h"
 #include "save/records.h"
 #include "save/save_control.h"

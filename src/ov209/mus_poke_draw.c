@@ -104,11 +104,11 @@ void MusPokeDraw_DelPoke(MusPokeDrawSys *sys, MusPokeDraw *poke) {
     poke->active = FALSE;
 }
 
-void MusPokeDraw_SetPosition(MusPokeDraw *poke, const VecFx32 *pos) {
+void MusPokeDraw_SetPosition(MusPokeDraw *poke, VecFx32 *pos) {
     MusicalMcss_SetPosition(poke->mcss, pos);
 }
 
-void MusPokeDraw_SetScale(MusPokeDraw *poke, const VecFx32 *scale) {
+void MusPokeDraw_SetScale(MusPokeDraw *poke, VecFx32 *scale) {
     MusicalMcss_SetScale(poke->mcss, scale);
 }
 

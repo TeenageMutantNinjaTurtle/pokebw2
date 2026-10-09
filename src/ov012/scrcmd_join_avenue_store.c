@@ -4,6 +4,7 @@
 // (https://github.com/ds-pokemon-hacking/swan, GPL-3.0)
 #include "types.h"
 #include "field/field_script.h"
+#include "field/scrcmd_join_avenue_store.h"
 #include "gfl/overlay.h"
 #include "save/pokewood.h"
 #include "system/game_data.h"

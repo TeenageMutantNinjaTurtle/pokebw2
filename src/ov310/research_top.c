@@ -1032,7 +1032,7 @@ static void ResearchTop_LoadSubBG(ResearchTop *wk) {
     void *file = GFL_ArcToolReadHeapNew(handle, 13, wk->heapId);
     NNSG2dScreenData *screen;
 
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     GFL_BGSysLoadScrAreaAll(BG_SUB_TITLE, screen->rawData, 0, 0, 32, 24);
     GFL_BGSysLoadScr(BG_SUB_TITLE);
     GFL_HeapFree(file);
@@ -1056,7 +1056,7 @@ static void ResearchTop_LoadMainBG(ResearchTop *wk) {
     void *file = GFL_ArcToolReadHeapNew(handle, 4, wk->heapId);
     NNSG2dScreenData *screen;
 
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     GFL_BGSysLoadScrAreaAll(BG_MAIN_BUTTONS, screen->rawData, 0, 0, 32, 24);
     GFL_BGSysLoadScr(BG_MAIN_BUTTONS);
     GFL_HeapFree(file);

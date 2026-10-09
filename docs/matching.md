@@ -160,6 +160,9 @@ Same instructions, registers swapped.
 
 ## Stack slots
 
+- Taking a parameter's address makes MWCC push all four argument registers to give it a home; an original that pushes
+  fewer copied the parameter to a local first and passed that local's address: `g2d_Font.c`'s
+  `NNSi_G2dFontGetStringWidth` writes `const void *pos = str;` and hands `&pos` to the character splitter (2.0/sp2p2).
 - Local initializers declared in separate blocks are each copied to the stack just before their call, as the four BG
   setups of `b_plist_main.c`'s `BPlistMain_InitBG`; one block copies them all at the top.
 - Which of several locals of equal use MWCC spills follows where the group is declared among the function's other
@@ -276,6 +279,23 @@ Same code, other `sp` offsets or frame size.
 
 ## Instruction order
 
+- In `call() != x`, MWCC compares the call's result second (`cmp r1, r0`). The result first (`cmp r0, r1`) is the
+  result assigned to a local as its own statement and then compared: `snd_arc.c`'s `SetupArc` matches with
+  `readSize = romfs_fread(...); if (readSize != arc->header.infoSize)`, where every cast on either side kept the order.
+- An argument of a call compared again unchanged after it is kept in a stack slot over the call; the original working
+  it out again means its comparison was another expression. `snd_arc_loader.c`'s `LoadWaveArcTable` reads
+  `sizeof(SNDWaveArc) + tableSize` bytes and matches only comparing `result != (int)sizeof(SNDWaveArc) + tableSize`,
+  signed where the argument is unsigned; without the cast it is 4 bytes longer.
+- On `2.0/sp2p2`, an add written through a small inline with parameters keeps their order where the same expression
+  written out is swapped: `snd_stream.c`'s `StrmCallback` gets `adds r1, r1, r2` only with
+  `AddU32ToPtr(buffer, offset)`, `(void *)((u32)ptr + val)`, while the cast-add written in place gives the right
+  registers but `adds r1, r2, r1`, and `(u8 *)buffer + offset` other registers.
+- A sum of `s16` table entries matches read through an inline returning `s16`, where the table indexed in place or an
+  `int` inline gives other registers and operand order in every order of the terms: `snd_arc_stream.c`'s
+  `NNSi_SndArcStrmMain` adds `CalcDecibel(fader) + CalcDecibel(player->volume) + CalcDecibel(player->userVolume)`.
+- A sum that MWCC reorders, loading a field first and putting it on the left whatever order it is written in, keeps
+  its order when the field is added in a statement of its own: `ProcessCommand`'s `fileOffset += dataOffset` was 4
+  bytes shorter than the one expression.
 - A statement between a call and an SDK inline that uses its result is scheduled inside the inline's code only when
   the result has its own variable: `ctvt_game.c`'s `CtvtGame_InitResults` keeps the texture key in a local, so
   `picture = 0` lands between the inline's shifts, as in the original.
@@ -319,7 +339,20 @@ Same instructions, scheduled in another order.
   schedules early, such as an argument loaded before the stack arguments are stored, points to a `const` parameter.
   It has to be the parameter: `fld_scenearea_loader.c`'s camera-area callbacks scheduled their area's loads only
   once the callback typedefs took `const CameraArea *`, and a `const` local pointer to the member did nothing. The
-  same change fixed the register allocation of the loop in `fld_scenearea.c` that calls them.
+  same change fixed the register allocation of the loop in `fld_scenearea.c` that calls them. Since `const` shows in
+  the code, a caller and its callee can disagree, and then the call casts: `btl_server_flow.c`'s
+  `func_ov167_021a6c34` matches only with a `const` param and `func_ov167_021a6914`, which it passes it to, only
+  without, so it passes `(BtlFlowMoveParam *)param`. Before casting, check that dropping `const` along the caller's
+  chain doesn't match as well: `battle_rec_tool.c`'s party loaders took a non-`const` record with no change.
+- A dispatcher switch whose cases each end in their own `pop`, with `movs r0, #0` before the jump table, is a result
+  local set to 0 after the last call before the switch, `case X: command = f(...); break;` and one `return command;`.
+  `return f(...)` in each case with a final `return 0;` is 2 bytes longer and zeroes at the end:
+  `field_player_grid.c`'s `FieldPlayerGrid_DecideCommandBike`.
+- The order of a switch's cases in the source is the order of their bodies, while the compares stay sorted by value:
+  `FieldPlayerGrid_UpdateNormalMove` compares 0xc, 0x10, 0x58 and lays the bodies out 0x10, 0x58, 0xc.
+- Two separate `if`s that return the same constant share one return, and share the constant with a mask of the same
+  value: `if (!(flags & 2)) return 2; if (force == TRUE) return 2;` gives `movs r0, #2; tst r1, r0; beq` in
+  `FieldPlayerGrid_DecideCommandNormalMoving`, where the `||` form returned twice.
 - Elements of a `static const` array passed to an inline are loaded at each store of the inline's body, in the
   body's order. Read through a function-scope pointer to the table, they are evaluated as arguments, right to left,
   before any store: `FieldChunkAccessor_GetTerrainCore` declares `const fx16 *slopes = MAP_HEIGHT_SLOPE_TABLE;` at
@@ -418,6 +451,12 @@ Same instructions, scheduled in another order.
 
 ## An instruction too many or too few
 
+- On NitroSystem's `2.0/sp2p2`, an address passed straight to a static inline that reads `p[k]` folds `k` into the
+  load's offset from the shared base, where the same address in a named local, or the element written `a[n + k]`,
+  is computed again. `snd_arc_loader.c`'s `LoadSingleWave` reads a wave's file offset and the next one's as
+  `ldr [r1, #0x3c]` and `ldr [r1, #0x40]` off one `waveArc + n * 4` only with
+  `GetNextWaveOffset(&waveArc->offsetTable[n])`, an inline returning `fileOffset[1]`; `offsetTable[n + 1]` is 8 bytes
+  longer, and a local pointer 4.
 - A narrowing the original does where nothing calls for it can be an inline returning a wider type into a narrow
   local: `br_sidebar.c`'s moves set their `s8 dir` from `static inline int BrSidebar_GetDir(BOOL dir)`, which
   narrows right after the choice in one function and at the use in the other, as the original does.
@@ -679,6 +718,17 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 - A range check that adds the 16-bit negated constant (`adds r0, #0xc004`, narrowing, `cmp r0, #3`, `bhi`) is an
   `||` chain of `==` tests of consecutive constants; a written `(u16)(x - C) <= n` subtracts instead.
   `billboard_act.c`'s `func_0204f768` tests the last animation command this way.
+- An inline that returns a condition, `return a && b;`, builds the flag ahead of the tests (`movs r1, #0`, the
+  tests, `movs r1, #1`) where the original's `movs r0, #1`, `b`, `movs r0, #0` after the tests is
+  `if (a && b) { return TRUE; } return FALSE;` (2.0/sp2p2): `g2d_Animation.c`'s `IsFrameEnd_`, the test of
+  `NNS_G2dTickAnimCtrl`'s loop. It goes the other way too: `g2d_CellTransferManager.c`'s `IsTransferNeeded_` keeps
+  its 0/1 only as `return a && b;`, which the if-form folds into the branches, so try both.
+- An inline's 0/1 result that the original materializes and then tests (`movs r0, #1`, `b`, `movs r0, #0`,
+  `cmp r0, #0`, `beq`) where ours branches on the comparison itself needs the result kept as a value (2.0/sp2p2): a
+  `u32` return type with `if (c) { return TRUE; } return FALSE;` (`g2d_CellAnimation.c`'s
+  `NNS_G2dCellDataBankHasVramTransferData`, which every `BOOL` spelling folds into the test), or a cast,
+  `return (BOOL)(GetCapacity_(region) >= num);` (`g2d_OamManager.c`'s `IsCapacityEnough_`, where the `if` form, a
+  ternary, a plain comparison and a local all fold).
 - A 0/1 choice laid out first value first (`bhs`, `movs r0, #0`, `b`, `movs r0, #1`) is held in an enum type: every
   plain 0/1 spelling (ternary, `if`/`else`, `!`, `== FALSE`, an int local) gives `blo`, `movs r0, #1` first.
   `btl_main.c`'s `GetSideFromMonID` matches as `BtlSide side = monId < 12 ? BTL_SIDE_1ST : BTL_SIDE_2ND;`, with the
@@ -795,6 +845,8 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 - A `for` loop with a constant bound keeps its test before the first pass only with a counter of an enum type, as the
   position loops of `btlv_mcss.c`, `btlv_effvm.c` and `btlv_gauge.c` do with `BtlvMcssPos` and `BtlvGaugePos`.
+  It also keeps an array indexed by the counter indexed on each pass rather than walked by a pointer:
+  `g2d_CellTransferManager.c`'s `NNS_G2dUpdateCellTransferStateManager` needs `NNSG2dVRamType type` (2.0/sp2p2).
 - A loop counted with `!=` tests with `beq` before the loop and `bne` at its end, where `<` gives `bls` and `blo`:
   the forms page walks its form-name table with `for (i = 0; i != form; i++)`.
 - `while (cond)` is rotated, with a copy of its test before the loop. A loop that tests once, at its top, is
@@ -900,6 +952,15 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
 
 ## Data and sections
 
+- `-ipa file` and `-ipa function` address statics differently, which tells a library file's setting. With
+  `-ipa file`, a file's `.bss` and `.data` objects share one section, are reached from its base (one literal, then
+  `[r0, #off]`, shared by every object a function touches) and are dropped when no code reads them. With
+  `-ipa function`, each object has a literal of its own, objects no code reads stay, and they are laid out in reverse
+  order of declaration. NitroSystem's sound capture (`lib/nnsys/src/snd/snd_capture.c`) loads its flag, queue and
+  capture struct each from its own literal and keeps a word and a message buffer that only stripped code used, so it is
+  built with `-ipa function` (`file_flags` in `lib/nnsys/library.toml`), while the other sound files are reached from
+  one base and need `-ipa file`. A struct that looks like another file's extern, or a gap in `.bss` that seems to need
+  a stand-in function, is the first thing to try this on.
 - The file's `.data` objects take part in MWCC's size sort that orders `.rodata`: `btlv_mcss.c`'s 3-byte idle-wait
   array had to be counted before `rodata_order.py` predicted the layout.
 - A function-local static of a function MWCC doesn't emit is dropped, while a global read only by an unemitted

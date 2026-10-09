@@ -481,7 +481,7 @@ void TrGra_ReplaceClActCharsAndPalette(ArcTool *arc, u32 trainerClass, u32 chars
     NNSG2dCharacterData *charData;
 
     file = GFL_ArcToolReadHeapNew(arc, GetTrSpritePaletteDatID(trainerClass, 0), heapId);
-    RelocatePaletteResGetDataPtr(file, &paletteData);
+    NNS_G2dGetUnpackedPaletteData(file, &paletteData);
     func_0204bd10(palette, paletteData, 1);
     GFL_HeapFree(file);
 

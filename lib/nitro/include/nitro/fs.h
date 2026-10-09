@@ -21,6 +21,23 @@ BOOL extfs_fopen(FSFile *file, const void *data, u32 size);
 
 #define FS_SEEK_SET 0
 
+// A file by archive and number: NitroSDK's FS_ConvertPathToFileID and FS_OpenFileFast, and FS_OpenFileEx (which
+// opens with a mode), under swan's names
+typedef struct FSArchive FSArchive;
+
+typedef struct FSFileID {
+    FSArchive *arc;
+    u32 file_id;
+} FSFileID;
+
+#define FS_FILEMODE_R 1
+
+BOOL fs_resolve_file(FSFileID *fileId, const char *path);
+BOOL romfs_fopen_id(FSFile *file, FSFileID fileId);
+BOOL romfs_fopen_core(FSFile *file, const char *path, u32 mode);
+// NitroSDK's FS_CancelFile: asks the file's archive to stop the command running on it
+void FS_CancelFile(FSFile *file);
+
 // Overlays: NitroSDK's FS_LoadOverlayInfo, FS_LoadOverlay, FS_UnloadOverlay and FS_SetDefaultDMA, under swan's names.
 // The target is the processor, MI_PROCESSOR_ARM9 (nitro/mi.h)
 #define FS_DMA_NOT_USE 0xffffffff

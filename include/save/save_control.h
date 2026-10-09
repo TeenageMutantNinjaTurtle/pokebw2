@@ -30,6 +30,8 @@ void *getAddressOfExtraSaveBlk(SaveControl *save, u32 block, u32 arg2);
 void freeIntermediateSaveExtraBlksAfterLoad2(SaveControl *save, u32 block);
 u32 SaveControl_GetStatus(SaveControl *save);
 void func_020074b8(SaveControl *save, u32 *a1, u32 *a2);
+// The bytes written so far of the save in progress, func_0203b080 of the save's SaveData
+u32 func_0200743c(SaveControl *save);
 // Save block 0x21, and its flag at 0x602: get and set
 void *getTimeSigBlkAddress(SaveControl *save);
 // The block's first 0x600 bytes, which the trainer card copies
@@ -280,9 +282,16 @@ PokeDexSave *getPokedexSaveAddress(SaveControl *save);
 PlayTime *func_02008de8(SaveControl *save);
 u16 func_02008cec(PlayTime *time);
 u8 func_02008cf0(PlayTime *time);
-// Copy the word at 4 of func_02017a40's data out and back. That function's prototype gives the data as a u32
-void func_02008d90(u32 data, u32 *copy);
-void func_02008d98(u32 data, u32 *copy);
+// The date and time of the last save, which the play time's word at 4 holds as bit fields: the year, month, day, hour
+// and minute
+u32 func_02008d68(PlayTime *time);
+u32 func_02008d70(PlayTime *time);
+u32 func_02008d78(PlayTime *time);
+u32 func_02008d80(PlayTime *time);
+u32 func_02008d88(PlayTime *time);
+// Copy the word at 4 of the play time out and back
+void func_02008d90(PlayTime *time, u32 *copy);
+void func_02008d98(PlayTime *time, u32 *copy);
 // A byte of this block, at 7, tells the start menu whether to ask about the C-Gear
 void *func_02009918(SaveControl *save);
 // Mark the downloaded C-Gear skin as there, and keep its CRC
@@ -301,6 +310,9 @@ void *func_02010dec(SaveControl *save);
 // and the best score
 u16 func_02010df8(void *a0);
 u16 func_02010e24(void *a0);
+// Count one more mission hosted and joined, up to 9999, and return the new count
+u16 FestRecords_AddHosted(void *records);
+u16 FestRecords_AddJoined(void *records);
 u16 func_02010e50(void *a0);
 u8 func_02010e78(void *a0);
 u16 func_02010e94(void *a0);

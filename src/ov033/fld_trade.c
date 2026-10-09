@@ -1,5 +1,4 @@
 #include "types.h"
-#include "app/funfest_mission.h"
 #include "demo/shinka_demo.h"
 #include "field/event_field_trade.h"
 #include "field/field_event.h"
@@ -217,8 +216,7 @@ GameEventReturnCode EventFieldTrade_Callback(GameEvent *event, u32 *state, void 
     case 3:
         species = CheckEvolveSpecies(party, pkm, 1, 0, GameData_GetSeason(gameData), &method, HEAPID_GAMEEVENT);
         if (species != 0) {
-            evolutionParam =
-                GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(ShinkaDemoParam), FALSE, "fld_trade.c", 0x1ff);
+            evolutionParam = GFL_HeapAllocate(HEAPID_GAMEEVENT, sizeof(ShinkaDemoParam), FALSE, "fld_trade.c", 0x1ff);
             evolutionParam->gameData = gameData;
             evolutionParam->party = party;
             evolutionParam->species = species;

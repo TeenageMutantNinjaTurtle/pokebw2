@@ -1017,7 +1017,7 @@ static void *Box_CharDataGetbyHandle(ArcTool *handle, u32 dataIdx, NNSG2dCharact
     void *file = GFL_ArcToolReadHeapNew(handle, dataIdx, heapId);
 
     if (file != NULL) {
-        if (!NNS_G2DPrepareBGChar(file, charData)) {
+        if (!NNS_G2dGetUnpackedBGCharacterData(file, charData)) {
             GFL_HeapFree(file);
             return NULL;
         }

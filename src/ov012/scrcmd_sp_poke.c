@@ -4,6 +4,7 @@
 #include "field/field_map.h"
 #include "field/field_script.h"
 #include "field/gimmick_nuvema.h"
+#include "field/scrcmd_sp_poke.h"
 #include "system/game_data.h"
 #include "system/game_system.h"
 #include "system/vm.h"

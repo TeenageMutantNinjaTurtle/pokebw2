@@ -1,5 +1,5 @@
 #include "types.h"
-#include "app/funfest_mission.h"
+#include "field/event_fest_mission.h"
 #include "field/event_funfest_mission.h"
 #include "field/event_mapchange.h"
 #include "field/festival.h"
@@ -12,12 +12,6 @@
 #include "system/game_data.h"
 #include "system/game_event.h"
 #include "system/game_system.h"
-
-struct FestMissionEventArgs {
-    FestMissionConfig config;
-    u32 unk2C;
-    u32 unk30;
-};
 
 GameEvent *func_ov033_02176d88(GameSystem *gsys) {
     return GameEvent_Create(gsys, NULL, func_ov033_02176d9c, 4);
@@ -47,8 +41,8 @@ GameEventReturnCode func_ov033_02176d9c(GameEvent *event, u32 *state, void *data
         DisableAllActorsMovement(Field_GetActorSystem(field));
         sys_memset(&args, 0, sizeof(args));
         args.config = *(FestMissionConfig *)GetFestMissionCfg(festival);
-        args.unk2C = 0;
-        next = GameEvent_CreateOverlayDelegate(gsys, OVERLAY_FUNFEST_MISSION, func_ov157_021f59e0, &args);
+        args.joined = 0;
+        next = GameEvent_CreateOverlayDelegate(gsys, OVERLAY_FUNFEST_MISSION, EventFestMissionStart_Create, &args);
         GameEvent_ChainNext(event, next);
         ++*state;
         break;

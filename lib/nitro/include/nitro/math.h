@@ -46,6 +46,14 @@ typedef struct {
 // The number of set bits, NitroSDK's MATH_CountPopulation (swan's name)
 u8 countOneBits(u32 x);
 
+// The number of leading zero bits: NitroSDK's MATH_CountLeadingZerosFunc (swan's name), which MATH_CountLeadingZeros
+// calls from Thumb code, where CLZ doesn't exist
+u32 countLeadingZeros(u32 x);
+
+static inline u32 MATH_CountLeadingZeros(u32 x) {
+    return countLeadingZeros(x);
+}
+
 // Quicksort of num elements of width bytes; stackBuffer may be NULL
 typedef s32 (*MATHCompareFunc)(void *a, void *b);
 void MATH_QSort(void *head, u32 num, u32 width, MATHCompareFunc comp, void *stackBuffer);

@@ -14774,9 +14774,9 @@ from:0x0206208c kind:thumb_call to:0x02063a64 module:main
 from:0x02062096 kind:thumb_call to:0x02063a2c module:main
 from:0x020620a8 kind:load to:0x02142a88 module:main
 from:0x020620ac kind:load to:0x0209b2a0 module:main
-from:0x020620b4 kind:load to:0x02143a18 module:main
+from:0x020620b4 kind:load to:0x02143618 add:0x400 module:main
 from:0x020620b8 kind:load to:0x02143618 module:main
-from:0x020620bc kind:load to:0x0214361c module:main
+from:0x020620bc kind:load to:0x02143618 add:0x4 module:main
 from:0x020620c0 kind:load to:0x02143218 module:main
 from:0x020620c4 kind:load to:0x02142b18 module:main
 from:0x020620c8 kind:load to:0x02142c28 module:main
@@ -14881,7 +14881,7 @@ from:0x02062690 kind:thumb_call to:0x02063000 module:main
 from:0x02062694 kind:thumb_call to:0x02062ff4 module:main
 from:0x020626ae kind:thumb_call to:0x020621d8 module:main
 from:0x020626c4 kind:load to:0x02143618 module:main
-from:0x020626c8 kind:load to:0x02143a18 module:main
+from:0x020626c8 kind:load to:0x02143618 add:0x400 module:main
 from:0x020626cc kind:load to:0x02142a88 module:main
 from:0x020626e0 kind:thumb_call to:0x020624cc module:main
 from:0x020626e6 kind:thumb_call to:0x02062778 module:main
@@ -16145,13 +16145,13 @@ from:0x0206e1d0 kind:thumb_call to:0x0206c69c module:main
 from:0x0206e1ea kind:thumb_call to:0x0206e214 module:main
 from:0x0206e1f0 kind:thumb_call to:0x0207aed0 module:main
 from:0x0206e200 kind:thumb_call to:0x0207aed0 module:main
-from:0x0206e208 kind:load to:0x0214b3f8 module:main
+from:0x0206e208 kind:load to:0x0214a330 add:0x10c8 module:main
 from:0x0206e20c kind:load to:0x02149990 module:main
 from:0x0206e224 kind:thumb_call to:0x0206e288 module:main
 from:0x0206e236 kind:thumb_call to:0x0206e2f8 module:main
 from:0x0206e248 kind:thumb_call to:0x0206e2f8 module:main
 from:0x0206e24e kind:thumb_call to:0x0206df30 module:main
-from:0x0206e254 kind:load to:0x0214b410 module:main
+from:0x0206e254 kind:load to:0x0214a330 add:0x10e0 module:main
 from:0x0206e258 kind:load to:0x02149990 module:main
 from:0x0206e26e kind:thumb_call to:0x0206c4f8 module:main
 from:0x0206e29e kind:thumb_call to:0x0206c538 module:main
@@ -16185,7 +16185,7 @@ from:0x0206e3e2 kind:thumb_call to:0x0206e1a8 module:main
 from:0x0206e402 kind:thumb_call to:0x0206c538 module:main
 from:0x0206e410 kind:thumb_call to:0x0207aed0 module:main
 from:0x0206e420 kind:thumb_call to:0x0207aed0 module:main
-from:0x0206e428 kind:load to:0x0214b3f8 module:main
+from:0x0206e428 kind:load to:0x0214a330 add:0x10c8 module:main
 from:0x0206e42c kind:load to:0x02149990 module:main
 from:0x0206e450 kind:thumb_call to:0x0205eb5c module:main
 from:0x0206e464 kind:thumb_call to:0x0205eb5c module:main
@@ -16195,7 +16195,7 @@ from:0x0206e4a4 kind:thumb_call to:0x0206e39c module:main
 from:0x0206e4a8 kind:thumb_call to:0x0206e370 module:main
 from:0x0206e4f6 kind:thumb_call to:0x0205ea90 module:main
 from:0x0206e500 kind:thumb_call to:0x0207a8c8 module:main
-from:0x0206e508 kind:load to:0x0214b410 module:main
+from:0x0206e508 kind:load to:0x0214a330 add:0x10e0 module:main
 from:0x0206e50c kind:load to:0x0214a330 module:main
 from:0x0206e510 kind:load to:0x02149990 module:main
 from:0x0206e54c kind:thumb_call to:0x0206cda8 module:main

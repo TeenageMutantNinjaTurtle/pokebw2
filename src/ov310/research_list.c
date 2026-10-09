@@ -2316,7 +2316,7 @@ static void ResearchList_LoadSubBG(ResearchList *wk) {
     void *file = GFL_ArcToolReadHeapNew(handle, 13, wk->heapId);
     NNSG2dScreenData *screen;
 
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     GFL_BGSysLoadScrAreaAll(BG_SUB_TITLE, screen->rawData, 0, 0, 32, 24);
     GFL_BGSysQueueScrLoad(BG_SUB_TITLE);
     GFL_HeapFree(file);
@@ -2340,7 +2340,7 @@ static void ResearchList_LoadFrameBG(ResearchList *wk) {
     void *file = GFL_ArcToolReadHeapNew(handle, 3, wk->heapId);
     NNSG2dScreenData *screen;
 
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     GFL_BGSysLoadScrAreaAll(BG_MAIN_FRAME, screen->rawData, 0, 0, 32, 24);
     GFL_BGSysQueueScrLoad(BG_MAIN_FRAME);
     GFL_HeapFree(file);
@@ -2357,7 +2357,7 @@ static void ResearchList_LoadListBG(ResearchList *wk) {
     void *file = GFL_ArcToolReadHeapNew(handle, 5, wk->heapId);
     NNSG2dScreenData *screen;
 
-    NNS_G2DPrepareScreen(file, &screen);
+    NNS_G2dGetUnpackedScreenData(file, &screen);
     GFL_BGSysLoadScrAreaAll(BG_MAIN_LIST, screen->rawData, 0, 0, 32, rows);
     GFL_BGSysQueueScrLoad(BG_MAIN_LIST);
     GFL_HeapFree(file);
