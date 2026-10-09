@@ -27,29 +27,32 @@ typedef struct {
 
 BtlCalcWork data_ov167_021dd844;
 
+// MWCC sorts these tables by size, swapping each pair of the same size, so the two 6-byte tables and the two
+// stage ratio tables are each declared in the reverse of the ROM's order
+
 // The chance of a critical hit at each critical hit stage is 1 in this
 const u8 data_ov167_021d74a0[5] = { 16, 8, 4, 3, 2 };
 
-// The percentages below which a move that hits 2 to 5 times hits each number of times
-const u8 data_ov167_021d74a5[6] = { 0, 0, 35, 70, 85, 100 };
-
 // The damage multiplier in quarters of each type effectiveness
 const u8 data_ov167_021d74ab[6] = { 0, 1, 2, 4, 8, 16 };
+
+// The percentages below which a move that hits 2 to 5 times hits each number of times
+const u8 data_ov167_021d74a5[6] = { 0, 0, 35, 70, 85, 100 };
 
 const u8 data_ov167_021d74b1[9] = { 2, 4, 6, 9, 12, 16, 20, 25, 30 };
 
 const u16 data_ov167_021d74ba[9] = { 0x73, 0x871, 0x10db, 0x1836, 0x216e, 0x297d, 0x30bf, 0x3986, 0x41be };
 
-// The ratio of each stat stage, -6 to +6
-const BtlCalcRatio data_ov167_021d74cc[13] = {
-    { 2, 8 }, { 2, 7 }, { 2, 6 }, { 2, 5 }, { 2, 4 }, { 2, 3 }, { 2, 2 },
-    { 3, 2 }, { 4, 2 }, { 5, 2 }, { 6, 2 }, { 7, 2 }, { 8, 2 },
-};
-
 // The ratio of each accuracy and evasion stage, -6 to +6
 const BtlCalcRatio data_ov167_021d74e6[13] = {
     { 6, 18 }, { 6, 16 }, { 6, 14 }, { 6, 12 }, { 6, 10 }, { 6, 8 },  { 6, 6 },
     { 8, 6 },  { 10, 6 }, { 12, 6 }, { 14, 6 }, { 16, 6 }, { 18, 6 },
+};
+
+// The ratio of each stat stage, -6 to +6
+const BtlCalcRatio data_ov167_021d74cc[13] = {
+    { 2, 8 }, { 2, 7 }, { 2, 6 }, { 2, 5 }, { 2, 4 }, { 2, 3 }, { 2, 2 },
+    { 3, 2 }, { 4, 2 }, { 5, 2 }, { 6, 2 }, { 7, 2 }, { 8, 2 },
 };
 
 // The damage of each attacking type against each defending type in halves: 0, 2 (half), 4 (normal) or 8 (double)
@@ -64,6 +67,13 @@ const u8 data_ov167_021d7500[17][17] = {
     { 4, 4, 8, 4, 8, 4, 4, 4, 2, 2, 2, 8, 4, 4, 2, 8, 4 }, { 4, 4, 4, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 4, 8, 4 },
     { 4, 2, 4, 4, 4, 4, 4, 8, 2, 4, 4, 4, 4, 8, 4, 4, 2 },
 };
+
+// Reconstructed, not known from the ROM. MWCC puts data_ov167_021d74ba with the file's other small tables, as the
+// original has it, only when some code reads it, even code it never emits. This accessor is that code; nothing
+// calls it.
+static inline u16 BtlCalc_GetUnkTableValue(u32 index) {
+    return data_ov167_021d74ba[index];
+}
 
 void func_ov167_021bd054(const MATHRandContext32 *rand, HeapID heapId) {
     data_ov167_021dd844.moves = GFL_HeapAllocate(heapId, 0x230 * sizeof(u16), TRUE, "btl_calc.c", 0x50);
