@@ -164,6 +164,12 @@ Same instructions, registers swapped.
 - Loops over an array of structs that test two fields through a pointer to the element, then write the fields as
   `list->entries[i].x` in the body, keep the array's base in a register and the element's address in another, as
   `bag_item.c`'s `BagItemList_Remove` and `BagItemList_GetItem` do; indexing in the test too folds the field offsets.
+- A pointer to an array slot can give a loop's variables back the original's registers. `btlv_scu.c`'s
+  `func_ov167_021d2820` stores a call's result to `work->mons[i]`, tests it for `NULL` and passes it on twice; written
+  through `BattleMon **slot = &work->mons[i];`, assigned just before the store, the work, `&balls` and `i` go to `r4`,
+  `r5` and `r6` and `i * 4` is reloaded from its slot, as in the original. Indexing at each use swaps `r4` and `r6`,
+  and assigning `slot` at the top of the loop body leaves 16 bytes off. Its sibling `func_ov167_021d2b88`, the same
+  loop without the `NULL` test, matches with plain indexing.
 
 ## Stack slots
 
@@ -1014,7 +1020,10 @@ Narrowing shifts, reloads, recomputed addresses and folded constants.
   stable, so objects of the same size come out in an order that depends on where every object in the file is declared,
   and moving one object can reorder others. `tools/scripts/rodata_order.py` predicts the layout for a declaration order
   and tries the orders of the objects given with `--permute`; `intro_graphic.c` matches only with its light setups
-  declared after the function whose BG setups are local initializers.
+  declared after the function whose BG setups are local initializers. Tables of pointers have to be checked by their
+  relocations, and two with the same contents only by the code that loads them: `btlv_scu.c`'s four 12-byte
+  encounter step tables, two of them identical, needed their own declaration order, found by trying the orders of
+  the four.
 - A `static const` table declared inside the one function that reads it is listed where that function is, among
   the local initializers, rather than where file-scope data would be. `pokemontrade_nego.c` lays out its menus' item
   lists in the game's order only with its table of blocking fields declared inside `func_ov194_021bbe60`.
