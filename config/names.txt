@@ -1243,6 +1243,7 @@
 . 0x02068198 NNS_G3dFreeRenderObj
 . 0x020681b8 NNS_G3dFreeAnmObj
 . 0x020683a0 NNS_G3DResMdlGetMatAlpha
+. 0x02068434 NNS_G3dMdlSetMdlFogEnableFlagAll
 . 0x02069dc0 SetTexParamaters_
 . 0x0206a840 NNSi_G3dGetJointScaleSi3d
 . 0x0206b8d4 NNS_SndInit

@@ -121,6 +121,8 @@ text to `grep -n` there. Entries without a key come from later work and still be
   operands.
   (matching.md: "copies into its one use")
 - A `const` table read before I/O register stores: it was written before them. (matching.md: "not moved across stores to I/O")
+- A global's address loaded early into a saved register, before unrelated calls: take it into a pointer local
+  there. (matching.md: "A global's address that the original loads early")
 
 ## An instruction too many or too few
 

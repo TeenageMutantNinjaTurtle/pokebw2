@@ -3,6 +3,7 @@
 #include "field/field.h"
 #include "field/field_actor.h"
 #include "field/field_comm_actor.h"
+#include "field/field_effect.h"
 #include "field/field_player.h"
 #include "field/field_status.h"
 #include "field/player_state.h"
