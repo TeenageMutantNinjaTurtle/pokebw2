@@ -269,8 +269,6 @@ BOOL GetZoneHasRailSystem(u16 zoneId);
 u32 GetRailIDForZone(u16 zoneId);
 BOOL IsZoneEntralinkEdgeColorTable(u16 zoneId);
 BOOL IsZoneFlashbackMemoryPostFX(u16 zoneId);
-// Overlay 12: the zone that beacons report for zoneId, by its parent zone
-u16 func_ov012_02160eb4(GameData *gameData, u16 zoneId);
 BOOL IsZoneBlackCityOrWhiteForestLobby(u16 zoneId);
 BOOL IsZoneBlackTowerOrWhiteTreehollow(u16 zoneId);
 u32 GetZoneStaticLightDataIndex(u16 zoneId);

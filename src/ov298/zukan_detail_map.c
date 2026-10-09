@@ -5,6 +5,7 @@
 #include "constants/arc.h"
 #include "constants/sound.h"
 #include "field/player_state.h"
+#include "field/townmap_util.h"
 #include "field/zone.h"
 #include "gfl/arc.h"
 #include "gfl/arc_util.h"

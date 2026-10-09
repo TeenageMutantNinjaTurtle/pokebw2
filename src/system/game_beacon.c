@@ -6,6 +6,7 @@
 #include "field/festival.h"
 #include "field/player_state.h"
 #include "field/survey.h"
+#include "field/townmap_util.h"
 #include "field/unity_tower.h"
 #include "field/zone.h"
 #include "gfl/heap.h"
