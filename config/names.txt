@@ -17,6 +17,8 @@
 . 0x02006404 IsLoadThreadDone
 . 0x02008b08 PlayerInfo_GetSize
 . 0x02008dd0 SaveControl_GetPlayerInfo
+. 0x02009818 getFreeMailSlot
+. 0x02009844 getMailSlot
 . 0x02009a0c DreamWorldSave_IsPokemonAsleep
 . 0x0200a3dc WifiList_GetMyGSID
 . 0x0200b488 SaveControl_GetWorldTradeData

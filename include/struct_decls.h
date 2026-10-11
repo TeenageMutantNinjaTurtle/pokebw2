@@ -390,6 +390,7 @@ typedef struct JoinAvenueVisitor JoinAvenueVisitor;
 typedef struct KeyInfoSave KeyInfoSave;
 typedef struct LinkFestival LinkFestival;
 typedef struct MMSys MMSys;
+typedef struct MailBox MailBox;
 typedef struct MailboxProcessData MailboxProcessData;
 typedef struct MapMatrix MapMatrix;
 typedef struct MapMatrixFileHeader MapMatrixFileHeader;
