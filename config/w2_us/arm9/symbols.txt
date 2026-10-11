@@ -7822,7 +7822,7 @@ SAVEDATA_INIT kind:data(any) addr:0x0208f18c
 dna_splicer_item_idxs kind:data(any) addr:0x0208f4f8
 ITEM_CATEGORIES kind:data(any) addr:0x0208f4fc
 sKeyRemaps kind:data(any) addr:0x0208f77c
-data_0208f78c kind:data(any) addr:0x0208f7b8
+sRecordStreaks kind:data(any) addr:0x0208f7b8
 nines kind:data(any) addr:0x0208f7cc
 data_0208f7b8 kind:data(any) addr:0x0208f7e4
 UNOVA_DEX_COMPLETION_EXCLUSIONS kind:data(any) addr:0x0208f838
@@ -8523,7 +8523,7 @@ data_0209a084 kind:data(any) addr:0x0209a0c4
 data_0209a098 kind:data(any) addr:0x0209a0d8
 data_0209a0a4 kind:data(any) addr:0x0209a0e4
 data_0209a0b0 kind:data(any) addr:0x0209a0f0
-data_0209a0bc kind:data(any) addr:0x0209a0fc
+sRecordClass kind:data(any) addr:0x0209a0fc
 data_0209a164 kind:data(any) addr:0x0209a1a4
 data_0209a16c kind:data(any) addr:0x0209a1ac
 data_0209a178 kind:data(any) addr:0x0209a1b8
